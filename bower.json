@@ -1,0 +1,17 @@
+{
+  "name": "diamondlovers",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Nathan <natethepcspecialist@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/nquinn721/diamondlovers",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
