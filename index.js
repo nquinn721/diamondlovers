@@ -7,6 +7,8 @@ var express = require('express'),
 
 app.use(express.static(path.join(__dirname, 'web')));
 
+var db = require('./server/db');
+
 
 server.listen(process.env.PORT || 3000);
 
