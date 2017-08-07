@@ -17,7 +17,10 @@ var User = new Schema({
     username: String,
     email: String,
     password: String,
-    profile: [Profile]
+    profile: [Profile],
+    createdAt: {type: Date, default: Date.now},
+    updatedAt: {type: Date},
+    deletedAt: {type: Date}
 });
 
 module.exports = User;

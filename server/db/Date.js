@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Date = new Schema({
+var Dates = new Schema({
     place: String,
     location: String,
     from: {type: Schema.Types.ObjectId, ref: 'User'},
     to: {type: Schema.Types.ObjectId, ref: 'User'},
-    date: Date,
+    date: {type: Date},
     status: String,
     fromShowed: Boolean,
     toShowed: Boolean,
@@ -14,4 +14,4 @@ var Date = new Schema({
     toRating: Number
 });
 
-module.exports = Date;
+module.exports = Dates;

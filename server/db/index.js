@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds113670.mlab.com:13670/heroku_38bkxwbj');
+mongoose.connect('mongodb://nate:nate123@ds113670.mlab.com:13670/heroku_38bkxwbj');
 
 global.User = require('./User');
 global.Dates = require('./Date');
