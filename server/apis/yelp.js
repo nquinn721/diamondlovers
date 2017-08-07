@@ -33,7 +33,7 @@ YelpAPI.prototype = {
 
     search: function(term, cb){
         if(!this.accessToken){
-            this.authorization(() => this.initSearch(term, cb));
+            this.authorization(() => this.requestYelp(term, cb));
         }else{
             this.requestYelp(term, cb);
         }
@@ -45,11 +45,14 @@ YelpAPI.prototype = {
             headers: headers,
             body: formBody
         }).then((res) => res.json())
-            .then(body => this.accessToken = body.access_token && cb());
+            .then(body => {
+                this.accessToken = body.access_token;
+                cb()
+            });
     },
 
 
-    requestYelp: function(params, pos, cb){
+    requestYelp: function(params, cb){
         let lat = 39.9826142; //pos.coords.latitude;
         let lng = -83.2710139; //pos.coords.longitude;
         let paramString = 'latitude=' + lat + '&longitude=' + lng;
@@ -66,8 +69,6 @@ YelpAPI.prototype = {
         }else{
             paramString += '&term=' + params;
         }
-        // console.log(params)
-        console.log(paramString);
 
 
         fetch('https://api.yelp.com/v3/businesses/search?' + paramString, {
@@ -79,8 +80,7 @@ YelpAPI.prototype = {
         })
             .then(d => d.json())
             .then(d => {
-                // console.log(d);
-                cb(d.businesses.map(v => new Item(v)))
+                cb(d.businesses)
             })
             .catch(e => console.error(e))
 
@@ -91,4 +91,4 @@ YelpAPI.prototype = {
 }
 var yelpAPI = new YelpAPI;
 
-yelpAPI.search('restaurants', (data) => console.log(data));
+module.exports = yelpAPI;
