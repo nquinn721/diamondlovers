@@ -4,6 +4,11 @@ var Schema = mongoose.Schema;
 var Profile = new Schema({
     about: String,
     income: String,
+    cost: {
+        date1: Number,
+        date2: Number,
+        date3: Number
+    },
     preferences: {
         race: String,
         distance: Number
