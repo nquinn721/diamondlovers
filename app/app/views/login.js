@@ -1,14 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import ProfilePage from './app/views/profile';
-import LoginPage from './app/views/login';
-import RegisterPage from './app/views/register';
 
-export default class App extends React.Component {
+export default class LoginPage extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ProfilePage></ProfilePage>
+        <Text>Login</Text>
       </View>
     );
   }
