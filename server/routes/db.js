@@ -6,7 +6,6 @@ const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
             let path = path.join('server', 'images');
-            console.log(path);
             cb(null, path);
         },
         filename: (req, file, cb) => {
@@ -17,11 +16,14 @@ const upload = multer({
 
 // router.use(upload.single('profile'));
 
-router.post('/user', upload.single('profile'), function(req, res){
-    console.log(new User(req.body));
-    // let user = new User(req.body);
-    // user.save();
+router.post('/register', upload.single('profile'), function(req, res){
+    let user = new User(req.body);
+    user.save();
 });
+
+router.post('/login', upload.single('profile'), function(req, res){
+
+})
 
 
 module.exports = router;
