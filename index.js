@@ -3,20 +3,27 @@ var express = require('express'),
     server = require('http').Server(app),
     io = require('socket.io')(server),
     pug = require('pug'),
-    path = require('path');
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    PORT = process.env.PORT || 3000;
 
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'web', 'views'));
 
-var db = require('./server/db');
-var apis = require('./server/apis');
+// Environment
+global.PROD = global.env;
+// Database API
+require('./server/db');
+// External API's
+require('./server/apis');
+// Routes
+require('./server/routes')(app);
 
-app.get('/', function(req, res){
-    res.render('index');
-})
 
-server.listen(process.env.PORT || 3000);
+
+// Listen
+server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 io.on('connection', (socket) => {
     console.log('connected');

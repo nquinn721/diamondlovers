@@ -7,3 +7,21 @@ head
     title Diamond Lovers
 body
     h1 Welcome!
+    form(action="/user")
+        //- input(type="file", name="profile")
+        input(type="text", name="firstName", placeholder="First Name")
+        input(type="text", name="lastName", placeholder="Last Name")
+        input(type="text", name="email", placeholder="email")
+        input(type="text", name="username", placeholder="username")
+        input(type="submit", value="Submit")
+
+script.
+    document.querySelector('form').onsubmit = function(){
+        fetch('/db/user', {
+            method: 'post',
+            body: new FormData(this)
+        });
+
+        console.log(this);
+        return false;
+    }

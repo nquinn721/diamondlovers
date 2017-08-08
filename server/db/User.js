@@ -16,7 +16,7 @@ var Profile = new Schema({
     images: [String]
 });
 
-var User = new Schema({
+var UserModel = new Schema({
     firstName: String,
     lastName: String,
     username: String,
@@ -27,5 +27,7 @@ var User = new Schema({
     updatedAt: {type: Date},
     deletedAt: {type: Date}
 });
+
+var User = mongoose.model('User', UserModel);
 
 module.exports = User;
