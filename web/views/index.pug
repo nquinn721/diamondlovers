@@ -25,23 +25,19 @@ script.
     document.querySelector('.login').onsubmit = function(e){
         e.preventDefault();
         //- console.log('logged in');
-        fetch('/db/login', {
-            method: 'post',
-            body: new FormData(this),
-            credentials: "same-origin"
-        })//.then(() =>{
+        //- fetch('/db/login', {
+        //-     method: 'post',
+        //-     body: new FormData(this),
+        //-     credentials: "same-origin"
+        //- })//.then(() =>{
             //- fetch('/app/user').then(d => d.json()).then(d => console.log(d));
         //- });
         //- return false;
 
-        //- function reqListener () {
-        //- console.log(this.responseText);
-        //- }
 
-        //- var oReq = new XMLHttpRequest();
-        //- oReq.addEventListener("load", reqListener);
-        //- oReq.open("post", '/db/login');
-        //- oReq.send();
+        var oReq = new XMLHttpRequest();
+        oReq.open("post", '/db/login');
+        oReq.send();
     }
     document.querySelector('.register').onsubmit = function(){
         fetch('/db/register', {
