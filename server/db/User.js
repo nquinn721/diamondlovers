@@ -126,8 +126,6 @@ class UserClass {
 
     static register(obj, cb){
         new this(obj).save(cb);
-        console.log('save');
-        // this.collection.insert(obj, cb)
     }
 
     static get(obj, cb){
@@ -145,11 +143,14 @@ class UserClass {
                 return cb && cb(e);
             }
             if(pw){
-                doc.comparePassword(pw, (matchError, match) => {
-                    doc.password = null;
-                    if(match)cb && cb(e, doc);
-                    else cb && cb(matchError);
-                });
+                if(doc){
+                    doc.comparePassword(pw, (matchError, match) => {
+                        doc.password = null;
+                        if(match)cb && cb(e, doc);
+                        else cb && cb(matchError);
+                    });
+                }
+                
             }else{
                 if(this.fingerPrint){
                     // Handle fingerprint
