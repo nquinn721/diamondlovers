@@ -94,7 +94,9 @@ UserSchema.pre('save', function(next) {
 });
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+    console.log('checking password', candidatePassword, this.password);
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        console.log('MATCHING PASSWORD',err, isMatch);
         if (err) return cb(err);
         cb(null, isMatch);
     });
