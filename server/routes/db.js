@@ -17,13 +17,19 @@ const upload = multer({
 // router.use(upload.single('profile'));
 
 router.post('/register', upload.single('profile'), function(req, res){
-    let user = new User(req.body);
-    user.save();
+    User.register({email: req.body.email, password: req.body.password});
 });
 
 router.post('/login', upload.single('profile'), function(req, res){
-
-})
+    User.login('jon@snow.com',  'jonsnow123', (e, doc) => {
+        if(doc){
+            req.session.user = doc;
+            res.send(doc);
+        }else{
+            res.send(e);
+        }
+    });
+});
 
 
 module.exports = router;

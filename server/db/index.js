@@ -5,11 +5,11 @@ var promise = mongoose.connect('mongodb://nate:nate123@ds113670.mlab.com:13670/h
   useMongoClient: true,
 });
 promise.then(function(db) {
-    console.log('Connected DB');
+    // console.log('Connected DB');
 });
 
 global.User = require('./User');
 global.Dates = require('./Date');
 global.Messages = require('./Message');
 
-module.exports = {};
+module.exports = promise;
