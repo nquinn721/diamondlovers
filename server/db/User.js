@@ -148,10 +148,10 @@ class UserClass {
                     else cb && cb(matchError);
                 });
             }else{
-                if(doc.fingerPrint){
+                if(this.fingerPrint){
                     // Handle fingerprint
                 }
-                if(doc.passCode){
+                if(this.passCode){
                     // Handle passcode
                 }
             }
