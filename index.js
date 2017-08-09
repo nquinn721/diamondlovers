@@ -27,7 +27,7 @@ var sess = {
       dbPromise: db
   })
 }
-console.log(app.get('env'));
+console.log('ENV ENV ENV', app.get('env'));
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1) // trust first proxy
   sess.cookie.secure = true // serve secure cookies
