@@ -2,7 +2,7 @@ const path = require("path");
 module.exports = (app) => {
     app.use((req, res, next) => {
         // req.session.destroy();
-        console.log(req.session);
+        console.log(req.session.super);
         req.session.super = 'teowiuf';
         console.log(req.session.super);
         next();
