@@ -30,6 +30,10 @@ script.
         fetch('/db/login', {
             method: 'post',
             body: new FormData(this),
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            },
             credentials: "same-origin"
         }).then((d) => d.json()).then((msg) => {
             console.log(msg);
