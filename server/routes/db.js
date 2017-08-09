@@ -21,11 +21,11 @@ router.use(bodyParser.json())
 
 router.post('/register', upload.single('profile'), function(req, res){
     User.register({
-        email: req.body.email, 
-        password: req.body.password, 
-        firstName: req.body.firstName, 
-        lastName: req.body.lastName,
-        displayName: req.body.displayName
+        email: req.body.email.trim(), 
+        password: req.body.password.trim(), 
+        firstName: req.body.firstName.trim(), 
+        lastName: req.body.lastName.trim(),
+        displayName: req.body.displayName.trim()
     }, (e, doc) => {
         if(doc){
             req.session.user = doc;
