@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const config = require('../config');
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
@@ -17,7 +18,21 @@ const upload = multer({
 // router.use(upload.single('profile'));
 
 router.post('/register', upload.single('profile'), function(req, res){
-    User.register({email: req.body.email, password: req.body.password});
+    User.register({
+        email: req.body.email, 
+        password: req.body.password, 
+        firstName: req.body.firstName, 
+        lastName: req.body.lastName,
+        displayName: req.body.displayName
+    }, (e, doc) => {
+        if(doc){
+            req.session.user = doc;
+            res.send(doc);
+        }else{
+            res.send({error: config.errorMessages.register});
+        }
+
+    });
 });
 
 router.post('/login', upload.single('profile'), function(req, res){
@@ -28,7 +43,7 @@ router.post('/login', upload.single('profile'), function(req, res){
             res.send(doc);
         }else{
             delete req.session.user;
-            res.send({error: 'failed to login'});
+            res.send({error: config.errorMessages.login});
         }
     });
 });

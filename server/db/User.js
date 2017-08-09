@@ -123,13 +123,15 @@ class UserClass {
     }
 
     static register(obj, cb){
-        this.get(obj, cb);
+        this.collection.insert(obj, cb)
     }
 
     static get(obj, cb){
+        console.log(obj);
         this.findOrCreate(obj, (e, doc) => {
+            console.log(e, doc);
             doc.password = null;
-            cb(e, doc);
+            cb && cb(e, doc);
         })
     }
     static login(email, pw, cb){

@@ -19,8 +19,10 @@ export default class App extends React.Component {
   }
     login(){
       console.log('login');
-      fetch('http://diamondlovers.herokuapp.com/', {
-      });
+      fetch('http://diamondlovers.herokuapp.com/db/login', {
+        method: 'post',
+        body: new FormDate(this.state.formData)
+      }).then(d => d.json()).then(d => console.log(d));
     }
 
      handleFormChange(formData){
@@ -29,15 +31,15 @@ export default class App extends React.Component {
     in this example.
 
     formData = {
-    first_name:"",
+    email:"",
     last_name:"",
     gender: '',
     birthday: Date,
     has_accepted_conditions: bool
     }
     */
-
-    this.setState({formData:formData})
+    console.log(formData);
+    this.setState({formData});
     this.props.onFormChange && this.props.onFormChange(formData);
   }
 
@@ -49,7 +51,6 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <View style={styles.container}>
         <ScrollView keyboardShouldPersistTaps="always" style={{paddingLeft:10,paddingRight:10, height:200}}>
       <Form
         ref='registrationForm'
@@ -58,18 +59,18 @@ export default class App extends React.Component {
         label="Personal Information">
         <Separator />
         <InputField
-          ref='first_name'
-          label='First Name'
-          placeholder='First Name'
+          ref='email'
+          label='Email'
+          placeholder='Email'
           helpText={((self)=>{
 
             if(Object.keys(self.refs).length !== 0){
-              if(!self.refs.registrationForm.refs.first_name.valid){
-                return self.refs.registrationForm.refs.first_name.validationErrors.join("\n");
+              if(!self.refs.registrationForm.refs.email.valid){
+                return self.refs.registrationForm.refs.email.validationErrors.join("\n");
               }
 
             }
-            // if(!!(self.refs && self.refs.first_name.valid)){
+            // if(!!(self.refs && self.refs.email.valid)){
             // }
           })(this)}
           validationFunction={[(value)=>{
@@ -96,8 +97,8 @@ export default class App extends React.Component {
             return true;
           }]}
           />
-        <InputField ref='last_name' placeholder='Last Name'/>
-        <InputField
+        <InputField ref='password' placeholder='Password'/>
+        {/* <InputField
           multiline={true}
           ref='other_input'
           placeholder='Other Input'
@@ -122,12 +123,12 @@ export default class App extends React.Component {
       placeholder='Set Alarm'/>
         <DatePickerField ref='meeting'
           minimumDate={new Date('1/1/1900')}
-          maximumDate={new Date()} mode="datetime" placeholder='Meeting'/>
+          maximumDate={new Date()} mode="datetime" placeholder='Meeting'/> */}
+          <Button onPress={() => this.login()} title="Login"></Button>
         </Form>
         <Text>{JSON.stringify(this.state.formData)}</Text>
 
       </ScrollView>
-      </View>
     );
   }
 }
