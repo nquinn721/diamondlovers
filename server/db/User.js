@@ -138,6 +138,7 @@ class UserClass {
     }
     static login(email, pw, cb){
         let user = this.findOne({email}, (e, doc) => {
+            console.log(doc);
             if(e){
                 return cb && cb(e);
             }
