@@ -3,6 +3,7 @@ module.exports = (app) => {
     app.use((req, res, next) => {
         // req.session.destroy();
         console.log(req.session);
+        req.session.super = 'teowiuf';
         next();
     })
     app.use('/', require('./web'));

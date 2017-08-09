@@ -11,10 +11,7 @@ export default class App extends React.Component {
   }
     login(){
       console.log('login');
-      fetch('http://localhost:3000/db/login', {
-          method: 'post',
-          body: {},
-          credentials: "same-origin"
+      fetch('http://diamondlovers.herokuapp.com/', {
       });
     }
   render() {
