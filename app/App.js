@@ -11,7 +11,10 @@ import { Form,
 
 export default class App extends React.Component {
   state = {
-    formData: {}
+    formData: {
+      email: 'natethepcspecialist@gmail.com',
+      password: 'nate123'
+    }
   }
   constructor(){
     super();
@@ -21,7 +24,12 @@ export default class App extends React.Component {
       console.log('login');
       fetch('http://diamondlovers.herokuapp.com/db/login', {
         method: 'post',
-        body: JSON.stringify(this.state.formData)
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.state.formData),
+        credentials: 'same-origin'
       }).then(d => d.json()).then(d => console.log(d));
     }
 
