@@ -21,7 +21,7 @@ export default class App extends React.Component {
       console.log('login');
       fetch('http://diamondlovers.herokuapp.com/db/login', {
         method: 'post',
-        body: new FormDate(this.state.formData)
+        body: JSON.stringify(this.state.formData)
       }).then(d => d.json()).then(d => console.log(d));
     }
 

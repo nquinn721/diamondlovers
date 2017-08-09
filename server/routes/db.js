@@ -36,6 +36,7 @@ router.post('/register', upload.single('profile'), function(req, res){
 });
 
 router.post('/login', upload.single('profile'), function(req, res){
+    console.log(req.body);
     User.login(req.body.email,  req.body.password, (e, doc) => {
         console.log(e, doc);
         if(doc){
