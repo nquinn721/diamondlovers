@@ -125,7 +125,9 @@ class UserClass {
     }
 
     static register(obj, cb){
-        this.collection.insert(obj, cb)
+        new this(obj).save(cb);
+        console.log('save');
+        // this.collection.insert(obj, cb)
     }
 
     static get(obj, cb){

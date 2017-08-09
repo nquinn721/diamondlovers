@@ -27,9 +27,10 @@ script.
         console.log('login');
         e.preventDefault();
         //- console.log('logged in');
+        console.log(this.email.value);
         fetch('/db/login', {
             method: 'post',
-            body: new FormData(this),
+            body: JSON.stringify({email:this.email.value, password: this.password.value}),
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

@@ -15,8 +15,9 @@ const upload = multer({
         }
     })
 });
+router.use(bodyParser.urlencoded({ extended: false }))
 
-// router.use(upload.single('profile'));
+router.use(bodyParser.json())
 
 router.post('/register', upload.single('profile'), function(req, res){
     User.register({
@@ -36,7 +37,7 @@ router.post('/register', upload.single('profile'), function(req, res){
     });
 });
 
-router.post('/login', bodyParser.json(), function(req, res){
+router.post('/login', function(req, res){
     console.log(req.body);
     User.login(req.body.email,  req.body.password, (e, doc) => {
         console.log(e, doc);
