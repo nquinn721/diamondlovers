@@ -7,12 +7,13 @@ const config = require('../config');
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            console.log(req.session.user.email);
+            console.log('destination', req.session.user.email);
             // Create user directory
             mkdirp(`server/images/${req.session.user.email}/profile`, () => cb(null, `server/images/${req.session.user.email}/profile`));
             
         },
         filename: (req, file, cb) => {
+            console.log('file name', file.originalname);
             cb(null, file.originalname);
         }
     })
@@ -22,7 +23,7 @@ const upload = multer({
 //     res.send({user: req.session.user});
 // });
 
-router.post('/profile-image-upload', upload.single('profile'), (req, res) => {
+router.post('/profile-image-upload', upload.single('image'), (req, res) => {
     console.log(req.body);
 });
 
