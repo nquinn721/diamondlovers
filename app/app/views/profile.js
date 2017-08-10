@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Button, Dimensions } from 'react-native';
-import Service from '../components/service';
 import { ImagePicker } from 'expo';
+import Service from '../components/service';
+import Settings from '../components/settings';
+
 console.log(Dimensions.get('window'));
 export default class ProfilePage extends React.Component {
   state = {}
@@ -14,7 +16,7 @@ export default class ProfilePage extends React.Component {
     console.log(result);
 
     if (!result.cancelled) {
-      
+      Service.uploadImage(result.uri);
       this.setState({ image: result.uri });
     }
   };

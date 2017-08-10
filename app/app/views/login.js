@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, Button } from 'react-native';
 import { Form,
   Separator,InputField, LinkField,
   SwitchField, PickerField,DatePickerField,TimePickerField
-} from 'react-native-form-generator';
+} from 'react-native-form-generator';  
 import Service from '../components/service';
 
 export default class LoginPage extends React.Component {

@@ -3,10 +3,10 @@ export default class Service{
     static login(formData){
         fetch('http://diamondlovers.herokuapp.com/db/login', {
             method: 'post',
-            // headers: {
-            //     'Accept': 'application/json',
-            //     'Content-Type': 'application/json',
-            // },
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(formData),
             credentials: 'same-origin'
         }).then(d => d.json()).then(user => {

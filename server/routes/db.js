@@ -7,7 +7,7 @@ router.use(bodyParser.urlencoded({ extended: false }))
 
 router.use(bodyParser.json())
 
-router.post('/register', upload.single('profile'), function(req, res){
+router.post('/register', function(req, res){
     User.register({
         email: req.body.email.trim(), 
         password: req.body.password.trim(), 
