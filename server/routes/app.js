@@ -21,6 +21,9 @@ router.get('/user', (req, res) => {
 });
 
 router.get('/profile-image-upload', upload.single('profile'), (req, res) => {
+    console.log('profile');
+    console.log('profile');
+    console.log('profile');
     console.log(req.body);
 });
 
