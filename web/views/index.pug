@@ -47,7 +47,6 @@ script.
     }
 
     function post(url, data){
-        console.log('sending');
         return fetch(url, {
             method: 'post',
             body: new FormData(data),
