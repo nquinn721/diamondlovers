@@ -17,7 +17,11 @@ export default class Service{
 
     static uploadImage(uri){
         let formData = new FormData();
-        formData.append('profile', uri);
+        formData.append('image', {
+            uri: uri,
+            type: 'image/jpg',
+            name: 'image.jpg',
+        });
         fetch('http://diamondlovers.herokuapp.com/app/profile-image-upload', {
             method: 'post',
             body: formData,
