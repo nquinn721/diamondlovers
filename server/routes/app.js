@@ -4,20 +4,24 @@ const path = require('path');
 const mkdirp = require('mkdirp');
 const multer = require('multer');
 const config = require('../config');
+const Image = require('../lib/image');
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            console.log('destination', req.session.user.email);
-            // Create user directory
-            mkdirp(`server/images/${req.session.user.email}/profile`, () => cb(null, `server/images/${req.session.user.email}/profile`));
+            mkdirp(imageLocation(req.session.user.email), () => cb(null, imageLocation(req.session.user.email)));
             
         },
         filename: (req, file, cb) => {
-            console.log('file name', file.originalname);
+            file.location = imageLocation(req.session.user.email);
+            Image.upload(req.session.user.email, file);
             cb(null, file.originalname);
         }
     })
 });
+
+function imageLocation(email){
+    return `server/images/${email}/profile`;
+}
 
 // router.post('/user', (req, res) => {
 //     res.send({user: req.session.user});

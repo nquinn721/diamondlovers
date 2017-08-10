@@ -39,7 +39,11 @@ const SALT_WORK_FACTOR = 10;
         height: Number,
         income: Number,
     },
-    images: [String]
+    images: [{
+        location: String,
+        name: String,
+        imageType: String
+    }]
 });
 
 const UserSchema = new Schema({
@@ -60,7 +64,7 @@ const UserSchema = new Schema({
         lowercase: true
     },
     password: String,
-    profile: [Profile],
+    profile: Profile,
     createdAt: {type: Date, default: Date.now},
     updatedAt: {type: Date},
     deletedAt: {type: Date}
@@ -100,24 +104,8 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
     });
 };
 class UserClass {
-    // `fullName` becomes a virtual
-    get fullName() {
-        return `${this.firstName} ${this.lastName}`;
-    }
 
-    set fullName(v) {
-        const firstSpace = v.indexOf(' ');
-        this.firstName = v.split(' ')[0];
-        this.lastName = firstSpace === -1 ? '' : v.substr(firstSpace + 1);
-    }
-
-
-    // `getFullName()` becomes a document method
-    getFullName() {
-        return `${this.firstName} ${this.lastName}`;
-    }
-
-    purchaseDiamonds(){
+    static purchaseDiamonds(){
         // Stripe connect and purchase
         // Then add diamonds
     }
@@ -132,10 +120,31 @@ class UserClass {
             cb && cb(e, doc);
         })
     }
-    static login(email, pw, cb){
+    static addImage(email, imageObj, cb = function(){}){
+        console.log(email);
+        this.findOne({email}, (e, doc) =>{
+            if(e){
+                return cb(e);
+            }
+            if(!doc)return cb('No user found');
+
+            if(!doc.profile.images)doc.profile.images = [];
+            let obj = {
+                name: `profile-image-${doc.profile.images.length}.${imageObj.mimetype.replace('image/', '')}`,
+                location: imageObj.location ,
+                imageType: imageObj.mimetype
+            }
+
+            doc.profile.images.push(obj);
+            doc.save(cb);
+        });
+    }
+
+
+    static login(email, pw, cb = function(){}){
         let user = this.findOne({email}, (e, doc) => {
             if(e){
-                return cb && cb(e);
+                return cb(e);
             }
             if(pw){
                 if(doc){
