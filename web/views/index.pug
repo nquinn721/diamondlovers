@@ -14,45 +14,41 @@ body
         input(type="submit", value="Login")
     form.register
         h3 Register
-        //- input(type="file", name="profile")
         input(type="text", name="firstName", placeholder="First Name")
         input(type="text", name="lastName", placeholder="Last Name")
         input(type="text", name="email", placeholder="email")
         input(type="text", name="displayName", placeholder="display name")
         input(type="text", name="password", placeholder="password")
         input(type="submit", value="Submit")
-
+    form.upload
+        input(type="file", name="profile")
+        input(type="submit", value="Upload")
+    
 script.
     document.querySelector('.login').onsubmit = function(e){
         console.log('login');
         e.preventDefault();
-        //- console.log('logged in');
-        console.log(this.email.value);
-        fetch('/db/login', {
-            method: 'post',
-            body: JSON.stringify({email:this.email.value, password: this.password.value}),
-            headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            },
-            credentials: "same-origin"
-        }).then((d) => d.json()).then((msg) => {
-            console.log(msg);
-            fetch('/app/user', {credentials: 'same-origin'}).then(d => d.json()).then(d => console.log(d));
+        post('/db/login', this).then((msg) => {
+            //- fetch('/app/user', {credentials: 'same-origin'}).then(d => d.json()).then(d => console.log(d));
         });
-        //- return false;
 
-
-        //- var oReq = new XMLHttpRequest();
-        //- oReq.open("post", '/db/login');
-        //- oReq.send();
     }
     document.querySelector('.register').onsubmit = function(){
-        fetch('/db/register', {
-            method: 'post',
-            body: new FormData(this)
-        });
+        post('/db/register', this).then(d => console.log('register', d));
 
-        console.log(this);
         return false;
+    }
+    document.querySelector('.upload').onsubmit = function(){
+        post('/app/profile-image-upload', this).then(d => console.log('uplaod', d));
+        //- post('/app/user', this).then(d => console.log(d));
+        return false;
+    }
+
+    function post(url, data){
+        console.log('sending');
+        return fetch(url, {
+            method: 'post',
+            body: new FormData(data),
+            credentials: "same-origin"
+        }).then((d) => d.json());
     }

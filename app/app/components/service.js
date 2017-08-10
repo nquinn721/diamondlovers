@@ -12,16 +12,21 @@ export default class Service{
         }).then(d => d.json()).then(user => {
             this.user = user
             this.emit('loggedin', user);
-        });
+        }).catch(this.handleError);
     }
 
     static uploadImage(uri){
-        console.log('uplaoding', uri);
+        let formData = new FormData();
+        formData.append('profile', uri);
         fetch('http://diamondlovers.herokuapp.com/app/profile-image-upload', {
             method: 'post',
-            body: JSON.stringify({image: uri}),
+            body: formData,
             credentials: 'same-origin'
         })
+    }
+
+    static handleError(e){
+        console.log(e);
     }
 
     static on(event, cb = function(){}){

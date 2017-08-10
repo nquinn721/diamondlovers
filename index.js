@@ -4,7 +4,6 @@ const express = require('express'),
     io = require('socket.io')(server),
     pug = require('pug'),
     path = require('path'),
-    bodyParser = require('body-parser'),
     session = require('express-session'),
     MongoStore = require('connect-mongo')(session),
     PORT = process.env.PORT || 3000;
