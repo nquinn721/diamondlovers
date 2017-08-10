@@ -16,6 +16,7 @@ export default class ProfilePage extends React.Component {
     console.log(result);
 
     if (!result.cancelled) {
+      console.log('calling upload image from service')
       Service.uploadImage(result.uri);
       this.setState({ image: result.uri });
     }

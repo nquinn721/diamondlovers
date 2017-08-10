@@ -16,9 +16,11 @@ export default class Service{
     }
 
     static uploadImage(uri){
+        console.log('uplaoding', uri);
         fetch('http://diamondlovers.herokuapp.com/app/profile-image-upload', {
             method: 'post',
-            body: JSON.stringify({image: uri})
+            body: JSON.stringify({image: uri}),
+            credentials: 'same-origin'
         })
     }
 
