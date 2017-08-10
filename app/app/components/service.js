@@ -3,10 +3,10 @@ export default class Service{
     static login(formData){
         fetch('http://diamondlovers.herokuapp.com/db/login', {
             method: 'post',
-            headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            },
+            // headers: {
+            //     'Accept': 'application/json',
+            //     'Content-Type': 'application/json',
+            // },
             body: JSON.stringify(formData),
             credentials: 'same-origin'
         }).then(d => d.json()).then(user => {
@@ -15,12 +15,20 @@ export default class Service{
         });
     }
 
-    static on(event, cb){
+    static uploadImage(uri){
+        fetch('http://diamondlovers.herokuapp.com/app/profile-image-upload', {
+            method: 'post',
+            body: JSON.stringify({image: uri})
+        })
+    }
+
+    static on(event, cb = function(){}){
+        this.events.forEach(e => e.event === event ? cb(e.data) : null);
         this.events.push({event, cb});
     }
 
     static emit(event, data){
-        this.events.forEach(e => e.event === event ? e.cb(data) : null);
+        this.events.forEach(e => e.event === event ? e.data = data && e.cb(data) : null);
     }
     
 }

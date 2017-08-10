@@ -43,7 +43,8 @@ export default class LoginPage extends React.Component {
   }
   render() {
     return (
-      <ScrollView keyboardShouldPersistTaps="always" style={{paddingLeft:10,paddingRight:10, height:200}}>
+      <View style={styles.container}>
+      <ScrollView keyboardShouldPersistTaps="always" >
       <Form
         ref='registrationForm'
         onFocus={this.handleFormFocus.bind(this)}
@@ -52,7 +53,7 @@ export default class LoginPage extends React.Component {
         <Separator />
         <InputField
           ref='email'
-          label='Email'
+         
           placeholder='Email'
           helpText={((self)=>{
 
@@ -121,6 +122,7 @@ export default class LoginPage extends React.Component {
         <Text>{JSON.stringify(this.state.formData)}</Text>
 
       </ScrollView>
+      </View>
     );
   }
 }
@@ -131,5 +133,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop:30,
+    padding:10
   },
 });

@@ -5,7 +5,7 @@ import LoginPage from './app/views/login';
 import RegisterPage from './app/views/register';
 import Service from './app/components/service';
 
-
+let formdata = new FormData();
 export default class App extends React.Component {
   state = {
 
@@ -22,17 +22,9 @@ export default class App extends React.Component {
     
   render() {
     if(this.state.user) 
-      return (
-        <View style={styles.container}>
-          <Text>{this.state.user.firstName}</Text>
-        </View>
-      ); 
+      return (<ProfilePage></ProfilePage>); 
     else {
-      return (
-        <View style={styles.container}>
-          <LoginPage></LoginPage>
-        </View>
-      );
+      return (<LoginPage></LoginPage>);
     }
   }
 }
