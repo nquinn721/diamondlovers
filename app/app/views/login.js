@@ -18,19 +18,6 @@ export default class LoginPage extends React.Component {
       Service.login(this.state.formData); 
     }
    handleFormChange(formData){
-    /*
-    formData will contain all the values of the form,
-    in this example.
-
-    formData = {
-    email:"",
-    last_name:"",
-    gender: '',
-    birthday: Date,
-    has_accepted_conditions: bool
-    }
-    */
-    console.log(formData);
     this.setState({formData});
     this.props.onFormChange && this.props.onFormChange(formData);
   }
@@ -50,7 +37,6 @@ export default class LoginPage extends React.Component {
         onFocus={this.handleFormFocus.bind(this)}
         onChange={this.handleFormChange.bind(this)}
         label="Personal Information">
-        <Separator />
         <InputField
           ref='email'
          
@@ -108,6 +94,8 @@ export default class LoginPage extends React.Component {
             male: 'Male',
             female: 'Female'
           }}/>
+        <Separator />
+          
           <DatePickerField ref='birthday'
           minimumDate={new Date('1/1/1900')}
           maximumDate={new Date()}

@@ -1,33 +1,62 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Input, ScrollView } from 'react-native';
-import ProfilePage from './app/views/profile';
-import LoginPage from './app/views/login';
+
+// Components
+import Service  from './app/components/service';
+import Settings from './app/components/settings';
+import User     from './app/components/user';
+
+// Pages
+import ProfilePage  from './app/views/profile/index';
+import LoginPage    from './app/views/login';
 import RegisterPage from './app/views/register';
-import Service from './app/components/service';
+import PurchasePage from './app/views/purchase';
+import CheckoutPage from './app/views/checkout';
+import HomePage     from './app/views/home';
+
+// Nav
+import Nav from './app/views/nav';
 
 let formdata = new FormData();
 export default class App extends React.Component {
   state = {
-
+    view: <HomePage></HomePage>
   }
   constructor(){
     super();
-    Service.on('loggedin', (user) => {
-      console.log('service is done', user);
-      this.setState({user})
-    });
+    // Service.on('loggedin', (user) => {
+    //   console.log('service is done', user);
+    //   this.setState({user})
+    // });
   }
     
+  changeView(page){
+    let view;
+    if(page === 'home')
+      view = <HomePage></HomePage>;
+    if(page === 'purchase')
+      view = <PurchasePage></PurchasePage>;
+    if(page === 'login')
+      view = <LoginPage></LoginPage>;
+    if(page === 'profile')
+      view = <ProfilePage></ProfilePage>
 
+
+    this.setState({view});
+  }
     
   render() {
-    if(this.state.user) 
-      return (<ProfilePage></ProfilePage>); 
-    else {
-      return (<LoginPage></LoginPage>);
-    }
+   
+    return (
+      <View style={styles.container}>
+        <View style={styles.page}>
+          {this.state.view}
+        </View>
+        <Nav onChange={view => this.changeView(view)}></Nav>
+      </View>
+    );
   }
-}
+} 
 
 const styles = StyleSheet.create({
   container: {
@@ -36,4 +65,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  page: {
+    height: Settings.h,
+    width: Settings.w
+  },
+
 });

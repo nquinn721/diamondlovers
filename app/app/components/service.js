@@ -1,18 +1,16 @@
+import Settings from './settings';
+import User from './user';
+
 export default class Service{
     static events = [];
     static login(formData){
-        fetch('http://diamondlovers.herokuapp.com/db/login', {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-            credentials: 'same-origin'
-        }).then(d => d.json()).then(user => {
-            this.user = user
-            this.emit('loggedin', user);
-        }).catch(this.handleError);
+
+        this.post(`${Settings.baseUrl}db/login`, this.formData(formData))
+            .then(user => {
+                User.user = user;
+                this.emit('loggedin', user);
+            }).catch(err => console.log(err));
+        
     }
 
     static uploadImage(uri){
@@ -22,13 +20,22 @@ export default class Service{
             type: 'image/jpg',
             name: 'image.jpg',
         });
-        fetch('http://diamondlovers.herokuapp.com/app/profile-image-upload', {
-            method: 'post',
-            body: formData,
-            credentials: 'same-origin'
-        })
+        this.post(`${Settings.baseUrl}app/profile-image-upload`, formData);
     }
 
+    static post(url, data){
+        return fetch(url, {
+            method: 'post',
+            body: data,
+            credentials: 'same-origin'
+        }).then(d => d.json());
+    }
+    static formData(data){
+        let fd = new FormData();
+        for(let i in data)
+            fd.append(i, data[i]);
+        return fd;
+    }
     static handleError(e){
         console.log(e);
     }
