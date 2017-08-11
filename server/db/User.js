@@ -126,7 +126,7 @@ class UserClass {
             name: imageObj.name,
             location: imageObj.location,
             imageType: imageObj.mimetype
-        }}}, cb);
+        }}}, {new: true}, cb);
     }
     static removeMostRecentImage(email){
         this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});
