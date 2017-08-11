@@ -22,6 +22,16 @@ export default class Service{
         });
         this.post(`${Settings.baseUrl}app/profile-image-upload`, formData);
     }
+    static getUser(){
+        this.get(`${Settings.baseUrl}app/user`);
+    }
+
+    static get(url){
+        return fetch(url, {
+            method: 'get',
+            credentials: 'same-origin'
+        }).then(d => d.json());
+    }
 
     static post(url, data){
         return fetch(url, {

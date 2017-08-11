@@ -159,7 +159,7 @@ class UserClass {
 
     static clearAllImages(){
         console.log('clearing all profile imates');
-        User.update({}, {'profile.images': []}, {multi: true}, (e, d) => console.log(e, d));
+        User.update({}, { $set: {'profile.images': []}}, {multi: true}, (e, d) => console.log(e, d));
     }
 
 }

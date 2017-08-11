@@ -12,4 +12,5 @@ module.exports = (app) => {
         else res.send({error: 'not logged in'});
     });
     app.use('/app', require('./app'));
+    app.use('/profile', require('./profile'));
 }
