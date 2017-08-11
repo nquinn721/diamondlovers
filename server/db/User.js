@@ -124,7 +124,7 @@ class UserClass {
     static addImage(email, imageObj, cb = function(){}){
         this.findOneAndUpdate({email}, {$push: {'profile.images': {
             name: imageObj.name,
-            location: imageObj.location ,
+            location: imageObj.location,
             imageType: imageObj.mimetype
         }}}, cb);
     }
