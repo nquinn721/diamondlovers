@@ -12,8 +12,7 @@ router.post('/profile-image-upload', (req, res) => {
         }else{
             res.send({msg: 'success'});
         }
-     })
-    
+     });
 });
 
 

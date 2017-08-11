@@ -16,22 +16,24 @@ class Image{
         })
     }
     static destination(req, file, cb){
-        mkdirp(this.imageLocation(req.session.user.email), () => 
-            cb(null, this.imageLocation(req.session.user.email))
-        );
+        this.upload(req.session.user.email, file, req); 
+        // mkdirp(this.imageLocation(req.session.user.email), () => 
+        //     cb(null, this.imageLocation(req.session.user.email))
+        // );
+        cb(null, 'weoifj/')
         
     }
     static filename(req, file, cb) {
         file.location = this.imageLocation(req.session.user.email);
-        this.upload(req.session.user.email, file, req); 
         cb(null, file.originalname);
     }
 
 
     static storage(req, res, cb = function(){}){
         let single = this.multer.single('image');
-        single(req, res, (err) => {
-            if(err)req.error = {error: config.errorMessages.fileUpload};
+        single(req, res, (err, file) => {
+            if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY
+            if(req.error)User.removeMostRecentImage(req.session.user.email);
             cb();
         });
     }

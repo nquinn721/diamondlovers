@@ -31,7 +31,6 @@ router.post('/register', function(req, res){
 
 router.post('/login', function(req, res){
     User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc) => {
-        console.log(doc ? 'logged in' : 'failed to login');
         if(doc){
             req.session.user = doc;
             res.send(doc);

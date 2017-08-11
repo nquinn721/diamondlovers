@@ -7,7 +7,6 @@ module.exports = (app) => {
     app.use('/', require('./web'));
     app.use('/db', require('./db'));
     app.use((req, res, next) =>  {
-        console.log('checking user', req.session.user ? true : false);
         if(req.session.user)next();
         else res.send({error: 'not logged in'});
     })

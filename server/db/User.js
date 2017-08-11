@@ -121,25 +121,16 @@ class UserClass {
         })
     }
     static addImage(email, imageObj, cb = function(){}){
-        console.log(email);
-        this.findOne({email}, (e, doc) =>{
-            if(e){
-                return cb(e);
-            }
-            if(!doc)return cb('No user found');
-
-            if(!doc.profile.images)doc.profile.images = [];
-            let obj = {
-                name: `profile-image-${doc.profile.images.length}.${imageObj.mimetype.replace('image/', '')}`,
+        this.findOneAndUpdate({email}, {$push: {'profile.images': {
+                name: `profile-image-${Date.now()}.${imageObj.mimetype.replace('image/', '')}`,
                 location: imageObj.location ,
                 imageType: imageObj.mimetype
-            }
-
-            doc.profile.images.push(obj);
-            doc.save(cb);
-        });
+            }}}, cb);
     }
-
+    static removeMostRecentImage(email){
+        console.log('removeing', email);
+        this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});
+    }
 
     static login(email, pw, cb = function(){}){
         let user = this.findOne({email}, (e, doc) => {
