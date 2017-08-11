@@ -11,6 +11,5 @@ module.exports = (app) => {
         if(req.session.user)next();
         else res.send({error: 'not logged in'});
     });
-    console.log(path.join(__dirname, '..', 'images'));
     app.use('/app', require('./app'));
 }

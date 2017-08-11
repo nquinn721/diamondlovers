@@ -34,6 +34,7 @@
     "node-fetch": "^1.7.1",
     "pug": "^2.0.0-rc.3",
     "recursive-readdir": "^2.2.1",
+    "rimraf": "^2.6.1",
     "socket.io": "^2.0.3",
     "stripe": "^4.23.2"
   }

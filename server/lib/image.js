@@ -3,7 +3,7 @@ const config = require('../config');
 const multer = require('multer');
 const mkdirp = require('mkdirp');
 const path = require('path');
-
+var rimraf = require('rimraf');
 
 
 class Image{
@@ -17,10 +17,9 @@ class Image{
     }
     static destination(req, file, cb){
         this.upload(req.session.user.email, file, req); 
-        // mkdirp(this.imageLocation(req.session.user.email), () => 
-        //     cb(null, this.imageLocation(req.session.user.email))
-        // );
-        cb(null, 'weoifj/')
+        mkdirp(this.imageLocation(req.session.user.email), () => 
+            cb(null, this.imageLocation(req.session.user.email))
+        );
         
     }
     static filename(req, file, cb) {
@@ -46,9 +45,15 @@ class Image{
        
     }
 
+    static deleteAllImages(req){
+        if(req.session.user.admin){
+            rimraf('server/images', function () { console.log('done'); });
+        }
+    }
+
 
     static imageLocation(email){
-        return path.join('server', 'images', email,'profile');
+        return path.join(email,'profile');
     }
 
 }

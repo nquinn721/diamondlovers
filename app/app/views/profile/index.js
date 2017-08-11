@@ -22,11 +22,11 @@ export default class ProfilePage extends React.Component {
     let pics = [];
     for(let i = 0; i < User.user.profile.images.length; i++){
       let pic = User.user.profile.images[i];
-      console.log(pic);
+      console.log(Settings.baseUrl + pic.location + pic.name);
       pics.push(
         <Image
           style={{width: 50, height: 50}}
-          source={{uri: Settings.baseUrl + pic.location + pic.name}}
+          source={{uri: Settings.baseUrl + pic.location +'/' + pic.name}}
           key={i}
         />
       );

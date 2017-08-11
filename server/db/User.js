@@ -51,6 +51,7 @@ const UserSchema = new Schema({
     lastName: String,
     fingerPrint: Boolean,
     passCode: Number,
+    admin: Boolean,
     displayName: {
         type: String,
         unique: true
@@ -128,7 +129,6 @@ class UserClass {
             }}}, cb);
     }
     static removeMostRecentImage(email){
-        console.log('removeing', email);
         this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});
     }
 
