@@ -123,10 +123,10 @@ class UserClass {
     }
     static addImage(email, imageObj, cb = function(){}){
         this.findOneAndUpdate({email}, {$push: {'profile.images': {
-                name: `profile-image-${Date.now()}.${imageObj.mimetype.replace('image/', '')}`,
-                location: imageObj.location ,
-                imageType: imageObj.mimetype
-            }}}, cb);
+            name: imageObj.name,
+            location: imageObj.location ,
+            imageType: imageObj.mimetype
+        }}}, cb);
     }
     static removeMostRecentImage(email){
         this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});
@@ -155,6 +155,11 @@ class UserClass {
                 }
             }
         });
+    }
+
+    static clearAllImages(){
+        console.log('clearing all profile imates');
+        User.update({}, {'profile.images': []}, {multi: true}, (e, d) => console.log(e, d));
     }
 
 }

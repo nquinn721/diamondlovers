@@ -4,7 +4,7 @@ const fs = require('fs');
 const recursive = require('recursive-readdir');
 router.get('/', function(req, res){
     recursive('server/images', function (err, files) {
-        res.render('index', {dirs: files});
+        res.render('index', {dirs: files || []});
     });
 });
 

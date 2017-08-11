@@ -16,15 +16,16 @@ class Image{
         })
     }
     static destination(req, file, cb){
-        this.upload(req.session.user.email, file, req); 
         mkdirp(this.imageLocation(req.session.user.email), () => 
             cb(null, this.imageLocation(req.session.user.email))
         );
         
     }
     static filename(req, file, cb) {
-        file.location = this.imageLocation(req.session.user.email);
-        cb(null, file.originalname);
+        file.location = this.imagePath(req.session.user.email);
+        file.name = this.imageName(file);
+        this.upload(req.session.user.email, file, req); 
+        cb(null, file.name);
     }
 
 
@@ -45,15 +46,20 @@ class Image{
        
     }
 
-    static deleteAllImages(req){
-        if(req.session.user.admin){
-            rimraf('server/images', function () { console.log('done'); });
-        }
+    static deleteAllImages(){
+        rimraf('server/images', function () { console.log('done'); });
+        User.clearAllImages();
     }
 
+    static imageName(imageObj){
+        return `profile-image-${Date.now()}.${imageObj.mimetype.replace('image/', '')}`
+    }
+    static imagePath(email){
+        return path.join(email, 'profile');
 
+    }
     static imageLocation(email){
-        return path.join(email,'profile');
+        return path.join('server', 'images', email, 'profile');
     }
 
 }

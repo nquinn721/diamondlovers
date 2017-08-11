@@ -15,5 +15,11 @@ router.post('/profile-image-upload', (req, res) => {
      });
 });
 
+router.get('/delete-all-images', (req, res) => {
+    if(req.session.user.admin)
+        Image.deleteAllImages();
+    res.redirect('/');
+})
+
 
 module.exports = router;
