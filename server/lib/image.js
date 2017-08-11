@@ -24,23 +24,25 @@ class Image{
     static filename(req, file, cb) {
         file.location = this.imagePath(req.session.user.email);
         file.name = this.imageName(file);
-        console.log(file);
-        this.upload(req.session.user.email, file, req); 
-        cb(null, file.name);
+        this.upload(req.session.user.email, file, req, (e, user) =>{
+            console.log(e, user);
+            req.session.user = user;
+            cb(null, file.name);
+        }); 
     }
 
 
     static storage(req, res, cb = function(){}){
         let single = this.multer.single('image');
-        single(req, res, (err, file) => {
+        single(req, res, (err) => {
             if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY
             if(req.error)User.removeMostRecentImage(req.session.user.email);
             cb();
         });
     }
-    static upload(email, imageObj, req){
+    static upload(email, imageObj, req, cb = function(){}){
         if(allowedUploads.indexOf(imageObj.mimetype) > -1){
-            User.addImage(email, imageObj);
+            User.addImage(email, imageObj, cb);
         }else{
             req.error = {error: config.errorMessages.fileType};
         }
