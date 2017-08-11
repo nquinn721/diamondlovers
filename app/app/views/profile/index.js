@@ -19,6 +19,7 @@ export default class ProfilePage extends React.Component {
     }
   };
   renderProfilePics(){
+    console.log('render profile pics', User);
     let pics = [];
     for(let i = 0; i < User.user.profile.images.length; i++){
       let pic = User.user.profile.images[i];
