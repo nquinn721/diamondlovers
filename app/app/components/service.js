@@ -20,7 +20,7 @@ export default class Service{
             type: 'image/jpg',
             name: 'image.jpg',
         });
-        this.post(`${Settings.baseUrl}app/profile-image-upload`, formData).then(User.update);
+        this.post(`${Settings.baseUrl}app/profile-image-upload`, formData).then(User.update.bind(User));
     }
     static getUser(cb = function(){}){ 
         this.get(`${Settings.baseUrl}profile/user`).then(cb);

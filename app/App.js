@@ -7,12 +7,13 @@ import Settings from './app/components/settings';
 import User     from './app/components/user';
 
 // Pages
-import ProfilePage  from './app/views/profile/index';
-import LoginPage    from './app/views/login';
-import RegisterPage from './app/views/register';
-import PurchasePage from './app/views/purchase';
-import CheckoutPage from './app/views/checkout';
-import HomePage     from './app/views/home';
+import ProfilePage    from './app/views/profile/index';
+import ProfileImages  from './app/views/profile/images';
+import LoginPage      from './app/views/login';
+import RegisterPage   from './app/views/register';
+import PurchasePage   from './app/views/purchase';
+import CheckoutPage   from './app/views/checkout';
+import HomePage       from './app/views/home';
 
 // Nav
 import Nav from './app/views/nav';
@@ -22,25 +23,21 @@ export default class App extends React.Component {
   state = {
     view: <HomePage></HomePage>
   }
-  constructor(){
-    super();
-    // Service.on('loggedin', (user) => {
-    //   console.log('service is done', user);
-    //   this.setState({user})
-    // });
-  }
     
   changeView(page){
     let view;
     if(page === 'home')
       view = <HomePage></HomePage>;
-    if(page === 'purchase')
-      view = <PurchasePage></PurchasePage>;
-    if(page === 'login')
+    else if(page === 'purchase')
+      view = <CheckoutPage></CheckoutPage>;
+    else if(page === 'login')
       view = <LoginPage></LoginPage>;
-    if(page === 'profile')
-      view = <ProfilePage></ProfilePage>
-
+    else if(page === 'profile')
+      view = <ProfilePage changeView={view => this.changeView(view)}></ProfilePage>
+    else if(page === 'profileImages')
+      view = <ProfileImages changeView={view => this.changeView(view)}></ProfileImages>
+    else
+      view = state.view;
 
     this.setState({view});
   }
@@ -52,7 +49,7 @@ export default class App extends React.Component {
         <View style={styles.page}>
           {this.state.view}
         </View>
-        <Nav onChange={view => this.changeView(view)}></Nav>
+        <Nav changeView={view => this.changeView(view)}></Nav>
       </View>
     );
   }

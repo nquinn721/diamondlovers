@@ -8,8 +8,9 @@ head
 body
     h1 Welcome!
     a(href="/app/delete-all-images") Delete All Images
-    each dir in dirs
-        div #{dir}
+    div
+        each dir in dirs
+            img(src=dir.replace('server/images', ''))
     form.login
         h3 Login
         input(type="text", name="email", placeholder="Email", value="jon@snow.com")

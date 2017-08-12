@@ -6,4 +6,5 @@ export default class Settings{
     static defaultView = 'home';
     static w = window.width;
     static h = window.height;
+    static stripeApiKey = 'pk_test_SxLXrzbxiAiTwnt8qiOW1agS';
 }

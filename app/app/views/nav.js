@@ -7,7 +7,7 @@ export default class Nav extends React.Component{
         view: Settings.defaultView
     };
     changeView(view){
-        this.props.onChange(view);
+        this.props.changeView(view);
         this.state.view = view;
     } 
     selected(view){
