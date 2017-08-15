@@ -52,6 +52,7 @@ const UserSchema = new Schema({
     fingerPrint: Boolean,
     passCode: Number,
     admin: Boolean,
+    stripeCustId: String,
     displayName: {
         type: String,
         unique: true

@@ -1,17 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TextInput } from 'react-native';
-import Settings from 'app/app/components/settings';
-var stripe = require('stripe-client')(Settings.stripeApiKey);
-
-var information = {
-  card: {
-    number: '4242424242424242',
-    exp_month: '02',
-    exp_year: '21',
-    cvc: '999',
-    name: 'Billy Joe'
-  }
-}
 
   
 
