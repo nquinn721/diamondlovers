@@ -106,7 +106,7 @@ describe('Stripe API card management', function(){
     
     
     it('Add card should create a customer as well', (done) => {
-        req.body.charge.card = {
+        req.body = {
             number: '4242424242424242',
             exp_month: 12,
             exp_year: 2018,
@@ -122,7 +122,7 @@ describe('Stripe API card management', function(){
 
 
     it('Should add card to customer already there', (done) => {
-        req.body.charge.card = {
+        req.body = {
             number: '4000056655665556',
             exp_month: 12,
             exp_year: 2018,

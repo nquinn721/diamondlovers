@@ -84,7 +84,7 @@ class StripeAPI{
 
       let stripeId = req.session.user.stripeId;
       let email = req.session.user.email;
-      let card = req.body ? req.body.card : null;
+      let card = req.body;
 
       if(!card)return cb({error: 'No card specified'});
       if(!email)return cb({error: 'No email for user'});
