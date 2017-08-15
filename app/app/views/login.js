@@ -33,7 +33,7 @@ export default class LoginPage extends React.Component {
       <View style={styles.container}>
       <ScrollView keyboardShouldPersistTaps="always" >
       <Form
-        ref='registrationForm'
+        ref='loginform'
         onFocus={this.handleFormFocus.bind(this)}
         onChange={this.handleFormChange.bind(this)}
         label="Personal Information">
@@ -44,8 +44,8 @@ export default class LoginPage extends React.Component {
           helpText={((self)=>{
 
             if(Object.keys(self.refs).length !== 0){
-              if(!self.refs.registrationForm.refs.email.valid){
-                return self.refs.registrationForm.refs.email.validationErrors.join("\n");
+              if(!self.refs.loginform.refs.email.valid){
+                return self.refs.loginform.refs.email.validationErrors.join("\n");
               }
 
             }

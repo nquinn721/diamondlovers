@@ -5,7 +5,7 @@ export default class Service{
     static events = [];
     static login(formData){
 
-        this.post(`${Settings.baseUrl}db/login`, this.formData(formData))
+        this.post(`db/login`, this.formData(formData))
             .then(user => {
                 User.user = user;
                 console.log(user);
@@ -21,21 +21,24 @@ export default class Service{
             type: 'image/jpg',
             name: 'image.jpg',
         });
-        this.post(`${Settings.baseUrl}app/profile-image-upload`, formData).then(User.update.bind(User));
+        this.post(`app/profile-image-upload`, formData).then(User.update.bind(User));
+    }
+    static addCard(card){
+        this.post(`profile/addCard`, card).then(d => console.log(d));
     }
     static getUser(cb = function(){}){ 
-        this.get(`${Settings.baseUrl}profile/user`).then(cb);
+        this.get(`profile/user`).then(cb);
     }
 
     static get(url){
-        return fetch(url, {
+        return fetch(Settings.baseUrl + url, {
             method: 'get',
             credentials: 'same-origin'
         }).then(d => d.json());
     }
 
     static post(url, data){
-        return fetch(url, {
+        return fetch(Settings.baseUrl + url, {
             method: 'post',
             body: data,
             credentials: 'same-origin'
