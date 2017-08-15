@@ -147,6 +147,7 @@ class UserClass {
                         if(match){
                             console.log(doc);
                             if(doc.stripeId){
+                                console.log('getting customer');
                                 StripeAPI.getCustomer(doc, (e, cust) => {
                                     doc.stripeCust = cust;
                                     cb(e, doc);

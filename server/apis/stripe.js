@@ -136,14 +136,8 @@ class StripeAPI{
     /**
     * GETS
     */
-    static getCustomer(req, cb = function(){}){
-      if(!req.session.user)return cb({error: 'User is not logged in'});
-
-      let stripeId = req.session.user.stripeId;
-
-      if(!stripeId)return cb({error: 'No stripe id attached to user'});
-
-      stripe.customer.retrieve(stripeId, cb);
+    static getCustomer(user, cb = function(){}){
+      stripe.customer.retrieve(user.stripeId, cb);
     }
     /**
      * END GETS
