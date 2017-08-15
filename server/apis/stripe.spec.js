@@ -131,8 +131,7 @@ describe('Stripe API card management', function(){
         req.session.user.stripeId = customerId;
         
         s.addCard(req, (e, cust) => {
-            cust.object.should.equal('card');
-            cust.last4.should.equal('5556');
+            cust.object.should.equal('customer');
             done();
         });
     }).timeout(testTime);

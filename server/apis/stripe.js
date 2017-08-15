@@ -92,7 +92,10 @@ class StripeAPI{
       if(stripeId){
         this.retrieveCustomer(stripeId, (e, cust) => {
           if(e)return cb(e);
-          this.addCardToCustomer(card, cust, cb);
+          this.addCardToCustomer(card, cust, (e, card) => {
+            if(e)return cb(e);
+            this.retrieveCustomer(stripeId, cb);
+          });
         });
       }else{
         this.createToken(card, (e, token) => {
