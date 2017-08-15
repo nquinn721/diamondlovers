@@ -14,9 +14,13 @@ router.use(function(req, res, next){
 
 router.get('/user', (req, res) => res.send(req.session.user));
 router.post('/addCard', (req, res) => {
-    console.log('add card', req.body);
     StripAPI.addCard(req, (e, data) => {
-        res.send(e || data);
+        if(data){
+            req.session.user.stripeCust = data;
+            res.send(req.session.user);
+        }else{
+            res.send(e);
+        }
     })
 })
 

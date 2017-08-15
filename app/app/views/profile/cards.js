@@ -19,6 +19,15 @@ export default class ProfileImages extends React.Component{
         }
     }
 
+    componentWillMount(){
+        if(User.user.stripeCust){
+            this.state.cards =  User.user.stripeCust.sources.data;
+            console.log(this.state);
+        }
+
+        User.on('update',() => this.setState({cards: User.user.stripeCust.sources.data}));
+    }
+
     addCard(){
         Service.addCard(this.state.card);
     }
@@ -29,12 +38,22 @@ export default class ProfileImages extends React.Component{
     handleFormFocus(){
 
     }
+    displayCards(){
+        let cards = [];
+
+        for(let i = 0; i < this.state.cards.length; i++){
+            let card = this.state.cards[i];
+            cards.push(<Text key={i}>{card.brand} - **** **** **** {card.last4}</Text>)
+        }
+        return <View>{cards}</View>;
+    }
 
     render(){
         return (
             <View style={styles.container}>
                 <Text>Cards</Text>
                 <Button onPress={() => this.props.changeView('profile')} title="Back"/>
+                {this.displayCards()}
                 <Button onPress={() => this.setState({addCard: true})} title="New Card" />
                 
                 {this.state.addCard ?

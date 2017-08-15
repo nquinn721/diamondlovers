@@ -8,7 +8,6 @@ export default class Service{
         this.post(`db/login`, this.formData(formData))
             .then(user => {
                 User.user = user;
-                console.log(user);
                 this.emit('loggedin', user);
             }).catch(err => console.log(err));
         
