@@ -147,6 +147,7 @@ class UserClass {
                             console.log(doc);
                             if(doc.stripeId){
                                 Stripe.getCustomer(doc, (e, cust) => {
+                                    console.log(cust);
                                     doc.stripeCust = cust;
                                     cb(e, doc);
                                 });
