@@ -7,6 +7,10 @@ export default class ProfilePage extends React.Component {
     return (
       <View style={styles.container}>
         <Text>Profile</Text>
+        <Button 
+          title="Cards"
+          onPress={() => this.props.changeView('profileCards')}
+        />
         <Button
           title="Images"
           onPress={() => this.props.changeView('profileImages')}

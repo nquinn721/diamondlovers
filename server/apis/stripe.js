@@ -12,7 +12,7 @@ let req = {
         "exp_year": 2018,
         "cvc": '123'
         "last4" : "1881"
-      },
+      }
       amount: 10000
       currency: 'usd'
     }
@@ -20,26 +20,33 @@ let req = {
   session: {
     user: {
       email: 'peanut@bob.com',
-      stripeCustId: 'cus_BDEEGNrC34z89w'
+      stripeId: 'cus_BDEEGNrC34z89w'
     }
   }
 } 
  */
-
-function StripeAPI(){
-  this.stripe = require("stripe")(
-    "sk_test_His9L7RGJvdVRuuPOkCeuand"
-  );
-}
-StripeAPI.prototype = {
+const stripe = require("stripe")(
+  "sk_test_His9L7RGJvdVRuuPOkCeuand"
+);
+class StripeAPI{
+  
     
-    charge: function(req, cb = function(){}){
+    /**
+     * CHARGE
+     * REQUIRED
+     * - req.body.charge.amount
+     * - req.session.user.email
+     */
+    static charge(req, cb = function(){}){
+      if(!req.session.user)return cb({error: 'User not logged in'});
+
       let charge = req.body.charge;
-      let stripeId = req.session.user.stripeCustId;
+      let stripeId = req.session.user.stripeId;
       let email = req.session.user.email;
       let last4 = req.body.charge && req.body.charge.card ? req.body.charge.card.last4 : null;
 
       if(!charge.amount)return cb({error: 'No amount specified'});
+      if(!email)return cb({error: 'No email was set for user'});
 
       if(!stripeId){
         this.createToken(charge.card, (e, token) => {
@@ -52,40 +59,119 @@ StripeAPI.prototype = {
       }else if(last4){
         this.getCustCardByLast4(stripeId, last4, (e, card, cust) => {
           if(e)return cb(e);
-          this.chargeCustomer(charge, cust, cb);
+          this.chargeCustomer(charge, cust.id, cb);
         });
       }else{
         this.chargeCustomer(req.body.charge, stripeId, cb);
       }
-      
-        
-    },
-    addCard: function(req, cb = function(){}){
-      let stripeId = req.session.user.stripeCustId;
+    }
+    /**
+     * END CHARGE
+     */
+
+
+
+    /**
+     * ADD CARD
+     * REQUIRED
+     * - req.session.user.stripeId
+     * - req.session.user.email
+     * - req.body.charge.card
+     *     - {number, exp_month, exp_year, cvc}
+     */
+    static addCard(req, cb = function(){}){
+      if(!req.session.user)return cb({error: 'User not logged in'});
+
+      let stripeId = req.session.user.stripeId;
+      let email = req.session.user.email;
+      let card = req.body.charge ? req.body.charge.card : null;
+
+      if(!card)return cb({error: 'No card specified'});
+      if(!email)return cb({error: 'No email for user'});
 
       if(stripeId){
-        this.retrieveCustomer(req.session.user.stripeCustId, (e, cust) => {
+        this.retrieveCustomer(stripeId, (e, cust) => {
           if(e)return cb(e);
-          this.addCardToCustomer(req, cust, cb);
+          this.addCardToCustomer(card, cust, cb);
         });
       }else{
-        this.createToken(req.body.charge.card, (e, token) => {
+        this.createToken(card, (e, token) => {
           if(e)return cb(e);
-          this.createCustomer(req.session.user.email, token.id, cb);
+          this.createCustomer(email, token.id, cb);
         });
       }
       
-    },
+    }
+    /**
+     * END ADD CARD
+     */
     
-    updateDefaultCard: function(req, cb = function(){}){
-      this.getCustCardByLast4(req.session.user.stripeCustId, req.body.charge.card.last4, (e, card, cust) => {
+    /**
+     * UPDATE CARD
+     * REQUIRE 
+     * - req.body.charge.card.last4
+     * - req.session.user.stripeId
+     */
+    static updateDefaultCard(req, cb = function(){}){
+      if(!req.session.user)cb({error: 'Uesr not logged in'});
+
+      let stripeId = req.session.user.stripeId;
+      let last4 = req.body.charge && req.body.charge.card ? req.body.charge.card.last4 : null;
+
+      if(!last4)return cb({error: 'No last 4 passed to update default card'});
+
+      this.getCustCardByLast4(stripeId, last4, (e, card, cust) => {
         if(e)return cb(e);
         this.updateCustomer(cust.id, {
           default_source: card.id
         }, cb);
       });
 
-    },
+    }
+
+    /**
+     * END UPDATE CARD
+     */
+
+    /**
+    * GETS
+    */
+    static getCustomer(req, cb = function(){}){
+      if(!req.session.user)return cb({error: 'User is not logged in'});
+
+      let stripeId = req.session.user.stripeId;
+
+      if(!stripeId)return cb({error: 'No stripe id attached to user'});
+
+      stripe.customer.retrieve(stripeId, cb);
+    }
+    /**
+     * END GETS
+     */
+
+
+    /**
+     * REMOVE CARD
+     */
+    static removeCard(req, cb = function(){}){
+      if(!req.session.user)return cb({error: 'No user logged in'});
+
+      let stripeId = req.session.user.stripeId;
+      let last4 = req.body.charge && req.body.charge.card ? req.body.charge.card.last4 : null;
+      if(!last4)return cb({error: 'No last 4 passed to remove card'});
+      if(!stripeId)return cb({error: 'Customer is not created'});
+
+
+      this.getCustCardByLast4(stripeId, last4, (e, card, cust) => {
+        if(e)return cb(e);
+        this.deleteCard(cust.id, card.id, cb);
+      });
+    }
+    /**
+     * END REMOVE CARD
+     */
+
+
 
 
     /**
@@ -95,31 +181,35 @@ StripeAPI.prototype = {
 
 
     /**
-     * card = { cardNumber: String, exp: String, cvc: String}
+     * card = {number: String, exp_month: String, exp_year: String, cvc: String} 
      */
-    createToken: function(card, cb = function(){}){
-      this.stripe.tokens.create({
+    static createToken(card, cb = function(){}){
+      stripe.tokens.create({
         card: card
       }, cb);
-    },
+    }
 
-    addCardToCustomer: function(req, cust, cb = function(){}){
-      this.stripe.customers.createSource(
+    /**
+     * card = {number: String, exp_month: String, exp_year: String, cvc: String}
+     */
+    static addCardToCustomer(card, cust, cb = function(){}){
+      stripe.customers.createSource(
         cust.id,
-          { source: {
-            object: 'card',
-            number: req.body.charge.card.number,
-            exp_month: req.body.charge.card.exp_month,
-            exp_year: req.body.charge.card.exp_year,
-            cvc: req.body.charge.card.cvc
+          { source: 
+            {
+              object: 'card',
+              number: card.number,
+              exp_month: card.exp_month,
+              exp_year: card.exp_year,
+              cvc: card.cvc
           } 
         }, cb);
-    },
+    }
     /**
      * obj = {amount: 2000, currency(optional): "usd", card(optional): String(card.id)}
      * custid = StripeCustomer id
      */
-    chargeCustomer: function(obj, custid, cb = function(){}){
+    static chargeCustomer(obj, custid, cb = function(){}){
       let charge = {
         amount: obj.amount,
         currency: obj.currency || "usd",
@@ -127,36 +217,46 @@ StripeAPI.prototype = {
       }
       if(obj.card && typeof obj.card === 'string')
         charge.card = obj.card;
-      this.stripe.charges.create(charge, cb);
-    },
+      stripe.charges.create(charge, cb);
+    }
     /**
      * email = String
      * token = String
      * cb = (err, customer)
      */
-    createCustomer: function(email, token, cb = function(){}){
-      this.stripe.customers.create({
+    static createCustomer(email, token, cb = function(){}){
+      stripe.customers.create({
         source: token,
         email: email
-      }, cb);
-    },
+      }, function(e, cust){
+        if(!e)User.createStripeCustomer(email, cust.id);
+        cb(e, cust);
+      });
+    }
     /**
      * id = customer id
      * cb = (err, customer)
      */
-    retrieveCustomer: function(id, cb = function(){}){
-      this.stripe.customers.retrieve(id, cb);
-    },
+    static retrieveCustomer(id, cb = function(){}){
+      stripe.customers.retrieve(id, cb);
+    }
     /**
      *  id = customer id
      *  last4 = last 4 of card
      */
-    getCustCardByLast4: function(id, last4, cb = function(){}){
+    static getCustCardByLast4(id, last4, cb = function(){}){
+
       this.retrieveCustomer(id, (e, cust) => {
         if(e)return cb(e);
-        cust.sources.data.forEach(card => card.last4 === last4 ? cb(null, card, cust) : cb('failed to update'));
+        let found;
+
+        cust.sources.data.forEach(card => {
+          if(card.last4 === last4)found = card;
+        });
+
+        found ? cb(null, found, cust) : cb('failed to find card');
       });
-    },
+    }
     /**
      * Fields you can update
      *  account_balance - An integer amount in cents that is the starting account balance for your customer. A negative amount represents a credit that will be used before attempting any charges to the customer’s card; a positive amount will be added to the next invoice.
@@ -191,11 +291,15 @@ StripeAPI.prototype = {
             - metadata - A set of key/value pairs that you can attach to a card object. It can be useful for storing additional information about the card in a structured format.
             - name - Cardholder's full name.
      */
-    updateCustomer: function(id, obj, cb){
-      this.stripe.customers.update(id, obj, cb);
-    },
-    deleteCustomer: function(customerId){
-        this.stripe.customers.del(customerId);
+    static updateCustomer(id, obj, cb = function(){}){
+      stripe.customers.update(id, obj, cb);
+    }
+    static deleteCustomer(customerId, cb = function(){}){
+        User.deleteStripeCustomer(customerId);
+        stripe.customers.del(customerId, cb);
+    }
+    static deleteCard(customerId, cardId, cb = function(){}){
+      stripe.customers.deleteCard(customerId, cardId, cb);
     }
 
 }

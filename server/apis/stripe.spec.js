@@ -1,8 +1,9 @@
 const chai = require('chai');
 const should = chai.should();
-let StripeAPI = require('./stripe');
+let s = require('./stripe');
 
-let s = new StripeAPI;
+// let s = new StripeAPI;
+let testTime = 5000;
 
 // let req = {
 //   body: {
@@ -21,31 +22,12 @@ let s = new StripeAPI;
 //   session: {
 //     user: {
 //       // email: 'peanut@bob.com',
-//       stripeCustId: 'cus_BDEEGNrC34z89w'
+//       stripeId: 'cus_BDEEGNrC34z89w'
 //     }
 //   }
 // } 
-// s.updateDefaultCard(req, (e, cust) => {
-  // console.log(e, cust);
-// })
-// s.charge(req, (e, charge) => {
-//   console.log(e, charge);
-// });
 
-// req.body.card = {
-//   number: '4242424242424242',// '4012888888881881',
-//   expMonth: '05',
-//   expYear: '22',
-//   cvc: '123'
-// }
-// s.addCard(req, function(e, cust){
-//   console.log('added card');
-//   console.log('added card');
-//   console.log('added card');
-//   console.log(e, cust);
-// });
-
-describe('Stripe API charge', function(done) {
+describe('Stripe API charge', function() {
     let req, customerId;
     beforeEach(() => {
         req = {
@@ -65,46 +47,46 @@ describe('Stripe API charge', function(done) {
    
     it('Should create a customer on charge if no stripe customer id is specified', (done) => {
         req.body.charge.card = {
-            object: 'card',
             number: '4242424242424242',
             exp_month: 12,
             exp_year: 2018,
             cvc: '123'
         }
-        s.charge(req, (e, cust) => {
-            customerId = cust.id;
-            cust.object.should.equal('card');
-            cust.last4.should.equal('4242');
+        s.charge(req, (e, charge) => {
+            customerId = charge.customer;
+            charge.object.should.equal('charge');
+            charge.source.object.should.equal('card');
+            charge.source.last4.should.equal('4242');
             done();
         });
-    }).timeout(5000);
+    }).timeout(testTime);
 
     
 
-    // it('Should charge default card if stripe cust already created without specifying card', (done) => {
-    //     req.session.user.stripeCustId = customerId;
+    it('Should charge default card if stripe cust already created without specifying card', (done) => {
+        req.session.user.stripeId = customerId;
         
-    //     s.charge(req, (e, charge) => {
-    //         charge.status.should.equal('succeeded');
-    //         charge.amount.should.equal(10000);
-    //         done();
-    //     });
-    // }).timeout(5000);
+        s.charge(req, (e, charge) => {
+            charge.status.should.equal('succeeded');
+            charge.amount.should.equal(10000);
+            done();
+        });
+    }).timeout(testTime);
 
-    // it('Should charge the specific card', (done) => {
-    //     req.session.user.stripeCustId = customerId;
-    //     req.body.charge.card = {last4: '4242'}
-    //     s.charge(req, (e, charge) => {
-    //         charge.source.last4.should.equal('4242');
-    //         charge.amount.should.equal(10000);
-    //         charge.status.should.equal('succeeded');
-    //         done();
-    //     });
-    // }).timeout(5000);
+    it('Should charge the specific card', (done) => {
+        req.session.user.stripeId = customerId;
+        req.body.charge.card = {last4: '4242'};
+        s.charge(req, (e, charge) => {
+            charge.source.last4.should.equal('4242');
+            charge.amount.should.equal(10000);
+            charge.status.should.equal('succeeded');
+            done();
+        });
+    }).timeout(testTime);
    
 });
 
-describe('Stripe API add card', function(done){
+describe('Stripe API card management', function(){
     let req, customerId;
     beforeEach(() => {
         req = {
@@ -124,7 +106,6 @@ describe('Stripe API add card', function(done){
     
     
     it('Add card should create a customer as well', (done) => {
-        delete req.session.user.stripeCustId;
         req.body.charge.card = {
             number: '4242424242424242',
             exp_month: 12,
@@ -137,7 +118,7 @@ describe('Stripe API add card', function(done){
             customerId = cust.id;
             done();
         });
-    }).timeout(5000);
+    }).timeout(testTime);
 
 
     it('Should add card to customer already there', (done) => {
@@ -147,13 +128,23 @@ describe('Stripe API add card', function(done){
             exp_year: 2018,
             cvc: '123'
         }
-        req.session.user.stripeCustId = customerId;
+        req.session.user.stripeId = customerId;
         
         s.addCard(req, (e, cust) => {
             cust.object.should.equal('card');
             cust.last4.should.equal('5556');
             done();
         });
-    }).timeout(5000);
+    }).timeout(testTime);
+
+    it('Should remove card from customer', (done) => {
+        req.session.user.stripeId = customerId;
+        req.body.charge.card = {last4: '4242'};
+
+        s.removeCard(req, (e, del) => {
+            del.id.should.be.a.string;
+            done();
+        });
+    }).timeout(testTime);
 
 });

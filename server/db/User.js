@@ -52,7 +52,7 @@ const UserSchema = new Schema({
     fingerPrint: Boolean,
     passCode: Number,
     admin: Boolean,
-    stripeCustId: String,
+    stripeId: String,
     displayName: {
         type: String,
         unique: true
@@ -142,8 +142,16 @@ class UserClass {
                 if(doc){
                     doc.comparePassword(pw, (matchError, match) => {
                         doc.password = null;
-                        if(match)cb && cb(e, doc);
-                        else cb && cb(matchError);
+                        if(match){
+                            if(doc.stripeId){
+                                StripeAPI.getCustomer(doc, (e, cust) => {
+                                    doc.stripeCust = cust;
+                                    cb(e, doc);
+                                });
+                            }else{
+                                cb(e, doc);
+                            }
+                        }else cb && cb(matchError);
                     });
                 }
                 
@@ -157,9 +165,14 @@ class UserClass {
             }
         });
     }
+    static createStripeCustomer(email, stripeId, cb = function(){}){
+        this.findOneAndUpdate({email}, {stripeId: stripeId}, {new: true}, cb);
+    }
+    static deleteStripeCustomer(stripeId, cb = function(){}){
+        this.findOneAndUpdate({stripeId}, {stripeId: null}, {new: true}, cb);
+    }
 
     static clearAllImages(){
-        console.log('clearing all profile imates');
         User.update({}, { $set: {'profile.images': []}}, {multi: true}, (e, d) => console.log(e, d));
     }
 
