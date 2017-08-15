@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const findOrCreate = require('mongoose-find-or-create');
 const bcrypt = require('bcrypt');
+const StripeAPI = require('../apis/stripe');
 const SALT_WORK_FACTOR = 10;
 
 /**
