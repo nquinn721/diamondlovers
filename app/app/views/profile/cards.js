@@ -11,7 +11,7 @@ import User from 'app/app/components/user';
 export default class ProfileImages extends React.Component{
     state = {
         cards: [],
-        formDate: {
+        card: {
             cvc: "123",
             exp_month:"05",
             exp_year:"22",
@@ -20,10 +20,11 @@ export default class ProfileImages extends React.Component{
     }
 
     addCard(){
+        Service.addCard(this.state.card);
     }
    
-    handleFormChange(formData){
-        this.setState({formData});
+    handleFormChange(card){
+        this.setState({card});
     }
     handleFormFocus(){
 

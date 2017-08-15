@@ -24,6 +24,7 @@ export default class Service{
         this.post(`app/profile-image-upload`, formData).then(User.update.bind(User));
     }
     static addCard(card){
+        console.log(card);
         this.post(`profile/addCard`, card).then(d => console.log(d));
     }
     static getUser(cb = function(){}){ 
