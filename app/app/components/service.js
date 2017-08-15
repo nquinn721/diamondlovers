@@ -27,7 +27,7 @@ export default class Service{
         this.post(`profile/addCard`, this.formData(card)).then(d => console.log(d));
     }
     static getUser(cb = function(){}){ 
-        this.get(`profile/user`).then(cb);
+        this.get(`profile/user`).then(User.update.bind(User));
     }
 
     static get(url){
