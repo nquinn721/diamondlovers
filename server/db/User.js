@@ -10,7 +10,7 @@ const SALT_WORK_FACTOR = 10;
  */
  const Profile = new Schema({
     about: String,
-    income: String,
+    income: String, 
     age: Number,
     bodyType: String,
     sex: String,
