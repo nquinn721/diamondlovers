@@ -2,7 +2,8 @@ import Service from './service';
 export default class User{
     static events = [];
     static update(user){
-        this.user = user.user;
+        this.user = user.user || user;
+        console.log('user update', this.user);
         this.emit('update', this.user);
     }   
     static on(event, cb = function(){}){

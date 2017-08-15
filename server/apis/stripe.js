@@ -93,8 +93,8 @@ class StripeAPI{
         this.retrieveCustomer(stripeId, (e, cust) => {
           if(e)return cb(e);
           this.addCardToCustomer(card, cust, (e, card) => {
-            if(e)return cb(e);
-            this.retrieveCustomer(stripeId, cb);
+            cust.sources.data.push(card);
+            cb(e, cust);
           });
         });
       }else{
