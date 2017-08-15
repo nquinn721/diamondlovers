@@ -41,7 +41,7 @@ export default class ProfileImages extends React.Component{
                         {this.state['image' + i] ? <Image
                                 style={{width: (Settings.w / 2) - 20, height: Settings.h / 4.2, marginTop: 5}}
                                 source={{uri: this.state[`image${i}`]}}
-                                onLoad={() => {console.log('load')}}
+                                onLoad={() => {console.log('load')}} 
                             /> : 
                             <View style={[styles.imageContainer, styles.imageContainerFiller]} key={i}></View>
                         }
