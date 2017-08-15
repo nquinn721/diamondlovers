@@ -24,7 +24,7 @@ export default class Service{
     }
     static addCard(card){
         console.log({card : card});
-        this.post(`profile/addCard`, this.formData({card : card})).then(d => console.log(d));
+        this.post(`profile/addCard`, this.formData(card)).then(d => console.log(d));
     }
     static getUser(cb = function(){}){ 
         this.get(`profile/user`).then(cb);
