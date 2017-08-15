@@ -25,7 +25,10 @@ export default class ProfileImages extends React.Component{
             console.log(this.state);
         }
 
-        User.on('update',() => this.setState({cards: User.user.stripeCust.sources.data}));
+        User.on('update',() => {
+            console.log('user update', User.user)
+            this.setState({cards: User.user.stripeCust.sources.data})
+        });
     }
 
     addCard(){
