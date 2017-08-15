@@ -146,11 +146,12 @@ class UserClass {
                         if(match){
                             console.log(doc);
                             if(doc.stripeId){
-                                console.log('getting customer');
-                                Stripe.getCustomer(doc, (e, cust) => {
-                                    doc.stripeCust = cust;
-                                    cb(e, doc);
-                                });
+                                console.log(Stripe);
+                                cb(e, doc);                                
+                                // Stripe.getCustomer(doc, (e, cust) => {
+                                //     doc.stripeCust = cust;
+                                //     cb(e, doc);
+                                // });
                             }else{
                                 cb(e, doc);
                             }
