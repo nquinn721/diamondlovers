@@ -141,13 +141,11 @@ class UserClass {
             if(pw){
                 if(doc){
                     doc.comparePassword(pw, (matchError, match) => {
-                        doc.password = null;
-                        console.log('match', match);
+                        doc = doc.toObject();
+                        delete doc.password;
                         if(match){
-                            console.log(doc);
                             if(doc.stripeId){
                                 Stripe.getCustomer(doc, (e, cust) => {
-                                    console.log(cust);
                                     doc.stripeCust = cust;
                                     cb(e, doc);
                                 });
