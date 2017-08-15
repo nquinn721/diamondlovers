@@ -63,7 +63,7 @@ describe('Stripe API charge', function(done) {
     });
     after(() => s.deleteCustomer(customerId));
    
-    it('Should create a customer on charge if not customer id is specified', (done) => {
+    it('Should create a customer on charge if no stripe customer id is specified', (done) => {
         req.body.charge.card = {
             object: 'card',
             number: '4242424242424242',

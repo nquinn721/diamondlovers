@@ -1,26 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, ScrollView, TouchableOpacity, CameraRoll} from 'react-native';
 import { ImagePicker } from 'expo';
 import Service from 'app/app/components/service';
 import Settings from 'app/app/components/settings';
 import User from 'app/app/components/user';
 
 export default class ProfileImages extends React.Component{
-    state = {};
+    state = {image : ''};
     _pickImage = async (i) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
-            aspect: [4, 3],
+            base64: true,
+            aspect: [4, 3]
         });
 
+        console.log(result);
         if (!result.cancelled) {
             Service.uploadImage(result.uri);
             this.setState({ ['image' + i]: result.uri });
+            // this.setState({ image: result.uri });
         }
     };
     renderProfilePics(){
         let pics = [];
-        for(let i = 0; i < 10; i++){
+        for(let i = 0; i < 4; i++){
             let pic = User.user.profile.images[i];
             if(pic){
                 pics.push(
@@ -28,6 +31,7 @@ export default class ProfileImages extends React.Component{
                         <Image
                             style={styles.image}
                             source={{uri: Settings.baseUrl + pic.location +'/' + pic.name}}
+                            onLoad={() => {console.log('load');}}
                         />
                     </View>
                 ); 
@@ -35,9 +39,12 @@ export default class ProfileImages extends React.Component{
                 pics.push(
                     <TouchableOpacity onPress={() => this._pickImage(i)} key={i}>
                         {this.state['image' + i] ? <Image
-                            style={styles.image}
-                            source={{uri: this.state['image' + i]}}
-                        /> : <View style={styles.imageContainer} key={i}></View>}
+                                style={{width: (Settings.w / 2) - 20, height: Settings.h / 4.2, marginTop: 5}}
+                                source={{uri: this.state[`image${i}`]}}
+                                onLoad={() => {console.log('load')}}
+                            /> : 
+                            <View style={[styles.imageContainer, styles.imageContainerFiller]} key={i}></View>
+                        }
                     </TouchableOpacity>
                     );
             }
@@ -73,6 +80,7 @@ const styles = StyleSheet.create({
     },
     images: {
         flex: 1,
+        flexWrap: 'wrap',
         marginTop: 10
     },
     imagesContainer: {
@@ -80,17 +88,21 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        margin:5
+        padding:5
     },
     imageContainer: {
         width: (Settings.w / 2) - 20,
         height: Settings.h / 4.2,
-        margin:5,
-        backgroundColor: '#222'
+        margin:5
+    },
+    imageContainerFiller: {
+        backgroundColor: '#444'
     },
     image: {
         flex: 1,
-        height: undefined,
-        width: undefined
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0
     }
 });

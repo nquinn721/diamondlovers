@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   page: {
-    height: Settings.h,
+    height: Settings.h - 30,
     width: Settings.w
   },
 

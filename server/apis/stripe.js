@@ -2,6 +2,28 @@
  * Keys
  * pk_test_SxLXrzbxiAiTwnt8qiOW1agS
  * sk_test_His9L7RGJvdVRuuPOkCeuand
+ *
+let req = {
+  body: {
+    charge: {
+       card: {
+        "number": '4242424242424242',
+        "exp_month": 12,
+        "exp_year": 2018,
+        "cvc": '123'
+        "last4" : "1881"
+      },
+      amount: 10000
+      currency: 'usd'
+    }
+  },
+  session: {
+    user: {
+      email: 'peanut@bob.com',
+      stripeCustId: 'cus_BDEEGNrC34z89w'
+    }
+  }
+} 
  */
 
 function StripeAPI(){
@@ -54,18 +76,7 @@ StripeAPI.prototype = {
       }
       
     },
-    addCardToCustomer: function(req, cust, cb = function(){}){
-      this.stripe.customers.createSource(
-        cust.id,
-          { source: {
-            object: 'card',
-            number: req.body.charge.card.number,
-            exp_month: req.body.charge.card.exp_month,
-            exp_year: req.body.charge.card.exp_year,
-            cvc: req.body.charge.card.cvc
-          } 
-        }, cb);
-    },
+    
     updateDefaultCard: function(req, cb = function(){}){
       this.getCustCardByLast4(req.session.user.stripeCustId, req.body.charge.card.last4, (e, card, cust) => {
         if(e)return cb(e);
@@ -90,6 +101,19 @@ StripeAPI.prototype = {
       this.stripe.tokens.create({
         card: card
       }, cb);
+    },
+
+    addCardToCustomer: function(req, cust, cb = function(){}){
+      this.stripe.customers.createSource(
+        cust.id,
+          { source: {
+            object: 'card',
+            number: req.body.charge.card.number,
+            exp_month: req.body.charge.card.exp_month,
+            exp_year: req.body.charge.card.exp_year,
+            cvc: req.body.charge.card.cvc
+          } 
+        }, cb);
     },
     /**
      * obj = {amount: 2000, currency(optional): "usd", card(optional): String(card.id)}
