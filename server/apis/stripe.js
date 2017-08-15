@@ -96,7 +96,9 @@ class StripeAPI{
         });
       }else{
         this.createToken(card, (e, token) => {
+          console.log('token', token.id);
           if(e)return cb(e);
+          console.log('creating customer');
           this.createCustomer(email, token.id, cb);
         });
       }
@@ -229,7 +231,9 @@ class StripeAPI{
         source: token,
         email: email
       }, function(e, cust){
+        console.log('customer created', cust.id);
         if(!e)User.createStripeCustomer(email, cust.id);
+        console.log('callback');
         cb(e, cust);
       });
     }
