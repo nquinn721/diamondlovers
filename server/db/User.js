@@ -143,6 +143,7 @@ class UserClass {
                     doc.comparePassword(pw, (matchError, match) => {
                         doc.password = null;
                         if(match){
+                            console.log(doc);
                             if(doc.stripeId){
                                 StripeAPI.getCustomer(doc, (e, cust) => {
                                     doc.stripeCust = cust;
