@@ -142,6 +142,7 @@ class UserClass {
                 if(doc){
                     doc.comparePassword(pw, (matchError, match) => {
                         doc.password = null;
+                        console.log('match', match);
                         if(match){
                             console.log(doc);
                             if(doc.stripeId){
