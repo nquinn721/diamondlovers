@@ -137,7 +137,7 @@ class StripeAPI{
     * GETS
     */
     static getCustomer(user, cb = function(){}){
-      stripe.customer.retrieve(user.stripeId, cb);
+        this.retrieveCustomer(user.stripeId, cb);
     }
     /**
      * END GETS
@@ -232,7 +232,7 @@ class StripeAPI{
      * cb = (err, customer)
      */
     static retrieveCustomer(id, cb = function(){}){
-      stripe.customers.retrieve(id, cb);
+        stripe.customers.retrieve(id, cb);
     }
     /**
      *  id = customer id
@@ -286,14 +286,14 @@ class StripeAPI{
             - name - Cardholder's full name.
      */
     static updateCustomer(id, obj, cb = function(){}){
-      stripe.customers.update(id, obj, cb);
+        stripe.customers.update(id, obj, cb);
     }
     static deleteCustomer(customerId, cb = function(){}){
         User.deleteStripeCustomer(customerId);
         stripe.customers.del(customerId, cb);
     }
     static deleteCard(customerId, cardId, cb = function(){}){
-      stripe.customers.deleteCard(customerId, cardId, cb);
+        stripe.customers.deleteCard(customerId, cardId, cb);
     }
 
 }
