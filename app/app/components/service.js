@@ -8,7 +8,6 @@ export default class Service{
         this.post(`db/login`, this.formData(formData))
             .then(user => {
                 User.user = user;
-                console.log(user);
                 this.emit('loggedin', user);
             }).catch(err => console.log(err));
         
@@ -25,7 +24,7 @@ export default class Service{
     }
     static addCard(card){
         console.log(card);
-        this.post(`profile/addCard`, card).then(d => console.log(d));
+        this.post(`profile/addCard`, this.formData(card)).then(d => console.log(d));
     }
     static getUser(cb = function(){}){ 
         this.get(`profile/user`).then(cb);

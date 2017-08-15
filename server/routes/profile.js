@@ -14,7 +14,9 @@ router.use(function(req, res, next){
 
 router.get('/user', (req, res) => res.send(req.session.user));
 router.post('/addCard', (req, res) => {
-    console.log(req.body);
+    StripAPI.addCard(req, (e, data) => {
+        console.log(e, data);
+    })
 })
 
 module.exports = router;
