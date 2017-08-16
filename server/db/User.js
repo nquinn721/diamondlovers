@@ -108,7 +108,7 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 class UserClass {
 
     static addDiamonds(email, diamonds, cb = function(){}){
-        this.findOneAndUpdate({email}, {diamonds: diamonds}, {new: true}, cb);
+        this.findOneAndUpdate({email}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
     }
 
     static register(obj, cb){
