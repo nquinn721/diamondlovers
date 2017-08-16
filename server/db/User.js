@@ -154,7 +154,7 @@ class UserClass {
     static removeMostRecentImage(email){
         this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});
     }
-    static clearAllImages(){
+    static deleteAllImages(){
         User.update({}, { $set: {'profile.images': []}}, {multi: true}, (e, d) => console.log(e, d));
     }
     /**
