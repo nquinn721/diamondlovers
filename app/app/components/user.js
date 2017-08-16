@@ -2,8 +2,11 @@ import Service from './service';
 
 export default class User{
     static update(user){
-        this.user = user.user || user;
-    } 
+        this.user = user.client || user;
+    }
+    static getUser(){
+        return this.user;
+    }
     static getCards(){
         return this.user.stripeCust.sources.data;
     }

@@ -7,7 +7,11 @@ import User from 'app/app/components/user';
 
 export default class ProfileImages extends React.Component{
     state = {image : ''};
-    _pickImage = async (i) => {
+
+    componentWillMount(){
+        this.state.user = User.getUser();
+    }
+    pickImage = async (i) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             base64: true,
@@ -36,12 +40,12 @@ export default class ProfileImages extends React.Component{
                             source={{uri: Settings.baseUrl + pic.location +'/' + pic.name}}
                             onLoad={() => {console.log('load');}}
                         />
-                        {pic.default ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic.id)}><Text>Make Default</Text></TouchableOpacity>}
+                        {this.state.user.profile.defaultImage === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic.id)}><Text>Make Default</Text></TouchableOpacity>}
                     </View>
                 ); 
             }else{
                 pics.push(
-                    <TouchableOpacity onPress={() => this._pickImage(i)} key={i}>
+                    <TouchableOpacity onPress={() => this.pickImage(i)} key={i}>
                         {this.state['image' + i] ? <Image
                                 style={{width: (Settings.w / 2) - 20, height: Settings.h / 4.2, marginTop: 5}}
                                 source={{uri: this.state[`image${i}`]}}

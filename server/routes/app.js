@@ -22,7 +22,7 @@ router.get('/delete-all-images', (req, res) => {
 });
 router.post('/make-image-default', (req, res) => {
     let image = req.body.image;
-    User.setDefaultImage(image, (e, user) => {
+    User.setDefaultImage(req.session.user.client.email, image, (e, user) => {
         console.log(user);
         req.session.user.client = user;
         res.send(user);
