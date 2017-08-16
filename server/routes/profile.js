@@ -20,9 +20,14 @@ router.post('/removeCard', (req, res) => {
     StripAPI.removeCard(req, updateClientWithStripeUser.bind(this, req, res));
 });
 router.post('/updateDefaultCard', (req, res) => {
-    console.log('update default', req.body);
     StripAPI.updateDefaultCard(req, updateClientWithStripeUser.bind(this, req, res));
-})
+});
+router.post('/chargeCard', (req, res) => {
+    StripAPI.charge(req, (e, cust, charge) => {
+        console.log(charge);
+        // updateClientWithStripeUser(req, res);
+    });
+});
 
 function updateClientWithStripeUser(req, res, e, data){
     console.log(e, data);

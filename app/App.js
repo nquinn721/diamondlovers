@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Input, ScrollView } from 'react-native';
+import StatusBarPaddingIOS from 'react-native-ios-status-bar-padding';
 
 // Components
 import Service  from './app/components/service';
@@ -32,7 +33,7 @@ export default class App extends React.Component {
     if(page === 'home')
       view = <HomePage></HomePage>;
     else if(page === 'purchase')
-      view = <CheckoutPage></CheckoutPage>;
+      view = <PurchasePage></PurchasePage>;
     else if(page === 'login')
       view = <LoginPage></LoginPage>;
     else if(page === 'profile')
@@ -51,6 +52,7 @@ export default class App extends React.Component {
    
     return (
       <View style={styles.container}>
+        <StatusBarPaddingIOS/>
         <View style={styles.page}>
           {this.state.view}
         </View>
@@ -65,10 +67,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   page: {
-    height: Settings.h - 30,
+    height: Settings.h - 60,
     width: Settings.w
   },
 
