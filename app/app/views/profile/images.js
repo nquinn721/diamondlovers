@@ -33,6 +33,7 @@ export default class ProfileImages extends React.Component{
                             source={{uri: Settings.baseUrl + pic.location +'/' + pic.name}}
                             onLoad={() => {console.log('load');}}
                         />
+                        {pic.default ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault()}><Text>Make Default</Text></TouchableOpacity>}
                     </View>
                 ); 
             }else{
