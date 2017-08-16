@@ -42,7 +42,7 @@ class Image{
         });
     }
     static upload(req, cb = function(){}){
-        if(allowedUploads.indexOf(imageObj.mimetype) > -1){
+        if(allowedUploads.indexOf(req.file.mimetype) > -1){
             User.addImage(req.session.user.email, req.file, req.body.default, cb);
         }else{
             req.error = {error: config.errorMessages.fileType};
