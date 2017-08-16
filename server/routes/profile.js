@@ -5,7 +5,7 @@ const formidable = require("express-formidable");
 const bodyParser = require('body-parser');
 
 router.use(bodyParser.urlencoded({ extended: false }));
-// router.use(formidable());
+router.use(formidable());
 // router.use(function(req, res, next){
 //     req.body = req.fields && Object.keys(req.fields).length ? req.fields : req.body;
 //     next();
@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 router.get('/user', (req, res) => res.send(req.session.user));
 router.post('/addCard', (req, res) => {
-    console.log(req.body);
+    console.log(req.fields);
     // StripAPI.addCard(req, updateClientWithStripeUser.bind(this, req, res));
 });
 router.post('/removeCard', (req, res) => {
