@@ -36,7 +36,7 @@ export default class Service{
         });
     }
     static setDefaultCard(cardId, cb = function(){}){
-        this.post('profile/setDefaultCard', this.formData({card: cardId})).then((user) => {
+        this.post('profile/updateDefaultCard', this.formData({card: cardId})).then((user) => {
             User.update(user);
             cb();
         });
