@@ -1,5 +1,7 @@
 import Settings from './settings';
 import User from './user';
+// import ObjectToFormData from 'object-to-formdata';
+const objectToFormData = require('object-to-formdata');
 
 export default class Service{
     static events = [];
@@ -16,14 +18,14 @@ export default class Service{
     static uploadImage(uri){
         let formData = new FormData();
         formData.append('image', {
-            uri: uri,
+            uri: uri, 
             type: 'image/jpg',
             name: 'image.jpg',
         });
         this.post(`app/profile-image-upload`, formData).then(User.update.bind(User));
     }
     static addCard(card){
-        this.post(`profile/addCard`, this.formData(card)).then((user) => {
+        this.post(`profile/addCard`, objectToFormData({update: {card: card}})).then((user) => {
             User.update(user);
         });
     }
@@ -45,8 +47,8 @@ export default class Service{
             credentials: 'same-origin'
         }).then(d => d.json());
     }
-    static formData(obj){
-        let fd = new FormData();
+    static formData(obj, form, namespace){
+        let fd = form || new FormData();
         let formKey;
         
         for(let property in obj) {
@@ -62,7 +64,7 @@ export default class Service{
                 fd.append(formKey, obj[property].toISOString());
             }
             else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
-                toFormData(obj[property], fd, formKey);
+                this.formData(obj[property], fd, formKey);
             } else { // if it's a string or a File object
                 fd.append(formKey, obj[property]);
             }
