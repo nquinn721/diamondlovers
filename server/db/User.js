@@ -115,7 +115,20 @@ class UserClass {
     static addDiamonds(email, diamonds, cb = function(){}){
         this.findOneAndUpdate({email}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
     }
-
+    static setDefaultImage(email, image, cb = function(){}){
+        this.findOne({email}, (e, doc) => {
+            if(e)return cb(e);
+            for(let i = 0; i < doc.profile.images.length; i++){
+                let img = doc.profile.images[i];
+                if(img.id === image){
+                    img.default = true;
+                }else{
+                    img.default = false;
+                }
+            }
+            doc.save(cb);
+        })
+    }
     static register(obj, cb){
         new this(obj).save(cb);
     }

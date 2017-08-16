@@ -19,7 +19,13 @@ router.get('/delete-all-images', (req, res) => {
     if(req.session.user.admin)
         Image.deleteAllImages();
     res.redirect('/');
-})
+});
+router.post('/make-image-default', (req, res) => {
+    let image = req.body.image;
+    User.setDefaultImage(image, (e, user) => {
+        console.log(user);
+    });
+});
 
 
 module.exports = router;
