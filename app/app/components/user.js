@@ -1,16 +1,23 @@
 import Service from './service';
-export default class User{
+import EventEmitter from 'EventEmitter';
+
+const e = new EventEmitter();
+
+
+export default class User extends EventEmitter{
     static events = [];
     static update(user){
         this.user = user.user || user;
-        console.log('user update', this.user);
         this.emit('update', this.user);
     }   
     static on(event, cb = function(){}){
-        this.events.forEach(e => e.event === event ? cb(e.data) : null);
-        this.events.push({event, cb});
+
+        e.addListener(event, cb);
+        // this.events.push({event, cb});
     }
     static emit(event, data){
-        this.events.forEach(e => e.event === event ? e.data = data && e.cb(data) : null);
+        e.emit(event, data);
+        
+        // this.events.forEach(e => e.event === event ? e.data = data && e.cb(data) : null);
     }
 }

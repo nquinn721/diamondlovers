@@ -15,7 +15,7 @@ router.use(formidable());
 router.get('/user', (req, res) => res.send(req.session.user));
 router.post('/addCard', (req, res) => {
     console.log(req.fields);
-    // StripAPI.addCard(req, updateClientWithStripeUser.bind(this, req, res));
+    StripAPI.addCard(req, updateClientWithStripeUser.bind(this, req, res));
 });
 router.post('/removeCard', (req, res) => {
     StripAPI.removeCard(req, updateClientWithStripeUser.bind(this, req, res));

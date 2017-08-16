@@ -18,17 +18,19 @@ export default class ProfileImages extends React.Component{
             number:"4242424242424242"
         }
     }
-
+    constructor(){
+        super();
+        console.log('profile images constructor');
+    }
+ 
     componentWillMount(){
+        console.log('will mount');
         if(User.user.stripeCust){
             this.state.cards =  User.user.stripeCust.sources.data;
             console.log(this.state);
         }
 
-        User.on('update',() => {
-            console.log('user update', User.user)
-            this.setState({cards: User.user.stripeCust.sources.data})
-        });
+        
     }
 
     addCard(){

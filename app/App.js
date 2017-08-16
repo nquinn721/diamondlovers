@@ -24,7 +24,15 @@ import Nav from './app/views/nav';
 let formdata = new FormData();
 export default class App extends React.Component {
   state = {
-    view: <HomePage></HomePage>
+    view: <HomePage></HomePage>,
+    user: null
+  }
+  constructor(){
+    super();
+
+    User.on('update', () => {
+        this.setState({cards: User.user.stripeCust.sources.data})
+    });
   }
     
   changeView(page){
@@ -40,7 +48,7 @@ export default class App extends React.Component {
     else if(page === 'profileImages')
       view = <ProfileImages changeView={view => this.changeView(view)}></ProfileImages>;
     else if(page === 'profileCards')
-      view = <ProfileCards changeView={view => this.changeView(view)}></ProfileCards>;
+      view = <ProfileCards changeView={view => this.changeView(view)} user={this.state.user}></ProfileCards>;
     else
       view = state.view;
 

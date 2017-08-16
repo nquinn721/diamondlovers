@@ -25,7 +25,7 @@ export default class Service{
         this.post(`app/profile-image-upload`, formData).then(User.update.bind(User));
     }
     static addCard(card){
-        this.post(`profile/addCard`, objectToFormData({update: {card: card}})).then((user) => {
+        this.post(`profile/addCard`, objectToFormData(card)).then((user) => {
             User.update(user);
         });
     }
