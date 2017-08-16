@@ -109,7 +109,7 @@ describe('Stripe API charge', function() {
     }).timeout(testTime);
 
     it('Should remove card from customer', (done) => {
-        req.body.cardId = cardId;
+        req.body.card = cardId;
         s.removeCard(req, (e, cust, card) => {
             cust.object.should.equal('customer');
             cust.sources.data.length.should.equal(1);
