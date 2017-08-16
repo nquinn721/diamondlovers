@@ -43,7 +43,10 @@ export default class Service{
             method: 'post',
             body: data,
             credentials: 'same-origin'
-        }).then(d => d.json());
+        }).then(d => {
+            console.log(d);
+            d.json()
+        });
     }
     static formData(data){
         let fd = new FormData();
