@@ -5,7 +5,7 @@ import User from '../components/user';
 
 export default class PurchasePage extends React.Component{
     purchaseDiamonds(amount){
-        Service.chargeCard(amount, () => {
+        Service.chargeCard(amount * 100, () => {
 
         })
     }

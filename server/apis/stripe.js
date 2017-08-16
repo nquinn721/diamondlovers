@@ -41,11 +41,9 @@ class StripeAPI{
       let email = req.session.user.email;
       let cust = req.session.user.stripeCust;
       if(!cust){
-        this.createCustomer(email, charge, (e, cust) => this.chargeCustomer(charge, cust.id, (e, c) => {
-          cb( e, cust, c)
-        }));
+        this.createCustomer(email, charge, (e, cust) => this.chargeCustomer(charge, cust.id, (e, c) => cb( e, cust, c)));
       }else{
-        this.chargeCustomer(charge, cust.id, cb.bind(this, cust));
+        this.chargeCustomer(charge, cust.id, (e, c) => cb(e, cust, c));
       }
 
     }
