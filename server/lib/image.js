@@ -16,7 +16,6 @@ class Image{
         })
     }
     static destination(req, file, cb){
-        console.log(req.body, file);
         mkdirp(this.imageLocation(req.session.user.email), () => 
             cb(null, this.imageLocation(req.session.user.email))
         );
@@ -35,6 +34,7 @@ class Image{
     static storage(req, res, cb = function(){}){
         let single = this.multer.single('image');
         single(req, res, (err) => {
+            console.log(req.body);
             if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY
             if(req.error)User.removeMostRecentImage(req.session.user.email);
             cb();
