@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));
 // router.use(formidable());
 router.use(function(req, res, next){
-    req.body = Object.keys(req.fields).length ? req.fields : req.body;
+    req.body = req.fields && Object.keys(req.fields).length ? req.fields : req.body;
     next();
 });
 
