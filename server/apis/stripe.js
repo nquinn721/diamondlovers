@@ -161,7 +161,14 @@ class StripeAPI{
 
       this.getCustCardByLast4(stripeId, last4, (e, card, cust) => {
         if(e)return cb(e);
-        this.deleteCard(cust.id, card.id, cb);
+        this.deleteCard(cust.id, card.id, (e, del) => {
+          if(e)return cb(e);
+          for(let i = 0; i < cust.sources.data.length; i++)
+            if(cust.sources.data[i].id === del.id)
+              cust.sources.data.splice(i, 1);
+          
+          cb(null, cust);
+        });
       });
     }
     /**

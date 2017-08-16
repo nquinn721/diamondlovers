@@ -14,14 +14,19 @@ router.use(function(req, res, next){
 
 router.get('/user', (req, res) => res.send(req.session.user));
 router.post('/addCard', (req, res) => {
-    StripAPI.addCard(req, (e, data) => {
-        if(data){
-            req.session.user.stripeCust = data;
-            res.send(req.session.user);
-        }else{
-            res.send(e);
-        }
-    })
-})
+    StripAPI.addCard(req, updateClientWithStripeUser.bind(this, req, res));
+});
+router.post('/removeCard', (req, res) => {
+    StripAPI.removeCard(req, updateClientWithStripeUser.bind(this, req, res));
+});
+
+function updateClientWithStripeUser(req, res, e, data){
+    if(data){
+        req.session.user.stripeCust = data;
+        res.send(req.session.user);
+    }else{
+        res.send(e);
+    }
+}
 
 module.exports = router;

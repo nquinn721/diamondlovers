@@ -116,6 +116,7 @@ describe('Stripe API card management', function(){
             cust.object.should.equal('customer');
             cust.email.should.equal('hipster@hiphopannonomys.com');
             customerId = cust.id;
+            cust.sources.data.length.should.equal(1);
             done();
         });
     }).timeout(testTime);
@@ -132,6 +133,7 @@ describe('Stripe API card management', function(){
         
         s.addCard(req, (e, cust) => {
             cust.object.should.equal('customer');
+            cust.sources.data.length.should.equal(2);
             done();
         });
     }).timeout(testTime);
@@ -140,8 +142,9 @@ describe('Stripe API card management', function(){
         req.session.user.stripeId = customerId;
         req.body.charge.card = {last4: '4242'};
 
-        s.removeCard(req, (e, del) => {
-            del.id.should.be.a.string;
+        s.removeCard(req, (e, cust) => {
+            cust.object.should.equal('customer');
+            cust.sources.data.length.should.equal(1);
             done();
         });
     }).timeout(testTime);
