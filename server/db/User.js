@@ -112,30 +112,16 @@ class UserClass {
     static addDiamonds(email, diamonds, cb = function(){}){
         this.findOneAndUpdate({email}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
     }
-    static setDefaultImage(email, image, cb = function(){}){
-        this.findOne({email}, (e, doc) => {
-            if(e)return cb(e);
-            for(let i = 0; i < doc.profile.images.length; i++){
-                let img = doc.profile.images[i];
-                if(img.id === image){
-                    img.default = true;
-                }else{
-                    img.default = false;
-                }
-            }
-            doc.save(cb);
-        })
-    }
-    static register(obj, cb){
-        new this(obj).save(cb);
-    }
-
+    
     static get(obj, cb){
         this.findOrCreate(obj, (e, doc) => {
             doc.password = null;
             cb && cb(e, doc);
         })
     }
+    /**
+     * IMAGE
+     */
     static addImage(email, imageObj, def, cb = function(){}){
         let id = 'img-' + Date.now();
         let update = {
@@ -151,10 +137,34 @@ class UserClass {
             update['$set'] = {'profile.defaultImage' : id};
         this.findOneAndUpdate({email}, update, {new: true}, cb);
     }
+    static setDefaultImage(email, image, cb = function(){}){
+        this.findOne({email}, (e, doc) => {
+            if(e)return cb(e);
+            for(let i = 0; i < doc.profile.images.length; i++){
+                let img = doc.profile.images[i];
+                if(img.id === image){
+                    img.default = true;
+                }else{
+                    img.default = false;
+                }
+            }
+            doc.save(cb);
+        })
+    }
     static removeMostRecentImage(email){
         this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});
     }
+    static clearAllImages(){
+        User.update({}, { $set: {'profile.images': []}}, {multi: true}, (e, d) => console.log(e, d));
+    }
+    /**
+     * END IMAGE
+     */
 
+    
+     /**
+      * DB
+      */
     static login(email, pw, cb = function(){}){
         let user = this.findOne({email}, (e, doc) => {
             if(e){
@@ -188,16 +198,29 @@ class UserClass {
             }
         });
     }
+
+    static register(obj, cb){
+        new this(obj).save(cb);
+    }
+    /**
+     * END DB
+     */
+
+    
+    /**
+     * STRIPE
+     */
     static createStripeCustomer(email, stripeId, cb = function(){}){
         this.findOneAndUpdate({email}, {stripeId: stripeId}, {new: true}, cb);
     }
     static deleteStripeCustomer(stripeId, cb = function(){}){
         this.findOneAndUpdate({stripeId}, {stripeId: null}, {new: true}, cb);
     }
+    /**
+     * END STRIPE
+     */
 
-    static clearAllImages(){
-        User.update({}, { $set: {'profile.images': []}}, {multi: true}, (e, d) => console.log(e, d));
-    }
+    
 
 }
 UserSchema.plugin(findOrCreate);
