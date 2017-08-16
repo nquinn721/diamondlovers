@@ -35,6 +35,12 @@ export default class Service{
             cb();
         });
     }
+    static setDefaultCard(cardId, cb = function(){}){
+        this.post('profile/setDefaultCard', this.formData({card: cardId})).then((user) => {
+            User.update(user);
+            cb();
+        });
+    }
     static getUser(cb = function(){}){ 
         this.get(`profile/user`).then(User.update.bind(User));
     }

@@ -102,7 +102,7 @@ class StripeAPI{
 
       let stripeId = req.session.user.stripeId;
       let last4 = req.body.last4;
-      let cardId = req.body.cardId;
+      let cardId = req.body.card;
       let cust = req.session.user.stripeCust;
 
 
