@@ -40,6 +40,7 @@ class Image{
         });
     }
     static upload(email, imageObj, req, cb = function(){}){
+        console.log(req.body);
         if(allowedUploads.indexOf(imageObj.mimetype) > -1){
             User.addImage(email, imageObj, req.body.default, cb);
         }else{
