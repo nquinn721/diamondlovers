@@ -37,15 +37,15 @@ export default class ProfileImages extends React.Component{
 
     }
     deleteCard(cardId){
-        Service.deleteCard(cardId, () => this.setState({cards: User.user.stripeCust.sources.data}));
+        Service.removeCard(cardId, () => this.setState({cards: User.user.stripeCust.sources.data}));
     }
     displayCards(){
         let cards = [];
 
         for(let i = 0; i < this.state.cards.length; i++){
             let card = this.state.cards[i];
-            cards.push(<View>
-                <Text key={i}>{card.brand} - **** **** **** {card.last4}</Text>
+            cards.push(<View key={i}>
+                <Text>{card.brand} - **** **** **** {card.last4}</Text>
                 <TouchableOpacity onPress={() => this.deleteCard(card.id)}>
                     <Text>Delete</Text>
                 </TouchableOpacity>

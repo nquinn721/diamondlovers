@@ -21,6 +21,7 @@ router.post('/removeCard', (req, res) => {
 });
 
 function updateClientWithStripeUser(req, res, e, data){
+    console.log(e, data);
     if(data){
         req.session.user.stripeCust = data;
         res.send(req.session.user);
