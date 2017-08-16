@@ -22,14 +22,14 @@ export default class ProfileImages extends React.Component{
  
     componentWillMount(){
         if(User.user.stripeCust){
-            this.state.cards =  User.user.stripeCust.sources.data;
+            this.state.cards =  User.getCards();
             this.state.user = User.user;
         }
 
     }
 
     addCard(){
-        Service.addCard(this.state.card, () => this.setState({cards: User.user.stripeCust.sources.data}));
+        Service.addCard(this.state.card, () => this.setState({cards: User.getCards()}));
     }
    
     handleFormChange(card){
@@ -41,13 +41,13 @@ export default class ProfileImages extends React.Component{
     setDefault(cardId){
         Service.setDefaultCard(cardId, () => {
             console.log('setting default');
-            this.setState({cards: User.user.stripeCust.sources.data});
+            this.setState({cards: User.getCards()});
         })
     }
     deleteCard(cardId){
         Service.removeCard(cardId, () => {
             console.log('done removing');
-            this.setState({cards: User.user.stripeCust.sources.data})
+            this.setState({cards: User.getCards()})
         });
     }
     displayCards(){

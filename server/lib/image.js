@@ -24,7 +24,7 @@ class Image{
     static filename(req, file, cb) {
         file.location = this.imagePath(req.session.user.email);
         file.name = this.imageName(file);
-        this.upload(req.session.user.email, file, req, (e, user) =>{
+        this.upload(req, file, (e, user) =>{
             req.session.user = user;
             cb(null, file.name);
         }); 
@@ -37,13 +37,13 @@ class Image{
             console.log(req.body);
             if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY
             if(req.error)User.removeMostRecentImage(req.session.user.email);
+            if(req.body.default)User.setDefaultImage(req.)
             cb();
         });
     }
-    static upload(email, imageObj, req, cb = function(){}){
-        console.log('uploda', req.body, req.body.default);
+    static upload(req, imageObj, cb = function(){}){
         if(allowedUploads.indexOf(imageObj.mimetype) > -1){
-            User.addImage(email, imageObj, req.body.default, cb);
+            User.addImage(req.session.user.email, imageObj, cb);
         }else{
             req.error = {error: config.errorMessages.fileType};
         }
