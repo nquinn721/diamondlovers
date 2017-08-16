@@ -24,20 +24,11 @@ export default class ProfileImages extends React.Component{
     }
  
     componentWillMount(){
-        console.log('will mount');
         if(User.user.stripeCust){
             this.state.cards =  User.user.stripeCust.sources.data;
             console.log(this.state);
         }
 
-        User.on('cards', 'update', () => {
-            console.log('upser update');
-            this.setState({cards: User.user.stripeCust.sources.data})
-        });
-    }
-
-    componentWillUnmount(){
-        User.off('cards', 'update');
     }
 
     addCard(){

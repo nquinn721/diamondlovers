@@ -1,13 +1,11 @@
 import Settings from './settings';
 import User from './user';
-// import ObjectToFormData from 'object-to-formdata';
-const objectToFormData = require('object-to-formdata');
 
 export default class Service{
     static events = [];
     static login(formData){
 
-        this.post(`db/login`, objectToFormData(formData))
+        this.post(`db/login`, this.formData(formData))
             .then(user => {
                 User.user = user;
                 this.emit('loggedin', user);
@@ -18,14 +16,14 @@ export default class Service{
     static uploadImage(uri){
         let formData = new FormData();
         formData.append('image', {
-            uri: uri, 
+            uri: uri,
             type: 'image/jpg',
             name: 'image.jpg',
         });
         this.post(`app/profile-image-upload`, formData).then(User.update.bind(User));
     }
     static addCard(card){
-        this.post(`profile/addCard`, objectToFormData(card)).then((user) => {
+        this.post(`profile/addCard`, this.formData(card)).then((user) => {
             User.update(user);
         });
     }
@@ -47,30 +45,10 @@ export default class Service{
             credentials: 'same-origin'
         }).then(d => d.json());
     }
-    static formData(obj, form, namespace){
-        let fd = form || new FormData();
-        let formKey;
-        
-        for(let property in obj) {
-            if(obj.hasOwnProperty(property) && obj[property]) {
-            if (namespace) {
-                formKey = namespace + '[' + property + ']';
-            } else {
-                formKey = property;
-            }
-            
-            // if the property is an object, but not a File, use recursivity.
-            if (obj[property] instanceof Date) {
-                fd.append(formKey, obj[property].toISOString());
-            }
-            else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
-                this.formData(obj[property], fd, formKey);
-            } else { // if it's a string or a File object
-                fd.append(formKey, obj[property]);
-            }
-            }
-        }
-        
+    static formData(data){
+        let fd = new FormData();
+        for(let i in data)
+            fd.append(i, data[i]);
         return fd;
     }
     static handleError(e){
