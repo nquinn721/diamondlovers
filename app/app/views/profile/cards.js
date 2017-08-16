@@ -18,21 +18,16 @@ export default class ProfileImages extends React.Component{
             number:"4242424242424242"
         }
     }
-    constructor(){
-        super();
-        console.log('profile images constructor');
-    }
  
     componentWillMount(){
         if(User.user.stripeCust){
             this.state.cards =  User.user.stripeCust.sources.data;
-            console.log(this.state);
         }
 
     }
 
     addCard(){
-        Service.addCard(this.state.card);
+        Service.addCard(this.state.card, () => this.setState({cards: User.user.stripeCust.sources.data}));
     }
    
     handleFormChange(card){
@@ -41,12 +36,20 @@ export default class ProfileImages extends React.Component{
     handleFormFocus(){
 
     }
+    deleteCard(cardId){
+        Service.deleteCard(cardId, () => this.setState({cards: User.user.stripeCust.sources.data}));
+    }
     displayCards(){
         let cards = [];
 
         for(let i = 0; i < this.state.cards.length; i++){
             let card = this.state.cards[i];
-            cards.push(<Text key={i}>{card.brand} - **** **** **** {card.last4}</Text>)
+            cards.push(<View>
+                <Text key={i}>{card.brand} - **** **** **** {card.last4}</Text>
+                <TouchableOpacity onPress={() => this.deleteCard(card.id)}>
+                    <Text>Delete</Text>
+                </TouchableOpacity>
+            </View>)
         }
         return <View>{cards}</View>;
     }

@@ -22,9 +22,16 @@ export default class Service{
         });
         this.post(`app/profile-image-upload`, formData).then(User.update.bind(User));
     }
-    static addCard(card){
+    static addCard(card, cb = function(){}){
         this.post(`profile/addCard`, this.formData(card)).then((user) => {
             User.update(user);
+            cb();
+        });
+    }
+    static removeCard(cardId, cb = function(){}){
+        this.post(`profile/removeCard`, this.formData({card: cardId})).then((user) => {
+            User.update(user);
+            cb();
         });
     }
     static getUser(cb = function(){}){ 
@@ -43,10 +50,7 @@ export default class Service{
             method: 'post',
             body: data,
             credentials: 'same-origin'
-        }).then(d => {
-            console.log(d);
-            d.json()
-        });
+        }).then(d => d.json());
     }
     static formData(data){
         let fd = new FormData();

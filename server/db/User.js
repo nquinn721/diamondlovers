@@ -145,7 +145,7 @@ class UserClass {
                         delete doc.password;
                         if(match){
                             if(doc.stripeId){
-                                Stripe.getCustomer(doc, (e, cust) => {
+                                Stripe.getCustomer(doc.stripeId, (e, cust) => {
                                     doc.stripeCust = cust;
                                     cb(e, doc);
                                 });
