@@ -27,7 +27,7 @@ router.post('/chargeCard', (req, res) => {
         console.log(e, cust, charge);
         if(charge && charge.status === 'succeeded'){
             req.session.user.stripeCust = cust;
-            User.addDiamonds(req.session.user.email, charge.amount * 10, () => res.send(req.session.user));
+            User.addDiamonds(req.session.user.email, charge.amount / 10, () => res.send(req.session.user));
         }else{
             res.send({error: 'failed to charge card'});
         }
