@@ -17,7 +17,8 @@ router.post('/addCard', (req, res) => {
     StripAPI.addCard(req, updateClientWithStripeUser.bind(this, req, res));
 });
 router.post('/removeCard', (req, res) => {
-    StripAPI.removeCard(req, updateClientWithStripeUser.bind(this, req, res));
+    console.log(req.body);
+    // StripAPI.removeCard(req, updateClientWithStripeUser.bind(this, req, res));
 });
 
 function updateClientWithStripeUser(req, res, e, data){

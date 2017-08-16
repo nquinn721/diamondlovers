@@ -29,6 +29,7 @@ export default class Service{
         });
     }
     static removeCard(cardId, cb = function(){}){
+        console.log(cardId);
         this.post(`profile/removeCard`, this.formData({card: cardId})).then((user) => {
             User.update(user);
             cb();
