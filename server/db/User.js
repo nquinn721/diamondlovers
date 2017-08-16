@@ -135,6 +135,7 @@ class UserClass {
         };
         if(def)
             update['$set'] = {'profile.defaultImage' : id};
+        console.log(update);
         this.findOneAndUpdate({email}, update, {new: true}, cb);
     }
     static setDefaultImage(email, image, cb = function(){}){
