@@ -16,13 +16,13 @@ class Image{
         })
     }
     static destination(req, file, cb){
-        mkdirp(this.imageLocation(req.session.user.email), () => 
-            cb(null, this.imageLocation(req.session.user.email))
+        mkdirp(this.imageLocation(req.session.user.client.email), () => 
+            cb(null, this.imageLocation(req.session.user.client.email))
         );
         
     }
     static filename(req, file, cb) {
-        file.location = this.imagePath(req.session.user.email);
+        file.location = this.imagePath(req.session.user.client.email);
         file.name = this.imageName(file);
         req.file = file;
         cb(null, file.name);
@@ -34,16 +34,16 @@ class Image{
         let single = this.multer.single('image');
         single(req, res, (err) => {
             if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY
-            if(req.error)User.removeMostRecentImage(req.session.user.email);
+            if(req.error)User.removeMostRecentImage(req.session.user.client.email);
             this.upload(req, (e, user) =>{
-                req.session.user = user;
+                req.session.user.client = user;
             }); 
             cb();
         });
     }
     static upload(req, cb = function(){}){
         if(allowedUploads.indexOf(req.file.mimetype) > -1){
-            User.addImage(req.session.user.email, req.file, req.body.default, cb);
+            User.addImage(req.session.user.client.email, req.file, req.body.default, cb);
         }else{
             req.error = {error: config.errorMessages.fileType};
         }

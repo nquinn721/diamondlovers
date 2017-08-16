@@ -24,7 +24,7 @@ router.post('/make-image-default', (req, res) => {
     let image = req.body.image;
     User.setDefaultImage(image, (e, user) => {
         console.log(user);
-        req.session.user.user = user;
+        req.session.user.client = user;
         res.send(user);
     });
 });

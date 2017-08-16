@@ -29,7 +29,9 @@ describe('Stripe API charge', function() {
     let req = {
         session: {
             user: {
-                email: 'hipster@hiphopannonomys.com',
+                client: {
+                    email: 'hipster@hiphopannonomys.com',
+                },
                 stripeCust: null
             }
         }
@@ -123,7 +125,7 @@ describe('Stripe API charge', function() {
 
     it('Add card should create a customer as well', (done) => {
         delete req.session.user.stripeCust;
-        req.session.user.email = 'bob@bob.com';
+        req.session.user.client.email = 'bob@bob.com';
         req.body = {
             number: '4242424242424242',
             exp_month: 12,

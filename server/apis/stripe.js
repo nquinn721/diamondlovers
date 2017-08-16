@@ -32,13 +32,13 @@ class StripeAPI{
      * CHARGE
      * REQUIRED
      * - req.body.amount
-     * - req.session.user.email
+     * - req.session.user.client.email
      */
     static charge(req, cb = function(){}){
-      if(!req.session.user)return cb({error: 'User not logged in'});
+      if(!req.session.user.client)return cb({error: 'User not logged in'});
 
       let charge = req.body;
-      let email = req.session.user.email;
+      let email = req.session.user.client.email;
       let cust = req.session.user.stripeCust;
       if(!cust){
         this.createCustomer(email, charge, (e, cust) => this.chargeCustomer(charge, cust.id, (e, c) => cb( e, cust, c)));
@@ -56,15 +56,15 @@ class StripeAPI{
     /**
      * ADD CARD
      * REQUIRED
-     * - req.session.user.email
+     * - req.session.user.client.email
      * - req.body.charge.card
      *     - {number, exp_month, exp_year, cvc}
      */
     static addCard(req, cb = function(){}){
-      if(!req.session.user)return cb({error: 'User not logged in'});
+      if(!req.session.user.client)return cb({error: 'User not logged in'});
 
       let cust = req.session.user.stripeCust;
-      let email = req.session.user.email;
+      let email = req.session.user.client.email;
       let card = req.body;
 
       if(!card)return cb({error: 'No card specified'});
@@ -96,9 +96,8 @@ class StripeAPI{
      * - req.session.user.stripeCust
      */
     static updateDefaultCard(req, cb = function(){}){
-      if(!req.session.user)cb({error: 'Uesr not logged in'});
+      if(!req.session.user.client)cb({error: 'Uesr not logged in'});
 
-      let stripeId = req.session.user.stripeId;
       let last4 = req.body.last4;
       let cardId = req.body.card;
       let cust = req.session.user.stripeCust;
@@ -131,7 +130,7 @@ class StripeAPI{
      * REMOVE CARD
      */
     static removeCard(req, cb = function(){}){
-      if(!req.session.user)return cb({error: 'No user logged in'});
+      if(!req.session.user.client)return cb({error: 'No user logged in'});
 
       let cust = req.session.user.stripeCust;
       let last4 = req.body.last4;
