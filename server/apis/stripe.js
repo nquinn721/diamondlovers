@@ -137,7 +137,7 @@ class StripeAPI{
 
       let cust = req.session.user.stripeCust;
       let last4 = req.body.last4;
-      let cardId = req.body.cardId;
+      let cardId = req.body.card;
 
       if(!cardId){
         this.getCustCardByLast4(cust.id, last4, (e, card, cust) => {
