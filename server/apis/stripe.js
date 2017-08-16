@@ -119,7 +119,7 @@ class StripeAPI{
       if(!req.session.user)cb({error: 'Uesr not logged in'});
 
       let stripeId = req.session.user.stripeId;
-      let last4 = req.body.charge && req.body.charge.card ? req.body.charge.card.last4 : null;
+      let last4 = req.body.last4;
 
       if(!last4)return cb({error: 'No last 4 passed to update default card'});
 
@@ -154,7 +154,7 @@ class StripeAPI{
       if(!req.session.user)return cb({error: 'No user logged in'});
 
       let stripeId = req.session.user.stripeId;
-      let last4 = req.body.charge && req.body.charge.card ? req.body.charge.card.last4 : null;
+      let last4 = req.body.last4;
       if(!last4)return cb({error: 'No last 4 passed to remove card'});
       if(!stripeId)return cb({error: 'Customer is not created'});
 

@@ -8,15 +8,15 @@ let testTime = 5000;
 // let req = {
 //   body: {
 //     charge: {
-//       //  card: {
-//         // "number": '4242424242424242',
-//         // "exp_month": 12,
-//         // "exp_year": 2018,
-//         // "cvc": '123'
-//         // "last4" : "1881"
-//       // },
+//       card: {
+//         number: '4242424242424242',
+//         exp_month: 12,
+//         exp_year: 2018,
+//         cvc: '123'
+//         last4 : "1881"
+//       },
 //       amount: 10000
-//       // currency: 'usd'
+//       currency: 'usd'
 //     }
 //   },
 //   session: {
@@ -134,13 +134,28 @@ describe('Stripe API card management', function(){
         s.addCard(req, (e, cust) => {
             cust.object.should.equal('customer');
             cust.sources.data.length.should.equal(2);
+            console.dir(cust.default_source);
             done();
         });
     }).timeout(testTime);
 
+
+    it('Should update default card', (done) => {
+        req.session.user.stripeId = customerId;
+        req.body.last4 = '5556';
+
+        // s.updateDefaultCard(req, (e, cust) => {
+        //     console.log(e, cust);
+        //     done();
+        // });
+        done();
+    });
+
+
+
     it('Should remove card from customer', (done) => {
         req.session.user.stripeId = customerId;
-        req.body.charge.card = {last4: '4242'};
+        req.body.last4 =  '4242';
 
         s.removeCard(req, (e, cust) => {
             cust.object.should.equal('customer');
