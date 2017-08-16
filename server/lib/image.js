@@ -41,7 +41,7 @@ class Image{
         });
     }
     static upload(email, imageObj, req, cb = function(){}){
-        console.log(req.body);
+        console.log('uploda', req.body, req.body.default);
         if(allowedUploads.indexOf(imageObj.mimetype) > -1){
             User.addImage(email, imageObj, req.body.default, cb);
         }else{
