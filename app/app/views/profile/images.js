@@ -29,7 +29,7 @@ export default class ProfileImages extends React.Component{
                 pics.push(
                     <View style={styles.imageContainer} key={i}>
                         <Image
-                            style={styles.image}
+                            style={[styles.image,(pic.default ? styles.defaultPic : null)]}
                             source={{uri: Settings.baseUrl + pic.location +'/' + pic.name}}
                             onLoad={() => {console.log('load');}}
                         />

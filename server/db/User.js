@@ -39,10 +39,15 @@ const SALT_WORK_FACTOR = 10;
         height: Number,
         income: Number,
     },
+    defaultImage: String,
     images: [{
         location: String,
         name: String,
-        imageType: String
+        imageType: String,
+        id: {
+            type: String,
+            default: 'img-' + Date.now()
+        }
     }]
 });
 
