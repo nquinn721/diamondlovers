@@ -41,7 +41,7 @@ class Image{
     }
     static upload(email, imageObj, req, cb = function(){}){
         if(allowedUploads.indexOf(imageObj.mimetype) > -1){
-            User.addImage(email, imageObj, cb);
+            User.addImage(email, imageObj, req.body.default, cb);
         }else{
             req.error = {error: config.errorMessages.fileType};
         }

@@ -44,10 +44,7 @@ const SALT_WORK_FACTOR = 10;
         location: String,
         name: String,
         imageType: String,
-        id: {
-            type: String,
-            default: 'img-' + Date.now()
-        }
+        id: String
     }]
 });
 
@@ -139,12 +136,20 @@ class UserClass {
             cb && cb(e, doc);
         })
     }
-    static addImage(email, imageObj, cb = function(){}){
-        this.findOneAndUpdate({email}, {$push: {'profile.images': {
-            name: imageObj.name,
-            location: imageObj.location,
-            imageType: imageObj.mimetype
-        }}}, {new: true}, cb);
+    static addImage(email, imageObj, def, cb = function(){}){
+        let id = 'img-' + Date.now();
+        let update = {
+            $push: {
+                'profile.images': {
+                    name: imageObj.name,
+                    location: imageObj.location,
+                    imageType: imageObj.mimetype
+                }
+            }
+        };
+        if(def)
+            update['$set'] = {'profile.defaultImage' : id};
+        this.findOneAndUpdate({email}, update, {new: true}, cb);
     }
     static removeMostRecentImage(email){
         this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});

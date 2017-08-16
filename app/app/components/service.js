@@ -16,6 +16,7 @@ export default class Service{
             uri: uri,
             type: 'image/jpg',
             name: 'image.jpg',
+            default: true
         });
         this.post('app/profile-image-upload', formData).then(User.update.bind(User));
     }
