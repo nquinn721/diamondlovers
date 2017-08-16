@@ -107,9 +107,8 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 };
 class UserClass {
 
-    static purchaseDiamonds(){
-        // Stripe connect and purchase
-        // Then add diamonds
+    static addDiamonds(email, diamonds, cb = function(){}){
+        this.findOneAndUpdate({email}, {diamonds: diamonds}, {new: true}, cb);
     }
 
     static register(obj, cb){

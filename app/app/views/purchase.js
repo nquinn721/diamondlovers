@@ -5,7 +5,7 @@ import User from '../components/user';
 
 export default class PurchasePage extends React.Component{
     purchaseDiamonds(amount){
-        Service.purchaseDiamonds(amount, () => {
+        Service.chargeCard(amount, () => {
 
         })
     }
@@ -13,16 +13,16 @@ export default class PurchasePage extends React.Component{
         return(
             <View style={styles.container}>
                 <Text>Purchase</Text>
-                <TouchableOpacity style={styles.purchaseButton} onPress={() => this.purchaseDiamonds(100)}>
+                <TouchableOpacity style={styles.purchaseButton} onPress={() => this.purchaseDiamonds(10)}>
                     <Text style={styles.diamonds}>100 diamonds</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.purchaseButton} onPress={() => this.purchaseDiamonds(1000)}>
+                <TouchableOpacity style={styles.purchaseButton} onPress={() => this.purchaseDiamonds(100)}>
                     <Text style={styles.diamonds}>1,000 diamonds</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.purchaseButton} onPress={() => this.purchaseDiamonds(10000)}>
+                <TouchableOpacity style={styles.purchaseButton} onPress={() => this.purchaseDiamonds(1000)}>
                     <Text style={styles.diamonds}>10,000 diamonds</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.purchaseButton} onPress={() => this.purchaseDiamonds(100000)}>
+                <TouchableOpacity style={styles.purchaseButton} onPress={() => this.purchaseDiamonds(10000)}>
                     <Text style={styles.diamonds}>100,000 diamonds</Text>
                 </TouchableOpacity>
             </View>

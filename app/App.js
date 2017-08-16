@@ -19,29 +19,31 @@ import ProfilePage    from './app/views/profile/index';
 import ProfileImages  from './app/views/profile/images';
 import ProfileCards   from './app/views/profile/cards';
 
+// User
+import UserInfo  from './app/views/userInfo';
 // Nav
 import Nav from './app/views/nav';
 
 let formdata = new FormData();
 export default class App extends React.Component {
   state = {
-    view: <HomePage></HomePage>
+    view: <HomePage/>
   }
  
   changeView(page){
     let view;
     if(page === 'home')
-      view = <HomePage></HomePage>;
+      view = <HomePage/>;
     else if(page === 'purchase')
-      view = <PurchasePage></PurchasePage>;
+      view = <PurchasePage/>;
     else if(page === 'login')
-      view = <LoginPage></LoginPage>;
+      view = <LoginPage/>;
     else if(page === 'profile')
-      view = <ProfilePage changeView={view => this.changeView(view)}></ProfilePage>;
+      view = <ProfilePage changeView={view => this.changeView(view)}/>;
     else if(page === 'profileImages')
-      view = <ProfileImages changeView={view => this.changeView(view)}></ProfileImages>;
+      view = <ProfileImages changeView={view => this.changeView(view)}/>;
     else if(page === 'profileCards')
-      view = <ProfileCards changeView={view => this.changeView(view)} user={this.state.user}></ProfileCards>;
+      view = <ProfileCards changeView={view => this.changeView(view)} user={this.state.user}/>;
     else
       view = state.view;
 
@@ -53,6 +55,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBarPaddingIOS/>
+        <UserInfo></UserInfo>
         <View style={styles.page}>
           {this.state.view}
         </View>
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   page: {
-    height: Settings.h - 60,
+    height: Settings.h - 100,
     width: Settings.w
   },
 

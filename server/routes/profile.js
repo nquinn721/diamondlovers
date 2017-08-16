@@ -25,7 +25,12 @@ router.post('/updateDefaultCard', (req, res) => {
 router.post('/chargeCard', (req, res) => {
     StripAPI.charge(req, (e, cust, charge) => {
         console.log(charge);
-        // updateClientWithStripeUser(req, res);
+        if(charge.status === 'succeeded'){
+            req.session.user.stripeCust = cust;
+            User.addDiamonds(req.session.user.email, charge.amount * 10, () => res.send(req.session.user));
+        }else{
+            res.send({error: 'failed to charge card'});
+        }
     });
 });
 
