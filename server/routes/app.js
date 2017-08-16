@@ -6,14 +6,13 @@ const Image = require('../lib/image');
 
 
 router.post('/profile-image-upload', (req, res) => {
-    console.log(req.body);
-    //  Image.storage(req, res, () => {
-    //     if(req.error){
-    //         res.send(req.error);
-    //     }else{
-    //         res.send({msg: 'success', user: req.session.user});
-    //     }
-    //  });
+     Image.storage(req, res, () => {
+        if(req.error){
+            res.send(req.error);
+        }else{
+            res.send({msg: 'success', user: req.session.user});
+        }
+     });
 });
 
 router.get('/delete-all-images', (req, res) => {
