@@ -129,7 +129,8 @@ class UserClass {
                 'profile.images': {
                     name: imageObj.name,
                     location: imageObj.location,
-                    imageType: imageObj.mimetype
+                    imageType: imageObj.mimetype,
+                    id: id
                 }
             }
         };

@@ -26,7 +26,7 @@ router.post('/chargeCard', (req, res) => {
     StripAPI.charge(req, (e, cust, charge) => {
         if(charge && charge.status === 'succeeded'){
             User.addDiamonds(req.session.user.email, charge.amount / 10, (e, user) => {
-                req.session.user = user;
+                req.session.user.user = user;
                 req.session.user.stripeCust = cust;
                 
                 res.send(req.session.user)

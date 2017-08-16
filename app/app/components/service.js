@@ -10,6 +10,9 @@ export default class Service{
             }).catch(err => console.log(err));
     }
 
+    /**
+     * IMAGES
+     */
     static uploadImage(uri){
         let formData = new FormData();
         formData.append('image', {
@@ -20,10 +23,15 @@ export default class Service{
         formData.append('default', true);
         this.post('app/profile-image-upload', formData).then(User.update.bind(User));
     }
-    
-    static getUser(cb = function(){}){ 
-        this.get('profile/user').then(User.update.bind(User));
+    static makePicDefault(pic){
+        this.post('app/make-image-default', fd({pic})).then((user) => {
+            console.log(user);
+        })
     }
+    /**
+     * END IMAGES
+     */
+    
 
 
     /**
