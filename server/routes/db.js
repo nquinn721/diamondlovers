@@ -32,7 +32,7 @@ router.post('/register', function(req, res){
 router.post('/login', function(req, res){
     User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc) => {
         if(doc){
-            req.session.user = {user: doc};
+            req.session.user = {client: doc};
             res.send(doc);
         }else{
             delete req.session.user;
