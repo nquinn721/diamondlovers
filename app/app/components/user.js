@@ -1,23 +1,27 @@
 import Service from './service';
-import EventEmitter from 'EventEmitter';
 
-const e = new EventEmitter();
-
-
-export default class User extends EventEmitter{
+export default class User{
     static events = [];
     static update(user){
         this.user = user.user || user;
         this.emit('update', this.user);
     }   
-    static on(event, cb = function(){}){
+    static on(component, event, cb = function(){}){
 
-        e.addListener(event, cb);
-        // this.events.push({event, cb});
+        this.events.push({component, event, cb});
     }
     static emit(event, data){
-        e.emit(event, data);
-        
-        // this.events.forEach(e => e.event === event ? e.data = data && e.cb(data) : null);
+        this.events.forEach(e => e.event === event ? e.data = data && e.cb(data) : null);
+    }
+
+    static off(component, event){
+        for(let i = 0; i < this.events.length; i++){
+            let event = this.events[i];
+            if(event.component === component && event.event === event){
+                this.events.splice(i, 1);
+                break;
+            }
+        }
+            
     }
 }

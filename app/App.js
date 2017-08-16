@@ -24,17 +24,9 @@ import Nav from './app/views/nav';
 let formdata = new FormData();
 export default class App extends React.Component {
   state = {
-    view: <HomePage></HomePage>,
-    user: null
+    view: <HomePage></HomePage>
   }
-  constructor(){
-    super();
-
-    User.on('update', () => {
-        this.setState({cards: User.user.stripeCust.sources.data})
-    });
-  }
-    
+ 
   changeView(page){
     let view;
     if(page === 'home')
