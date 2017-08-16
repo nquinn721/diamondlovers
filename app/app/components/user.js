@@ -7,7 +7,6 @@ export default class User{
         this.emit('update', this.user);
     }   
     static on(component, event, cb = function(){}){
-
         this.events.push({component, event, cb});
     }
     static emit(event, data){

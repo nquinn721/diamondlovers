@@ -7,7 +7,7 @@ export default class Service{
     static events = [];
     static login(formData){
 
-        this.post(`db/login`, this.formData(formData))
+        this.post(`db/login`, objectToFormData(formData))
             .then(user => {
                 User.user = user;
                 this.emit('loggedin', user);
