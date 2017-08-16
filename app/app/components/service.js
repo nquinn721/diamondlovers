@@ -15,9 +15,9 @@ export default class Service{
         formData.append('image', {
             uri: uri,
             type: 'image/jpg',
-            name: 'image.jpg',
-            default: true
+            name: 'image.jpg'
         });
+        formData.append('default', true);
         this.post('app/profile-image-upload', formData).then(User.update.bind(User));
     }
     
