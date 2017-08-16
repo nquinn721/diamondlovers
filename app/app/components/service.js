@@ -1,13 +1,12 @@
 import Settings from './settings';
 import User from './user';
-import formData from 'object-to-formdata';
+import fd from 'object-to-formdata';
 
 export default class Service{
     static login(formData){
-        this.post('db/login', formData(formData))
+        this.post('db/login', fd(formData))
             .then(user => {
                 User.user = user;
-                this.emit('loggedin', user);
             }).catch(err => console.log(err));
     }
 
@@ -30,26 +29,26 @@ export default class Service{
      * CARD CALLS
      */
     static addCard(card, cb = function(){}){
-        this.post('profile/addCard', formData(card)).then(user => {
+        this.post('profile/addCard', fd(card)).then(user => {
             User.update(user);
             cb();
         });
     }
     static removeCard(cardId, cb = function(){}){
         console.log(cardId);
-        this.post('profile/removeCard', formData({card: cardId})).then(user => {
+        this.post('profile/removeCard', fd({card: cardId})).then(user => {
             User.update(user);
             cb();
         });
     }
     static setDefaultCard(cardId, cb = function(){}){
-        this.post('profile/updateDefaultCard', formData({card: cardId})).then(user => {
+        this.post('profile/updateDefaultCard', fd({card: cardId})).then(user => {
             User.update(user);
             cb();
         });
     }
     static chargeCard(amount, cb = function(){}){
-        this.post('profile/chargeCard', formData({amount: amount})).then( user => {
+        this.post('profile/chargeCard', fd({amount: amount})).then( user => {
             console.log(user); 
         })
     }
