@@ -16,12 +16,14 @@ export default class ProfileImages extends React.Component{
             exp_month:"05",
             exp_year:"22",
             number:"4242424242424242"
-        }
+        },
+        user: null
     }
  
     componentWillMount(){
         if(User.user.stripeCust){
             this.state.cards =  User.user.stripeCust.sources.data;
+            this.state.user = User.user;
         }
 
     }
@@ -36,8 +38,17 @@ export default class ProfileImages extends React.Component{
     handleFormFocus(){
 
     }
+    setDefault(cardId){
+        Service.setDefaultCard(cardId, () => {
+            console.log('setting default');
+            this.setState({cards: User.user.stripeCust.sources.data});
+        })
+    }
     deleteCard(cardId){
-        Service.removeCard(cardId, () => this.setState({cards: User.user.stripeCust.sources.data}));
+        Service.removeCard(cardId, () => {
+            console.log('done removing');
+            this.setState({cards: User.user.stripeCust.sources.data})
+        });
     }
     displayCards(){
         let cards = [];
@@ -46,6 +57,7 @@ export default class ProfileImages extends React.Component{
             let card = this.state.cards[i];
             cards.push(<View key={i}>
                 <Text>{card.brand} - **** **** **** {card.last4}</Text>
+                {this.state.user.stripeCust.default_source === card.id ? <Text> Default </Text> : <TouchableOpacity onPress={() => this.setDefault(card.id)}><Text>Set Default</Text></TouchableOpacity>}
                 <TouchableOpacity onPress={() => this.deleteCard(card.id)}>
                     <Text>Delete</Text>
                 </TouchableOpacity>
