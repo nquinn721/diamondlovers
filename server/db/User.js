@@ -180,8 +180,7 @@ class UserClass {
                         if(match){
                             if(doc.stripeId){
                                 Stripe.getCustomer(doc.stripeId, (e, cust) => {
-                                    doc.stripeCust = cust;
-                                    cb(e, doc);
+                                    cb(e, doc, cust);
                                 });
                             }else{
                                 cb(e, doc);
