@@ -5,18 +5,22 @@ head
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     title Diamond Lovers
+    style.
+        .hidden{
+            display:none;
+        }
 body
     h1 Welcome!
-    a(href="/app/delete-all-images") Delete All Images
-    div
-        each dir in dirs
-            img(src=dir.replace('server/images', ''))
     form.login
         h3 Login
         input(type="text", name="email", placeholder="Email", value="jon@snow.com")
         input(type="text", name="password", placeholder="password", value="jonsnow123")
         input(type="submit", value="Login")
-    form.register
+    a.hidden(href="/app/delete-all-images") Delete All Images
+    div.hidden
+        each dir in dirs
+            img(src=dir.replace('server/images', ''))
+    form.hidden.register
         h3 Register
         input(type="text", name="firstName", placeholder="First Name")
         input(type="text", name="lastName", placeholder="Last Name")
@@ -24,16 +28,18 @@ body
         input(type="text", name="displayName", placeholder="display name")
         input(type="text", name="password", placeholder="password")
         input(type="submit", value="Submit")
-    form.upload
+    form.hidden.upload
         input(type="file", name="image")
         input(type="submit", value="Upload")
     
 script.
+    var loggedIn;
     document.querySelector('.login').onsubmit = function(e){
         console.log('login');
         e.preventDefault();
         post('/db/login', this).then((msg) => {
-            //- fetch('/app/user', {credentials: 'same-origin'}).then(d => d.json()).then(d => console.log(d));
+        console.log('logged in');
+            document.querySelectorAll('.hidden').forEach(v => v.style.display = 'block');
         });
 
     }

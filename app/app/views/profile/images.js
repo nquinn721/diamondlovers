@@ -14,7 +14,6 @@ export default class ProfileImages extends React.Component{
     pickImage = async (i) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
-            base64: true,
             aspect: [4, 3]
         });
 
@@ -44,17 +43,29 @@ export default class ProfileImages extends React.Component{
                     </View>
                 ); 
             }else{
-                pics.push(
-                    <TouchableOpacity onPress={() => this.pickImage(i)} key={i}>
-                        {this.state['image' + i] ? <Image
-                                style={{width: (Settings.w / 2) - 20, height: Settings.h / 4.2, marginTop: 5}}
-                                source={{uri: this.state[`image${i}`]}}
-                                onLoad={() => {console.log('load')}} 
-                            /> : 
-                            <View style={[styles.imageContainer, styles.imageContainerFiller]} key={i}></View>
-                        }
-                    </TouchableOpacity>
+
+                if(this.state['image' + i]){
+                    pics.push(
+                        <View style={styles.imageContainer} key={i}>
+
+                           <Image
+                            // style={{width: (Settings.w / 2) - 20, height: Settings.h / 4.2, marginTop: 5}}
+                            source={{uri: this.state[`image${i}`]}}
+                            onLoad={() => {console.log('load')}} 
+                            />
+
+                            {i === 0 ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic.id)}><Text>Make Default</Text></TouchableOpacity>}
+                        </View>
                     );
+                }else{
+                    pics.push(
+                        <TouchableOpacity onPress={() => this.pickImage(i)} key={i}>
+                            <View style={[styles.imageContainer, styles.imageContainerFiller]} key={i}></View>
+                        </TouchableOpacity>
+                        );
+                }
+
+                            
             }
             
         }

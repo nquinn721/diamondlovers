@@ -4,9 +4,11 @@ import fd from 'object-to-formdata';
 
 export default class Service{
     static login(formData){
+        console.log('loggin in');
         this.post('db/login', fd(formData))
             .then(user => {
-                User.login(user);
+                console.log(user);
+                // User.login(user);
             }).catch(err => console.log(err));
     }
 
@@ -77,10 +79,18 @@ export default class Service{
     }
 
     static post(url, data){
-        return fetch(Settings.baseUrl + url, {
+        let promise = fetch(Settings.baseUrl + url, {
             method: 'post',
             body: data,
             credentials: 'same-origin'
-        }).then(d => d.json());
+        }).then(d => {
+            console.log(d);
+            try{
+                d.json()
+            }catch(e){
+               promise.reject();
+            }
+        });
+        return promise;
     }
 }
