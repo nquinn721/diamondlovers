@@ -20,7 +20,6 @@ export default class Service{
             type: 'image/jpg',
             name: 'image.jpg'
         });
-        formData.append('default', true);
         this.post('app/profile-image-upload', formData).then(user => {
             cb();
             User.update(user);

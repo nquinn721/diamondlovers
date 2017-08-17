@@ -8,16 +8,12 @@ import User from 'app/app/components/user';
 export default class ProfileImages extends React.Component{
     state = {image : ''};
 
-    componentWillMount(){
-        this.state.user = User.getUser();
-    }
     pickImage = async (i) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             aspect: [4, 3]
         });
 
-        console.log(result);
         if (!result.cancelled) {
             Service.uploadImage(result.uri, () => this.setState({user: User.getUser()}));
             this.setState({ ['image' + i]: result.uri });
@@ -30,6 +26,7 @@ export default class ProfileImages extends React.Component{
     }
     renderProfilePics(){
         console.log('render profile pics', User.getImages());
+        console.log('user default', User.defaultImage());
         let pics = [];
         let images = User.getImages();
         for(let i = 0; i < 4; i++){
@@ -38,12 +35,12 @@ export default class ProfileImages extends React.Component{
                 pics.push(
                     <View style={styles.imageContainer} key={i}>
                         <Image
-                            style={[styles.image,(User.getDefaultImage() === pic.id ? styles.defaultPic : null)]}
-                            source={{uri: Settings.baseUrl + pic.location +'/' + pic.name}}
+                            style={[styles.image,(User.defaultImage() === pic.id ? styles.defaultPic : null)]}
+                            source={{uri: User.getDefaultImageURI()}}
                             onLoad={() => {console.log('load')}}
                         />
                         <Text>{pic.id}</Text>
-                        {this.state.user.profile.defaultImage === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic.id)}><Text>Make Default</Text></TouchableOpacity>}
+                        {User.defaultImage() === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic.id)}><Text>Make Default</Text></TouchableOpacity>}
                     </View>
                 ); 
             }else{

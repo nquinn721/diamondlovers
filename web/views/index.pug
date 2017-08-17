@@ -19,7 +19,8 @@ body
     a.hidden(href="/app/delete-all-images") Delete All Images
     div.hidden
         each dir in dirs
-            img(src=dir.replace('server/images', ''))
+            //- img(src=dir.replace('server/images', ''))
+            div=dir
     form.hidden.register
         h3 Register
         input(type="text", name="firstName", placeholder="First Name")

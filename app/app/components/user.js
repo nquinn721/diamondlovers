@@ -1,4 +1,5 @@
 import Service from './service';
+import Settings from './settings';
 
 export default class User{
     static events = [];
@@ -23,8 +24,15 @@ export default class User{
     static getImages(){
         return this.user.profile.images;
     }
+    static defaultImage(){
+        return this.user.profile.defaultImage;
+    }
     static getDefaultImage(){
         return this.user.profile.images.filter(img => img.id === this.user.profile.defaultImage)[0];
+    }
+    static getDefaultImageURI(){
+        let pic = this.getDefaultImage();
+        return Settings.baseUrl + pic.location +'/' + pic.name;
     }
 
 
