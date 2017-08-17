@@ -25,6 +25,7 @@ class Image{
         file.location = this.imagePath(req.session.user.client.email);
         file.name = this.imageName(file);
         req.file = file;
+        console.log('filename', req.file);
         cb(null, file.name);
         
     }
