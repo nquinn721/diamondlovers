@@ -4,14 +4,9 @@ const Image = require('../lib/image');
 const formidable = require("express-formidable");
 const bodyParser = require('body-parser');
 
-router.use(bodyParser.urlencoded({ extended: false }));
-router.use(formidable());
-router.use(function(req, res, next){
-    req.body = Object.keys(req.fields).length ? req.fields : req.body;
-    next();
-});
 
 
+// Don't use parsing middleware since we are using multer
 router.post('/profile-image-upload', (req, res) => {
      Image.storage(req, res, () => {
         if(req.error){
@@ -20,6 +15,14 @@ router.post('/profile-image-upload', (req, res) => {
             res.send({msg: 'success', user: req.session.user});
         }
      });
+});
+
+
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(formidable());
+router.use(function(req, res, next){
+    req.body = Object.keys(req.fields).length ? req.fields : req.body;
+    next();
 });
 
 router.get('/delete-all-images', (req, res) => {

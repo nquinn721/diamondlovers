@@ -30,6 +30,7 @@ router.post('/register', function(req, res){
 });
 
 router.post('/login', function(req, res){
+    if(!req.body.email || !req.body.password)return res.send({error: 'no email or password'});
     User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, cust) => {
         if(doc){
             req.session.user = {

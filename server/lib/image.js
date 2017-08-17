@@ -16,7 +16,6 @@ class Image{
         })
     }
     static destination(req, file, cb){
-        console.log('destination');
         mkdirp(this.imageLocation(req.session.user.client.email), () => 
             cb(null, this.imageLocation(req.session.user.client.email))
         );
@@ -26,7 +25,6 @@ class Image{
         file.location = this.imagePath(req.session.user.client.email);
         file.name = this.imageName(file);
         req.file = file;
-        console.log('filename', req.file);
         cb(null, file.name);
         
     }
@@ -35,13 +33,12 @@ class Image{
     static storage(req, res, cb = function(){}){
         let single = this.multer.single('image');
         single(req, res, (err) => {
-            console.log('SINGLE IMAGE UPLOAD');
             if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY
             if(req.error)User.removeMostRecentImage(req.session.user.client.email);
             console.log(req.file);
-            // this.upload(req, (e, user) =>{
-            //     req.session.user.client = user;
-            // }); 
+            this.upload(req, (e, user) =>{
+                req.session.user.client = user;
+            }); 
             cb();
         });
     }

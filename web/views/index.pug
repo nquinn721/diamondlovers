@@ -34,16 +34,17 @@ body
     
 script.
     var loggedIn;
-    document.querySelector('.login').onsubmit = function(e){
+    document.querySelector('.login').onsubmit = login;
+    function login(e){
         console.log('login');
-        e.preventDefault();
-        post('/db/login', this).then((msg) => {
-        console.log(msg);
+        post('/db/login', document.querySelector('.login')).then((msg) => {
         console.log('logged in');
             document.querySelectorAll('.hidden').forEach(v => v.style.display = 'block');
         });
+        return false;
 
     }
+    login();
     document.querySelector('.register').onsubmit = function(){
         post('/db/register', this).then(d => console.log('register', d));
 
