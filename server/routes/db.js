@@ -36,7 +36,7 @@ router.post('/login', function(req, res){
                 client: doc,
                 stripeCust: cust
             };
-            res.send(doc);
+            res.send(req.session.user);
         }else{
             delete req.session.user;
             res.send({error: config.errorMessages.login});
