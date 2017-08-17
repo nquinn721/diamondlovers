@@ -30,7 +30,9 @@ router.post('/register', function(req, res){
 });
 
 router.post('/login', function(req, res){
+    console.log('/login');
     User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, cust) => {
+        console.log('user logged in to db');
         if(doc){
             console.log('logged in', doc.email);
             req.session.user = {
