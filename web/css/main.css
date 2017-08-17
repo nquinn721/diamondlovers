@@ -1,0 +1,10 @@
+.hidden{
+	display: none;
+}
+.profile-image{
+	width:100px;
+	height:100px;
+}
+.images > div {
+	float: left;
+}

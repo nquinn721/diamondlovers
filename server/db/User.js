@@ -11,7 +11,7 @@ const Image = new Schema({
     location: String,
     name: String,
     imageType: String,
-    id: String
+    uri: String
 });
  const Profile = new Schema({
     about: String,
@@ -124,12 +124,11 @@ class UserClass {
      * IMAGE
      */
     static addImage(email, imageObj, def, cb = function(){}){
-        let id = 'img-' + Date.now();
         let image = {
             name: imageObj.name,
             location: imageObj.location,
             imageType: imageObj.mimetype,
-            id: id
+            uri: imageObj.location + '/' + imageObj.name
         };
         let update = {
             $push: {
@@ -141,7 +140,20 @@ class UserClass {
         this.findOneAndUpdate({email}, update, {new: true}, cb);
     }
     static setDefaultImage(email, image, cb = function(){}){
-        this.findOneAndUpdate({email}, {$set: {'profile.defaultImage': image}}, cb);
+        this.findOneAndUpdate({email}, {$set: {'profile.defaultImage': image}}, {new: true}, cb);
+    }
+    static deleteImage(email, image, cb = function(){}){
+        if(!image._id)return cb({error: 'no image passed'});
+        this.findOne({email}, function(e, doc){
+            if(e)return cb(e);
+
+            if(doc.profile.defaultImage && doc.profile.defaultImage._id == image._id){
+                doc.profile.defaultImage = null;
+            }
+            for(let i = 0; i < doc.profile.images.length; i++)
+                if(doc.profile.images[i]._id == image._id)doc.profile.images.splice(i, 1);
+            doc.save(cb);
+        });
     }
     static removeMostRecentImage(email){
         this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});

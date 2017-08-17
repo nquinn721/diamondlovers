@@ -21,11 +21,15 @@ export default class Service{
             name: 'image.jpg'
         });
         this.post('app/profile-image-upload', formData).then(user => {
-            cb();
             User.update(user);
+            cb();
         });
     }
-    static makePicDefault(pic){
+    static makePicDefault(pic, defaultImage){
+        let img = {
+            pic, 
+            defaultImage : defaultImage ? true : null
+        }
         this.post('app/make-image-default', fd({pic})).then((user) => {
             console.log(user);
         })

@@ -12,12 +12,13 @@ import LoginPage      from './app/views/login';
 import RegisterPage   from './app/views/register';
 import PurchasePage   from './app/views/purchase';
 import CheckoutPage   from './app/views/checkout';
+import ProfilePage    from './app/views/profile';
 import HomePage       from './app/views/home';
 
 // Profile
-import ProfilePage    from './app/views/profile/index';
-import ProfileImages  from './app/views/profile/images';
-import ProfileCards   from './app/views/profile/cards';
+import UserProfilePage    from './app/views/userprofile/index';
+import UserProfileImages  from './app/views/userprofile/images';
+import UserProfileCards   from './app/views/userprofile/cards';
 
 // User
 import UserInfo  from './app/views/userInfo';
@@ -38,12 +39,12 @@ export default class App extends React.Component {
       view = <PurchasePage/>;
     else if(page === 'login')
       view = <LoginPage/>;
-    else if(page === 'profile')
-      view = <ProfilePage changeView={view => this.changeView(view)}/>;
-    else if(page === 'profileImages')
-      view = <ProfileImages changeView={view => this.changeView(view)}/>;
-    else if(page === 'profileCards')
-      view = <ProfileCards changeView={view => this.changeView(view)} user={this.state.user}/>;
+    else if(page === 'userProfile')
+      view = <UserProfilePage changeView={view => this.changeView(view)}/>;
+    else if(page === 'userProfileImages')
+      view = <UserProfileImages changeView={view => this.changeView(view)}/>;
+    else if(page === 'userProfileCards')
+      view = <UserProfileCards changeView={view => this.changeView(view)} user={this.state.user}/>;
     else
       view = state.view;
 

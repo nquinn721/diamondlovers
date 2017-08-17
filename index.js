@@ -11,6 +11,8 @@ const express = require('express'),
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'web', 'views'));
 app.use(express.static(path.join(__dirname, 'server', 'images')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
+app.use(express.static(path.join(__dirname, 'web')));
 
 // Environment
 global.PROD = global.env;

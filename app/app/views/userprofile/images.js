@@ -20,9 +20,8 @@ export default class ProfileImages extends React.Component{
             // this.setState({ image: result.uri });
         }
     };
-    makePicDefault(picId){
-        console.log('about to make default', picId);
-        Service.makePicDefault(picId);
+    makePicDefault(picId, defaultImage){
+        Service.makePicDefault(picId, defaultImage);
     }
     renderProfilePics(){
         console.log('render profile pics', User.getImages());
@@ -40,7 +39,7 @@ export default class ProfileImages extends React.Component{
                             onLoad={() => {console.log('load')}}
                         />
                         <Text>{pic.id}</Text>
-                        {User.defaultImage().id === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic)}><Text>Make Default</Text></TouchableOpacity>}
+                        {User.defaultImage().id === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic, (i === 0 ? true : false))}><Text>Make Default</Text></TouchableOpacity>}
                     </View>
                 ); 
             }else{

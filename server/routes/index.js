@@ -11,8 +11,8 @@ module.exports = (app) => {
         if(req.session.user)next();
         else res.send({error: 'not logged in'});
     });
-    app.use('/app', require('./app'));
-    app.use('/profile', require('./profile'));
+    app.use('/image', require('./image'));
+    app.use('/card', require('./card'));
     app.use((req, res, next) => {
         if(req.session.user.client.admin)next();
         else res.send({error: 'Not an admin'});

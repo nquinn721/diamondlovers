@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-html(lang="en")
+html(lang="en", ng-app="app")
 head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     title Diamond Lovers
-    style.
-        .hidden{
-            display:none;
-        }
-body
+    link(rel="stylesheet", href="css/main.css")
+body(ng-controller="main as main")
     h1 Welcome!
     form.login
         h3 Login
         input(type="text", name="email", placeholder="Email", value="jon@snow.com")
         input(type="text", name="password", placeholder="password", value="jonsnow123")
-        input(type="submit", value="Login")
-    a.delete-all-images.hidden(href="/app/delete-all-images") Delete All Images
-    div.hidden
+        input(type="submit", value="Login", ng-click="main.login()")
+    button.delete-all-images(ng-cloak, ng-show="main.isLoggedIn", ng-click="main.deleteAllImages()") Delete All Images
+    div(ng-cloak, ng-show="main.isLoggedIn")
         each dir in dirs
             //- img(src=dir.replace('server/images', ''))
             div=dir
-    form.hidden.register
+    form(ng-cloak, ng-show="main.isLoggedIn").register
         h3 Register
         input(type="text", name="firstName", placeholder="First Name")
         input(type="text", name="lastName", placeholder="Last Name")
@@ -29,42 +26,18 @@ body
         input(type="text", name="displayName", placeholder="display name")
         input(type="text", name="password", placeholder="password")
         input(type="submit", value="Submit")
-    form.hidden.upload
+    form(ng-cloak, ng-show="main.isLoggedIn").upload
         input(type="file", name="image")
-        input(type="submit", value="Upload")
+        input(type="submit", value="Upload", ng-click="main.uploadImage(this)")
+    .images
+        div(ng-repeat="img in main.user.profile.images")
+            img.profile-image(ng-src="{{img.location + '/' + img.name}}")
+            div
+                button(ng-click="main.deleteImage(img)") Delete
+            div(ng-show="main.user.profile.defaultImage._id === img._id") Default
+            div(ng-show="main.user.profile.defaultImage._id !== img._id") 
+                input(value="Make Default", type="button", ng-click="main.makeImageDefault(img)")
+
+script(src="angular/angular.js")
+script(src="js/main.js")
     
-script.
-    var loggedIn;
-    document.querySelector('.login').onsubmit = login;
-    function login(e){
-        console.log('login');
-        post('/db/login', document.querySelector('.login')).then((msg) => {
-        console.log('logged in');
-            document.querySelectorAll('.hidden').forEach(v => v.style.display = 'block');
-        });
-        return false;
-
-    }
-    login();
-    document.querySelector('.register').onsubmit = function(){
-        post('/db/register', this).then(d => console.log('register', d));
-
-        return false;
-    }
-    document.querySelector('.upload').onsubmit = function(){
-        post('/app/profile-image-upload', this).then(d => console.log('uplaod', d));
-        //- post('/app/user', this).then(d => console.log(d));
-        return false;
-    }
-    document.querySelector('.delete-all-images').onclick = function(){
-        post('/admin/delete-all-images');
-        return false;
-    }
-
-    function post(url, data){
-        return fetch(url, {
-            method: 'post',
-            body: new FormData(data),
-            credentials: "same-origin"
-        }).then((d) => d.json());
-    }

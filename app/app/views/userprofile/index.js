@@ -15,10 +15,10 @@ export default class ProfilePage extends React.Component {
             />
         </View>
         <View style={styles.profilePages}>
-          <TouchableOpacity style={styles.profilePageButton} onPress={() => this.props.changeView('profileCards')}>
+          <TouchableOpacity style={styles.profilePageButton} onPress={() => this.props.changeView('userProfileCards')}>
             <Text style={styles.whiteColor}>Cards</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.profilePageButton} onPress={() => this.props.changeView('profileImages')}>
+          <TouchableOpacity style={styles.profilePageButton} onPress={() => this.props.changeView('userProfileImages')}>
             <Text style={styles.whiteColor}>Images</Text>
           </TouchableOpacity>
         </View>
