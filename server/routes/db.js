@@ -34,11 +34,11 @@ router.post('/login', function(req, res){
     User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, cust) => {
         console.log('user logged in to db');
         if(doc){
-            console.log('logged in', doc.email);
             req.session.user = {
                 client: doc,
                 stripeCust: cust
             };
+            console.log(req.session.user);
             res.send(req.session.user);
         }else{
             delete req.session.user;
