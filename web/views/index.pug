@@ -16,7 +16,7 @@ body
         input(type="text", name="email", placeholder="Email", value="jon@snow.com")
         input(type="text", name="password", placeholder="password", value="jonsnow123")
         input(type="submit", value="Login")
-    a.hidden(href="/app/delete-all-images") Delete All Images
+    a.delete-all-images.hidden(href="/app/delete-all-images") Delete All Images
     div.hidden
         each dir in dirs
             //- img(src=dir.replace('server/images', ''))
@@ -54,6 +54,10 @@ script.
     document.querySelector('.upload').onsubmit = function(){
         post('/app/profile-image-upload', this).then(d => console.log('uplaod', d));
         //- post('/app/user', this).then(d => console.log(d));
+        return false;
+    }
+    document.querySelector('.delete-all-images').onclick = function(){
+        post('/admin/delete-all-images');
         return false;
     }
 

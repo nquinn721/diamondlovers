@@ -53,7 +53,7 @@ class Image{
 
     static deleteAllImages(){
         rimraf('server/images', function () { console.log('done'); });
-        User.clearAllImages();
+        User.deleteAllImages();
     }
 
     static imageName(imageObj){

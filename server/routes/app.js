@@ -25,11 +25,7 @@ router.use(function(req, res, next){
     next();
 });
 
-router.get('/delete-all-images', (req, res) => {
-    if(req.session.user.admin)
-        Image.deleteAllImages();
-    res.redirect('/');
-});
+
 router.post('/make-image-default', (req, res) => {
     let image = req.body.image;
     User.setDefaultImage(req.session.user.client.email, image, (e, user) => {
