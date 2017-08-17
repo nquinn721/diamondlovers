@@ -7,6 +7,12 @@ const SALT_WORK_FACTOR = 10;
 /**
  * MODEL
  */
+const Image = new Schema({
+    location: String,
+    name: String,
+    imageType: String,
+    id: String
+});
  const Profile = new Schema({
     about: String,
     income: String, 
@@ -39,13 +45,8 @@ const SALT_WORK_FACTOR = 10;
         height: Number,
         income: Number,
     },
-    defaultImage: String,
-    images: [{
-        location: String,
-        name: String,
-        imageType: String,
-        id: String
-    }]
+    defaultImage: Image,
+    images: [Image]
 });
 
 const UserSchema = new Schema({
@@ -140,18 +141,7 @@ class UserClass {
         this.findOneAndUpdate({email}, update, {new: true}, cb);
     }
     static setDefaultImage(email, image, cb = function(){}){
-        this.findOne({email}, (e, doc) => {
-            if(e)return cb(e);
-            for(let i = 0; i < doc.profile.images.length; i++){
-                let img = doc.profile.images[i];
-                if(img.id === image){
-                    img.default = true;
-                }else{
-                    img.default = false;
-                }
-            }
-            doc.save(cb);
-        })
+        this.findOneAndUpdate({email}, {$set: {'profile.defaultImage', image}}, cb);
     }
     static removeMostRecentImage(email){
         this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});

@@ -28,7 +28,7 @@ export default class User{
         return this.user.profile.defaultImage;
     }
     static getDefaultImage(){
-        return this.user.profile.images.filter(img => img.id === this.user.profile.defaultImage)[0];
+        return this.user.profile.defaultImage;
     }
     static getDefaultImageURI(){
         let pic = this.getDefaultImage();

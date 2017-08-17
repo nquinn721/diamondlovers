@@ -40,7 +40,7 @@ export default class ProfileImages extends React.Component{
                             onLoad={() => {console.log('load')}}
                         />
                         <Text>{pic.id}</Text>
-                        {User.defaultImage() === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic.id)}><Text>Make Default</Text></TouchableOpacity>}
+                        {User.defaultImage() === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic)}><Text>Make Default</Text></TouchableOpacity>}
                     </View>
                 ); 
             }else{
