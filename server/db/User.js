@@ -125,23 +125,23 @@ class UserClass {
      */
     static addImage(email, imageObj, def, cb = function(){}){
         let id = 'img-' + Date.now();
+        let image = {
+            name: imageObj.name,
+            location: imageObj.location,
+            imageType: imageObj.mimetype,
+            id: id
+        };
         let update = {
             $push: {
-                'profile.images': {
-                    name: imageObj.name,
-                    location: imageObj.location,
-                    imageType: imageObj.mimetype,
-                    id: id
-                }
+                'profile.images': image
             }
         };
         if(def)
-            update['$set'] = {'profile.defaultImage' : id};
-        console.log(update);
+            update['$set'] = {'profile.defaultImage' : image};
         this.findOneAndUpdate({email}, update, {new: true}, cb);
     }
     static setDefaultImage(email, image, cb = function(){}){
-        this.findOneAndUpdate({email}, {$set: {'profile.defaultImage', image}}, cb);
+        this.findOneAndUpdate({email}, {$set: {'profile.defaultImage': image}}, cb);
     }
     static removeMostRecentImage(email){
         this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});
