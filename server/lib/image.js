@@ -35,9 +35,10 @@ class Image{
         single(req, res, (err) => {
             if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY
             if(req.error)User.removeMostRecentImage(req.session.user.client.email);
-            this.upload(req, (e, user) =>{
-                req.session.user.client = user;
-            }); 
+            console.log(req.file);
+            // this.upload(req, (e, user) =>{
+            //     req.session.user.client = user;
+            // }); 
             cb();
         });
     }

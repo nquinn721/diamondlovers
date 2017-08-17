@@ -7,6 +7,12 @@ export default class Nav extends React.Component{
     state = {
         view: Settings.defaultView
     };
+    constructor(){
+        super();
+        User.on('login', () => {
+            this.setState({user: User.getUser()})
+        })
+    }
     changeView(view){
         this.props.changeView(view);
         this.state.view = view;
@@ -21,9 +27,9 @@ export default class Nav extends React.Component{
                 <TouchableOpacity style={[styles.button, this.selected('home')]} onPress={() => this.changeView('home')}>
                     <Text>Home</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button,this.selected('purchase')]} onPress={() => this.changeView('purchase')}>
+                {User.getUser() ? <TouchableOpacity style={[styles.button,this.selected('purchase')]} onPress={() => this.changeView('purchase')}>
                     <Text>Diamonds</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> : null}
                 <TouchableOpacity style={[styles.button,this.selected('profile')]} onPress={() => this.changeView('profile')}>
                     <Text>Profile</Text>
                 </TouchableOpacity>

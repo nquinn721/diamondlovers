@@ -6,7 +6,7 @@ export default class Service{
     static login(formData){
         this.post('db/login', fd(formData))
             .then(user => {
-                User.update(user);
+                User.login(user);
             }).catch(err => console.log(err));
     }
 
