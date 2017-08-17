@@ -16,6 +16,7 @@ class Image{
         })
     }
     static destination(req, file, cb){
+        console.log('destination');
         mkdirp(this.imageLocation(req.session.user.client.email), () => 
             cb(null, this.imageLocation(req.session.user.client.email))
         );
