@@ -25,6 +25,7 @@ export default class ProfileImages extends React.Component{
         }
     };
     makePicDefault(picId){
+        console.log('about to make default', picId);
         Service.makePicDefault(picId);
     }
     renderProfilePics(){
@@ -37,10 +38,11 @@ export default class ProfileImages extends React.Component{
                 pics.push(
                     <View style={styles.imageContainer} key={i}>
                         <Image
-                            style={[styles.image,(pic.default ? styles.defaultPic : null)]}
+                            style={[styles.image,(User.getDefaultImage() === pic.id ? styles.defaultPic : null)]}
                             source={{uri: Settings.baseUrl + pic.location +'/' + pic.name}}
-                            onLoad={() => {console.log('load');}}
+                            onLoad={() => {console.log('load')}}
                         />
+                        <Text>{pic.id}</Text>
                         {this.state.user.profile.defaultImage === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic.id)}><Text>Make Default</Text></TouchableOpacity>}
                     </View>
                 ); 
