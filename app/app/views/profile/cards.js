@@ -21,10 +21,8 @@ export default class ProfileImages extends React.Component{
     }
  
     componentWillMount(){
-        if(User.user.stripeCust){
-            this.state.cards =  User.getCards();
-            this.state.user = User.user;
-        }
+        this.state.cards =  User.getCards();
+        this.state.user = User.getUser();
 
     }
 
@@ -52,12 +50,12 @@ export default class ProfileImages extends React.Component{
     }
     displayCards(){
         let cards = [];
-
+        console.log(this.state.cards);
         for(let i = 0; i < this.state.cards.length; i++){
             let card = this.state.cards[i];
             cards.push(<View key={i}>
                 <Text>{card.brand} - **** **** **** {card.last4}</Text>
-                {this.state.user.stripeCust.default_source === card.id ? <Text> Default </Text> : <TouchableOpacity onPress={() => this.setDefault(card.id)}><Text>Set Default</Text></TouchableOpacity>}
+                {User.stripeCust.default_source === card.id ? <Text> Default </Text> : <TouchableOpacity onPress={() => this.setDefault(card.id)}><Text>Set Default</Text></TouchableOpacity>}
                 <TouchableOpacity onPress={() => this.deleteCard(card.id)}>
                     <Text>Delete</Text>
                 </TouchableOpacity>

@@ -2,7 +2,6 @@ import Service from './service';
 
 export default class User{
     static update(user){
-        console.log('update', user);
         this.user = user.client || user;
         this.stripeCust = user.stripeCust;
     }
@@ -10,8 +9,9 @@ export default class User{
         return this.user;
     }
     static getCards(){
-        console.log(this.user);
-        return this.user.stripeCust.sources.data;
+        console.log('get cards');
+        console.log(this.stripeCust);
+        return this.stripeCust.sources.data;
     }
     static getImages(){
         return this.user.profile.images;
