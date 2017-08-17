@@ -30,15 +30,12 @@ router.post('/register', function(req, res){
 });
 
 router.post('/login', function(req, res){
-    console.log('/login');
     User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, cust) => {
-        console.log('user logged in to db');
         if(doc){
             req.session.user = {
                 client: doc,
                 stripeCust: cust
             };
-            console.log(req.session.user);
             res.send(req.session.user);
         }else{
             delete req.session.user;

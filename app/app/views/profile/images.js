@@ -19,7 +19,7 @@ export default class ProfileImages extends React.Component{
 
         console.log(result);
         if (!result.cancelled) {
-            Service.uploadImage(result.uri);
+            Service.uploadImage(result.uri, () => this.setState({user: User.getUser()}));
             this.setState({ ['image' + i]: result.uri });
             // this.setState({ image: result.uri });
         }
@@ -28,9 +28,11 @@ export default class ProfileImages extends React.Component{
         Service.makePicDefault(picId);
     }
     renderProfilePics(){
+        console.log('render profile pics', User.getImages());
         let pics = [];
+        let images = User.getImages();
         for(let i = 0; i < 4; i++){
-            let pic = User.user.profile.images[i];
+            let pic = images[i];
             if(pic){
                 pics.push(
                     <View style={styles.imageContainer} key={i}>
@@ -49,12 +51,12 @@ export default class ProfileImages extends React.Component{
                         <View style={styles.imageContainer} key={i}>
 
                            <Image
-                            // style={{width: (Settings.w / 2) - 20, height: Settings.h / 4.2, marginTop: 5}}
-                            source={{uri: this.state[`image${i}`]}}
-                            onLoad={() => {console.log('load')}} 
+                               style={styles.image}
+                                source={{uri: this.state[`image${i}`]}}
+                                onLoad={() => {console.log('load')}} 
                             />
 
-                            {i === 0 ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic.id)}><Text>Make Default</Text></TouchableOpacity>}
+                            {i === 0 ? <Text>default</Text> : <Text>Make Default</Text>}
                         </View>
                     );
                 }else{

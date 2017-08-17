@@ -3,19 +3,21 @@ import Service from './service';
 export default class User{
     static events = [];
     static login(user){
+        if(!user){
+            console.log('no user', user);
+            return;
+        }
         this.update(user);
         this.emit('login');
     }
     static update(user){
-        this.user = user.client || user;
+        this.user = user.client;
         this.stripeCust = user.stripeCust;
     }
     static getUser(){
         return this.user;
     }
     static getCards(){
-        console.log('get cards');
-        console.log(this.stripeCust);
         return this.stripeCust.sources.data;
     }
     static getImages(){

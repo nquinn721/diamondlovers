@@ -38,6 +38,7 @@ script.
         console.log('login');
         e.preventDefault();
         post('/db/login', this).then((msg) => {
+        console.log(msg);
         console.log('logged in');
             document.querySelectorAll('.hidden').forEach(v => v.style.display = 'block');
         });
