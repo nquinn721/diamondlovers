@@ -37,6 +37,7 @@ class Image{
             if(req.error)User.removeMostRecentImage(req.session.user.client.email);
             if(!err && !req.error)
                 this.upload(req, (e, user) =>{
+                    console.log('uplaod', user);
                     req.session.user.client = user;
                 }); 
             cb();
