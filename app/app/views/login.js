@@ -4,7 +4,7 @@ import { Form,
   Separator,InputField, LinkField,
   SwitchField, PickerField,DatePickerField,TimePickerField
 } from 'react-native-form-generator';  
-import Service from '../components/service';
+import Service from 'app/app/components/service';
 
 export default class LoginPage extends React.Component {
   state = {

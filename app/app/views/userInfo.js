@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import User from '../components/user';
+import User from 'app/app/components/user';
 
 export default class RegisterPage extends React.Component {
     state = {

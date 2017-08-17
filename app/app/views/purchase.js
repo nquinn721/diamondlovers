@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity } from 'react-native';
-import Service from '../components/service';
-import User from '../components/user';
+import Service from 'app/app/components/service';
+import User from 'app/app/components/user';
 
 export default class PurchasePage extends React.Component{
     purchaseDiamonds(amount){

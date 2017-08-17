@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import Settings from '../components/settings';
+import Settings from 'app/app/components/settings';
+import User from 'app/app/components/user';
 
 export default class Nav extends React.Component{
     state = {
