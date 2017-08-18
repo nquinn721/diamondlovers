@@ -30,7 +30,7 @@ router.post('/register', function(req, res){
 });
 
 router.post('/login', function(req, res){
-    if(!req.body.email || !req.body.password)return res.send({error: 'no email or password'});
+    if(!req.body.email || !req.body.password)return res.send({error: config.errorMessages.login.missingInfo});
     User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, cust) => {
         if(doc){
             req.session.user = {
@@ -40,7 +40,7 @@ router.post('/login', function(req, res){
             res.send(req.session.user);
         }else{
             delete req.session.user;
-            res.send({error: config.errorMessages.login});
+            res.send({error: config.errorMessages.login.failedLogin});
         }
     });
 });

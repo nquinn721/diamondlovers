@@ -71,7 +71,6 @@ const UserSchema = new Schema({
     password: String,
     profile: Profile,
     createdAt: {type: Date, default: Date.now},
-    updatedAt: {type: Date},
     deletedAt: {type: Date}
 });
 /**
@@ -104,12 +103,14 @@ UserSchema.pre('save', function(next) {
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return cb(err);
+        if(err) return cb(err);
+        if(!isMatch)return cb({error: 'passwords do not match'});
         cb(null, isMatch);
     });
 };
 class UserClass {
 
+    // TODO:: check for a stripe charge id before adding diamonds
     static addDiamonds(email, diamonds, cb = function(){}){
         this.findOneAndUpdate({email}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
     }
@@ -124,6 +125,10 @@ class UserClass {
      * IMAGE
      */
     static addImage(email, imageObj, def, cb = function(){}){
+        if(typeof def === 'function'){
+            cb = def;
+            def = false;
+        }
         let image = {
             name: imageObj.name,
             location: imageObj.location,
@@ -144,19 +149,14 @@ class UserClass {
     }
     static deleteImage(email, image, cb = function(){}){
         if(!image._id)return cb({error: 'no image passed'});
-        this.findOne({email}, function(e, doc){
-            if(e)return cb(e);
-
-            if(doc.profile.defaultImage && doc.profile.defaultImage._id == image._id){
+        this.findOneAndUpdate({email},  { $pull: {'profile.images': image}}, {new: true}, (e, doc) => {
+            if(doc.profile.defaultImage._id.toString() === image._id.toString())
                 doc.profile.defaultImage = null;
-            }
-            for(let i = 0; i < doc.profile.images.length; i++)
-                if(doc.profile.images[i]._id == image._id)doc.profile.images.splice(i, 1);
             doc.save(cb);
         });
     }
-    static removeMostRecentImage(email){
-        this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}});
+    static removeMostRecentImage(email, cb = function(){}){
+        this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}}, {new: true}, cb);
     }
     static deleteAllImages(){
         User.update({}, { $set: {'profile.images': []}}, {multi: true}, (e, d) => console.log(e, d));
@@ -171,39 +171,45 @@ class UserClass {
       */
     static login(email, pw, cb = function(){}){
         let user = this.findOne({email}, (e, doc) => {
-            if(e){
-                return cb(e);
-            }
+            if(e)return cb(e);
+            if(!doc)return cb({error: 'no user found'});
+            
             if(pw){
-                if(doc){
-                    doc.comparePassword(pw, (matchError, match) => {
-                        doc = doc.toObject();
-                        delete doc.password;
-                        if(match){
-                            if(doc.stripeId){
-                                Stripe.getCustomer(doc.stripeId, (e, cust) => {
-                                    cb(e, doc, cust);
-                                });
-                            }else{
-                                cb(e, doc);
-                            }
-                        }else cb && cb(matchError);
-                    });
-                }
+                doc.comparePassword(pw, (matchError, match) => {
+                    doc = doc.toObject();
+                    delete doc.password;
+                    if(match){
+                        if(doc.stripeId){
+                            Stripe.getCustomer(doc.stripeId, (e, cust) => {
+                                cb(e, doc, cust);
+                            });
+                        }else{
+                            cb(e, doc);
+                        }
+                    }else cb(matchError);
+                });
                 
-            }else{
+            }else if(this.fingerPrint || this.passCode){
                 if(this.fingerPrint){
                     // Handle fingerprint
                 }
                 if(this.passCode){
                     // Handle passcode
                 }
+            }else{
+                cb({error: 'no password and no other form of login'});
             }
         });
     }
 
     static register(obj, cb){
         new this(obj).save(cb);
+    }
+    static delete(email, cb = function(){}){
+        this.find({email}).remove().exec(cb);        
+    }
+    static softDelete(email, cb = function(){}){
+        this.findOneAndUpdate({email}, {$set: {deletedAt: Date.now()}}, {new: true}, cb);
     }
     /**
      * END DB
@@ -216,8 +222,8 @@ class UserClass {
     static createStripeCustomer(email, stripeId, cb = function(){}){
         this.findOneAndUpdate({email}, {stripeId: stripeId}, {new: true}, cb);
     }
-    static deleteStripeCustomer(stripeId, cb = function(){}){
-        this.findOneAndUpdate({stripeId}, {stripeId: null}, {new: true}, cb);
+    static deleteStripeCustomer(email, cb = function(){}){
+        this.findOneAndUpdate({email}, {$unset: {stripeId: ''}}, {new: true}, cb);
     }
     /**
      * END STRIPE
