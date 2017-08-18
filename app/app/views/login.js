@@ -14,9 +14,8 @@ export default class LoginPage extends React.Component {
     }
   }
   login(){
-      console.log('login');
-      Service.login(this.state.formData); 
-    }
+    Service.login(this.state.formData); 
+  }
    handleFormChange(formData){
     this.setState({formData});
     this.props.onFormChange && this.props.onFormChange(formData);

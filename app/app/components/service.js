@@ -5,9 +5,11 @@ import fd from 'object-to-formdata';
 export default class Service{
     static events = [];
     static login(formData){
+        console.log(formData);
         this.post('db/login', fd(formData))
             .then(user => {
-                User.login(user);
+                console.log(user);
+                // User.login(user);
             }).catch(err => console.log(err));
     }
 
