@@ -3,38 +3,36 @@ const config = require('../config');
 const multer = require('multer');
 const mkdirp = require('mkdirp');
 const path = require('path');
-var rimraf = require('rimraf');
+const rimraf = require('rimraf');
 
-
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            let location = Image.imageLocation(req.session.user.client.email);
+            mkdirp(location, () => 
+                cb(null, location)
+            );
+            
+        },
+        filename: (req, file, cb) => {
+            file.location = Image.imagePath(req.session.user.client.email);
+            file.name = Image.imageName(file);
+            req.file = file;
+            cb(null, file.name);
+            
+        }
+    })
+})
 class Image{
-    static init(){
-        this.multer = multer({
-            storage: multer.diskStorage({
-                destination: this.destination.bind(this),
-                filename: this.filename.bind(this)
-            })
-        })
-    }
-    static destination(req, file, cb){
-        mkdirp(this.imageLocation(req.session.user.client.email), () => 
-            cb(null, this.imageLocation(req.session.user.client.email))
-        );
-        
-    }
-    static filename(req, file, cb) {
-        file.location = this.imagePath(req.session.user.client.email);
-        file.name = this.imageName(file);
-        req.file = file;
-        cb(null, file.name);
-        
-    }
-
 
     static storage(req, res, cb = function(){}){
-        let single = this.multer.single('image');
+        let single = upload.single('image');
+        
         single(req, res, (err) => {
             if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY
             if(req.error)User.removeMostRecentImage(req.session.user.client.email);
+
+
             if(!err && !req.error && req.file)
                 this.upload(req, (e, user) =>{
                     req.session.user.client = user;
@@ -78,5 +76,5 @@ class Image{
     }
 
 }
-Image.init();
+// Image.init();
 module.exports = Image;
