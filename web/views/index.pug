@@ -18,7 +18,7 @@ body(ng-controller="main as main")
         each dir in dirs
             //- img(src=dir.replace('server/images', ''))
             div=dir
-    form(ng-cloak, ng-show="main.isLoggedIn").register
+    form.register(ng-cloak, ng-show="main.isLoggedIn")
         h3 Register
         input(type="text", name="firstName", placeholder="First Name", value="Nathan")
         input(type="text", name="lastName", placeholder="Last Name", value="Quinn")

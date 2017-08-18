@@ -57,7 +57,7 @@ app.controller('main', function($scope){
 	}
 
 	this.register = function() {
-		this.post('/db/register', document.querySelector('.register')).then(d => console.log('register', d));
+		this.post('/db/register', new FormData(document.querySelector('.register'))).then(d => console.log('register', d));
 	}
     this.login();
 

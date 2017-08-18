@@ -116,21 +116,23 @@ UserSchema.methods.client = function() {
         diamonds:   this.diamonds,
         email:      this.email,
         profile:    this.profile,
+        stripeCust: this.stripeCust
     }
 }
+UserSchema.plugin(findOrCreate);
 
+const UserModel = mongoose.model('User', UserSchema);
 
-class UserClass {
+class User {
 
     // TODO:: check for a stripe charge id before adding diamonds
     static addDiamonds(email, diamonds, cb = function(){}){
-        this.findOneAndUpdate({email}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
+        UserModel.findOneAndUpdate({email}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
     }
     
-    static get(obj, cb){
-        this.findOrCreate(obj, (e, doc) => {
-            doc.password = null;
-            cb && cb(e, doc);
+    static get(obj, cb = function(){}){
+        UserModel.findOrCreate(obj, (e, doc) => {
+            cb(e, doc.client(), doc);
         })
     }
     /**
@@ -154,21 +156,21 @@ class UserClass {
         };
         if(def)
             update['$set'] = {'profile.defaultImage' : image};
-        this.findOneAndUpdate({email}, update, {new: true}, cb);
+        UserModel.findOneAndUpdate({email}, update, {new: true}, cb);
     }
     static setDefaultImage(email, image, cb = function(){}){
-        this.findOneAndUpdate({email}, {$set: {'profile.defaultImage': image}}, {new: true}, cb);
+        UserModel.findOneAndUpdate({email}, {$set: {'profile.defaultImage': image}}, {new: true}, cb);
     }
     static deleteImage(email, image, cb = function(){}){
         if(!image._id)return cb({error: 'no image passed'});
-        this.findOneAndUpdate({email},  { $pull: {'profile.images': image}}, {new: true}, (e, doc) => {
+        UserModel.findOneAndUpdate({email},  { $pull: {'profile.images': image}}, {new: true}, (e, doc) => {
             if(doc.profile.defaultImage && doc.profile.defaultImage._id.toString() === image._id.toString())
                 doc.profile.defaultImage = null;
             doc.save(cb);
         });
     }
     static removeMostRecentImage(email, cb = function(){}){
-        this.findOneAndUpdate({email}, {$pop: {'profile.images': 1}}, {new: true}, cb);
+        UserModel.findOneAndUpdate({email}, {$pop: {'profile.images': 1}}, {new: true}, cb);
     }
     static deleteAllImages(){
         User.update({}, { $set: {'profile.images': []}}, {multi: true}, (e, d) => console.log(e, d));
@@ -182,7 +184,7 @@ class UserClass {
       * DB
       */
     static login(email, pw, cb = function(){}){
-        let user = this.findOne({email}, (e, doc) => {
+        let user = UserModel.findOne({email}, (e, doc) => {
             if(e)return cb(e);
             if(!doc)return cb({error: 'no user found'});
 
@@ -201,27 +203,24 @@ class UserClass {
                     }else cb(matchError);
                 });
                 
-            }else if(this.fingerPrint || this.passCode){
-                if(this.fingerPrint){
-                    // Handle fingerprint
-                }
-                if(this.passCode){
-                    // Handle passcode
-                }
+            // }else if(this.fingerPrint || this.passCode){
+            //     if(this.fingerPrint){
+            //         // Handle fingerprint
+            //     }
+            //     if(this.passCode){
+            //         // Handle passcode
+            //     }
             }else{
                 cb({error: 'no password and no other form of login'});
             }
         });
     }
 
-    static register(obj, cb){
-        new this(obj).save(cb);
-    }
     static delete(email, cb = function(){}){
-        this.find({email}).remove().exec(cb);        
+        UserModel.find({email}).remove().exec(cb);        
     }
     static softDelete(email, cb = function(){}){
-        this.findOneAndUpdate({email}, {$set: {deletedAt: Date.now()}}, {new: true}, cb);
+        UserModel.findOneAndUpdate({email}, {$set: {deletedAt: Date.now()}}, {new: true}, cb);
     }
     /**
      * END DB
@@ -232,10 +231,10 @@ class UserClass {
      * STRIPE
      */
     static createStripeCustomer(email, stripeId, cb = function(){}){
-        this.findOneAndUpdate({email}, {stripeId: stripeId}, {new: true}, cb);
+        UserModel.findOneAndUpdate({email}, {stripeId: stripeId}, {new: true}, cb);
     }
     static deleteStripeCustomer(email, cb = function(){}){
-        this.findOneAndUpdate({email}, {$unset: {stripeId: ''}}, {new: true}, cb);
+        UserModel.findOneAndUpdate({email}, {$unset: {stripeId: ''}}, {new: true}, cb);
     }
     /**
      * END STRIPE
@@ -244,9 +243,6 @@ class UserClass {
     
 
 }
-UserSchema.plugin(findOrCreate);
-UserSchema.loadClass(UserClass);
 
-const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
