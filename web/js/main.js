@@ -55,12 +55,10 @@ app.controller('main', function($scope){
 		}
 		return formd;
 	}
+
+	this.register = function() {
+		this.post('/db/register', document.querySelector('.register')).then(d => console.log('register', d));
+	}
     this.login();
 
 });
-
-// document.querySelector('.register').onsubmit = function(){
-//     post('/db/register', this).then(d => console.log('register', d));
-
-//     return false;
-// }

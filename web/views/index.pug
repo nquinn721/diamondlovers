@@ -10,8 +10,8 @@ body(ng-controller="main as main")
     h1 Welcome!
     form.login
         h3 Login
-        input(type="text", name="email", placeholder="Email", value="jon@snow.com")
-        input(type="text", name="password", placeholder="password", value="jonsnow123")
+        input(type="text", name="email", placeholder="Email", value="natethepcspecialist@gmail.com")
+        input(type="text", name="password", placeholder="password", value="nate123")
         input(type="submit", value="Login", ng-click="main.login()")
     button.delete-all-images(ng-cloak, ng-show="main.isLoggedIn", ng-click="main.deleteAllImages()") Delete All Images
     div(ng-cloak, ng-show="main.isLoggedIn")
@@ -20,12 +20,12 @@ body(ng-controller="main as main")
             div=dir
     form(ng-cloak, ng-show="main.isLoggedIn").register
         h3 Register
-        input(type="text", name="firstName", placeholder="First Name")
-        input(type="text", name="lastName", placeholder="Last Name")
-        input(type="text", name="email", placeholder="email")
-        input(type="text", name="displayName", placeholder="display name")
-        input(type="text", name="password", placeholder="password")
-        input(type="submit", value="Submit")
+        input(type="text", name="firstName", placeholder="First Name", value="Nathan")
+        input(type="text", name="lastName", placeholder="Last Name", value="Quinn")
+        input(type="text", name="email", placeholder="email", value="natethepcspecialist@gmail.com")
+        input(type="text", name="displayName", placeholder="display name", value="nquinn721")
+        input(type="text", name="password", placeholder="password", value="nate123")
+        input(type="submit", value="Submit" ng-click="main.register()")
     form(ng-cloak, ng-show="main.isLoggedIn").upload
         input(type="file", name="image")
         input(type="submit", value="Upload", ng-click="main.uploadImage(this)")
