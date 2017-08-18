@@ -30,7 +30,7 @@ export default class Nav extends React.Component{
                 {User.getUser() ? <TouchableOpacity style={[styles.button,this.selected('purchase')]} onPress={() => this.changeView('purchase')}>
                     <Text>Diamonds</Text>
                 </TouchableOpacity> : null}
-                <TouchableOpacity style={[styles.button,this.selected('profile')]} onPress={() => this.changeView('profile')}>
+                <TouchableOpacity style={[styles.button,this.selected('userProfile')]} onPress={() => this.changeView('userProfile')}>
                     <Text>Profile</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button,this.selected('login')]} onPress={() => this.changeView('login')}>

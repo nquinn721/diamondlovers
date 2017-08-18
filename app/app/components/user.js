@@ -14,6 +14,7 @@ export default class User{
     static update(user){
         this.user = user.client;
         this.stripeCust = user.stripeCust;
+        this.emit('update');
     }
     static getUser(){
         return this.user;
@@ -32,7 +33,8 @@ export default class User{
     }
     static getDefaultImageURI(){
         let pic = this.getDefaultImage();
-        return Settings.baseUrl + pic.location +'/' + pic.name;
+        if(pic)
+            return Settings.baseUrl + pic.location +'/' + pic.name;
     }
 
 

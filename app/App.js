@@ -30,6 +30,13 @@ export default class App extends React.Component {
   state = {
     view: <HomePage/>
   }
+  constructor(props) {
+    super(props);
+    User.on('update', () => {
+      console.log('update');
+      this.setState({user: User.getUser()})
+    });
+  }
  
   changeView(page){
     let view;
@@ -46,7 +53,7 @@ export default class App extends React.Component {
     else if(page === 'userProfileCards')
       view = <UserProfileCards changeView={view => this.changeView(view)} user={this.state.user}/>;
     else
-      view = state.view;
+      view = this.state.view;
 
     this.setState({view});
   }
