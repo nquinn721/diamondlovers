@@ -20,14 +20,13 @@ export default class Service{
             type: 'image/jpg',
             name: 'image.jpg'
         });
-        this.post('app/profile-image-upload', formData, user => {
-            console.log(user);
-            // User.update(user);
-            // cb();
+        this.post('image/profile-image-upload', formData, user => {
+            User.update(user);
+            cb();
         });
     }
     static makePicDefault(pic, defaultImage){
-        this.post('app/make-image-default', fd({pic}), (user) => {
+        this.post('image/make-image-default', fd({pic}), (user) => {
             console.log(user);
         })
     }
