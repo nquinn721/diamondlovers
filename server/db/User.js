@@ -108,6 +108,18 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
         cb(null, isMatch);
     });
 };
+UserSchema.methods.client = function() {
+    return {
+        firstName:  this.firstName,
+        lastName:   this.lastName,
+        displayName:this.displayName,
+        diamonds:   this.diamonds,
+        email:      this.email,
+        profile:    this.profile,
+    }
+}
+
+
 class UserClass {
 
     // TODO:: check for a stripe charge id before adding diamonds
@@ -176,15 +188,14 @@ class UserClass {
             
             if(pw){
                 doc.comparePassword(pw, (matchError, match) => {
-                    doc = doc.toObject();
-                    delete doc.password;
+                    client = doc.client();
                     if(match){
                         if(doc.stripeId){
                             Stripe.getCustomer(doc.stripeId, (e, cust) => {
-                                cb(e, doc, cust);
+                                cb(e, doc, client, cust);
                             });
                         }else{
-                            cb(e, doc);
+                            cb(e, doc, client);
                         }
                     }else cb(matchError);
                 });

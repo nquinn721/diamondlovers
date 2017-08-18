@@ -36,6 +36,11 @@ export default class App extends React.Component {
       console.log('update');
       this.setState({user: User.getUser()})
     });
+
+    Service.on('network error', () => {
+      this.setState({networkError: true});
+      setTimeout(() => this.setState({networkError: false}), 4000);
+    });
   }
  
   changeView(page){
@@ -63,10 +68,11 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBarPaddingIOS/>
+        {this.state.networkError ? <View style={styles.networkError}><Text style={styles.networkErrorText}>Something went wrong, wait a few seconds and try again</Text></View> : null}
         <UserInfo></UserInfo>
         <View style={styles.page}>
           {this.state.view}
-        </View>
+        </View>   
         <Nav changeView={view => this.changeView(view)}></Nav>
       </View>
     );
@@ -84,5 +90,16 @@ const styles = StyleSheet.create({
     height: Settings.h - 100,
     width: Settings.w
   },
+  networkError: {
+    backgroundColor: '#c0392b',
+    height: 30,
+    width: Settings.w,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  networkErrorText: {
+    color: 'white',
+    fontSize: 16
+  }
 
 });

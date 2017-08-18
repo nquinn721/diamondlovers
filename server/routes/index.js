@@ -14,7 +14,7 @@ module.exports = (app) => {
     app.use('/image', require('./image'));
     app.use('/card', require('./card'));
     app.use((req, res, next) => {
-        if(req.session.user.client.admin)next();
+        if(req.session.model.admin)next();
         else res.send({error: 'Not an admin'});
     });
     app.use('/admin', require('./admin'));

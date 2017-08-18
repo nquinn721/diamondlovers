@@ -39,7 +39,7 @@ class StripeAPI{
 
       let charge = req.body;
       let email = req.session.user.client.email;
-      let cust = req.session.user.stripeCust;
+      let cust = req.session.model.stripeCust;
       if(!cust){
         this.createCustomer(email, charge, (e, cust) => this.chargeCustomer(charge, cust.id, (e, c) => cb( e, cust, c)));
       }else{
@@ -63,7 +63,7 @@ class StripeAPI{
     static addCard(req, cb = function(){}){
       if(!req.session.user.client)return cb({error: 'User not logged in'});
 
-      let cust = req.session.user.stripeCust;
+      let cust = req.session.model.stripeCust;
       let email = req.session.user.client.email;
       let card = req.body;
 
@@ -93,14 +93,14 @@ class StripeAPI{
      * UPDATE CARD
      * REQUIRE 
      * - req.body.last4 || req.body.cardId
-     * - req.session.user.stripeCust
+     * - req.session.model.stripeCust
      */
     static updateDefaultCard(req, cb = function(){}){
       if(!req.session.user.client)cb({error: 'Uesr not logged in'});
 
       let last4 = req.body.last4;
       let cardId = req.body.card;
-      let cust = req.session.user.stripeCust;
+      let cust = req.session.model.stripeCust;
 
 
       if(last4){
@@ -132,7 +132,7 @@ class StripeAPI{
     static removeCard(req, cb = function(){}){
       if(!req.session.user.client)return cb({error: 'No user logged in'});
 
-      let cust = req.session.user.stripeCust;
+      let cust = req.session.model.stripeCust;
       let last4 = req.body.last4;
       let cardId = req.body.card;
 

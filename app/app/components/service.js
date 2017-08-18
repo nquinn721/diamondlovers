@@ -3,6 +3,7 @@ import User from './user';
 import fd from 'object-to-formdata';
 
 export default class Service{
+    static events = [];
     static login(formData){
         this.post('db/login', fd(formData))
             .then(user => {
@@ -81,12 +82,22 @@ export default class Service{
             credentials: 'same-origin'
         }).then(d => d.json());
     }
-
+    static on(event, cb){
+        this.events.push({event, cb});
+    }
+    static emitError(){
+        this.events.forEach(e => e.event === 'network error' ? e.cb() : null);
+    }
+ 
     static post(url, data){
-        return fetch(Settings.baseUrl + url, {
+        let promise = fetch(Settings.baseUrl + url, {
             method: 'post',
             body: data,
             credentials: 'same-origin'
-        }).then(d => d.json());
+        }).then(d => {
+            d.json().then(data => promise.resolve(data)).catch(this.emitError.bind(this));
+
+        });
+        return promise;
     }
 }
