@@ -35,7 +35,7 @@ class Image{
 
             if(!err && !req.error && req.file)
                 this.upload(req, (e, user) =>{
-                    req.session.user.client = user;
+                    req.session.user.client.profile = user.profile;
                     cb();
                 }); 
             else

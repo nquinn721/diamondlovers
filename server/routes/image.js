@@ -39,7 +39,7 @@ router.post('/delete-image', (req, res) => {
 
 function updateClient(req, res, e, user) {
     if(e)return res.send(e);
-    req.session.user.client = user;
+    req.session.user.client.profile = user.profile;
     res.send(req.session.user);
 }
 

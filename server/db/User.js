@@ -162,7 +162,7 @@ class UserClass {
     static deleteImage(email, image, cb = function(){}){
         if(!image._id)return cb({error: 'no image passed'});
         this.findOneAndUpdate({email},  { $pull: {'profile.images': image}}, {new: true}, (e, doc) => {
-            if(doc.profile.defaultImage._id.toString() === image._id.toString())
+            if(doc.profile.defaultImage && doc.profile.defaultImage._id.toString() === image._id.toString())
                 doc.profile.defaultImage = null;
             doc.save(cb);
         });
@@ -185,10 +185,11 @@ class UserClass {
         let user = this.findOne({email}, (e, doc) => {
             if(e)return cb(e);
             if(!doc)return cb({error: 'no user found'});
+
+            let client = doc.client();
             
             if(pw){
                 doc.comparePassword(pw, (matchError, match) => {
-                    client = doc.client();
                     if(match){
                         if(doc.stripeId){
                             Stripe.getCustomer(doc.stripeId, (e, cust) => {
