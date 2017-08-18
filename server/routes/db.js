@@ -36,22 +36,23 @@ router.post('/register', function(req, res){
 router.post('/login', function(req, res){
     console.log(req.body);
     // if(!req.body.email || !req.body.password)return res.send({error: config.errorMessages.login.missingInfo});
-    // User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, client, cust) => {
-    //     console.log("logged in");
+    User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, client, cust) => {
+        console.log("logged in");
 
-    //     if(doc){
-    //         console.log('sending user to client');
-    //         req.session.user = {
-    //             client: client,
-    //             stripeCust: cust
-    //         };
-    //         req.session.model = doc;
-    //         res.send(req.session.user);
-    //     }else{
-    //         delete req.session.user;
-    //         res.send({error: config.errorMessages.login.failedLogin});
-    //     }
-    // });
+        if(doc){
+            console.log('sending user to client');
+            req.session.user = {
+                client: client,
+                stripeCust: cust
+            };
+            req.session.model = doc;
+            console.log(req.session.user);
+            res.send(req.session.user);
+        }else{
+            delete req.session.user;
+            res.send({error: config.errorMessages.login.failedLogin});
+        }
+    });
 });
 
 
