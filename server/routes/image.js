@@ -12,6 +12,7 @@ router.post('/profile-image-upload', (req, res) => {
         if(req.error){
             res.send(req.error);
         }else{
+            console.log('sending user');
             res.send(req.session.user);
         }
      });
