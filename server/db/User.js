@@ -156,7 +156,11 @@ class User {
         };
         if(def)
             update['$set'] = {'profile.defaultImage' : image};
-        UserModel.findOneAndUpdate({email}, update, {new: true}, cb);
+        UserModel.findOneAndUpdate({email}, update, {new: true}, (e, doc) => {
+            if(doc.profile.images.length === 1)
+                doc.profile.defaultImage = doc.profile.images[0];
+            cb(e, doc);
+        });
     }
     static setDefaultImage(email, image, cb = function(){}){
         UserModel.findOneAndUpdate({email}, {$set: {'profile.defaultImage': image}}, {new: true}, cb);
