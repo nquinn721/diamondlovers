@@ -6,7 +6,10 @@ import Settings from 'app/app/components/settings';
 import User from 'app/app/components/user';
 
 export default class ProfileImages extends React.Component{
-    state = {image : ''};
+    state = {
+        image : '',
+        defaultImage: User.defaultImage()
+    };
 
     pickImage = async (i) => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -17,15 +20,12 @@ export default class ProfileImages extends React.Component{
         if (!result.cancelled) {
             Service.uploadImage(result.uri, () => this.setState({user: User.getUser()}));
             this.setState({ ['image' + i]: result.uri });
-            // this.setState({ image: result.uri });
         }
     };
-    makePicDefault(picId, defaultImage){
+    makePicDefault(picId){
         Service.makePicDefault(picId, defaultImage);
     }
     renderProfilePics(){
-        console.log('render profile pics', User.getImages());
-        console.log('user default', User.defaultImage());
         let pics = [];
         let images = User.getImages();
         for(let i = 0; i < 4; i++){
@@ -34,12 +34,12 @@ export default class ProfileImages extends React.Component{
                 pics.push(
                     <View style={styles.imageContainer} key={i}>
                         <Image
-                            style={[styles.image,(User.defaultImage() === pic.id ? styles.defaultPic : null)]}
-                            source={{uri: User.getDefaultImageURI()}}
+                            style={[styles.image,(this.state.defaultImage === pic.id ? styles.defaultPic : null)]}
+                            source={{uri: Settings.baseUrl + '/' + pic.uri}}
                             onLoad={() => {console.log('load')}}
                         />
                         <Text>{pic.id}</Text>
-                        {User.defaultImage().id === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic, (i === 0 ? true : false))}><Text>Make Default</Text></TouchableOpacity>}
+                        {this.state.defaultImage && this.state.defaultImage.id === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic)}><Text>Make Default</Text></TouchableOpacity>}
                     </View>
                 ); 
             }else{

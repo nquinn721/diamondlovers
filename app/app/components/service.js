@@ -6,11 +6,9 @@ export default class Service{
     static events = [];
     static login(formData){
         console.log(formData);
-        this.post('db/login', fd(formData))
-            .then(user => {
-                console.log(user);
-                // User.login(user);
-            }).catch(err => console.log(err));
+        this.post('db/login', fd(formData), user => {
+                User.login(user);
+            });
     }
 
     /**
@@ -23,17 +21,13 @@ export default class Service{
             type: 'image/jpg',
             name: 'image.jpg'
         });
-        this.post('app/profile-image-upload', formData).then(user => {
+        this.post('app/profile-image-upload', formData, user => {
             User.update(user);
             cb();
         });
     }
     static makePicDefault(pic, defaultImage){
-        let img = {
-            pic, 
-            defaultImage : defaultImage ? true : null
-        }
-        this.post('app/make-image-default', fd({pic})).then((user) => {
+        this.post('app/make-image-default', fd({pic}), (user) => {
             console.log(user);
         })
     }
@@ -47,26 +41,26 @@ export default class Service{
      * CARD CALLS
      */
     static addCard(card, cb = function(){}){
-        this.post('profile/addCard', fd(card)).then(user => {
+        this.post('profile/addCard', fd(card), user => {
             User.update(user);
             cb();
         });
     }
     static removeCard(cardId, cb = function(){}){
         console.log(cardId);
-        this.post('profile/removeCard', fd({card: cardId})).then(user => {
+        this.post('profile/removeCard', fd({card: cardId}), user => {
             User.update(user);
             cb();
         });
     }
     static setDefaultCard(cardId, cb = function(){}){
-        this.post('profile/updateDefaultCard', fd({card: cardId})).then(user => {
+        this.post('profile/updateDefaultCard', fd({card: cardId}), user => {
             User.update(user);
             cb();
         });
     }
     static chargeCard(amount, cb = function(){}){
-        this.post('profile/chargeCard', fd({amount: amount})).then( user => {
+        this.post('profile/chargeCard', fd({amount: amount}),  user => {
             console.log(user); 
         })
     }
@@ -91,15 +85,14 @@ export default class Service{
         this.events.forEach(e => e.event === 'network error' ? e.cb() : null);
     }
  
-    static post(url, data){
+    static post(url, data, cb){
         let promise = fetch(Settings.baseUrl + url, {
             method: 'post',
             body: data,
             credentials: 'same-origin'
         }).then(d => {
-            d.json().then(data => promise.resolve(data)).catch(this.emitError.bind(this));
-
-        });
+            d.json().then(data => cb(data)).catch(this.emitError.bind(this));
+        }).catch(e => console.log(e));
         return promise;
     }
 }

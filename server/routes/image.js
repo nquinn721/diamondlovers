@@ -30,6 +30,7 @@ router.use(function(req, res, next){
 
 
 router.post('/make-image-default', (req, res) => {
+    console.log(req.body);
     User.setDefaultImage(req.session.user.client.email, req.body, updateClient.bind(this, req, res));
 });
 

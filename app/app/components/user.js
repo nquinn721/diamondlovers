@@ -28,11 +28,8 @@ export default class User{
     static defaultImage(){
         return this.user.profile.defaultImage;
     }
-    static getDefaultImage(){
-        return this.user.profile.defaultImage;
-    }
     static getDefaultImageURI(){
-        let pic = this.getDefaultImage();
+        let pic = this.defaultImage();
         if(pic)
             return Settings.baseUrl + pic.location +'/' + pic.name;
     }
