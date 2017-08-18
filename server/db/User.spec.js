@@ -24,6 +24,21 @@ describe('User', function(done) {
             done();
         });
     });
+
+    it('Should fail login if email is wrong', (done) => {
+        User.login('bob@maferley.cfomf', 'bobmarley123', (e, doc) => {
+            e.error.should.equal('no user found');
+            done();
+        });
+    });
+
+    it('Should fail login if password is wrong', (done) => {
+        User.login('bob@marley.com', 'bobmarley1234', (e, doc) => {
+            e.error.should.equal('passwords do not match');
+            done();
+        });
+    });
+
     it('Should upload image', (done) => {
         User.addImage(user.email, image1, true, (e, doc) => {
             doc.profile.defaultImage.name.should.equal(image1.name);

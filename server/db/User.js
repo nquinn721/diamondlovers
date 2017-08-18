@@ -103,7 +103,8 @@ UserSchema.pre('save', function(next) {
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return cb(err);
+        if(err) return cb(err);
+        if(!isMatch)return cb({error: 'passwords do not match'});
         cb(null, isMatch);
     });
 };
@@ -170,33 +171,33 @@ class UserClass {
       */
     static login(email, pw, cb = function(){}){
         let user = this.findOne({email}, (e, doc) => {
-            if(e){
-                return cb(e);
-            }
+            if(e)return cb(e);
+            if(!doc)return cb({error: 'no user found'});
+            
             if(pw){
-                if(doc){
-                    doc.comparePassword(pw, (matchError, match) => {
-                        doc = doc.toObject();
-                        delete doc.password;
-                        if(match){
-                            if(doc.stripeId){
-                                Stripe.getCustomer(doc.stripeId, (e, cust) => {
-                                    cb(e, doc, cust);
-                                });
-                            }else{
-                                cb(e, doc);
-                            }
-                        }else cb && cb(matchError);
-                    });
-                }
+                doc.comparePassword(pw, (matchError, match) => {
+                    doc = doc.toObject();
+                    delete doc.password;
+                    if(match){
+                        if(doc.stripeId){
+                            Stripe.getCustomer(doc.stripeId, (e, cust) => {
+                                cb(e, doc, cust);
+                            });
+                        }else{
+                            cb(e, doc);
+                        }
+                    }else cb(matchError);
+                });
                 
-            }else{
+            }else if(this.fingerPrint || this.passCode){
                 if(this.fingerPrint){
                     // Handle fingerprint
                 }
                 if(this.passCode){
                     // Handle passcode
                 }
+            }else{
+                cb({error: 'no password and no other form of login'});
             }
         });
     }
