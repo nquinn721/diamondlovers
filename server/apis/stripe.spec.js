@@ -25,7 +25,7 @@ let testTime = 5000;
 //   }
 // } 
 
-describe('Stripe API charge', function() {
+describe('Stripe API', function() {
     let req = {
         session: {
             user: {
@@ -103,7 +103,7 @@ describe('Stripe API charge', function() {
 
     it('Should update default card', (done) => {
         req.session.user.stripeCust.default_source.should.not.equal(cardId);
-        req.body.cardId = cardId;
+        req.body.card = cardId;
         s.updateDefaultCard(req, (e, cust) => {
             cust.default_source.should.equal(cardId);
             done();
