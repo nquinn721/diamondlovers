@@ -23,7 +23,7 @@ export default class ProfileImages extends React.Component{
         }
     };
     makePicDefault(picId){
-        Service.makePicDefault(picId, defaultImage);
+        Service.makePicDefault(picId);
     }
     renderProfilePics(){
         let pics = [];
