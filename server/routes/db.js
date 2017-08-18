@@ -35,7 +35,7 @@ router.post('/register', function(req, res){
 
 router.post('/login', function(req, res){
     console.log('/login', req.body);
-    req.send({msg: 'logged in'});
+    res.send({msg: 'logged in'});
     // if(!req.body.email || !req.body.password)return res.send({error: config.errorMessages.login.missingInfo});
     // User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, client, cust) => {
     //     console.log("logged in");
