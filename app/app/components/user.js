@@ -12,6 +12,7 @@ export default class User{
         this.emit('login');
     }
     static update(user){
+        console.log(user);
         this.user = user.client;
         this.stripeCust = user.stripeCust;
         this.emit('update');
@@ -20,7 +21,9 @@ export default class User{
         return this.user;
     }
     static getCards(){
-        return this.stripeCust.sources.data;
+        if(this.stripeCust)
+            return this.stripeCust.sources.data;
+        else return [];
     }
     static getImages(){
         return this.user.profile.images;
