@@ -165,7 +165,7 @@ class User {
         if(!image._id)return cb({error: 'no image passed'});
         UserModel.findOneAndUpdate({email},  { $pull: {'profile.images': image}}, {new: true}, (e, doc) => {
             if(doc.profile.defaultImage && doc.profile.defaultImage._id.toString() === image._id.toString())
-                doc.profile.defaultImage = null;
+                doc.profile.defaultImage = doc.profile.images && doc.profile.images.length ? doc.profile.images[0] : null;
             doc.save(cb);
         });
     }

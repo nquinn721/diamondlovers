@@ -25,10 +25,15 @@ export default class Service{
             cb();
         });
     }
-    static makePicDefault(pic, defaultImage){
-        this.post('image/make-image-default', fd({pic}), (user) => {
-            console.log(user);
+    static makePicDefault(pic){
+        this.post('image/make-image-default', fd(pic), (user) => {
+            User.update(user);
         })
+    }
+    static deleteImage(pic){
+        this.post('image/delete-image', fd(pic), (user) => {
+            User.update(user);
+        });
     }
     /**
      * END IMAGES

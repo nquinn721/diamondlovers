@@ -34,12 +34,12 @@ export default class App extends React.Component {
     super(props);
     User.on('update', () => {
       console.log('update');
-      this.setState({user: User.getUser()})
+      this.setState({user: User.getUser()});
     });
 
     Service.on('network error', () => {
-      this.setState({networkError: true});
-      setTimeout(() => this.setState({networkError: false}), 4000);
+      // this.setState({networkError: true});
+      // setTimeout(() => this.setState({networkError: false}), 4000);
     });
   }
  
@@ -64,7 +64,6 @@ export default class App extends React.Component {
   }
     
   render() {
-   
     return (
       <View style={styles.container}>
         <StatusBarPaddingIOS/>

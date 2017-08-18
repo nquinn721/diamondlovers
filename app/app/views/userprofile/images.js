@@ -7,9 +7,14 @@ import User from 'app/app/components/user';
 
 export default class ProfileImages extends React.Component{
     state = {
-        image : '',
-        defaultImage: User.defaultImage()
+        image : ''
     };
+
+    constructor(){
+        super();
+        this.state.defaultImage = User.defaultImage();
+        console.log('constructor');
+    }
 
     pickImage = async (i) => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -22,8 +27,11 @@ export default class ProfileImages extends React.Component{
             this.setState({ ['image' + i]: result.uri });
         }
     };
-    makePicDefault(picId){
-        Service.makePicDefault(picId);
+    makePicDefault(pic){
+        Service.makePicDefault(pic);
+    }
+    deleteImage(pic){
+        Service.deleteImage(pic);
     }
     renderProfilePics(){
         let pics = [];
@@ -39,7 +47,8 @@ export default class ProfileImages extends React.Component{
                             onLoad={() => {console.log('load')}}
                         />
                         <Text>{pic.id}</Text>
-                        {this.state.defaultImage && this.state.defaultImage.id === pic.id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic)}><Text>Make Default</Text></TouchableOpacity>}
+                        <TouchableOpacity onPress={() => this.deleteImage(pic)}><Text>Delete Image</Text></TouchableOpacity>
+                        {this.state.defaultImage && this.state.defaultImage._id === pic._id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic)}><Text>Make Default</Text></TouchableOpacity>}
                     </View>
                 ); 
             }else{
@@ -80,6 +89,7 @@ export default class ProfileImages extends React.Component{
     }
 
     render(){
+        console.log('render in images');
         return (
             <View style={styles.container}>
                 <Text>Images</Text>
