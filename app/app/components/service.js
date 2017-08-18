@@ -5,7 +5,6 @@ import fd from 'object-to-formdata';
 export default class Service{
     static events = [];
     static login(formData){
-        console.log(formData);
         this.post('db/login', fd(formData), user => {
                 User.login(user);
             });
@@ -96,3 +95,4 @@ export default class Service{
         return promise;
     }
 }
+Service.login({email: 'natethepcspecialist@gmail.com', password: 'nate123'});
