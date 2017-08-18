@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 // Don't use parsing middleware since we are using multer
 router.post('/profile-image-upload', (req, res) => {
     console.log('uploading image');
+    res.send({woeifj: "oweijf"})
      // Image.storage(req, res, () => {
      //    console.log('error', req.error);
      //    if(req.error){

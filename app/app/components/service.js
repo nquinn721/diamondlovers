@@ -21,8 +21,9 @@ export default class Service{
             name: 'image.jpg'
         });
         this.post('app/profile-image-upload', formData, user => {
-            User.update(user);
-            cb();
+            console.log(user);
+            // User.update(user);
+            // cb();
         });
     }
     static makePicDefault(pic, defaultImage){
