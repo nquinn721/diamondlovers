@@ -68,7 +68,7 @@ export default class ProfileImages extends React.Component{
         return (
             <View style={styles.container}>
                 <Text>Cards</Text>
-                <Button onPress={() => this.props.changeView('profile')} title="Back"/>
+                <Button onPress={() => this.props.changeView('userProfile')} title="Back"/>
                 {this.displayCards()}
                 <Button onPress={() => this.setState({addCard: true})} title="New Card" />
                 

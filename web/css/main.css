@@ -5,6 +5,13 @@
 	width:100px;
 	height:100px;
 }
-.images > div {
-	float: left;
+input[type="file"] {
+    float: left;
+}
+.image{
+	height: 200px;
+}
+.image > * {
+    padding: 10px;
+    float: left;
 }

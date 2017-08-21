@@ -2,8 +2,8 @@ const app = angular.module('app', []);
 
 app.controller('main', function($scope){
     this.isLoggedIn = false;
-    this.username = 'jon@snow.com';
-    this.password = 'jon123';
+    this.email = 'natethepcspecialist@gmail.com';
+    this.password = 'nate123';
     this.cardNumber = 4242424242424242;
 	this.exp_year = 25;
 	this.exp_month = 05;
@@ -12,12 +12,18 @@ app.controller('main', function($scope){
 
     this.login = function(){
     	console.log('Logging in');
-		this.post('/db/login', new FormData(document.querySelector('.login')), (user) => {
+		this.post('/db/login', fd({email: this.email, password: this.password}), (user) => {
 			console.log('Logged in', user);
 			this.user = user.client;
 			this.isLoggedIn = true;
     		this.stripeCust = user.stripeCust;
 	    });
+    }
+
+    this.updateUser = function(field, value) {
+        this.post('/profile/update', fd({field, value}), (user) => {
+            console.log('update', user);
+        });
     }
 
     this.uploadImage = function(form) {
@@ -89,7 +95,7 @@ app.controller('main', function($scope){
 	}
 
 	this.register = function() {
-		this.post('/db/register', new FormData(document.querySelector('.register'))).then(d => console.log('register', d));
+		this.post('/db/register', new FormData(document.querySelector('.register')), d => console.log('register', d));
 	}
     this.login();
 

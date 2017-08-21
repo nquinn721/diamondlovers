@@ -3,19 +3,21 @@ const config = require('../config');
 module.exports = {
 	register: function(req, res){
 	    if(!req.body.email || !req.body.password)return res.send({error: config.errorMessages.register})
-	    User.get({
+	    User.register({
 	        email: req.body.email.trim(), 
 	        password: req.body.password.trim(), 
 	        firstName: req.body.firstName ? req.body.firstName.trim() : null, 
 	        lastName: req.body.lastName ? req.body.lastName.trim() : null,
-	        displayName: req.body.displayName ? req.body.displayName.trim() : null
+	        profile: {
+	        	displayName: req.body.displayName ? req.body.displayName.trim() : null
+	        }
 	    }, (e, client, doc) => {
-	        if(doc){
+	        if(client){
 	            req.session.user = {
 	                client: client
 	            }
 	            req.session.model = doc;
-	            res.send(doc);
+	            res.send(client);
 	        }else{
 	            res.send({error: config.errorMessages.register});
 	        }

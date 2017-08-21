@@ -12,7 +12,6 @@ export default class User{
         this.emit('login');
     }
     static update(user){
-        console.log(user);
         this.user = user.client;
         this.stripeCust = user.stripeCust;
         this.emit('update');

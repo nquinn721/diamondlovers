@@ -6,54 +6,77 @@ head
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     title Diamond Lovers
     link(rel="stylesheet", href="css/main.css")
-    
-body(ng-controller="main as main")
+    link(rel="stylesheet", href="bootstrap/dist/css/bootstrap.min.css")
+body(ng-controller="main as main").container
     h1 Welcome!
-    form.login
-        h3 Login
-        input(type="text", name="email", placeholder="Email", value="natethepcspecialist@gmail.com")
-        input(type="text", name="password", placeholder="password", value="nate123")
-        input(type="submit", value="Login", ng-click="main.login()")
-    button.delete-all-images(ng-cloak, ng-show="main.isLoggedIn", ng-click="main.deleteAllImages()") Delete All Images
-    form.register(ng-cloak, ng-show="main.isLoggedIn")
+    pre(ng-if="main.user") {{main.user | json}} 
+    table.table.table-striped
+        tr.login
+            td Login
+            td: input.form-control(type="text", ng-model="main.email", placeholder="Email", value="natethepcspecialist@gmail.com")
+            td: input.form-control(type="text", ng-model="main.password", placeholder="password", value="nate123")
+            td: button.btn.btn-primary(ng-click="main.login()") Login
+        tr
+            td Display Name
+            td: input.form-control(ng-model="main.displayName")
+            td {{main.user.profile.displayName}} 
+            td: button.btn.btn-primary(ng-click="main.updateUser('displayName', main.displayName)") Update
+        tr
+            td City
+            td: input.form-control(ng-model="main.city")
+            td {{main.user.profile.city}} 
+            td: button.btn.btn-primary(ng-click="main.updateUser('city', main.city)") Update
+        tr
+            td State
+            td: input.form-control(ng-model="main.state")
+            td {{main.user.profile.state}} 
+            td: button.btn.btn-primary(ng-click="main.updateUser('state', main.state)") Update
+        tr
+            td Zip
+            td: input.form-control(ng-model="main.zip")
+            td {{main.user.profile.zip}} 
+            td: button.btn.btn-primary(ng-click="main.updateUser('zip', main.zip)") Update
+    button.btn.btn-primary.delete-all-images(ng-cloak, ng-show="main.isLoggedIn", ng-click="main.deleteAllImages()") Delete All Images
+    form.register.jumbotron(ng-cloak, ng-show="main.isLoggedIn")
         h3 Register
-        input(type="text", name="firstName", placeholder="First Name", value="Nathan")
-        input(type="text", name="lastName", placeholder="Last Name", value="Quinn")
-        input(type="text", name="email", placeholder="email", value="natethepcspecialist@gmail.com")
-        input(type="text", name="displayName", placeholder="display name", value="nquinn721")
-        input(type="text", name="password", placeholder="password", value="nate123")
-        input(type="submit", value="Submit" ng-click="main.register()")
-    form(ng-cloak, ng-show="main.isLoggedIn").upload
-        input(type="file", name="image")
-        input(type="submit", value="Upload", ng-click="main.uploadImage(this)")
-    .cards
+        input.form-control(type="text", name="firstName", placeholder="First Name", value="Nathan")
+        input.form-control(type="text", name="lastName", placeholder="Last Name", value="Quinn")
+        input.form-control(type="text", name="email", placeholder="email", value="natethepcspecialist@gmail.com")
+        input.form-control(type="text", name="displayName", placeholder="display name", value="nquinn721")
+        input.form-control(type="text", name="password", placeholder="password", value="nate123")
+        button.btn.btn-primary(type="submit", ng-click="main.register()") Submit
+    .cards.jumbotron
         .cards(ng-if="main.stripeCust")
             div(ng-repeat="card in main.stripeCust.sources.data")
                 span {{main.stripeCust.default_source}} -
                 span  {{card.id}} - 
                 span  {{card.last4}}
                 | &nbsp;
-                span: button(ng-click="main.deleteCard(card.id)") Delete
-                button(ng-click="main.makeCardDefault(card.id)", ng-show="main.stripeCust.default_source !== card.id") Make Default
+                span: button.btn.btn-primary(ng-click="main.deleteCard(card.id)") Delete
+                button.btn.btn-primary(ng-click="main.makeCardDefault(card.id)", ng-show="main.stripeCust.default_source !== card.id") Make Default
                 span(ng-show="main.stripeCust.default_source === card.id") Default
         .add-card
-            button(ng-click="main.addNewCard = true") New Card
+            button.btn.btn-primary(ng-click="main.addNewCard = true") New Card
             .add-card(ng-show="main.addNewCard")
                 input(placeholder="Card Number", ng-model="main.cardNumber")
                 input(placeholder="Month", ng-model="main.exp_month")
                 input(placeholder="Year", ng-model="main.exp_year")
                 input(placeholder="CVC", ng-model="main.cvc")
-                button(ng-click="main.addCard()") Add Card
-
-    .images
-        div(ng-repeat="img in main.user.profile.images")
-            div {{img.location + '/' + img.name}}
-            img.profile-image(ng-src="{{img.location + '/' + img.name}}")
+                button.btn.btn-primary(ng-click="main.addCard()") Add Card
+    
+    .images.jumbotron
+        form(ng-cloak, ng-show="main.isLoggedIn").upload
+            input(type="file", name="image")
+            input.btn-primary.btn(type="submit", value="Upload", ng-click="main.uploadImage(this)")
+        div.image(ng-repeat="img in main.user.profile.images")
+            div 
+                div {{img.location + '/' + img.name}}
+                img.profile-image(ng-src="{{img.location + '/' + img.name}}")
             div
-                button(ng-click="main.deleteImage(img)") Delete
-            div(ng-show="main.user.profile.defaultImage._id === img._id") Default
-            div(ng-show="main.user.profile.defaultImage._id !== img._id") 
-                input(value="Make Default", type="button", ng-click="main.makeImageDefault(img)")
+                button.btn.btn-primary(ng-click="main.deleteImage(img)") Delete
+                span(ng-show="main.user.profile.defaultImage._id === img._id") Default
+                span(ng-show="main.user.profile.defaultImage._id !== img._id") 
+                    input.btn.btn-primary(value="Make Default", type="button.btn.btn-primary", ng-click="main.makeImageDefault(img)")
 
 script(src="angular/angular.js")
 script(src="js/main.js")

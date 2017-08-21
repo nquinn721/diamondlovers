@@ -30,11 +30,17 @@ export default class App extends React.Component {
   state = {
     view: <HomePage/>
   }
+  children = {};
+
   constructor(props) {
     super(props);
     User.on('update', () => {
-      console.log('update');
-      this.setState({user: User.getUser()});
+      let user = User.getUser();
+      for(let i in this.children){
+        this.children[i].updateUser && this.children[i].updateUser(user);
+
+      }
+      this.setState({user});
     });
 
     Service.on('network error', () => {
@@ -53,9 +59,10 @@ export default class App extends React.Component {
       view = <LoginPage/>;
     else if(page === 'userProfile')
       view = <UserProfilePage changeView={view => this.changeView(view)}/>;
-    else if(page === 'userProfileImages')
-      view = <UserProfileImages changeView={view => this.changeView(view)}/>;
-    else if(page === 'userProfileCards')
+    else if(page === 'userProfileImages'){
+      console.log('user profile images');
+      view = <UserProfileImages ref={ref => this.children.userProfileImages = ref} changeView={view => this.changeView(view)}/>;
+    }else if(page === 'userProfileCards')
       view = <UserProfileCards changeView={view => this.changeView(view)} user={this.state.user}/>;
     else
       view = this.state.view;
@@ -72,7 +79,7 @@ export default class App extends React.Component {
         <View style={styles.page}>
           {this.state.view}
         </View>   
-        <Nav changeView={view => this.changeView(view)}></Nav>
+        <Nav ref={ref => this.children.nav = ref} changeView={view => this.changeView(view)}></Nav>
       </View>
     );
   }

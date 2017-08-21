@@ -7,15 +7,17 @@ import User from 'app/app/components/user';
 
 export default class ProfileImages extends React.Component{
     state = {
-        image : ''
+        images: {}
     };
 
     constructor(){
         super();
         this.state.defaultImage = User.defaultImage();
-        console.log('constructor');
+        this.state.user = User.getUser();
     }
-
+    updateUser(user){
+        this.setState({user, defaultImage: user.profile.defaultImage, images: {}});
+    }
     pickImage = async (i) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
@@ -23,8 +25,9 @@ export default class ProfileImages extends React.Component{
         });
 
         if (!result.cancelled) {
-            Service.uploadImage(result.uri, () => this.setState({user: User.getUser()}));
-            this.setState({ ['image' + i]: result.uri });
+            Service.uploadImage(result.uri);
+            let images = Object.assign({['image' + i]: result.uri});
+            this.setState({images});
         }
     };
     makePicDefault(pic){
@@ -48,22 +51,21 @@ export default class ProfileImages extends React.Component{
                         />
                         <Text>{pic.id}</Text>
                         <TouchableOpacity onPress={() => this.deleteImage(pic)}><Text>Delete Image</Text></TouchableOpacity>
-                        {this.state.defaultImage && this.state.defaultImage._id === pic._id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic)}><Text>Make Default</Text></TouchableOpacity>}
+                        {this.state.defaultImage._id === pic._id ? <Text>default</Text> : <TouchableOpacity onPress={() => this.makePicDefault(pic)}><Text>Make Default</Text></TouchableOpacity>}
                     </View>
                 ); 
             }else{
 
-                if(this.state['image' + i]){
+                if(this.state.images['image' + i]){
                     pics.push(
                         <View style={styles.imageContainer} key={i}>
 
                            <Image
                                style={styles.image}
-                                source={{uri: this.state[`image${i}`]}}
+                                source={{uri: this.state.images[`image${i}`]}}
                                 onLoad={() => {console.log('load')}} 
                             />
 
-                            {i === 0 ? <Text>default</Text> : <Text>Make Default</Text>}
                         </View>
                     );
                 }else{
@@ -93,7 +95,7 @@ export default class ProfileImages extends React.Component{
         return (
             <View style={styles.container}>
                 <Text>Images</Text>
-                <Button onPress={() => this.props.changeView('profile')} title="Back"/>
+                <Button onPress={() => this.props.changeView('userProfile')} title="Back"/>
                 {this.renderProfilePics()}
             </View>
         );

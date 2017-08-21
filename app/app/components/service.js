@@ -6,8 +6,8 @@ export default class Service{
     static events = [];
     static login(formData){
         this.post('db/login', fd(formData), user => {
-                User.login(user);
-            });
+            User.login(user);
+        });
     }
 
     /**

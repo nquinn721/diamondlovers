@@ -14,6 +14,18 @@ const Image = new Schema({
     uri: String
 });
  const Profile = new Schema({
+    status: [{
+        type: String,
+        enum: ['created', 'public', 'qualified'],
+        default: 'created'
+    }],
+    displayName: {
+        type: String,
+        unique: true
+    },
+    city: String,
+    state: String,
+    zip: String,
     about: String,
     income: String, 
     age: Number,
@@ -56,10 +68,6 @@ const UserSchema = new Schema({
     passCode: Number,
     admin: Boolean,
     stripeId: String,
-    displayName: {
-        type: String,
-        unique: true
-    },
     diamonds: Number,
     email: {
         type: String,
@@ -123,6 +131,10 @@ UserSchema.plugin(findOrCreate);
 
 const UserModel = mongoose.model('User', UserSchema);
 
+UserModel.find({}, (e, doc) => {
+    console.log(doc);
+})
+
 class User {
 
     // TODO:: check for a stripe charge id before adding diamonds
@@ -135,6 +147,60 @@ class User {
             cb(e, doc.client(), doc);
         })
     }
+    static register(obj, cb = function(){}){
+        console.log(obj);
+        UserModel.create(obj, (e, doc) => {
+            console.log(e, doc);
+            // cb(e, doc.client(), doc);
+        });
+    }
+    /**
+     * PROFILE
+     */
+    static updateProfileStatus(email, e, doc, cb = function(){}){
+        if(doc){
+            if(doc.profile.status === 'created'){
+                if(doc.profile.images.length && doc.profile.displayName){
+                    doc.profile.status.push('puclic');
+                }
+            }
+            cb(e, doc);
+        }else{
+            UserModel.findOne({email}, (e, doc) => {
+                this.updateProfileStatus(email, e, doc, cb);    
+            });
+        }
+    }
+    static updateProfile(email, field, value, cb = function(){}){
+        let update = {};
+        update['profile.' + field] = value;
+        UserModel.findOneAndUpdate({email}, update, {new: true}, cb);
+    }
+    /**
+     * END PROFILE
+     */
+
+
+    /**
+     * SEARCH
+     */
+    static getPublicProfilesNearby(email, cb = function(){}){
+        UserModel.findOne({email}, (e, doc) => {
+            if(!doc.profile.city || !doc.profile.state)
+                return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
+            let search = {
+                city: doc.profile.city,
+                state: doc.profile.state
+            };
+
+            UserModel.find({search}, 'profile', cb);
+        });
+    }
+    /**
+     * END SEARCH
+     */
+
+
     /**
      * IMAGE
      */
@@ -159,8 +225,7 @@ class User {
         UserModel.findOneAndUpdate({email}, update, {new: true}, (e, doc) => {
             if(doc.profile.images.length === 0 || !doc.profile.defaultImage)
                 doc.profile.defaultImage = doc.profile.images[0];
-
-            cb(e, doc);
+            this.updateProfileStatus(email, doc, cb);
         });
     }
     static setDefaultImage(email, image, cb = function(){}){
