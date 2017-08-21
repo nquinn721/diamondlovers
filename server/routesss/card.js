@@ -12,16 +12,22 @@ router.use(function(req, res, next){
 });
 
 
-router.get('/user', (req, res) => res.send(req.session.user));
+// {number, exp_month, exp_year, cvc}
 router.post('/addCard', (req, res) => {
+    console.log(req.body);
     StripAPI.addCard(req, updateClientWithStripeUser.bind(this, req, res));
 });
+// {card: cardID}
 router.post('/removeCard', (req, res) => {
-    StripAPI.removeCard(req, updateClientWithStripeUser.bind(this, req, res));
+    console.log('rmeove card');
+    // StripAPI.removeCard(req, updateClientWithStripeUser.bind(this, req, res));
 });
+// {card: cardID}
 router.post('/updateDefaultCard', (req, res) => {
-    StripAPI.updateDefaultCard(req, updateClientWithStripeUser.bind(this, req, res));
+    console.log('update default card');
+    // StripAPI.updateDefaultCard(req, updateClientWithStripeUser.bind(this, req, res));
 });
+// {card: cardID} optional
 router.post('/chargeCard', (req, res) => {
     StripAPI.charge(req, (e, cust, charge) => {
         if(charge && charge.status === 'succeeded'){

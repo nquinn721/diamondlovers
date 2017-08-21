@@ -6,6 +6,7 @@ head
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     title Diamond Lovers
     link(rel="stylesheet", href="css/main.css")
+    
 body(ng-controller="main as main")
     h1 Welcome!
     form.login
@@ -14,10 +15,6 @@ body(ng-controller="main as main")
         input(type="text", name="password", placeholder="password", value="nate123")
         input(type="submit", value="Login", ng-click="main.login()")
     button.delete-all-images(ng-cloak, ng-show="main.isLoggedIn", ng-click="main.deleteAllImages()") Delete All Images
-    div(ng-cloak, ng-show="main.isLoggedIn")
-        each dir in dirs
-            //- img(src=dir.replace('server/images', ''))
-            div=dir
     form.register(ng-cloak, ng-show="main.isLoggedIn")
         h3 Register
         input(type="text", name="firstName", placeholder="First Name", value="Nathan")
@@ -29,8 +26,28 @@ body(ng-controller="main as main")
     form(ng-cloak, ng-show="main.isLoggedIn").upload
         input(type="file", name="image")
         input(type="submit", value="Upload", ng-click="main.uploadImage(this)")
+    .cards
+        .cards(ng-if="main.stripeCust")
+            div(ng-repeat="card in main.stripeCust.sources.data")
+                span {{main.stripeCust.default_source}} -
+                span  {{card.id}} - 
+                span  {{card.last4}}
+                | &nbsp;
+                span: button(ng-click="main.deleteCard(card.id)") Delete
+                button(ng-click="main.makeCardDefault(card.id)", ng-show="main.stripeCust.default_source !== card.id") Make Default
+                span(ng-show="main.stripeCust.default_source === card.id") Default
+        .add-card
+            button(ng-click="main.addNewCard = true") New Card
+            .add-card(ng-show="main.addNewCard")
+                input(placeholder="Card Number", ng-model="main.cardNumber")
+                input(placeholder="Month", ng-model="main.exp_month")
+                input(placeholder="Year", ng-model="main.exp_year")
+                input(placeholder="CVC", ng-model="main.cvc")
+                button(ng-click="main.addCard()") Add Card
+
     .images
         div(ng-repeat="img in main.user.profile.images")
+            div {{img.location + '/' + img.name}}
             img.profile-image(ng-src="{{img.location + '/' + img.name}}")
             div
                 button(ng-click="main.deleteImage(img)") Delete

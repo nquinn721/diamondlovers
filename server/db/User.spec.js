@@ -66,16 +66,15 @@ describe('User', function(done) {
             doc.profile.images[0].name.should.equal(image2.name);
             doc.profile.defaultImage.name.should.equal(image2.name);
             user = doc;
-
             // Add first image back in
             User.addImage(user.email, image1, done);
         });
     });
-    it('Should delete image2 and remove it from default image', (done) => {
+    it('Should delete image2 and should set default image to image left over', (done) => {
         User.deleteImage(user.email, user.profile.images[0], (e, doc) => {
             doc.profile.images.length.should.equal(1);
             doc.profile.images[0].name.should.equal(image1.name);
-            should.equal(doc.profile.defaultImage, null);
+            doc.profile.defaultImage.name.should.equal(image1.name);
             user = doc;
             done();
         });

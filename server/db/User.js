@@ -157,8 +157,9 @@ class User {
         if(def)
             update['$set'] = {'profile.defaultImage' : image};
         UserModel.findOneAndUpdate({email}, update, {new: true}, (e, doc) => {
-            if(doc.profile.images.length === 1)
+            if(doc.profile.images.length === 0 || !doc.profile.defaultImage)
                 doc.profile.defaultImage = doc.profile.images[0];
+
             cb(e, doc);
         });
     }

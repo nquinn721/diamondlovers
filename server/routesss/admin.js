@@ -11,6 +11,11 @@ router.use(function(req, res, next){
     next();
 });
 
+router.use((req, res, next) => {
+    if(req.session.model.admin)next();
+    else res.send({error: 'Not an admin'});
+});
+
 
 router.post('/delete-all-images', (req, res) => {
     Image.deleteAllImages();
