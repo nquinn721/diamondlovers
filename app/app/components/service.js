@@ -5,6 +5,7 @@ import fd from 'object-to-formdata';
 export default class Service{
     static events = [];
     static login(formData){
+        console.log(formData);
         this.post('db/login', fd(formData), user => {
             User.login(user);
         });
@@ -90,6 +91,7 @@ export default class Service{
     }
  
     static post(url, data, cb){
+        console.log(data);
         let promise = fetch(Settings.baseUrl + url, {
             method: 'post',
             body: data,
