@@ -14,7 +14,7 @@ export default class Nav extends React.Component{
         })
     }
     updateUser(){
-        console.log('update user in nav');
+        // console.log('update user in nav');
     }
     changeView(view){
         this.props.changeView(view);

@@ -28,21 +28,27 @@ import Nav from './app/views/nav';
 let formdata = new FormData();
 export default class App extends React.Component {
   state = {
-    view: <HomePage/>
+    view: <HomePage ref={ref => this.children.homePage = ref}/>
   }
   children = {};
 
   constructor(props) {
     super(props);
+    console.log('constructor in app');
+    console.log(this.children);
     User.on('update', () => {
       let user = User.getUser();
       for(let i in this.children){
         this.children[i].updateUser && this.children[i].updateUser(user);
-
       }
-      this.setState({user});
     });
 
+    User.on('login', () => {
+      let user = User.getUser();
+      for(let i in this.children){
+        this.children[i].loginUser && this.children[i].loginUser(user);
+      }
+    });
     Service.on('network error', () => {
       // this.setState({networkError: true});
       // setTimeout(() => this.setState({networkError: false}), 4000);
@@ -52,17 +58,16 @@ export default class App extends React.Component {
   changeView(page){
     let view;
     if(page === 'home')
-      view = <HomePage/>;
+      view = <HomePage ref={ref => this.children.homePage = ref}/>;
     else if(page === 'purchase')
       view = <PurchasePage/>;
     else if(page === 'login')
       view = <LoginPage/>;
     else if(page === 'userProfile')
       view = <UserProfilePage changeView={view => this.changeView(view)}/>;
-    else if(page === 'userProfileImages'){
-      console.log('user profile images');
+    else if(page === 'userProfileImages')
       view = <UserProfileImages ref={ref => this.children.userProfileImages = ref} changeView={view => this.changeView(view)}/>;
-    }else if(page === 'userProfileCards')
+    else if(page === 'userProfileCards')
       view = <UserProfileCards changeView={view => this.changeView(view)} user={this.state.user}/>;
     else
       view = this.state.view;

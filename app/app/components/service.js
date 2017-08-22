@@ -5,11 +5,23 @@ import fd from 'object-to-formdata';
 export default class Service{
     static events = [];
     static login(formData){
-        console.log(formData);
         this.post('db/login', fd(formData), user => {
             User.login(user);
         });
     }
+
+    /**
+     * PROFILE
+     */
+    static getNearby(){
+        console.log('getting nearby');
+        this.get('profile/get-nearby', (e, users) => {
+            console.log(users);
+        })
+    }
+    /**
+     * END PROFILE
+     */
 
     /**
      * IMAGES
@@ -81,7 +93,9 @@ export default class Service{
         return fetch(Settings.baseUrl + url, {
             method: 'get',
             credentials: 'same-origin'
-        }).then(d => d.json());
+        }).then(d => {
+            d.json().then(data => cb(data)).catch(this.emitError.bind(this));
+        }).catch(e => console.log(e));
     }
     static on(event, cb){
         this.events.push({event, cb});
@@ -91,7 +105,6 @@ export default class Service{
     }
  
     static post(url, data, cb){
-        console.log(data);
         let promise = fetch(Settings.baseUrl + url, {
             method: 'post',
             body: data,

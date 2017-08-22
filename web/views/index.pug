@@ -10,6 +10,9 @@ head
 body(ng-controller="main as main").container
     h1 Welcome!
     pre(ng-if="main.user") {{main.user | json}} 
+    .users
+        select.form-control
+            option(ng-repeat="user in main.users track by $index") {{user.email}}
     table.table.table-striped
         tr.login
             td Login
@@ -39,11 +42,22 @@ body(ng-controller="main as main").container
     button.btn.btn-primary.delete-all-images(ng-cloak, ng-show="main.isLoggedIn", ng-click="main.deleteAllImages()") Delete All Images
     form.register.jumbotron(ng-cloak, ng-show="main.isLoggedIn")
         h3 Register
+        | First Name
         input.form-control(type="text", name="firstName", placeholder="First Name", value="Nathan")
+        | Last Name
         input.form-control(type="text", name="lastName", placeholder="Last Name", value="Quinn")
+        | Email 
         input.form-control(type="text", name="email", placeholder="email", value="natethepcspecialist@gmail.com")
-        input.form-control(type="text", name="displayName", placeholder="display name", value="nquinn721")
-        input.form-control(type="text", name="password", placeholder="password", value="nate123")
+        | Display Name 
+        input.form-control(type="text", name="displayName", placeholder="Display Name", value="nquinn721")
+        | Password 
+        input.form-control(type="text", name="password", placeholder="Password", value="nate123")
+        | City 
+        input.form-control(type="text", name="city", placeholder="City", value="columbus")
+        | State 
+        input.form-control(type="text", name="state", placeholder="State", value="oh")
+        | zip 
+        input.form-control(type="text", name="zip", placeholder="zip", value="43123")
         button.btn.btn-primary(type="submit", ng-click="main.register()") Submit
     .cards.jumbotron
         .cards(ng-if="main.stripeCust")

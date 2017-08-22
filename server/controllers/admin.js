@@ -3,5 +3,11 @@ module.exports = {
 	deleteAllImages: (req, res) => {
 	    Image.deleteAllImages();
 	    res.send('ok');
+	},
+	getAllUsers: (req, res) => {
+		User.getAllUsers((e, doc) => res.send(e || doc));
+	},
+	seed: (req, res) => {
+		User.seed((e, doc) => res.send(e || doc));
 	}
 }

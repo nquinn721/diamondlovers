@@ -8,15 +8,21 @@ app.controller('main', function($scope){
 	this.exp_year = 25;
 	this.exp_month = 05;
 	this.cvc = 123;
+    this.users = [];
 
 
     this.login = function(){
-    	console.log('Logging in');
 		this.post('/db/login', fd({email: this.email, password: this.password}), (user) => {
 			console.log('Logged in', user);
 			this.user = user.client;
 			this.isLoggedIn = true;
     		this.stripeCust = user.stripeCust;
+
+            this.post('/admin/get-all-users', (users) => this.users = users);
+            this.get('/profile/get-nearby', (profiles) => {
+                console.log('profiles');
+                console.log(profiles);
+            })
 	    });
     }
 
@@ -76,7 +82,10 @@ app.controller('main', function($scope){
     }
 
     this.post = function(url, data, cb = function(){}){
-    	console.log('post');
+        if(typeof data === 'function'){
+            cb = data;
+            data = fd({});
+        }
 	    return fetch(url, {
 	        method: 'post',
 	        body: data,
@@ -86,6 +95,15 @@ app.controller('main', function($scope){
 	    	$scope.$apply();
 	    });
 	}
+    this.get = function(url, cb = function(){}) {
+        return fetch(url, {
+            method: 'get',
+            credentials: 'same-origin'
+        }).then(d => d.json()).then((data) => {
+            cb(data);
+            $scope.$apply();
+        });
+    }
 	function fd(data){
 		let formd = new FormData();
 		for(let i in data){

@@ -6,12 +6,10 @@ module.exports = {
 	},
 	// {card: cardID}
 	removeCard: (req, res) => {
-	    console.log('rmeove card');
 	    StripAPI.removeCard(req, updateClientWithStripeUser.bind(this, req, res));
 	},
 	// {card: cardID}
 	updateDefaultCard: (req, res) => {
-	    console.log('update default card');
 	    StripAPI.updateDefaultCard(req, updateClientWithStripeUser.bind(this, req, res));
 	},
 	// {card: cardID} optional

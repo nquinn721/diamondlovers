@@ -7,5 +7,12 @@ module.exports = {
 			req.session.user.client = doc;
 			res.send(doc.client());
 		})
+	},
+	getNearBy: (req, res) => {
+		console.log(req.session.user.client.email);
+		User.getPublicProfilesNearby(req.session.user.client.email, (e, docs) => {
+			console.log(e, docs);
+			res.send(docs);
+		});
 	}
 }

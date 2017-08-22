@@ -3,11 +3,9 @@ const Image = require('../lib/image');
 module.exports = {
     profileImageUpload: (req, res) => {
          Image.storage(req, res, () => {
-            console.log('error', req.error);
             if(req.error){
                 res.send(req.error);
             }else{
-                console.log('sending user');
                 res.send(req.session.user);
             }
          });

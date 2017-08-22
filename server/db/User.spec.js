@@ -7,7 +7,7 @@ describe('User', function(done) {
     let image2 = {name: 'image2.jpg', location: 'server/images', mimetype: 'image/jpeg'};
     let user;
     before((done) => {
-        User.get({firstName: 'Bob', lastName: 'Marley', email: 'bob@marley.com', password: 'bobmarley123'}, (err, doc) => {
+        User.get({firstName: 'Bob', lastName: 'Marley', email: 'bob@marley.com', password: 'bobmarley123', state: 'oh', city: 'columbus', displayName: 'bobbyboy123'}, (err, doc) => {
             user = doc;
             done();
         });

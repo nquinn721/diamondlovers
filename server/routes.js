@@ -42,6 +42,11 @@ module.exports = function(app){
           middleWare: ['loggedIn', 'formidable'],
           method: 'profile.update'
         },
+        'profile/get-nearby': {
+            type: 'get',
+            middleWare: ['loggedIn'],
+            method: 'profile.getNearBy'
+        },
         /**
          * END PROFILE
          */
@@ -113,6 +118,16 @@ module.exports = function(app){
             type: 'post',
             middleWare: ['loggedIn', 'isAdmin'],
             method: 'admin.deleteAllImages'
+         },
+         'admin/get-all-users': {
+            type: 'post',
+            middleWare: ['loggedIn', 'isAdmin'],
+            method: 'admin.getAllUsers'
+         },
+         'admin/seed': {
+            type: 'get', 
+            middleWare: ['loggedIn', 'isAdmin'],
+            method: 'admin.seed'
          }
         /**
          * END ADMIN

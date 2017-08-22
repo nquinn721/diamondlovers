@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const findOrCreate = require('mongoose-find-or-create');
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
+const seeds = require('./seed');
 
 /**
  * MODEL
@@ -120,7 +121,6 @@ UserSchema.methods.client = function() {
     return {
         firstName:  this.firstName,
         lastName:   this.lastName,
-        displayName:this.displayName,
         diamonds:   this.diamonds,
         email:      this.email,
         profile:    this.profile,
@@ -131,12 +131,10 @@ UserSchema.plugin(findOrCreate);
 
 const UserModel = mongoose.model('User', UserSchema);
 
-UserModel.find({}, (e, doc) => {
-    console.log(doc);
-})
+    
 
 class User {
-
+    
     // TODO:: check for a stripe charge id before adding diamonds
     static addDiamonds(email, diamonds, cb = function(){}){
         UserModel.findOneAndUpdate({email}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
@@ -147,13 +145,11 @@ class User {
             cb(e, doc.client(), doc);
         })
     }
-    static register(obj, cb = function(){}){
+    static register(obj, cb = function(){}) {
         console.log(obj);
-        UserModel.create(obj, (e, doc) => {
-            console.log(e, doc);
-            // cb(e, doc.client(), doc);
-        });
     }
+       
+   
     /**
      * PROFILE
      */
@@ -186,14 +182,10 @@ class User {
      */
     static getPublicProfilesNearby(email, cb = function(){}){
         UserModel.findOne({email}, (e, doc) => {
+            if(e || !doc)return cb(e || {error: 'no doc found with email [' + email + ']'});
             if(!doc.profile.city || !doc.profile.state)
                 return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
-            let search = {
-                city: doc.profile.city,
-                state: doc.profile.state
-            };
-
-            UserModel.find({search}, 'profile', cb);
+            UserModel.find({email: {'$ne' : email}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, cb);
         });
     }
     /**
@@ -310,9 +302,25 @@ class User {
      * END STRIPE
      */
 
-    
+    /**
+     * ADMIN
+     */
+     static getAllUsers(cb){
+         UserModel.find({}, cb)
+     }
+
+     static seed(cb = function(){}){
+        UserModel.create(seeds, (e, doc) => {
+            console.log(e, doc);
+        })
+
+     }
+    /**
+     * END ADMIN
+     */
+
 
 }
-
+// User.seed();
 
 module.exports = User;
