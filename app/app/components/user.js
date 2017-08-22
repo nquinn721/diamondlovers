@@ -16,6 +16,9 @@ export default class User{
         this.stripeCust = user.stripeCust;
         this.emit('update');
     }
+    static addNearby(users){
+        this.nearby = users;
+    }
     static getUser(){
         return this.user;
     }

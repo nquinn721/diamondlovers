@@ -25,6 +25,7 @@
     "react-native": "^0.46.1",
     "react-native-form-generator": "^0.9.9",
     "react-native-ios-status-bar-padding": "^1.1.0",
+    "react-native-swipe-cards": "^0.1.0",
     "stripe-client": "^1.1.3"
   }
 }

@@ -13,10 +13,11 @@ export default class Service{
     /**
      * PROFILE
      */
-    static getNearby(){
+    static getNearby(cb = function(){}){
         console.log('getting nearby');
-        this.get('profile/get-nearby', (e, users) => {
-            console.log(users);
+        this.get('profile/get-nearby', users => {
+            User.addNearby(users);
+            cb(users);
         })
     }
     /**
@@ -89,7 +90,7 @@ export default class Service{
     /** 
      * SERVICE CALL DEFAULTS
      */
-    static get(url){
+    static get(url, cb = function(){}){
         return fetch(Settings.baseUrl + url, {
             method: 'get',
             credentials: 'same-origin'

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Input, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, Input, ScrollView, Image } from 'react-native';
 import StatusBarPaddingIOS from 'react-native-ios-status-bar-padding';
 
 // Components
@@ -8,6 +8,7 @@ import Settings from './app/components/settings';
 import User     from './app/components/user';
 
 // Pages
+import LoadingPage    from './app/views/loading';
 import LoginPage      from './app/views/login';
 import RegisterPage   from './app/views/register';
 import PurchasePage   from './app/views/purchase';
@@ -34,8 +35,6 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log('constructor in app');
-    console.log(this.children);
     User.on('update', () => {
       let user = User.getUser();
       for(let i in this.children){
@@ -44,6 +43,8 @@ export default class App extends React.Component {
     });
 
     User.on('login', () => {
+      console.log('logged in');
+      this.setState({loggedIn: true});
       let user = User.getUser();
       for(let i in this.children){
         this.children[i].loginUser && this.children[i].loginUser(user);
@@ -76,17 +77,19 @@ export default class App extends React.Component {
   }
     
   render() {
-    return (
+    let page = (
       <View style={styles.container}>
         <StatusBarPaddingIOS/>
         {this.state.networkError ? <View style={styles.networkError}><Text style={styles.networkErrorText}>Something went wrong, wait a few seconds and try again</Text></View> : null}
-        <UserInfo></UserInfo>
         <View style={styles.page}>
           {this.state.view}
         </View>   
         <Nav ref={ref => this.children.nav = ref} changeView={view => this.changeView(view)}></Nav>
       </View>
     );
+    if(this.state.loggedIn)
+      return page;
+    else return <LoadingPage />;
   }
 } 
 
@@ -111,6 +114,10 @@ const styles = StyleSheet.create({
   networkErrorText: {
     color: 'white',
     fontSize: 16
+  },
+  loader: {
+    width: 20,
+    height: 20
   }
 
 });
