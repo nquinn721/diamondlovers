@@ -8,11 +8,29 @@ const seeds = require('./seed');
 /**
  * MODEL
  */
+// const Image = new Schema({
+//     location: String,
+//     name: String,
+//     imageType: String,
+//     uri: String
+// });
 const Image = new Schema({
-    location: String,
-    name: String,
-    imageType: String,
-    uri: String
+    public_id: String,
+    version: Number,
+    signature: String,
+    width: Number,
+    height: Number,
+    format: String,
+    resource_type: String,
+    created_at: String,
+    tags: [String],
+    bytes: Number,
+    type: String,
+    etag: String,
+    url: String,
+    secure_url: String,
+    original_filename: String,
+    eager: [Object]
 });
  const Profile = new Schema({
     status: [{
@@ -145,21 +163,18 @@ class User {
             cb(e, doc.client(), doc);
         })
     }
-    static register(obj, cb = function(){}) {
-        console.log(obj);
-    }
-       
    
     /**
      * PROFILE
      */
     static updateProfileStatus(email, e, doc, cb = function(){}){
-        if(doc){
+        if(doc && doc.profile){
             if(doc.profile.status === 'created'){
                 if(doc.profile.images.length && doc.profile.displayName){
                     doc.profile.status.push('puclic');
                 }
             }
+            console.log('in update profile status callback');
             cb(e, doc);
         }else{
             UserModel.findOne({email}, (e, doc) => {
@@ -201,15 +216,9 @@ class User {
             cb = def;
             def = false;
         }
-        let image = {
-            name: imageObj.name,
-            location: imageObj.location,
-            imageType: imageObj.mimetype,
-            uri: imageObj.location + '/' + imageObj.name
-        };
         let update = {
             $push: {
-                'profile.images': image
+                'profile.images': imageObj
             }
         };
         if(def)
@@ -217,15 +226,16 @@ class User {
         UserModel.findOneAndUpdate({email}, update, {new: true}, (e, doc) => {
             if(doc.profile.images.length === 0 || !doc.profile.defaultImage)
                 doc.profile.defaultImage = doc.profile.images[0];
-            this.updateProfileStatus(email, doc, cb);
+            // this.updateProfileStatus(email, doc, cb);
+            cb(e, doc);
         });
     }
     static setDefaultImage(email, image, cb = function(){}){
         UserModel.findOneAndUpdate({email}, {$set: {'profile.defaultImage': image}}, {new: true}, cb);
     }
     static deleteImage(email, image, cb = function(){}){
-        if(!image._id)return cb({error: 'no image passed'});
-        UserModel.findOneAndUpdate({email},  { $pull: {'profile.images': image}}, {new: true}, (e, doc) => {
+        console.log(image);
+        UserModel.findOneAndUpdate({email},  { $pull: {'profile.images': { _id: image._id}}}, {new: true}, (e, doc) => {
             if(doc.profile.defaultImage && doc.profile.defaultImage._id.toString() === image._id.toString())
                 doc.profile.defaultImage = doc.profile.images && doc.profile.images.length ? doc.profile.images[0] : null;
             doc.save(cb);
@@ -234,8 +244,8 @@ class User {
     static removeMostRecentImage(email, cb = function(){}){
         UserModel.findOneAndUpdate({email}, {$pop: {'profile.images': 1}}, {new: true}, cb);
     }
-    static deleteAllImages(){
-        User.update({}, { $set: {'profile.images': []}}, {multi: true}, (e, d) => console.log(e, d));
+    static deleteAllImages(cb = function(){}){
+        UserModel.update({}, { $set: {'profile.images': []}}, {multi: true}, cb);
     }
     /**
      * END IMAGE

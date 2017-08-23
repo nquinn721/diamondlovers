@@ -79,13 +79,12 @@ body(ng-controller="main as main").container
                 button.btn.btn-primary(ng-click="main.addCard()") Add Card
     
     .images.jumbotron
-        form(ng-cloak, ng-show="main.isLoggedIn").upload
+        form(ng-cloak, ng-show="main.isLoggedIn", enctype="multipart/form-data").upload
             input(type="file", name="image")
             input.btn-primary.btn(type="submit", value="Upload", ng-click="main.uploadImage(this)")
         div.image(ng-repeat="img in main.user.profile.images")
             div 
-                div {{img.location + '/' + img.name}}
-                img.profile-image(ng-src="{{img.location + '/' + img.name}}")
+                img.profile-image(ng-src="{{img.url}}")
             div
                 button.btn.btn-primary(ng-click="main.deleteImage(img)") Delete
                 span(ng-show="main.user.profile.defaultImage._id === img._id") Default

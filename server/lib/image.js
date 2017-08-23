@@ -4,21 +4,20 @@ const multer = require('multer');
 const mkdirp = require('mkdirp');
 const path = require('path');
 const rimraf = require('rimraf');
+const Cloud = require('./cloudinary');
 
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            let location = Image.imageLocation(req.session.user.client.email);
-            mkdirp(location, () => 
-                cb(null, location)
+            file.location = Image.imageLocation(req.session.user.client.email);
+            mkdirp(file.location, () => 
+                cb(null, file.location)
             );
             
         },
         filename: (req, file, cb) => {
-            file.location = Image.imagePath(req.session.user.client.email);
-            file.name = Image.imageName(file);
             req.file = file;
-            cb(null, file.name);
+            cb(null, file.originalname);
             
         }
     })
@@ -26,55 +25,36 @@ const upload = multer({
 class Image{
 
     static storage(req, res, cb = function(){}){
-        let single = upload.single('image');
+        let single = upload.single('image'),
+            email = req.session.user.client.email;
         
         single(req, res, (err) => {
             if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY
-            if(req.error)User.removeMostRecentImage(req.session.user.client.email);
 
 
-            if(!err && !req.error && req.file)
-                this.upload(req, (e, user) =>{
-                    req.session.user.client.profile = user.profile;
-                    cb();
-                }); 
-            else
-                cb();
-        });
-    }
-    static upload(req, cb = function(){}){
-        if(allowedUploads.indexOf(req.file.mimetype) > -1){
-            User.addImage(req.session.user.client.email, req.file, req.body.defaultImage, cb);
-        }else{
-            req.error = {error: config.errorMessages.fileType};
-        }
-       
-    }
-
-    static deleteImage(email, image, cb){
-        let location = `server/images/${image.uri}`;
-        rimraf(location, function (e) {
-            if(e)return cb(e);
-            User.deleteImage(email, image, cb);
+            if(!err && !req.error && req.file){
+                Cloud.upload(req.file.location + '/' + req.file.originalname, email, (e, file) => {
+                    if(!e){
+                        this.deleteProfileImages(email);
+                        User.addImage(email, file, req.body.defaultImage, cb);
+                    }else{
+                        cb(e);
+                    }
+                })
+                
+            }else
+                cb(err || req.error);
         });
     }
 
-    static deleteAllImages(){
-        rimraf('server/images', function () { console.log('done'); });
-        User.deleteAllImages();
+
+    static deleteProfileImages(email){
+        rimraf('server/images/' + email, function(){});
     }
 
-    static imageName(imageObj){
-        return `profile-image-${Date.now()}.${imageObj.mimetype.replace('image/', '')}`
-    }
-    static imagePath(email){
-        return path.join(email, 'profile');
-
-    }
     static imageLocation(email){
-        return path.join('server', 'images', email, 'profile');
+        return path.join('server', 'images', email);
     }
 
 }
-// Image.init();
 module.exports = Image;

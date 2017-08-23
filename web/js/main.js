@@ -51,8 +51,11 @@ app.controller('main', function($scope){
     }
     this.deleteImage = function(image) {
     	this.post('/image/delete-image', fd(image), (user) => {
-    		this.user = user.client;
-    		this.stripeCust = user.stripeCust;
+            console.log(user);
+            if(user.client){
+        		this.user = user.client;
+        		this.stripeCust = user.stripeCust;
+            }
     	});
     }
 

@@ -44,5 +44,9 @@ module.exports = {
 	            res.send({error: config.errorMessages.login.failedLogin});
 	        }
 	    });
+	},
+	logout: function(req, res) {
+		delete req.session.user;
+		res.send({msg: 'Logged out'});
 	}
 }

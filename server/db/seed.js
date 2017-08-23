@@ -11,7 +11,19 @@ module.exports = [
             zip: '43123',
             displayName: 'natedeazy' 
         } 
-    }
+    },
+    {
+        email: 'bob@bob.com',
+        password: 'bob123',
+        firstName: 'Bob',
+        lastName: 'Walters',
+        profile: {
+            state: 'oh',
+            city: 'columbus',
+            zip: '43123',
+            displayName: 'BobbyBoi'
+        }
+    },
     ,
     { 
         email: 'lisa@gmail.com',

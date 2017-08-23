@@ -4,5 +4,6 @@ module.exports = {
 	db: require('./db'),
 	image: require('./image'),
 	admin: require('./admin'),
-	profile: require('./profile')
+	profile: require('./profile'),
+	test: require('./test')
 }

@@ -9,5 +9,8 @@ module.exports = {
 	},
 	seed: (req, res) => {
 		User.seed((e, doc) => res.send(e || doc));
-	}
+	},
+    clearDBImages: (req, res) => {
+        User.deleteAllImages(res.send);
+    }
 }

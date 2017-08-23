@@ -2,7 +2,6 @@ const   formidable = require("express-formidable"),
         bodyParser = require('body-parser'),
         controllers = require('./controllers');
 
-
 module.exports = function(app){
     let routes = {
         /**
@@ -28,6 +27,10 @@ module.exports = function(app){
             type: 'post',
             middleWare: ['formidable'],
             method: 'db.login'
+        },
+        'db/logout': {
+            type: 'post',
+            method: 'db.logout'
         },
 
         /**
@@ -72,6 +75,7 @@ module.exports = function(app){
             middleWare: ['loggedIn', 'formidable'],
             method: 'image.deleteImage'
         },
+        
 
         /**
          * END IMAGE
@@ -116,22 +120,48 @@ module.exports = function(app){
          */
          'admin/delete-all-images': {
             type: 'post',
-            middleWare: ['loggedIn', 'isAdmin'],
+            middleWare: ['isAdmin'],
             method: 'admin.deleteAllImages'
          },
          'admin/get-all-users': {
             type: 'post',
-            middleWare: ['loggedIn', 'isAdmin'],
+            middleWare: ['isAdmin'],
             method: 'admin.getAllUsers'
          },
          'admin/seed': {
             type: 'get', 
-            middleWare: ['loggedIn', 'isAdmin'],
+            middleWare: ['isAdmin'],
             method: 'admin.seed'
-         }
+         },
+         'admin/clear-db-images': {
+            type: 'get',
+            middleWare: ['isAdmin'],
+            method: 'admin.clearDBImages'
+         },
         /**
          * END ADMIN
          */ 
+
+        /**
+         * TEST
+         */
+        'test/test': {
+            type: 'get',
+            method: 'test.test'
+        },
+        'test/loggedin': {
+            type: 'post',
+            middleWare: ['loggedIn'],
+            method: 'test.loggedIn'
+        },
+        'test/admin': {
+            type: 'post',
+            middleWare: ['isAdmin'],
+            method: 'test.admin'
+        }
+        /**
+         * END TEST
+         */
     };
 
 
@@ -157,13 +187,27 @@ module.exports = function(app){
 
         if(route.middleWare.indexOf('loggedIn') > -1){
           middleWare.push((req, res, next) =>  {
-              if(req.session.user)next();
+              if(req.session && req.session.user)next();
               else res.send({error: 'not logged in'});
           });
         }
+
+        if(route.middleWare.indexOf('isAdmin') > -1){
+            middleWare.push((req, res, next) =>  {
+              if(req.session && req.session.user)next();
+              else res.send({error: 'not logged in'});
+            });
+            middleWare.push((req, res, next) => {
+                if(req.session && req.session.model && req.session.model.admin)next();
+                else res.send({error: 'not an admin'});
+            })
+        }
       }
 
-      app[route.type]('/' + i, middleWare, controllers[controller][method]);
+      if(typeof controllers[controller][method] === 'function')
+        app[route.type]('/' + i, middleWare, controllers[controller][method]);
+      else
+        console.error(`No route for [${controller}][${method}]`);
     }
 
 

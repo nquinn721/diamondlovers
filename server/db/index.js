@@ -1,7 +1,12 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-var promise = mongoose.connect('mongodb://nate:nate123@ds141088.mlab.com:41088/heroku_rdzrr701', {
+
+//::TODO setup for dev and prod
+const env = 'dev';
+
+
+const promise = mongoose.connect('mongodb://nquinn721:nate123@ds031632.mlab.com:31632/dlove' + env, {
   useMongoClient: true,
 });
 promise.then(function(db) {
