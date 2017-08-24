@@ -12,7 +12,7 @@ export default class ProfileImages extends React.Component{
 
     constructor(){
         super();
-        this.state.defaultImage = User.defaultImage();
+        this.state.defaultImage = User.defaultImage() || {};
         this.state.user = User.getUser();
     }
     updateUser(user){
@@ -46,7 +46,7 @@ export default class ProfileImages extends React.Component{
                     <View style={styles.imageContainer} key={i}>
                         <Image
                             style={[styles.image,(this.state.defaultImage === pic.id ? styles.defaultPic : null)]}
-                            source={{uri: Settings.baseUrl + '/' + pic.uri}}
+                            source={{uri: pic.url}}
                             onLoad={() => {console.log('load')}}
                         />
                         <Text>{pic.id}</Text>
