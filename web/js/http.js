@@ -10,7 +10,7 @@ app.factory('http', function($rootScope){
 		        body: data,
 		        credentials: "same-origin"
 		    }).then((d) => d.json()).then((data) => {
-		    	cb(data);
+		    	this.updateUser(data, cb);
 		    	$rootScope.$apply();
 		    });
 		},
@@ -19,9 +19,14 @@ app.factory('http', function($rootScope){
 	            method: 'get',
 	            credentials: 'same-origin'
 	        }).then(d => d.json()).then((data) => {
-	            cb(data);
+	            this.updateUser(data, cb);
 	            $rootScope.$apply();
 	        });
+	    },
+	    updateUser: function(user, cb) {
+	    	console.log('http', user);
+	        if(user.error)return console.error(user.error);
+	        cb(user);
 	    },
 		fd: function (data){
 			let formd = new FormData();

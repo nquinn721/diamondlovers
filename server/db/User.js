@@ -293,6 +293,17 @@ class User {
 }
 // User.seed();
 
-User.delete('bob@marley.com');
+// UserModel.findOrCreate({
+//     firstName: 'Nate',
+//     lastName: 'Quinn',
+//     admin: true,
+//     email: 'natethepcspecialist@gmail.com',
+//     password: 'nate123',
+//     profile: {
+//         state: 'oh',
+//         city: 'columbus',
+//         zip: 43119
+//     },
+// })
 
 module.exports = User;

@@ -44,7 +44,7 @@ describe('Image Management', (done) => {
               .expect(200)
               .then(res  => {
               	let user = res.body.client;
-              	let image = res.body.images[0];
+              	let image = res.body.images[res.body.images.length - 1];
               	image.userId.should.equal(user._id);
               	image.status.should.equal('new');
               	should.equal(user.profile.defaultImage, undefined);
@@ -61,7 +61,7 @@ describe('Image Management', (done) => {
               .expect(200)
               .then(res  => {
               	let user = res.body.client;
-              	let image = res.body.images[1];
+              	let image = res.body.images[res.body.images.length - 1];
               	image.userId.should.equal(user._id);
               	image.status.should.equal('new');
               	user.profile.defaultImage.should.equal(image._id);
@@ -72,7 +72,6 @@ describe('Image Management', (done) => {
 
 	it('Should be a basic image', (done) => {
 		Image.basic(user._id, (e, images) => {
-			images.length.should.equal(2);
 			images[0]._id.toString().should.equal(image1._id.toString());
 			images[1]._id.toString().should.equal(image2._id.toString());
 			should.equal(images[0].secure_url, undefined);

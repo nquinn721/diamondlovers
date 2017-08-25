@@ -1,8 +1,8 @@
 const chai = require('chai');
 const should = chai.should();
 let s = require('./stripe');
+require('../db/index');
 
-// let s = new StripeAPI;
 let testTime = 5000;
 
 // let req = {
@@ -36,6 +36,18 @@ describe('Stripe API', function() {
             }
         }
     }, cardId;
+    before((done) => {
+        User.get({
+            email: 'hipster@hiphopannonomys.com', 
+            password: 'hippy123'
+        }, (e, doc) => {
+            req.session.user.client = doc;
+            done();
+        })
+    });
+    after(done => {
+        User.delete(req.session.user.client._id, done);
+    });
     beforeEach(() => {
         req.body = {};
     });
@@ -71,7 +83,7 @@ describe('Stripe API', function() {
     }).timeout(testTime);
 
 
-     it('Should add card to customer already there', (done) => {
+    it('Should add card to customer already there', (done) => {
         req.body = {
             number: '4000056655665556',
             exp_month: 12,

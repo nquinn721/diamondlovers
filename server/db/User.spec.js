@@ -21,7 +21,7 @@ describe('User', function(done) {
             done();
         });
     });
-    after((done) => User.delete(user.email, done));
+    after((done) => User.delete(user._id, done));
     
     it('User first name should be Bob', () => {
         user.firstName.should.equal('Bob');
@@ -50,31 +50,33 @@ describe('User', function(done) {
     });
 
     
-    it('Should soft delete user', (done) => {
-        User.softDelete(user.email, (e, doc) => {
-            doc.deletedAt.should.be.a.string;
-            done();
-        });
-    });
-
+    
     it('Should create stripe customer id', (done) => {
-        User.createStripeCustomer(user.email, 'stripeid', (e, doc) => {
+        User.createStripeCustomer(user._id, 'stripeid', (e, doc) => {
             doc.stripeId.should.be.a.string;
             done();
         });
     });
 
     it('Should delete stripe id', (done) => {
-        User.deleteStripeCustomer(user.email, (e, doc) => {
+        User.deleteStripeCustomer(user._id, (e, doc) => {
             should.equal(doc.stripeId, undefined);
             done();
         });
     });
     
     it('Should add 10,000 diamonds', (done) => {
-        User.addDiamonds(user.email, 10000, (e, doc) => {
+        User.addDiamonds(user._id, 10000, (e, doc) => {
             doc.diamonds.should.equal(10000);
             done();
         });
     });
+
+    it('Should soft delete user', (done) => {
+        User.softDelete(user._id, (e, doc) => {
+            doc.deletedAt.should.be.a.string;
+            done();
+        });
+    });
+
 });

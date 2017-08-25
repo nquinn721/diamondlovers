@@ -48,11 +48,22 @@ const ImageSchema = new Schema({
         default: 'new'
     }
 });
+ImageSchema.methods.basic = function() {
+    return {
+        public_id: this.public_id,
+        _id: this._id,
+        userId: this.userId,
+        status: this.status,
+        url: this.url
+    }
+}
 
 class Image{
 	static basic(userId, cb = function(){}){
-		return this.find({userId}, 'public_id url', cb);
+		return this.find({userId}, '_id public_id url userId status', cb);
 	}
+
+    
 
 
     static delete(userId, public_id, cb = function(){}){
@@ -90,7 +101,7 @@ class Image{
                     file.userId = userId;
 
                     rimraf(req.file.location, ()=>{});
-                    this.create(file, cb)
+                    this.create(file, (e, doc) => cb(e, doc && doc.basic()));
                     
                 });
                 

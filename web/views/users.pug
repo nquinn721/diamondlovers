@@ -3,11 +3,82 @@ h1 Users
 	select.form-control(ng-model="users.currentUser", ng-change="users.updateCurrentUser()")
 		option(ng-repeat="user in users.users track by $index", ng-value="{{user}}") {{user.email}}
 	pre(ng-if="users.currentUser") {{users.currentUser | json}} 
+form.user-update(ng-submit="users.updateUser()")
+	span Status
+	select.form-control(ng-model="users.update.status")
+		option(ng-repeat="status in users.userStatus", value="{{status}}") {{status}}
+	span DisplayName
+	input.form-control(ng-model="users.update.displayName")
+	span City
+	input.form-control(ng-model="users.update.city")
+	span State
+	input.form-control(ng-model="users.update.state")
+	span Zip
+	input.form-control(ng-model="users.update.zip")
+	span About
+	input.form-control(ng-model="users.update.about")
+	span Income
+	input.form-control(ng-model="users.update.income")
+	span Age
+	input.form-control(ng-model="users.update.age")
+	span BodyType
+	input.form-control(ng-model="users.update.bodyType")
+	span Sex
+	input.form-control(ng-model="users.update.sex")
+	span Children
+	input.form-control(ng-model="users.update.children")
+	span Education
+	input.form-control(ng-model="users.update.education")
+	span Height
+	input.form-control(ng-model="users.update.height")
+	span Drugs
+	input.form-control(ng-model="users.update.drugs")
+	span Drinks
+	input.form-control(ng-model="users.update.drinks")
+	span Smokes
+	input.form-control(ng-model="users.update.smokes")
+	span Location
+	input.form-control(ng-model="users.update.location")
+	span LookingFor
+	input.form-control(ng-model="users.update.lookingFor")
+	span Cost
+	span Date1
+	input.form-control(ng-model="users.update['cost.date1']")
+	span Date2
+	input.form-control(ng-model="users.update['cost.date2']")
+	span Date3
+	input.form-control(ng-model="users.update['cost.date3']")
+
+	span Preferences
+	span ethnicity
+	input.form-control(ng-model="users.update['preferences.ethnicity']")
+	span distance
+	input.form-control(ng-model="users.update['preferences.distance']")
+	span sex
+	input.form-control(ng-model="users.update['preferences.sex']")
+	span children
+	input.form-control(ng-model="users.update['preferences.children']")
+	span education
+	input.form-control(ng-model="users.update['preferences.education']")
+	span smokes
+	input.form-control(ng-model="users.update['preferences.smokes']")
+	span drugs
+	input.form-control(ng-model="users.update['preferences.drugs']")
+	span drinks
+	input.form-control(ng-model="users.update['preferences.drinks']")
+	span bodyType
+	input.form-control(ng-model="users.update['preferences.bodyType']")
+	span height
+	input.form-control(ng-model="users.update['preferences.height']")
+	span income
+	input.form-control(ng-model="users.update['preferences.income']")
+	br
+	input(type='submit', value='Submit')
 .images.jumbotron
 	form(ng-cloak, enctype="multipart/form-data").upload
 		input(type="file", name="image")
 		input.btn-primary.btn(type="submit", value="Upload", ng-click="users.uploadIamge()")
-	div.image(ng-repeat="img in users.currentUser.profile.images")
+	div.image(ng-repeat="img in users.currentUser.images")
 		div 
 			img.profile-image(ng-src="{{img.url}}")
 		div

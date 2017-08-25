@@ -40,8 +40,10 @@ class StripeAPI{
       let charge = req.body;
       let email = req.session.user.client.email;
       let cust = req.session.user.stripeCust;
+      let userId = req.session.user.client._id;
+
       if(!cust){
-        this.createCustomer(email, charge, (e, cust) => this.chargeCustomer(charge, cust.id, (e, c) => cb( e, cust, c)));
+        this.createCustomer(email, userId, charge, (e, cust) => this.chargeCustomer(charge, cust.id, (e, c) => cb( e, cust, c)));
       }else{
         this.chargeCustomer(charge, cust.id, (e, c) => cb(e, cust, c));
       }
@@ -65,18 +67,19 @@ class StripeAPI{
 
       let cust = req.session.user.stripeCust;
       let email = req.session.user.client.email;
+      let userId = req.session.user.client._id;
       let card = req.body;
 
       if(!card)return cb({error: 'No card specified'});
       if(!email)return cb({error: 'No email for user'});
-
+      
       if(cust){
         this.addCardToCustomer(card, cust, (e, card) => {
           cust.sources.data.push(card);
           cb(e, cust, card);
         });
       }else{
-          this.createCustomer(email, card, (e, cust) => {
+          this.createCustomer(email, userId, card, (e, cust) => {
             if(e)return cb(e);
             this.addCardToCustomer(card, cust, (e, card) =>{
                 cb(e, cust, card);
@@ -215,7 +218,7 @@ class StripeAPI{
      * token = String
      * cb = (err, customer)
      */
-    static createCustomer(email, charge, cb = function(){}){
+    static createCustomer(email, userId, charge, cb = function(){}){
       let source =  {
           object: 'card',
           number: charge.number,
@@ -224,7 +227,7 @@ class StripeAPI{
           cvc: charge.cvc
         };
       stripe.customers.create({source, email}, function(e, cust){
-        if(!e)User.createStripeCustomer(email, cust.id);
+        if(!e)User.createStripeCustomer(userId, cust.id);
         cb(e, cust);
       });
     }

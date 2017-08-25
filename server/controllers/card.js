@@ -36,6 +36,6 @@ function updateClientWithStripeUser(req, res, e, data){
         req.session.user.stripeCust = data;
         res.send(req.session.user);
     }else{
-        res.send(e);
+        res.send({error: 'failed'});
     }
 }

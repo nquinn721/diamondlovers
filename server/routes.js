@@ -151,10 +151,15 @@ module.exports = function(app){
             middleWare: ['isAdmin'],
             method: 'admin.updateUser'
          },
-         'admin/upload-image-for-user/:email': {
+         'admin/upload-image-for-user/:id': {
             type: 'post',
             middleWare: ['isAdmin'],
             method: 'admin.uploadImageForUser'
+         },
+         'admin/get-images-for-user/:id': {
+            type: 'get',
+            middleWare: ['isAdmin'],
+            method: 'admin.getImagesForUser'
          },
          
         /**

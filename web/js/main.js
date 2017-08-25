@@ -13,10 +13,7 @@ app.controller('main', function($scope, http){
 
     this.login = function(){
 		http.post('/db/login', http.fd({email: this.email, password: this.password}), (user) => {
-			console.log('Logged in', user);
-			this.user = user.client;
-			this.isLoggedIn = true;
-    		this.stripeCust = user.stripeCust;
+            this.handleUser(user);
 
             http.get('/profile/get-nearby', (profiles) => {
                 console.log('profiles');
@@ -24,17 +21,22 @@ app.controller('main', function($scope, http){
             })
 	    });
     }
+    this.handleUser = function(user) {
+        this.user = user.client;
+        this.images = user.images;
+        this.isLoggedIn = true;
+        this.stripeCust = user.stripeCust;
+    }
 
     this.updateUser = function(field, value) {
         http.post('/profile/update', http.fd({field, value}), (user) => {
-            console.log('update', user);
+            this.handleUser(user);
         });
     }
 
     this.uploadImage = function(form) {
     	http.post('/image/profile-image-upload', new FormData(document.querySelector('.upload')), (user) => {
-			this.user = user.client;
-    		this.stripeCust = user.stripeCust;
+			this.handleUser(user);
 	    });
     }
     this.deleteAllImages = function() {
@@ -42,10 +44,7 @@ app.controller('main', function($scope, http){
     }
     this.makeImageDefault = function(image){
     	delete image.$$hashKey;
-    	http.post('/image/make-image-default', http.fd(image), (user) => {
-    		this.user = user.client;
-    		this.stripeCust = user.stripeCust;
-    	})
+    	http.post('/image/make-image-default', http.fd(image), this.handleUser.bind(this));
     }
     this.deleteImage = function(image) {
     	http.post('/image/delete-image', http.fd(image), (user) => {

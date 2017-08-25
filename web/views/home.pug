@@ -69,11 +69,11 @@ form.register.jumbotron(ng-cloak, ng-show="main.isLoggedIn")
     form(ng-cloak, ng-show="main.isLoggedIn", enctype="multipart/form-data").upload
         input(type="file", name="image")
         input.btn-primary.btn(type="submit", value="Upload", ng-click="main.uploadImage(this)")
-    div.image(ng-repeat="img in main.user.profile.images")
+    div.image(ng-repeat="img in main.images")
         div 
             img.profile-image(ng-src="{{img.url}}")
         div
             button.btn.btn-primary(ng-click="main.deleteImage(img)") Delete
-            span(ng-show="main.user.profile.defaultImage._id === img._id") Default
-            span(ng-show="main.user.profile.defaultImage._id !== img._id") 
+            span(ng-show="main.user.profile.defaultImage === img._id") Default
+            span(ng-show="main.user.profile.defaultImage !== img._id") 
                 input.btn.btn-primary(value="Make Default", type="button.btn.btn-primary", ng-click="main.makeImageDefault(img)")

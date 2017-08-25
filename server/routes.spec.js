@@ -2,38 +2,29 @@ const request = require('supertest');
 const express = require('express');
 const chai = require('chai');
 const should = chai.should();
-
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo')(session);
-// const app = express();
-// require('./routes')(app);
-
-// const db = require('./db');
-
-// var sess = {
-//   secret: 'walkingTheDogOnASummerDay',
-//   resave: true,
-//   saveUninitialized: true,
-//   rolling: true,
-//   cookie: { maxAge: 30 * 60 * 1000 },
-//   store: new MongoStore({
-//       dbPromise: db
-//   })
-// }
-
 const app = require('../index');
-// app.get('/test/test', function(req, res) {
-//   res.status(200).json({ name: 'tobi' });
-// });
 
 describe('App Routes', function() {
 	const agent = request.agent(app);
-	it('respond with json', () => {
-		return agent
+	let user, user1;
+
+	before(done => {
+		User.get({firstName: 'Nate', lastName: 'Quinn', email: 'natethepcspecialist@gmail.com', admin: 'true', password: 'nate123', profile: {displayName: 'boijw'}}, (e, doc) => {
+			user = doc;
+			User.get({firstName: 'Bob', lastName: 'Bboart', email: 'bob@bob.com', password: 'bob123', profile: {displayName: 'owiejfowiejf'}}, (e, u) => {
+				user1 = u;
+				done();
+			});
+		});
+	});
+	after(done => User.delete(user._id, () => User.delete(user1._id, done)));
+	it('respond with json', (done) => {
+		agent
 			.get('/test/test')
 			.expect(200)
 			.then(res => {
 				res.body.name.should.equal('nate');
+				done();
 			})
 	});
 
@@ -41,7 +32,7 @@ describe('App Routes', function() {
 	it('should login', (done) => {
 		agent
 			.post('/db/login')
-			.send({email :'natethepcspecialist@gmail.com', password: 'nate123'})
+			.send({email: 'natethepcspecialist@gmail.com', password: 'nate123'})
 			.expect(200)
 			.then(res => {
 				res.body.client.firstName.should.equal('Nate');
