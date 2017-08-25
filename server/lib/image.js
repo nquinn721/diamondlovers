@@ -24,9 +24,8 @@ const upload = multer({
 })
 class Image{
 
-    static storage(req, res, cb = function(){}){
-        let single = upload.single('image'),
-            email = req.session.user.client.email;
+    static storage(email, req, res, cb = function(){}){
+        let single = upload.single('image');
         
         single(req, res, (err) => {
             if(err)req.error = {error: config.errorMessages.fileUpload}; //::TODO ADD A RETRY

@@ -3,7 +3,7 @@ const Cloud = require('../lib/cloudinary');
 
 module.exports = {
     profileImageUpload: (req, res) => {
-         Image.storage(req, res, updateClient.bind(this, req, res));
+        Image.storage(req.session.user.client.email, req, res, updateClient.bind(this, req, res));
     },
     makeImageDefault: (req, res) => {
         User.setDefaultImage(req.session.user.client.email, req.body, updateClient.bind(this, req, res));

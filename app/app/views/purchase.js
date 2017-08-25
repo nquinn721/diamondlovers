@@ -2,7 +2,18 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TouchableOpacity } from 'react-native';
 import Service from 'app/app/components/service';
 import User from 'app/app/components/user';
+var stripe = require('stripe-client')('pk_test_SxLXrzbxiAiTwnt8qiOW1agS');
 
+// let prom = stripe.createToken({
+//   card: {
+//     "number": '4242424242424242',
+//     "exp_month": 12,
+//     "exp_year": 2018,
+//     "cvc": '123'
+//   }
+// });
+
+// prom.then(d => console.log(d));
 export default class PurchasePage extends React.Component{
     purchaseDiamonds(amount){
         Service.chargeCard(amount * 100, () => {

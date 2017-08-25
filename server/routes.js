@@ -7,9 +7,13 @@ module.exports = function(app){
         /**
          * WEB
          */
-        '/': {
+        ':page': {
             type: 'get',
             method: 'web.index'
+        },
+        'views/:page': {
+          type: 'get',
+          method: 'web.views'
         },
         /**
          * END WEB
@@ -138,6 +142,17 @@ module.exports = function(app){
             middleWare: ['isAdmin'],
             method: 'admin.clearDBImages'
          },
+         'admin/update-user': {
+            type: 'post',
+            middleWare: ['isAdmin'],
+            method: 'admin.updateUser'
+         },
+         'admin/upload-image-for-user/:email': {
+            type: 'post',
+            middleWare: ['isAdmin'],
+            method: 'admin.uploadImageForUser'
+         },
+         
         /**
          * END ADMIN
          */ 

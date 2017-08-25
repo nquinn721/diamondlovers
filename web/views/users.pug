@@ -1,0 +1,17 @@
+h1 Users
+.users
+	select.form-control(ng-model="users.currentUser", ng-change="users.updateCurrentUser()")
+		option(ng-repeat="user in users.users track by $index", ng-value="{{user}}") {{user.email}}
+	pre(ng-if="users.currentUser") {{users.currentUser | json}} 
+.images.jumbotron
+	form(ng-cloak, enctype="multipart/form-data").upload
+		input(type="file", name="image")
+		input.btn-primary.btn(type="submit", value="Upload", ng-click="users.uploadIamge()")
+	div.image(ng-repeat="img in users.currentUser.profile.images")
+		div 
+			img.profile-image(ng-src="{{img.url}}")
+		div
+			button.btn.btn-primary(ng-click="users.deleteImage(img)") Delete
+			span(ng-show="users.currentUser.profile.defaultImage._id === img._id") Default
+			span(ng-show="users.currentUser.profile.defaultImage._id !== img._id") 
+				input.btn.btn-primary(value="Make Default", type="button.btn.btn-primary", ng-click="users.makeImageDefault(img)")
