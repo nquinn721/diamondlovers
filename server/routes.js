@@ -191,7 +191,7 @@ module.exports = function(app){
 
         if(route.middleWare.indexOf('formidable') > -1){
           middleWare.push(
-              bodyParser.urlencoded({ extended: false }),
+              bodyParser.urlencoded({ extended: true }),
               formidable(),
               function(req, res, next){
                   req.body = req.fields && Object.keys(req.fields).length ? req.fields : req.body;
