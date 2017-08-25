@@ -28,6 +28,12 @@ const ImageSchema = new Schema({
     }
 });
 
+class Image{
+	basic(user){
+		return this.find({user}, 'public_id url');
+	}
+}
+
+ImageSchema.loadClass(Image);
 const ImageModel = mongoose.model('Image', ImageSchema);
-// UserSchema.methods
 module.exports = ImageModel;
