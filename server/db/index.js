@@ -16,6 +16,6 @@ promise.then(function(db) {
 global.User = require('./User');
 global.Dates = require('./Date');
 global.Messages = require('./Message');
-global.Image = require('./image');
+global.Image = require('./Image');
 
 module.exports = promise;

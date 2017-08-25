@@ -7,6 +7,10 @@ module.exports = function(app){
         /**
          * WEB
          */
+        '/': {
+            type: 'get',
+            method: 'web.index'
+        },
         ':page': {
             type: 'get',
             method: 'web.index'

@@ -1,18 +1,24 @@
-const Image = require('../lib/image');
-const Cloud = require('../lib/cloudinary');
 
 module.exports = {
     profileImageUpload: (req, res) => {
-        Image.storage(req.session.user.client.email, req, res, updateClient.bind(this, req, res));
+        Image.addImage(req.session.user.client._id, req, res, (e, image) => {
+            if(image)
+                req.session.user.images.push(image);
+
+            if(req.body.defaultImage)
+                return User.setDefaultImage(req.session.user.client._id, image, updateClient.bind(this, req, res));
+            res.send(e || req.session.user);
+        });
     },
     makeImageDefault: (req, res) => {
-        User.setDefaultImage(req.session.user.client.email, req.body, updateClient.bind(this, req, res));
+        User.setDefaultImage(req.session.user.client._id, req.body, updateClient.bind(this, req, res));
     },
 
     deleteImage: (req, res) => {
-        Cloud.delete(req.body.public_id, (e, file) => {
-            if(!e || file.result !== 'not found')User.deleteImage(req.session.user.client.email, req.body, updateClient.bind(this, req, res));
-            else res.send({error: 'file not found'});
+        Image.delete(req.session.user.client._id, req.body.public_id, (e, images) => {
+            if(e)return res.send(e);
+            req.session.user.images = images;
+            res.send(req.session.user);
         });
     }
 

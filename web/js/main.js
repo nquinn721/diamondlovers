@@ -33,7 +33,6 @@ app.controller('main', function($scope, http){
 
     this.uploadImage = function(form) {
     	http.post('/image/profile-image-upload', new FormData(document.querySelector('.upload')), (user) => {
-    		console.log(user);
 			this.user = user.client;
     		this.stripeCust = user.stripeCust;
 	    });

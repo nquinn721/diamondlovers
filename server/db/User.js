@@ -53,8 +53,7 @@ const seeds = require('./seed');
         height: Number,
         income: Number,
     },
-    defaultImage: {type: Schema.Types.ObjectId, ref: 'Image'},
-    images: [{type: Schema.Types.ObjectId, ref: 'Image'}]
+    defaultImage: {type: Schema.Types.ObjectId, ref: 'Image'}
 });
 
 const UserSchema = new Schema({
@@ -114,6 +113,7 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 };
 UserSchema.methods.client = function() {
     return {
+        _id:        this._id,
         firstName:  this.firstName,
         lastName:   this.lastName,
         diamonds:   this.diamonds,
@@ -129,10 +129,14 @@ const UserModel = mongoose.model('User', UserSchema);
     
 
 class User {
+
+    static find(_id, cb = function(){}){
+        UserModel.findOne({_id}, cb);
+    }
     
     // TODO:: check for a stripe charge id before adding diamonds
-    static addDiamonds(email, diamonds, cb = function(){}){
-        UserModel.findOneAndUpdate({email}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
+    static addDiamonds(_id, diamonds, cb = function(){}){
+        UserModel.findOneAndUpdate({_id}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
     }
     
     static get(obj, cb = function(){}){
@@ -140,8 +144,9 @@ class User {
             cb(e, doc.client(), doc);
         })
     }
-    static getPopulatedUser(email, cb = function(){}){
-        UserModel.findOne({email}).populate('profile.defaultImage').populate('profile.images').exec(cb);
+
+    static setDefaultImage(_id, imageId, cb = function(){}){
+        UserModel.findOneAndUpdate({_id}, {$set: {'profile.defaultImage': imageId}}, {new: true}, cb);
     }
    
     /**
@@ -152,10 +157,10 @@ class User {
         doc.profile.status = status;
         doc.save(cb);
     }
-    static updateProfile(email, field, value, cb = function(){}){
+    static updateProfile(_id, field, value, cb = function(){}){
         let update = {};
         update['profile.' + field] = value;
-        UserModel.findOneAndUpdate({email}, update, {new: true}, cb);
+        UserModel.findOneAndUpdate({_id}, update, {new: true}, cb);
     }
     /**
      * END PROFILE
@@ -165,12 +170,12 @@ class User {
     /**
      * SEARCH
      */
-    static getPublicProfilesNearby(email, cb = function(){}){
-        UserModel.findOne({email}, (e, doc) => {
-            if(e || !doc)return cb(e || {error: 'no doc found with email [' + email + ']'});
+    static getPublicProfilesNearby(_id, cb = function(){}){
+        UserModel.findOne({_id}, (e, doc) => {
+            if(e || !doc)return cb(e || {error: 'no doc found with _id [' + _id + ']'});
             if(!doc.profile.city || !doc.profile.state)
                 return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
-            UserModel.find({email: {'$ne' : email}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, cb);
+            UserModel.find({_id: {'$ne' : _id}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, cb);
         });
     }
     /**
@@ -181,45 +186,10 @@ class User {
     /**
      * IMAGE
      */
-    static addImage(email, imageObj, cb = function(){}){
-        UserModel.findOne({email}, (e, user) => {
-            if(e)return cb(e);
-            
-            imageObj.user = user._id;
-            Image.create(imageObj, (e, image) => {
-                if(e)return cb(e);
-    
-                user.profile.images.push(image._id);
+    static setDefaultImage(_id, image, cb = function(){}){
+        UserModel.findOneAndUpdate({_id}, {$set: {'profile.defaultImage': image}}, {new: true}, cb);
+    }
 
-                if(user.profile.images.length === 0 || !user.profile.defaultImage)
-                    user.profile.defaultImage = user.profile.images[0];
-
-                // Set profile to public if it hasn't yet
-                if(user.profile.status === 'new')
-                    this.updateProfileStatus(user, 'public', cb);
-                else UserModel.populate(user, {path: 'profile.images', path: 'profile.defaultImage'}, (e, newUser) => {
-                    cb(e, newUser);
-                })
-            })
-        });
-    }
-   
-    static setDefaultImage(email, image, cb = function(){}){
-        UserModel.findOneAndUpdate({email}, {$set: {'profile.defaultImage': image}}, {new: true}, cb);
-    }
-    static deleteImage(email, image, cb = function(){}){
-        UserModel.findOneAndUpdate({email},  { $pull: {'profile.images': { _id: image._id}}}, {new: true}, (e, doc) => {
-            if(doc.profile.defaultImage && doc.profile.defaultImage._id.toString() === image._id.toString())
-                doc.profile.defaultImage = doc.profile.images && doc.profile.images.length ? doc.profile.images[0] : null;
-            doc.save(cb);
-        });
-    }
-    static removeMostRecentImage(email, cb = function(){}){
-        UserModel.findOneAndUpdate({email}, {$pop: {'profile.images': 1}}, {new: true}, cb);
-    }
-    static deleteAllImages(cb = function(){}){
-        UserModel.update({}, { $set: {'profile.images': []}}, {multi: true}, cb);
-    }
     /**
      * END IMAGE
      */
@@ -233,17 +203,21 @@ class User {
             if(e)return cb(e);
             if(!doc)return cb({error: 'no user found'});
 
-            let client = doc.client();
+            let user = {
+                client: doc.client()
+            }
             
             if(pw){
                 doc.comparePassword(pw, (matchError, match) => {
                     if(match){
                         if(doc.stripeId){
                             Stripe.getCustomer(doc.stripeId, (e, cust) => {
-                                cb(e, doc, client, cust);
+                                user.cust = cust
+                                
+                                this.getImagesForLogin(e, doc, user, cb);
                             });
                         }else{
-                            cb(e, doc, client);
+                            this.getImagesForLogin(e, doc, user, cb);
                         }
                     }else cb(matchError);
                 });
@@ -261,15 +235,26 @@ class User {
         });
     }
 
-    static delete(email, cb = function(){}){
-        
-        UserModel.findOne({email}, (e, doc) => {
-            if(e || !doc)return cb(e);
-            Image.find({user: doc._id}).remove().exec(cb.bind(this, e, doc));
-        })
+    static getImagesForLogin(e, doc, user, cb){
+        Image.basic(doc._id, (e, images) => {
+            if(e)return cb(e);
+            user.images = images;
+            cb(e, doc, user);
+        });
     }
-    static softDelete(email, cb = function(){}){
-        UserModel.findOneAndUpdate({email}, {$set: {deletedAt: Date.now()}}, {new: true}, cb);
+
+    static delete(_id, cb = function(){}){
+        
+        UserModel.findOne({_id}, (e, doc) => {
+            if(e || !doc)return cb(e);
+            Image.deleteAllUserImages(doc._id, (e, a) => {
+                if(e)return cb(e);
+                doc.remove(cb);
+            });
+        });
+    }
+    static softDelete(_id, cb = function(){}){
+        UserModel.findOneAndUpdate({_id}, {$set: {deletedAt: Date.now()}}, {new: true}, cb);
     }
     /**
      * END DB
@@ -279,11 +264,11 @@ class User {
     /**
      * STRIPE
      */
-    static createStripeCustomer(email, stripeId, cb = function(){}){
-        UserModel.findOneAndUpdate({email}, {stripeId: stripeId}, {new: true}, cb);
+    static createStripeCustomer(_id, stripeId, cb = function(){}){
+        UserModel.findOneAndUpdate({_id}, {stripeId: stripeId}, {new: true}, cb);
     }
-    static deleteStripeCustomer(email, cb = function(){}){
-        UserModel.findOneAndUpdate({email}, {$unset: {stripeId: ''}}, {new: true}, cb);
+    static deleteStripeCustomer(_id, cb = function(){}){
+        UserModel.findOneAndUpdate({_id}, {$unset: {stripeId: ''}}, {new: true}, cb);
     }
     /**
      * END STRIPE
@@ -297,8 +282,7 @@ class User {
      }
 
      static seed(cb = function(){}){
-        UserModel.create(seeds, (e, doc) => {
-        })
+        UserModel.create(seeds);
 
      }
     /**

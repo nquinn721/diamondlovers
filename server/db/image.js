@@ -1,10 +1,31 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const findOrCreate = require('mongoose-find-or-create');
+const config = require('../config');
+const multer = require('multer');
+const mkdirp = require('mkdirp');
+const path = require('path');
+const rimraf = require('rimraf');
+const Cloud = require('./cloudinary');
+
+// Multer upload config
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            file.location = path.join('tmp', req.session.user.client._id);
+            mkdirp(file.location, () => cb(null, file.location));
+        },
+        filename: (req, file, cb) => {
+            req.file = file;
+            cb(null, file.originalname);
+            
+        }
+    })
+})
 
 
 const ImageSchema = new Schema({
-    user: {type: Schema.Types.ObjectId, ref: 'User'},
+    userId: {type: Schema.Types.ObjectId, ref: 'User'},
     public_id: String,
     version: Number,
     signature: String,
@@ -29,9 +50,54 @@ const ImageSchema = new Schema({
 });
 
 class Image{
-	basic(user){
-		return this.find({user}, 'public_id url');
+	static basic(userId, cb = function(){}){
+		return this.find({userId}, 'public_id url', cb);
 	}
+
+
+    static delete(userId, public_id, cb = function(){}){
+        Cloud.delete(public_id, (e, file) => e ? cb(e) : this.deleteImageFromDB(public_id, () => this.basic(userId, cb)));
+    }
+
+    static deleteAllUserImages(userId, cb = function(){}){
+        this.basic(userId, (err, docs) => {
+            if(err || !docs.length)return cb(err);
+
+            let done = docs.length;
+            docs.forEach(doc => this.delete(userId, doc.public_id, (e, file) => {
+                done--;
+                if(done === 0)cb(null, {msg: 'deleted all of users images'});
+            }));
+        });
+    }
+
+    static deleteImageFromDB(public_id, cb = function(){}){
+        this.findOne({public_id}).remove().exec(cb);
+    }
+
+
+    // Store file locally then upload to Cloudinary
+    static addImage(userId, req, res, cb = function(){}){
+        let single = upload.single('image');
+        
+        single(req, res, (err) => {
+            if(err)return cb({error: config.errorMessages.fileUpload}); //::TODO ADD A RETRY
+
+            if(!err && req.file){
+                Cloud.upload(req.file.location + '/' + req.file.originalname, userId, (e, file) => {
+                    if(e)return cb(e);
+
+                    file.userId = userId;
+
+                    rimraf(req.file.location, ()=>{});
+                    this.create(file, cb)
+                    
+                });
+                
+            }else cb(err);
+            
+        });
+    }
 }
 
 ImageSchema.loadClass(Image);

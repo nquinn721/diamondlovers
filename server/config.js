@@ -7,5 +7,10 @@ module.exports = {
         },
         fileUpload: "Your file failed to upload!",
         fileType: "Please upload images only!"
+    },
+    cloudinary: {
+		cloud_name: 'duemkn2nj', 
+		api_key: '568768714353137', 
+		api_secret: 'uLeUIKycXGk4_kMaw9WalaDpM1Y' 
     }
 }

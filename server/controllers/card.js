@@ -14,9 +14,11 @@ module.exports = {
 	},
 	// {card: cardID} optional
 	chargeCard: (req, res) => {
+		let userId = req.session.user.client._id;
+		
 	    StripAPI.charge(req, (e, cust, charge) => {
 	        if(charge && charge.status === 'succeeded'){
-	            User.addDiamonds(req.session.user.email, charge.amount / 10, (e, user) => {
+	            User.addDiamonds(userId, charge.amount / 10, (e, user) => {
 	                req.session.user.client = user;
 	                req.session.user.stripeCust = cust;
 	                
