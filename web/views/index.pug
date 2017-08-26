@@ -7,10 +7,13 @@ head
     title Diamond Lovers
     link(rel="stylesheet", href="css/main.css")
     link(rel="stylesheet", href="bootstrap/dist/css/bootstrap.min.css")
+    link(rel="stylesheet", href="font-awesome/css/font-awesome.min.css")
 body(ng-controller="main as main")
     include nav
     div(ng-view)
 
+script(src="object-traverse/object-traverse.min.js")
+script(src="object-to-formdata/object-to-formdata.min.js")
 script(src="angular/angular.js")
 script(src="angular-route/angular-route.min.js")
 script(src="js/main.js")

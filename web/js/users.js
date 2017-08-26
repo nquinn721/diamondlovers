@@ -10,11 +10,24 @@ app.controller('users', function(http) {
 	    	this.users = users
 			this.currentUser = users[0];
             this.update.status = this.currentUser.profile.status;
+            this.currentUserEmail = this.currentUser.email;
 	    });
     }
 
     this.updateUser = function() {
-        console.log(this.update);
+    	let user = this.currentUser;
+    	
+    	fetch('/admin/update-user', {
+    		method: 'post',
+    		headers: {
+		      'Accept': 'application/json',
+		      'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify(user),
+		    credentials: 'same-origin'
+		    }).then(d => d.json()).then((user) => {
+    		this.currentUser = user;
+    	})
     }
 
     this.getImagesForUser = function() {
@@ -24,6 +37,7 @@ app.controller('users', function(http) {
     }
     this.updateCurrentUser = function() {
         this.getImagesForUser();
+        this.currentUser = this.users.filter(u => u.email === this.currentUserEmail)[0];
     }
     this.uploadIamge = function() {
     	console.log('uploading');

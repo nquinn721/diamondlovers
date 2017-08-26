@@ -148,6 +148,10 @@ class User {
     static setDefaultImage(_id, imageId, cb = function(){}){
         UserModel.findOneAndUpdate({_id}, {$set: {'profile.defaultImage': imageId}}, {new: true}, cb);
     }
+
+    static update(user, cb = function(){}){
+        UserModel.findOneAndUpdate({_id: user._id}, user, {new: true}, cb);
+    }
    
     /**
      * PROFILE

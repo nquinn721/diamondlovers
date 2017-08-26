@@ -5,6 +5,8 @@ app.factory('http', function($rootScope){
 	            cb = data;
 	            data = this.fd({});
 	        }
+	        console.log('post', data);
+	        
 		    return fetch(url, {
 		        method: 'post',
 		        body: data,
@@ -29,11 +31,12 @@ app.factory('http', function($rootScope){
 	        cb(user);
 	    },
 		fd: function (data){
-			let formd = new FormData();
-			for(let i in data){
-				formd.append(i, data[i]);
-			}
-			return formd;
+			return Object.toFormData(data);
+			// let formd = new FormData();
+			// for(let i in data){
+			// 	formd.append(i, data[i]);
+			// }
+			// return formd;
 		}
 	}
 })

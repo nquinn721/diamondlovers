@@ -18,3 +18,15 @@ input[type="file"] {
     padding: 10px;
     float: left;
 }
+.cursor{
+	cursor: pointer;
+}
+
+.header{
+	font-size: 18px;
+	color:#555;
+	padding: 10px;
+	border-top:1px solid #eee;
+	border-bottom:1px solid #eee;
+	margin:5px 0;
+}

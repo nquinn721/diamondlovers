@@ -13,6 +13,11 @@ module.exports = {
         User.deleteAllImages(res.send);
     },
     updateUser: (req, res) => {
+    	User.update(req.body, (e, doc) => {
+    		res.send(e ? {error: e} : doc);
+    	})
+    },
+    updateUserProfile: (req, res) => {
 		User.updateProfile(req.body._id, req.body.field, req.body.value, (e, doc) => {
 			if(e)return res.send({error: `failed to update[${req.body.field}]`});
 			req.session.user.client = doc;

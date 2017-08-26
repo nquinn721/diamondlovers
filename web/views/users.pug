@@ -1,77 +1,81 @@
 h1 Users
 .users
-	select.form-control(ng-model="users.currentUser", ng-change="users.updateCurrentUser()")
-		option(ng-repeat="user in users.users track by $index", ng-value="{{user}}") {{user.email}}
+	select.form-control(ng-model="users.currentUserEmail", ng-change="users.updateCurrentUser()")
+		option(ng-repeat="user in users.users track by $index", value="{{user.email}}") {{user.email}}
 	pre(ng-if="users.currentUser") {{users.currentUser | json}} 
 form.user-update(ng-submit="users.updateUser()")
 	span Status
-	select.form-control(ng-model="users.update.status")
+	select.form-control(ng-model="users.currentUser.profile.status")
 		option(ng-repeat="status in users.userStatus", value="{{status}}") {{status}}
 	span DisplayName
-	input.form-control(ng-model="users.update.displayName")
+	input.form-control(ng-model="users.currentUser.profile.displayName")
 	span City
-	input.form-control(ng-model="users.update.city")
+	input.form-control(ng-model="users.currentUser.profile.city")
 	span State
-	input.form-control(ng-model="users.update.state")
+	input.form-control(ng-model="users.currentUser.profile.state")
 	span Zip
-	input.form-control(ng-model="users.update.zip")
+	input.form-control(ng-model="users.currentUser.profile.zip")
 	span About
-	input.form-control(ng-model="users.update.about")
+	input.form-control(ng-model="users.currentUser.profile.about")
 	span Income
-	input.form-control(ng-model="users.update.income")
+	input.form-control(ng-model="users.currentUser.profile.income")
 	span Age
-	input.form-control(ng-model="users.update.age")
+	input.form-control(ng-model="users.currentUser.profile.age")
 	span BodyType
-	input.form-control(ng-model="users.update.bodyType")
+	input.form-control(ng-model="users.currentUser.profile.bodyType")
 	span Sex
-	input.form-control(ng-model="users.update.sex")
+	input.form-control(ng-model="users.currentUser.profile.sex")
 	span Children
-	input.form-control(ng-model="users.update.children")
+	input.form-control(ng-model="users.currentUser.profile.children")
 	span Education
-	input.form-control(ng-model="users.update.education")
+	input.form-control(ng-model="users.currentUser.profile.education")
 	span Height
-	input.form-control(ng-model="users.update.height")
+	input.form-control(ng-model="users.currentUser.profile.height")
 	span Drugs
-	input.form-control(ng-model="users.update.drugs")
+	input.form-control(ng-model="users.currentUser.profile.drugs")
 	span Drinks
-	input.form-control(ng-model="users.update.drinks")
+	input.form-control(ng-model="users.currentUser.profile.drinks")
 	span Smokes
-	input.form-control(ng-model="users.update.smokes")
+	input.form-control(ng-model="users.currentUser.profile.smokes")
 	span Location
-	input.form-control(ng-model="users.update.location")
+	input.form-control(ng-model="users.currentUser.profile.location")
 	span LookingFor
-	input.form-control(ng-model="users.update.lookingFor")
+	input.form-control(ng-model="users.currentUser.profile.lookingFor")
 	span Cost
 	span Date1
-	input.form-control(ng-model="users.update['cost.date1']")
+	input.form-control(ng-model="users.currentUser.profile['cost.date1']")
 	span Date2
-	input.form-control(ng-model="users.update['cost.date2']")
+	input.form-control(ng-model="users.currentUser.profile['cost.date2']")
 	span Date3
-	input.form-control(ng-model="users.update['cost.date3']")
+	input.form-control(ng-model="users.currentUser.profile['cost.date3']")
 
-	span Preferences
-	span ethnicity
-	input.form-control(ng-model="users.update['preferences.ethnicity']")
-	span distance
-	input.form-control(ng-model="users.update['preferences.distance']")
-	span sex
-	input.form-control(ng-model="users.update['preferences.sex']")
-	span children
-	input.form-control(ng-model="users.update['preferences.children']")
-	span education
-	input.form-control(ng-model="users.update['preferences.education']")
-	span smokes
-	input.form-control(ng-model="users.update['preferences.smokes']")
-	span drugs
-	input.form-control(ng-model="users.update['preferences.drugs']")
-	span drinks
-	input.form-control(ng-model="users.update['preferences.drinks']")
-	span bodyType
-	input.form-control(ng-model="users.update['preferences.bodyType']")
-	span height
-	input.form-control(ng-model="users.update['preferences.height']")
-	span income
-	input.form-control(ng-model="users.update['preferences.income']")
+	.cursor.header(ng-click="users.preferencesTab = !users.preferencesTab")
+		| Preferences &nbsp;
+		i.fa.fa-caret-down(ng-show="!users.preferencesTab")
+		i.fa.fa-caret-up(ng-show="users.preferencesTab")
+	.preferences(ng-show="users.preferencesTab")
+		span ethnicity
+		input.form-control(ng-model="users.currentUser.profile['preferences.ethnicity']")
+		span distance
+		input.form-control(ng-model="users.currentUser.profile['preferences.distance']")
+		span sex
+		input.form-control(ng-model="users.currentUser.profile['preferences.sex']")
+		span children
+		input.form-control(ng-model="users.currentUser.profile['preferences.children']")
+		span education
+		input.form-control(ng-model="users.currentUser.profile['preferences.education']")
+		span smokes
+		input.form-control(ng-model="users.currentUser.profile['preferences.smokes']")
+		span drugs
+		input.form-control(ng-model="users.currentUser.profile['preferences.drugs']")
+		span drinks
+		input.form-control(ng-model="users.currentUser.profile['preferences.drinks']")
+		span bodyType
+		input.form-control(ng-model="users.currentUser.profile['preferences.bodyType']")
+		span height
+		input.form-control(ng-model="users.currentUser.profile['preferences.height']")
+		span income
+		input.form-control(ng-model="users.currentUser.profile['preferences.income']")
 	br
 	input(type='submit', value='Submit')
 .images.jumbotron

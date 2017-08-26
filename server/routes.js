@@ -146,9 +146,14 @@ module.exports = function(app){
             middleWare: ['isAdmin'],
             method: 'admin.clearDBImages'
          },
+         'admin/update-user-profile': {
+            type: 'post',
+            middleWare: ['isAdmin', 'formidable'],
+            method: 'admin.updateUser'
+         },
          'admin/update-user': {
             type: 'post',
-            middleWare: ['isAdmin'],
+            middleWare: ['isAdmin', 'json'],
             method: 'admin.updateUser'
          },
          'admin/upload-image-for-user/:id': {
@@ -198,6 +203,12 @@ module.exports = function(app){
 
       if(route.middleWare){
 
+        if(route.middleWare.indexOf('json') > -1){
+            middleWare.push(
+              bodyParser.urlencoded({ extended: true }),
+              bodyParser.json()
+            )
+        }
         if(route.middleWare.indexOf('formidable') > -1){
           middleWare.push(
               bodyParser.urlencoded({ extended: true }),
