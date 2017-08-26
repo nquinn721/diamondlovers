@@ -35,9 +35,9 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
+    
     User.on('update', () => {
       let user = User.getUser();
-      console.log('update');
       
       for(let i in this.children){
         this.children[i].updateUser && this.children[i].updateUser(user);
@@ -52,6 +52,9 @@ export default class App extends React.Component {
       }
 
       Service.getNearby((nearby) => {
+
+        nearby = nearby.map(u => new User(u))
+        
         this.setState({nearby});
 
         for(let i in this.children){
@@ -69,7 +72,7 @@ export default class App extends React.Component {
   changeView(page){
     let view;
     if(page === 'home')
-      view = <HomePage ref={ref => this.children.homePage = ref} users={this.state.nearby}/>;
+      view = <HomePage ref={ref => this.children.homePage = ref} nearby={this.state.nearby}/>;
     else if(page === 'purchase')
       view = <PurchasePage/>;
     else if(page === 'login')

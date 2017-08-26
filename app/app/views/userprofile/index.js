@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     width: Settings.w
   },
   profileImageImg: {
-    flex: 1
+    flex: 1,
+    width: Settings.w
   }
 });

@@ -12,7 +12,7 @@ export default class ProfileImages extends React.Component{
 
     constructor(){
         super();
-        this.state.defaultImage = User.defaultImage() || {};
+        this.state.defaultImage = User.user.profile.defaultImage || {};
         this.state.user = User.getUser();
     }
     updateUser(user){
@@ -39,6 +39,8 @@ export default class ProfileImages extends React.Component{
     renderProfilePics(){
         let pics = [];
         let images = User.getImages();
+        console.log(images);
+        
         for(let i = 0; i < 4; i++){
             let pic = images[i];
             if(pic){

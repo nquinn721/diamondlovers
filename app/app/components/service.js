@@ -14,7 +14,6 @@ export default class Service{
      * PROFILE
      */
     static getNearby(cb = function(){}){
-        console.log('getting nearby');
         this.get('profile/get-nearby', users => {
             User.addNearby(users);
             cb(users);

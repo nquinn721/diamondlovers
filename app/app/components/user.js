@@ -3,6 +3,9 @@ import Settings from './settings';
 const face = require('../assets/img/avatar.png');
 
 export default class User{
+    constructor(user){
+        this.user = user;
+    }
     static events = [];
     static login(user){
         if(!user){
@@ -29,7 +32,7 @@ export default class User{
         else return [];
     }
     static getImages(){
-        return this.user.profile.images;
+        return this.user.images || [];
     }
 
     static getDefaultImage(){
@@ -39,7 +42,16 @@ export default class User{
 
         return face;
     }
+    getDefaultImage(){
+        let id = this.user.profile.defaultImage; 
+        if(id && this.user.images && this.user.images.length)
+            return {uri: this.user.images.filter(img => img._id === id)[0].url};
 
+        return face;
+    }
+    displayName(){
+        return this.user.profile.displayName;
+    }
 
     static on(event, cb = function(){}){
         this.events.push({event, cb});

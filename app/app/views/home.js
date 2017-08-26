@@ -13,14 +13,12 @@ export default class HomePage extends React.Component{
     }
     constructor(props){
         super();
-        if(props.users)
-            this.state.users = props.users;        
+
+        if(props.nearby)
+            this.state.users = props.nearby;        
     }
 
     updateUser(user){
-        // console.log('home page', user);
-
-
     }
     loginUser(user){
     }
@@ -29,28 +27,19 @@ export default class HomePage extends React.Component{
         this.setState({users})
     }
     displayNearby(user){
-        
-        let profileImg = face;
-
-        if(user.profile.defaultImage && user.images.length)
-            profileImg = {uri: user.images.filter(img => img._id === user.profile.defaultImage)[0].url};
-        
         return (
             <View>
-                <Image source={profileImg} style={styles.image} />
-                <Text>{user.profile.displayName}</Text>
+                <Image source={user.getDefaultImage()} style={styles.image} />
+                <Text>{user.displayName()}</Text>
             </View>
         )
     }
 
     handleYup (card) {
-        console.log(`Yup for ${card.text}`)
     }
     handleNope (card) {
-        console.log(`Nope for ${card.text}`)
     }
     handleMaybe (card) {
-        console.log(`Maybe for ${card.text}`)
     }
 
     render(){
