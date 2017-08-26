@@ -181,11 +181,15 @@ class User {
                 return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
             UserModel.find({_id: {'$ne' : _id}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, (e, users) => {
                 let done = users.length;
-                users.forEach(user => Image.find({userId: user._id}, (e, images) => {
-                    console.log(user, images);
+                users.forEach(user => Image.basic({userId: user._id}, (e, images) => {
                     
                     user.images = images;
                     done--;
+                    console.log('end result');
+                    console.log('end result');
+                    console.log('end result');
+                    console.log(user);
+                    
                     if(done === 0)cb(e, users);
                 }))
             });
