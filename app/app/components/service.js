@@ -6,7 +6,7 @@ export default class Service{
     static events = [];
     static login(formData){
         this.post('db/login', fd(formData), user => {
-            User.login(user);
+            this.user = new User(user);
         });
     }
 
@@ -15,8 +15,9 @@ export default class Service{
      */
     static getNearby(cb = function(){}){
         this.get('profile/get-nearby', users => {
-            User.addNearby(users);
+            this.user.addNearby(users);
             cb(users);
+            this.emit('nearby');
         })
     }
     /**
@@ -34,18 +35,18 @@ export default class Service{
             name: 'image.jpg'
         });
         this.post('image/profile-image-upload', formData, user => {
-            User.update(user);
+            this.user.update(user);
             cb();
         });
     }
     static makePicDefault(pic){
         this.post('image/make-image-default', fd(pic), (user) => {
-            User.update(user);
+            this.user.update(user);
         })
     }
     static deleteImage(pic){
         this.post('image/delete-image', fd(pic), (user) => {
-            User.update(user);
+            this.user.update(user);
         });
     }
     /**
@@ -59,20 +60,19 @@ export default class Service{
      */
     static addCard(card, cb = function(){}){
         this.post('profile/addCard', fd(card), user => {
-            User.update(user);
+            this.user.update(user);
             cb();
         });
     }
     static removeCard(cardId, cb = function(){}){
-        console.log(cardId);
         this.post('profile/removeCard', fd({card: cardId}), user => {
-            User.update(user);
+            this.user.update(user);
             cb();
         });
     }
     static setDefaultCard(cardId, cb = function(){}){
         this.post('profile/updateDefaultCard', fd({card: cardId}), user => {
-            User.update(user);
+            this.user.update(user);
             cb();
         });
     }
@@ -97,11 +97,15 @@ export default class Service{
             d.json().then(data => cb(data)).catch(this.emitError.bind(this));
         }).catch(e => console.log(e));
     }
-    static on(event, cb){
+    static on(event, cb = function(){}){
         this.events.push({event, cb});
     }
     static emitError(){
         this.events.forEach(e => e.event === 'network error' ? e.cb() : null);
+    }
+
+    static emit(event){
+        this.events.forEach(e => e.event === event ? e.cb() : null);
     }
  
     static post(url, data, cb){
@@ -109,9 +113,7 @@ export default class Service{
             method: 'post',
             body: data,
             credentials: 'same-origin'
-        }).then(d => {
-            d.json().then(data => cb(data)).catch(this.emitError.bind(this));
-        }).catch(e => console.log(e));
+        }).then(d => d.json()).catch(e => this.emitError());
         return promise;
     }
 }

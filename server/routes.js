@@ -46,22 +46,22 @@ module.exports = function(app){
          */
 
         /**
-         * PROFILE
+         * USER
          */
          // {field: field, value: value} - id is retrieved from session
-        'profile/update': {
+        'user/update-profile-field': {
           type: 'post',
           middleWare: ['loggedIn', 'formidable'],
-          method: 'profile.update'
+          method: 'user.updateProfileField'
         },
         // ----
-        'profile/get-nearby': {
+        'user/get-nearby': {
             type: 'get',
             middleWare: ['loggedIn'],
-            method: 'profile.getNearBy'
+            method: 'user.getNearBy'
         },
         /**
-         * END PROFILE
+         * END USER
          */
 
         /**

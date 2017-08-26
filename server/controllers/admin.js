@@ -4,17 +4,17 @@ module.exports = {
 	    res.send('ok');
 	},
 	getAllUsers: (req, res) => {
-		User.getAllUsers((e, doc) => res.send(e ? {error: e} : doc));
+		User.getAllUsers((e, doc) => res.send(e ? {error: e} : {data: doc}));
 	},
 	seed: (req, res) => {
-		User.seed((e, doc) => res.send(e ? {error: e} : doc));
+		User.seed((e, doc) => res.send(e ? {error: e} : {data: doc}));
 	},
     clearDBImages: (req, res) => {
         User.deleteAllImages(res.send);
     },
     updateUser: (req, res) => {
     	User.update(req.body, (e, doc) => {
-    		res.send(e ? {error: e} : doc);
+    		res.send(e ? {error: e} : {data: doc});
     	})
     },
     updateUserProfile: (req, res) => {
@@ -23,13 +23,13 @@ module.exports = {
 		User.updateProfile(req.body._id, req.body.field, req.body.value, (e, doc) => {
 			if(e)return res.send({error: `failed to update[${req.body.field}]`});
 			req.session.user.client = doc;
-			res.send(doc.client());
+			res.send({data: doc.client()});
 		})
 	},
 	getImagesForUser: (req, res) => {
 		Image.basic(req.params.id, (e, images) => {
 			if(e)return res.send({error: e});
-			res.send(images);
+			res.send({data: images});
 		});
 	},
 	uploadImageForUser: (req, res) => {

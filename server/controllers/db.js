@@ -20,7 +20,7 @@ module.exports = {
 	                client: client,
 	            }
 	            req.session.model = doc;
-	            res.send(client);
+	            res.send({data: req.session.user});
 	        }else{
 	            res.send({error: config.errorMessages.register});
 	        }
@@ -34,7 +34,7 @@ module.exports = {
 	        if(doc){
 	            req.session.user = user;
 	            req.session.model = doc;
-	            res.send(req.session.user);
+	            res.send({data: req.session.user});
 	        }else{
 	            delete req.session.user;
 	            res.send({error: config.errorMessages.login.failedLogin});

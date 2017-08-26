@@ -29,7 +29,7 @@ app.controller('main', function($scope, http){
     }
 
     this.updateUser = function(field, value) {
-        http.post('/profile/update', http.fd({field, value}), (user) => {
+        http.post('/user/update-profile-field', http.fd({field, value}), (user) => {
             this.handleUser(user);
         });
     }
