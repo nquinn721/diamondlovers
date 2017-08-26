@@ -16,7 +16,7 @@ const upload = multer({
             mkdirp(file.location, () => cb(null, file.location));
         },
         filename: (req, file, cb) => {
-            req.file = file;
+            req.file = file; 
             cb(null, file.originalname);
             
         }
