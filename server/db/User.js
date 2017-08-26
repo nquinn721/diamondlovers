@@ -182,6 +182,8 @@ class User {
             UserModel.find({_id: {'$ne' : _id}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, (e, users) => {
                 let done = users.length;
                 users.forEach(user => Image.find({userId: user._id}, (e, images) => {
+                    console.log(user, iamges);
+                    
                     user.images = images;
                     done--;
                     if(done === 0)cb(e, users);
