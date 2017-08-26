@@ -37,6 +37,8 @@ export default class App extends React.Component {
     super(props);
     User.on('update', () => {
       let user = User.getUser();
+      console.log('update');
+      
       for(let i in this.children){
         this.children[i].updateUser && this.children[i].updateUser(user);
       }

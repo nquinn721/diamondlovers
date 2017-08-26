@@ -179,7 +179,14 @@ class User {
             if(e || !doc)return cb(e || {error: 'no doc found with _id [' + _id + ']'});
             if(!doc.profile.city || !doc.profile.state)
                 return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
-            UserModel.find({_id: {'$ne' : _id}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, cb);
+            UserModel.find({_id: {'$ne' : _id}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, (e, users) => {
+                let done = users.length;
+                users.forEach(user => Image.find({userId: user._id}, (e, images) => {
+                    user.images = images;
+                    done--;
+                    if(done === 0)cb(e, users);
+                }))
+            });
         });
     }
     /**

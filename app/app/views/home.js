@@ -17,17 +17,16 @@ export default class HomePage extends React.Component{
 
     }
     loginUser(user){
-        console.log('login from home');
-        // this.state.user = user;
         Service.getNearby((users) => {
-            console.log('settins users in home');
             this.setState({users});
         });
     }
 
     displayNearby(user){
-        let profileImg = user.profile.images.length ? 
-            {uri: Settings.baseUrl + '/' + user.profile.images[0].uri} : face; 
+        
+        let profileImg = face; 
+        console.log(user);
+        
         return (
             <View>
                 <Image source={profileImg} style={styles.image} />
@@ -47,10 +46,11 @@ export default class HomePage extends React.Component{
     }
 
     render(){
-        if(!this.state.users.length)return <View></View>;
+        if(!this.state.users.length)return <View><Text>No Users</Text></View>;
         // return (<Text>Home</Text>)
         return (
             <View style={styles.container}>
+                <Text>Home</Text>
                 <SwipeCards
                     cards={this.state.users}
 
