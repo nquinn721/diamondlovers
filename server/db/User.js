@@ -180,24 +180,26 @@ class User {
             if(!doc.profile.city || !doc.profile.state)
                 return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
             UserModel.find({_id: {'$ne' : _id}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, (e, users) => {
-                let done = users.length,
-                    newUsers = [];
 
-                users.forEach(user => Image.basic(user._id, (e, images) => {
-                    user = user.client();
-                    user.images = images;
-                    done--;
-                    newUsers.push(user);
-                    if(done === 0)cb(e, newUsers);
-                }))
-                
+                this.getImagesForUsers(users, cb);
             });
         });
     }
     /**
      * END SEARCH
      */
+     static getImagesForUsers(users, cb = function(){}){
+        let done = users.length,
+            newUsers = [];
 
+        users.forEach(user => Image.basic(user._id, (e, images) => {
+            user = user.client();
+            user.images = images;
+            done--;
+            newUsers.push(user);
+            if(done === 0)cb(e, newUsers); 
+        }))
+     }
 
     /**
      * IMAGE
@@ -294,7 +296,7 @@ class User {
      * ADMIN
      */
      static getAllUsers(cb){
-         UserModel.find({}, cb)
+         UserModel.find({}, (e, users) => this.getImagesForUsers(users, cb));
      }
 
      static seed(cb = function(){}){

@@ -48,11 +48,13 @@ module.exports = function(app){
         /**
          * PROFILE
          */
+         // {field: field, value: value} - id is retrieved from session
         'profile/update': {
           type: 'post',
           middleWare: ['loggedIn', 'formidable'],
           method: 'profile.update'
         },
+        // ----
         'profile/get-nearby': {
             type: 'get',
             middleWare: ['loggedIn'],
@@ -146,11 +148,13 @@ module.exports = function(app){
             middleWare: ['isAdmin'],
             method: 'admin.clearDBImages'
          },
+         // {_id: _id, field: field, value: value}
          'admin/update-user-profile': {
             type: 'post',
             middleWare: ['isAdmin', 'formidable'],
-            method: 'admin.updateUser'
+            method: 'admin.updateUserProfile'
          },
+         // {User}
          'admin/update-user': {
             type: 'post',
             middleWare: ['isAdmin', 'json'],

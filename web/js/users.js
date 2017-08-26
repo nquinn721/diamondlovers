@@ -36,7 +36,7 @@ app.controller('users', function(http) {
         })
     }
     this.updateCurrentUser = function() {
-        this.getImagesForUser();
+        // this.getImagesForUser();
         this.currentUser = this.users.filter(u => u.email === this.currentUserEmail)[0];
     }
     this.uploadIamge = function() {
@@ -54,8 +54,11 @@ app.controller('users', function(http) {
     	
     }
 
-    this.makeImageDefault = function() {
-    	
+    this.makeImageDefault = function(imageId) {
+    	http.post('/admin/update-user-profile', http.fd({_id: this.currentUser._id, field: 'defaultImage', value: imageId}), (user) => {
+            console.log(user);
+            // this.
+        })
     }
     this.updateUsers();
 })

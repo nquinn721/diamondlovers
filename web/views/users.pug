@@ -87,6 +87,6 @@ form.user-update(ng-submit="users.updateUser()")
 			img.profile-image(ng-src="{{img.url}}")
 		div
 			button.btn.btn-primary(ng-click="users.deleteImage(img)") Delete
-			span(ng-show="users.currentUser.profile.defaultImage._id === img._id") Default
-			span(ng-show="users.currentUser.profile.defaultImage._id !== img._id") 
-				input.btn.btn-primary(value="Make Default", type="button.btn.btn-primary", ng-click="users.makeImageDefault(img)")
+			span(ng-show="users.currentUser.profile.defaultImage === img._id") Default
+			span(ng-show="users.currentUser.profile.defaultImage !== img._id") 
+				input.btn.btn-primary(value="Make Default", type="button.btn.btn-primary", ng-click="users.makeImageDefault(img._id)")

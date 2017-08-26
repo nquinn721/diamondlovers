@@ -45,23 +45,31 @@ export default class App extends React.Component {
     });
 
     User.on('login', () => {
-      console.log('logged in');
       this.setState({loggedIn: true});
       let user = User.getUser();
       for(let i in this.children){
         this.children[i].loginUser && this.children[i].loginUser(user);
       }
+
+      Service.getNearby((nearby) => {
+        this.setState({nearby});
+
+        for(let i in this.children){
+          this.children[i].nearby && this.children[i].nearby(nearby);
+        }
+      });
     });
     Service.on('network error', () => {
       // this.setState({networkError: true});
       // setTimeout(() => this.setState({networkError: false}), 4000);
     });
+     
   }
  
   changeView(page){
     let view;
     if(page === 'home')
-      view = <HomePage ref={ref => this.children.homePage = ref}/>;
+      view = <HomePage ref={ref => this.children.homePage = ref} users={this.state.nearby}/>;
     else if(page === 'purchase')
       view = <PurchasePage/>;
     else if(page === 'login')

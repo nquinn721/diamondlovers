@@ -1,5 +1,6 @@
 import Service from './service';
 import Settings from './settings';
+const face = require('../assets/img/avatar.png');
 
 export default class User{
     static events = [];
@@ -30,13 +31,13 @@ export default class User{
     static getImages(){
         return this.user.profile.images;
     }
-    static defaultImage(){
-        return this.user.profile.defaultImage;
-    }
-    static getDefaultImageURI(){
-        let pic = this.defaultImage();
-        if(pic)
-            return Settings.baseUrl + pic.location +'/' + pic.name;
+
+    static getDefaultImage(){
+        let id = this.user.profile.defaultImage; 
+        if(id && this.user.images && this.user.images.length)
+            return {uri: this.user.images.filter(img => img._id === id)[0].url};
+
+        return face;
     }
 
 

@@ -11,7 +11,7 @@ export default class ProfilePage extends React.Component {
         <View style={styles.profileImage}>
           <Image 
             style={styles.profileImageImg}
-            source={{uri: User.getDefaultImageURI()}}
+            source={User.getDefaultImage()}
             />
         </View>
         <View style={styles.profilePages}>

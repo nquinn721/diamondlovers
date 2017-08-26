@@ -11,21 +11,29 @@ export default class HomePage extends React.Component{
     state = {
         users: []
     }
+    constructor(props){
+        super();
+        if(props.users)
+            this.state.users = props.users;        
+    }
 
     updateUser(user){
         // console.log('home page', user);
 
+
     }
     loginUser(user){
-        Service.getNearby((users) => {
-            this.setState({users});
-        });
     }
 
+    nearby(users){
+        this.setState({users})
+    }
     displayNearby(user){
         
-        let profileImg = face; 
-        console.log(user);
+        let profileImg = face;
+
+        if(user.profile.defaultImage && user.images.length)
+            profileImg = {uri: user.images.filter(img => img._id === user.profile.defaultImage)[0].url};
         
         return (
             <View>

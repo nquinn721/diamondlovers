@@ -5,7 +5,6 @@ app.factory('http', function($rootScope){
 	            cb = data;
 	            data = this.fd({});
 	        }
-	        console.log('post', data);
 	        
 		    return fetch(url, {
 		        method: 'post',
