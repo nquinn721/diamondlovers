@@ -1,33 +1,54 @@
 import React from 'react';
-import {Text, View, } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
+import { userServiceCall } from '../redux/actions/get-user-action';
+import { selectUser } from '../redux/actions/active-user-action';
 
-export default class ProfileScreen extends React.Component {
-  // static navigationOptions = {
-  //   title: 'Profile'
-  // };
+class HomeScreen extends React.Component {
+  componentDidMount(){
+    this.props.userServiceCall()
 
+  }
+  printUsers(){
+    console.log(this.props);
+    
+    let users = this.props.users.users;    
+    
+    return users.map( (user, index) => <Text key={index} onPress={() => this.props.selectUser(user)}>{user.name}</Text>);
+  }
   render() {
     return (
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-        <Button
-          raised
-          icon={{name: 'home', size: 32}}
-          buttonStyle={{backgroundColor: 'red', borderRadius: 10}}
-          textStyle={{textAlign: 'center'}}
-          title={`Welcome to\nReact Native Elements`}
-        />
+      <View style={styles.container}>
+        
+        {this.props.users.isFetching && <ActivityIndicator size="small" />}
+         {this.printUsers()}
       </View>
     )
   }
 
-  _handlePress = () => {
-    this.props.navigation.navigate('Home');
+}
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    flex: 1
+  }
+})
+
+
+function mapStateToProps(state) {
+  return {
+    users: state.users
   }
 }
 
-// export default StackNavigator({
-//   Profile: {
-//     screen: ProfileScreen,
-//   },
-// });
+console.log(selectUser);
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({userServiceCall, selectUser}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

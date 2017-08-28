@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "jest-expo": "~20.0.0",
+    "react-native-debugger-open": "^0.3.12",
     "react-native-scripts": "1.2.1",
     "react-test-renderer": "16.0.0-alpha.12"
   },
@@ -14,7 +15,7 @@
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js --watch",
-    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19001'"
+    "debug": "ndebugger-open --open --port 19001"
   },
   "jest": {
     "preset": "jest-expo"
@@ -28,6 +29,7 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6",
     "redux-saga": "^0.15.6",
     "redux-thunk": "^2.2.0"
   }
