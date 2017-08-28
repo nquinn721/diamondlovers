@@ -5,5 +5,3 @@ import app from './reducers';
 const middleware = [thunk];
 const store = createStore(app, composeWithDevTools(applyMiddleware(...middleware)));
 export default store;
-
-// export default {}

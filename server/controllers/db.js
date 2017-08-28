@@ -29,20 +29,18 @@ module.exports = {
 	},
 
 	login: function(req, res){
-		console.log(req.body);
-		res.send({name: 'bob'})
-	    // if(!req.body.email || !req.body.password)return res.send({error: config.errorMessages.login.missingInfo});
-	    // User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, user) => {
-	    // 	console.log(e, doc, user);
-	    //     if(doc){
-	    //         req.session.user = user;
-	    //         req.session.model = doc;
-	    //         res.send({data: req.session.user});
-	    //     }else{
-	    //         delete req.session.user;
-	    //         res.send({error: config.errorMessages.login.failedLogin});
-	    //     }
-	    // });
+	    if(!req.body.email || !req.body.password)return res.send({error: config.errorMessages.login.missingInfo});
+	    User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, user) => {
+	    	console.log(e, doc, user);
+	        if(doc){
+	            req.session.user = user;
+	            req.session.model = doc;
+	            res.send({data: req.session.user});
+	        }else{
+	            delete req.session.user;
+	            res.send({error: config.errorMessages.login.failedLogin});
+	        }
+	    });
 	},
 	logout: function(req, res) {
 		delete req.session.user;

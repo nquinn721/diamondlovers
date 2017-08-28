@@ -6,6 +6,14 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		color: 'white'
+	},
+	container: {
+	    flex: 1
+	},
+	containerCenter: {
+	    justifyContent: 'center', 
+		alignItems: 'center',
+		flex: 1
 	}
 });
 export default styles;

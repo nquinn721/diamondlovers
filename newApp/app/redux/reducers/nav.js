@@ -1,9 +1,9 @@
 import { NavigationActions } from 'react-navigation';
-import { Navigator } from 'newApp/app/config/router';
+import { TabBar } from 'newApp/app/config/router';
 
-const initialState = Navigator.router.getStateForAction(NavigationActions.init());
+const initialState = TabBar.router.getStateForAction(NavigationActions.init());
 
 export default (state = initialState, action) => {
-	const nextState = Navigator.router.getStateForAction(action, state);
+	const nextState = TabBar.router.getStateForAction(action, state);
 	return nextState || state;
 }
