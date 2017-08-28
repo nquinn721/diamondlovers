@@ -18,11 +18,10 @@ export default class Service{
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
-			type: 'post',
-			body: body,
+			method: 'post',
+			body: JSON.stringify({email: 'natethepcspecialist@gmail.com', password: 'nate123'}),
 			credentials: 'same-origin'
 		});
-
 		let res = this.handleResponse(data);
 
 		return res.json();

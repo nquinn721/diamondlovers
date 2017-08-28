@@ -4,7 +4,7 @@ export const login = () => {
 	return (dispatch) => {
 		dispatch(getUser());
 			Service.post('db/login', JSON.stringify({email: 'natethepcspecialist@gmail.com', password: 'nate123'}))
-			.then(user => user.error ? dispatch(getUser404(user)) : dispatch(getUserSuccess(user)))		
+			.then(user => user.error ? dispatch(getUser404(user)) : dispatch(getUserSuccess(user.data)))		
 			.catch(err => dispatch(getUserFailed(err)));
 	}
 }

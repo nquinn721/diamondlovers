@@ -1,27 +1,6 @@
-import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-      	<Text>Profile</Text>
-      </View>
-    )
-  }
-
+import AddCard from './addCard';
+import Profile from './profile';
+export default {
+	AddCard: AddCard,
+	Profile: Profile
 }
-
-const styles = StyleSheet.create({
-  
-})
-
-
-
-
-export default connect(
-  // (state) => ({users: state.users}), 
-  // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
-)(HomeScreen);
