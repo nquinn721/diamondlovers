@@ -9,7 +9,10 @@ export const login = () => {
 			data: JSON.stringify({email: 'natethepcspecialist@gmail.com', password: 'nate123'}),
 			credentials: 'same-origin'
 		})
-			.then(d => d.json())
+			.then(d => {
+				console.log(d);
+				d.json()
+			})
 			.then(users => dispatch(getUsersSuccess(users.results)))		
 			.catch(err => dispatch(getUsersFailed(err)));
 	}

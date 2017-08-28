@@ -1,5 +1,5 @@
 const config = require('../config');
-
+console.log('db.js');
 module.exports = {
 	register: function(req, res){
 	    if(!req.body.email || !req.body.password)return res.send({error: config.errorMessages.register})
