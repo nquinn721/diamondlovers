@@ -12,7 +12,6 @@ class HomeScreen extends React.Component {
 
   }
   printUsers(){
-    console.log(this.props);
     
     let users = this.props.users.users;    
     
@@ -22,7 +21,7 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         
-        <ActivityIndicator size={50} color="red" animating={this.props.users.isFetching}/>
+        <ActivityIndicator size="large" color="red" animating={this.props.users.isFetching}/>
          {this.printUsers()}
       </View>
     )
@@ -40,12 +39,8 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
-  return {
-    users: state.users
-  }
+  return {users: state.users}
 }
-
-console.log(selectUser);
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({userServiceCall, selectUser}, dispatch);

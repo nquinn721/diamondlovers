@@ -1,25 +1,26 @@
 const initialState = {
-	users: [],
+	user: false,
 	isFetching: false,
 	error: false
 }
 
 
 export default (state = initialState, action) => {
+			console.log(action);
 	switch(action.type){
-		case 'FETCHING_USERS': 
+		case 'LOGGING_IN': 
 			return {
 				...state,
 				isFetching: true,
-				users: []
+				user: false
 			}
-		case 'FETCHING_USERS_SUCCESS':
+		case 'LOGGED_IN':
 			return {
 				...state,
 				isFetching: false,
-				users: action.data
+				user: action.data
 			}
-		case 'FETCHING_USERS_FAILED':
+		case 'LOG_IN_FAILED':
 			return {
 				...state,
 				isFetching: false,

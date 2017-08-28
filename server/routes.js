@@ -33,7 +33,7 @@ module.exports = function(app){
         },
         'db/login': {
             type: 'post',
-            middleWare: ['formidable'],
+            middleWare: ['json'],
             method: 'db.login'
         },
         'db/logout': {

@@ -15,7 +15,7 @@
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js --watch",
-    "debug": "ndebugger-open --open --port 19001"
+    "debug": "rndebugger-open --open --port 19001"
   },
   "jest": {
     "preset": "jest-expo"

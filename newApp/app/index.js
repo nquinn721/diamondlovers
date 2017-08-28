@@ -1,18 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Tabs } from './config/router';
-import HomeScreen from './screens/home';
-import ProfileScreen from './screens/profile';
 import { Constants } from 'expo';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { login } from './redux/actions/login';
 
-export default class App extends React.Component{
+class App extends React.Component{
+  componentDidMount(){
+    this.props.login();
+  }
   render(){
     return (
       <View style={styles.container}>
         <View style={styles.statusBar}></View>
-        <Text>Home</Text>
-        <HomeScreen />
-        <ProfileScreen />
+        <Tabs />
       </View>
       );
   }
@@ -25,6 +27,17 @@ const styles = StyleSheet.create({
   },
   statusBar: {
     height: Constants.statusBarHeight,
-    backgroundColor:'red'
+    backgroundColor:'#e74c3c'
   }
 })
+
+
+function mapStateToProps(state) {
+  return {user: state.user}
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({login}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
