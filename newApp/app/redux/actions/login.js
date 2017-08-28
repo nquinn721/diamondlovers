@@ -1,5 +1,4 @@
 import config from 'newApp/app/config/config';
-import fd from 'object-to-formdata';
 
 export const login = () => {
 	return (dispatch) => {
@@ -7,7 +6,7 @@ export const login = () => {
 		dispatch(getUsers());
 		fetch(config.baseUrl + 'db/login', {
 			type: 'post',
-			data: fd({email: 'natethepcspecialist@gmail.com', password: 'nate123'}),
+			data: JSON.stringify({email: 'natethepcspecialist@gmail.com', password: 'nate123'}),
 			credentials: 'same-origin'
 		})
 			.then(d => d.json())

@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 class ProfileScreen extends React.Component {
-
+ 
   render() {
     if(!this.props.user)return <View style={styles.container}><Text>No user selected</Text></View>
     return (
