@@ -22,7 +22,7 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         
-        {this.props.users.isFetching && <ActivityIndicator size="small" />}
+        <ActivityIndicator size={50} color="red" animating={this.props.users.isFetching}/>
          {this.printUsers()}
       </View>
     )
