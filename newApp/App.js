@@ -1,7 +1,10 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import store from './app/redux/store';
 import App from './app/index';
+
+
+
 
 
 class Index extends React.Component{
@@ -14,7 +17,6 @@ class Index extends React.Component{
     )
   }
 }
-
 
 export default Index;
 

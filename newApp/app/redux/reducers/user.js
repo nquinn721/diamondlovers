@@ -1,11 +1,13 @@
 const initialState = {
 	user: false,
 	isFetching: false,
-	error: false
+	error: false,
+	notFound: false
 }
 
 
 export default (state = initialState, action) => {
+	console.log(action.type);
 	switch(action.type){
 		case 'LOGGING_IN': 
 			return {
@@ -24,6 +26,12 @@ export default (state = initialState, action) => {
 				...state,
 				isFetching: false,
 				error: action.err
+			}
+		case 'LOGGED_IN_404':
+			return {
+				...state,
+				isFetching: false,
+				notFound: true
 			}
 		default:
 			return state;

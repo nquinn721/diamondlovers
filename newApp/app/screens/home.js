@@ -8,13 +8,11 @@ import { selectUser } from '../redux/actions/active-user-action';
 
 class HomeScreen extends React.Component {
   componentDidMount(){
-    this.props.userServiceCall()
+    this.props.userServiceCall();
 
   }
-  printUsers(){
-    
-    let users = this.props.users.users;    
-    
+  printUsers(users = this.props.users.users){
+    console.log(users);    
     return users.map( (user, index) => <Text key={index} onPress={() => this.props.selectUser(user)}>{user.name}</Text>);
   }
   render() {
@@ -38,12 +36,9 @@ const styles = StyleSheet.create({
 })
 
 
-function mapStateToProps(state) {
-  return {users: state.users}
-}
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({userServiceCall, selectUser}, dispatch);
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(
+  (state) => ({users: state.users}), 
+  (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
+)(HomeScreen);

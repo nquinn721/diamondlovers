@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 
 class ProfileScreen extends React.Component {
  
-  render() {
-    if(!this.props.user)return <View style={styles.container}><Text>No user selected</Text></View>
+  render(user = this.props.user) {
+    if(!user)return <View style={styles.container}><Text>No user selected</Text></View>
     return (
       <View style={styles.container}>
-        <Text>Username: {this.props.user.name}</Text>
-        <Text>Height: {this.props.user.height}</Text>
-        <Text>Mass: {this.props.user.mass}</Text>
-        <Text>Hair Color: {this.props.user.hair_color}</Text>
-        <Text>Skin Color: {this.props.user.skin_color}</Text>
+        <Text>Username: {user.name}</Text>
+        <Text>Height: {user.height}</Text>
+        <Text>Mass: {user.mass}</Text>
+        <Text>Hair Color: {user.hair_color}</Text>
+        <Text>Skin Color: {user.skin_color}</Text>
       </View>
     )
   }
@@ -27,8 +27,7 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state) {
-    return {user: state.activeUser}
-}
 
-export default connect(mapStateToProps)(ProfileScreen);
+export default connect(
+  (state) => ({user: state.activeUser})
+)(ProfileScreen);
