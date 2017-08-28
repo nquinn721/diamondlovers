@@ -14,6 +14,10 @@ export default class Service{
 
 	static async post(url, body) {
 		let data = await fetch(config.baseUrl + url, {
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
 			type: 'post',
 			body: body,
 			credentials: 'same-origin'
