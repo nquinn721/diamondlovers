@@ -11,8 +11,8 @@ export default class App extends React.Component{
       <View style={styles.container}>
         <View style={styles.statusBar}></View>
         <Text>Home</Text>
-        <HomeScreen/>
-        <ProfileScreen/>
+        <HomeScreen />
+        <ProfileScreen />
       </View>
       );
   }
