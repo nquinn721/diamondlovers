@@ -287,7 +287,10 @@ class User {
      * STRIPE
      */
     static createStripeCustomer(_id, stripeId, cb = function(){}){
-        UserModel.findOneAndUpdate({_id}, {stripeId: stripeId}, {new: true}, cb);
+        UserModel.findOneAndUpdate({_id}, {stripeId: stripeId}, {new: true}, (e, doc) => {
+            e && return cb(e);
+            cb(e, doc.client(), doc);
+        });
     }
     static deleteStripeCustomer(_id, cb = function(){}){
         UserModel.findOneAndUpdate({_id}, {$unset: {stripeId: ''}}, {new: true}, cb);

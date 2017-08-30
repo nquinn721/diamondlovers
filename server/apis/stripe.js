@@ -132,6 +132,8 @@ const stripe = require("stripe")(
 
 class Stripe{
 	static addNewCard(token, cust, cb = function(){}){
+    console.log('add new card', token, cust);
+    
 		cust.id ? 
 			this.addCard(token, cust, cb) :
 			this.createCustomer(token, cust, cb);
@@ -144,6 +146,8 @@ class Stripe{
 
 	 // Returns customer
 	 static createCustomer(token, email, cb = function(){}){
+    console.log('craeting customer');
+    
 		stripe.customers.create({
 		  description: email,
 		  source: token

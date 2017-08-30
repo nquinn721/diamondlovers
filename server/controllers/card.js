@@ -42,18 +42,26 @@ module.exports = {
 }
 function updateClientWithStripeUser(req, res, e, data){
     if(data){
+    	console.log('data', data);
+    	
     	if(!data.deleted){
-    		if(!req.session.user.client.stripeId){
-		    	User.createStripeCustomer(req.session.user.client._id, data.id, user => {
+    		console.log('stripeId', req.session.model.stripeId);
+    		
+    		if(!req.session.model.stripeId){
+		    	User.createStripeCustomer(req.session.user.client._id, data.id, (e, user, model) => {
+		    		console.log('created customer');
+		    			
 		    		req.session.user.client = user
 			        req.session.user.stripeCust = data;
+			        req.session.model = model;
 			        res.send({data: req.session.user});
 		    	});
 		    }else{
 		        req.session.user.stripeCust = data;
 		        res.send({data: req.session.user});
-		    	
 		    }
+    	}else{
+	        res.send({data: req.session.user});
     	}
     }else{
         res.send({error: 'failed'});
