@@ -213,7 +213,7 @@ module.exports = function(app){
               bodyParser.json(),
               (req, res, next) => {
                 req.body = req.body.data ? req.body.data : req.body;
-                nex();
+                next();
               }
             )
         }
