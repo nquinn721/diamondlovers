@@ -111,7 +111,7 @@ module.exports = function(app){
         'card/set-default-card' : {
             type: 'post',
             middleWare: ['loggedIn', 'json'],
-            method: 'card.updateDefaultCard'
+            method: 'card.setDefaultCard'
         }, 
         // {card: cardID} optional
         'card/charge-card' : {
