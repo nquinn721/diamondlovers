@@ -1,4 +1,5 @@
 import config from 'newApp/app/config/config';
+import axios from 'axios';
 
 export default class Service{
 
@@ -13,15 +14,19 @@ export default class Service{
 	}
 
 	static async post(url, body) {
-		let data = await fetch(config.baseUrl + url, {
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			method: 'post',
-			body: JSON.stringify(body),
-			credentials: 'same-origin'
-		});
+		console.log(body);
+		
+		// let data = await axios.post(config.baseUrl + url, body);
+			// headers: {
+			// 	'Accept': 'application/json',
+			// 	'Content-Type': 'application/json'
+			// },
+			// method: 'post',
+			// body: JSON.stringify(body),
+			// credentials: 'same-origin'
+		// });
+		console.log(data);
+		
 		let res = this.handleResponse(data);
 
 		return res.json();

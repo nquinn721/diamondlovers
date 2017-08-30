@@ -8,7 +8,6 @@ import Nav from './components/nav';
 import gStyles from './config/globalStyles';
 
 
-
 class App extends React.Component{
   componentDidMount(){
     this.props.login();

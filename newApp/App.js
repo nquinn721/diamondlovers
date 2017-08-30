@@ -4,9 +4,6 @@ import store from './app/redux/store';
 import App from './app/index';
 
 
-
-
-
 class Index extends React.Component{
 
   render(){

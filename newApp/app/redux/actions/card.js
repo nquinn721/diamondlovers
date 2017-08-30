@@ -1,5 +1,8 @@
 import Service from './service';
-let url;
+
+export const sum = (a, b)  => {
+  return a + b;
+}
 
 export const addCard = (token) => {
 	return (dispatch) => {
