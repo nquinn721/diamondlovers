@@ -189,8 +189,7 @@ class Stripe{
 	// confrim = {"deleted": true, "id": "card_1AwFVj2lgQyeTycPjbXCGXlL"}
 	static deleteCard(cardId, cust, cb = function(){}){
 		stripe.customers.deleteCard(cust.id, cardId, (e, confirm) => {
-      if(confirm)cust.sources.data = cust.sources.data.filter(card => card.id !== confirm.id);
-      cb(e, cust, confirm);
+      this.getCustomer(cust.id, cb);
     });
 	}
 	// Returns confirmation

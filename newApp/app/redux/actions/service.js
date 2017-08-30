@@ -14,8 +14,6 @@ export default class Service{
 	}
 
 	static async post(url, body) {
-		console.log('post');
-		
 		try{
 			let data = await axios.post(config.baseUrl + url, body);
 			

@@ -8,8 +8,8 @@ import gStyles from 'newApp/app/config/globalStyles';
 import { deleteCard, setDefaultCard } from 'newApp/app/redux/actions/card';
 
 class CardsScreen extends React.Component {
+  state = {}
   renderCards({stripeCust, client} = this.props.user.user){
-    console.log(this.props);
     
     if(stripeCust && stripeCust.sources){
       const cards = stripeCust.sources.data;
@@ -26,7 +26,7 @@ class CardsScreen extends React.Component {
                 <Text style={styles.check}></Text>
             }
             {
-              this.props.user.deletingCard ? 
+              this.props.user.deletingCard && this.state.cardBeingDeleted === card.id ? 
                 <ActivityIndicator /> :
                 <Icon name="trash" color="#555" type="font-awesome" onPress={() => this.deleteCard(card)}/>
             }
@@ -42,7 +42,10 @@ class CardsScreen extends React.Component {
       `Are you sure you want to delete card ending in ${card.last4}?`,
       [
         {text: 'Cancel', style: 'cancel'},
-        {text: 'OK', onPress: () => this.props.deleteCard(card.id)},
+        {text: 'OK', onPress: () => {
+          this.state.cardBeingDeleted = card.id;
+          this.props.deleteCard(card.id);
+        }},
       ],
       { cancelable: true }
     )

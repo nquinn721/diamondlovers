@@ -14,9 +14,8 @@ class HomeScreen extends React.Component {
   }
   async addCard(){
   	let token = await stripe.createToken({card: this.props.card});
-  	console.log(token);
   	this.props.addCard(token.id);
-  	
+  	this.props.navigation.navigate('Cards')
   }
   render() {
   	const user = this.props.user,
