@@ -134,7 +134,7 @@ class Stripe{
 	static addNewCard(token, cust, cb = function(){}){
     console.log('add new card', token, cust);
     
-		cust.id ? 
+		/[^@]/g.test(cust) ? 
 			this.addCard(token, cust, cb) :
 			this.createCustomer(token, cust, cb);
 	}
@@ -146,7 +146,7 @@ class Stripe{
 
 	 // Returns customer
 	 static createCustomer(token, email, cb = function(){}){
-    console.log('craeting customer', email);
+    console.log('creating customer', email);
     
 		stripe.customers.create({
 		  description: email,
@@ -170,6 +170,8 @@ class Stripe{
 
 	// Returns card
 	static addCard(token, cust, cb = function(){}){
+    console.log('adding card', cust);
+    
 		stripe.customers.createSource(cust.id, { source: token }, (e, card) => {
       card && cust.sources.data.push(card);
 			cb(e, cust, card)
