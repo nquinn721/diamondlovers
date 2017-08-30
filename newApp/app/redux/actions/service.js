@@ -17,19 +17,13 @@ export default class Service{
 		console.log(body);
 
 		let data = await axios.post(config.baseUrl + url,{
-			// headers: {
-			// 	'Accept': 'application/json',
-			// 	'Content-Type': 'application/json'
-			// },
-			// method: 'post',
 			data: body,
 			credentials: 'same-origin'
 		});
+
+		console.log(data);
 		
-		let res = this.handleResponse(data);
-		console.log(res);
 		
-		return res.json();
 	}
 
 

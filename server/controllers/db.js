@@ -29,6 +29,7 @@ module.exports = {
 	},
 
 	login: function(req, res){
+		res 3
 		console.log('LOGIN');
 		console.log('LOGIN');
 		console.log('LOGIN');
