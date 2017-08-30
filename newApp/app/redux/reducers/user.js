@@ -46,6 +46,16 @@ export default (state = initialState, action) => {
 				addingCard: false,
 				user: action.data
 			}
+		case 'DELETE_CARD':
+			return {
+				...state,
+				deletingCard: true,
+			}
+		case 'DELETE_CARD_SUCCESS':
+			return {
+				...state,
+				deletingCard: false
+			}
 		default:
 			return state;
 	}

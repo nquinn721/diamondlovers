@@ -1,16 +1,17 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { FormLabel, FormInput, FormValidationMessage, Button, Icon } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
+import { deleteCard } from 'newApp/app/redux/actions/card';
 
 class CardsScreen extends React.Component {
-  renderCards({stripeCust} = this.props.user.user){
+  renderCards({stripeCust, client} = this.props.user.user){
     console.log(this.props);
     
-    if(stripeCust){
+    if(stripeCust && stripeCust.sources){
       const cards = stripeCust.sources.data;
       
       return cards.map((card, i) => {
@@ -24,12 +25,27 @@ class CardsScreen extends React.Component {
                 <Icon name="check" color="green" type="font-awesome"/> :
                 <Text></Text>
             }
-            <Icon name="trash" color="#555" type="font-awesome" />
+            {
+              client.deletingCard ? 
+                <ActivityIndicator /> :
+                <Icon name="trash" color="#555" type="font-awesome" onPress={() => this.deleteCard(card)}/>
+            }
           </View>
         );  
       });
       
     }
+  }
+  deleteCard(card){
+    Alert.alert(
+      'Delete Card',
+      `Are you sure you want to delete card ending in ${card.last4}?`,
+      [
+        {text: 'Cancel', onPress: () => deleteCard(card.id), style: 'cancel'},
+        {text: 'OK'},
+      ],
+      { cancelable: true }
+    )
   }
   render() {
     return (
