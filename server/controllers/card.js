@@ -42,8 +42,6 @@ module.exports = {
 }
 function updateClientWithStripeUser(req, res, e, data){
     if(data){
-    	console.log('data', data);
-    	
     	if(!data.deleted){
     		console.log('stripeId', req.session.model.stripeId);
     		

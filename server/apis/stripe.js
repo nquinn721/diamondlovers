@@ -146,7 +146,7 @@ class Stripe{
 
 	 // Returns customer
 	 static createCustomer(token, email, cb = function(){}){
-    console.log('craeting customer');
+    console.log('craeting customer', email);
     
 		stripe.customers.create({
 		  description: email,
