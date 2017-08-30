@@ -14,14 +14,17 @@ export default class Service{
 	}
 
 	static async post(url, body) {
-		console.log(body);
+		try{
+			let data = await axios.post(config.baseUrl + url,{
+				data: body,
+				credentials: 'same-origin'
+			});
+			
+			return data.data;
+		}catch(e) {
+			return {error: e};			
+		}
 
-		let data = await axios.post(config.baseUrl + url,{
-			data: body,
-			credentials: 'same-origin'
-		});
-
-		console.log(data);
 		
 		
 	}

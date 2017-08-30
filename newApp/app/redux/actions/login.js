@@ -3,13 +3,13 @@ import Service from './service';
 export const login = () => {
 	return (dispatch) => {
 		dispatch(getUser());
-			Service.post('db/login', {email: 'natethepcspecialist@gmail.com', password: 'nate123'})
+		Service.post('db/login', {email: 'natethepcspecialist@gmail.com', password: 'nate123'})
 			.then(user => {
 				console.log('then', user);
 				
-				dispatch(getUserSuccess(user.data.data))
+			// 	dispatch(getUserSuccess(user.data.data))
 			})		
-			.catch(err => dispatch(getUserFailed(err)));
+			// .catch(err => dispatch(getUserFailed(err)));
 	}
 }
 
