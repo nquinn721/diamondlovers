@@ -288,7 +288,7 @@ class User {
      */
     static createStripeCustomer(_id, stripeId, cb = function(){}){
         UserModel.findOneAndUpdate({_id}, {stripeId: stripeId}, {new: true}, (e, doc) => {
-            e && return cb(e);
+            if(e)return cb(e);
             cb(e, doc.client(), doc);
         });
     }
