@@ -5,8 +5,7 @@ module.exports = {
 		console.log('add card');
 		
 		let custId = req.session.stripeCust ? req.session.stripeCust.id : req.session.user.email;
-		res.send({custId})
-	    // StripAPI.addNewCard(custId, req.body.token, updateClientWithStripeUser.bind(this, req, res));
+	    StripAPI.addNewCard(custId, req.body.token, updateClientWithStripeUser.bind(this, req, res));
 	},
 	// {card: cardID}
 	deleteCard: (req, res) => {
