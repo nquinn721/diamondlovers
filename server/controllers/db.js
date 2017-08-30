@@ -31,7 +31,6 @@ module.exports = {
 	login: function(req, res){
 	    if(!req.body.email || !req.body.password)return res.send({error: config.errorMessages.login.missingInfo});
 	    User.login(req.body.email.trim(),  req.body.password.trim(), (e, doc, user) => {
-	    	console.log(e, doc, user);
 	        if(doc){
 	            req.session.user = user;
 	            req.session.model = doc;
