@@ -6,8 +6,13 @@ import { Button } from 'react-native-elements';
 
 
 class HomeScreen extends React.Component {
-	displayUser({isFetching} = this.props.user, {client, images} = this.props.user.user){
-		return client && <Text>{client.email}</Text>;
+	displayUser({isFetching} = this.props.user, {client, images, stripeCust} = this.props.user.user){
+    let page = [];
+		client && page.push(<Text key='client'>{client.email}</Text>);
+    console.log(this.props);
+    
+    // stripeCust && page.concat(stripeCust.source)
+    return <View>{page}</View>
 	}
 	addCard(){
 		this.props.navigation.navigate('AddCard');

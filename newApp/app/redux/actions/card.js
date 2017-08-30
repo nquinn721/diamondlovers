@@ -40,18 +40,14 @@ export const chargeCard = (card, amount) => {
 	}
 }
 
-const postToCard = (dispatch, url, data, types) => {
-	console.log('oijwefoiewjfioj', data);
-	
+const postToCard = (dispatch, url, body, types) => {
 	dispatch({type: types.init});
-	// Service.post(url)
-	// 	.then(data => {
-	// 		console.log('POST TO CARD', data);
-			
-	// 			data.error ? 
-	// 				dispatch({type: types.error, err}) : 
-	// 				dispatch({type: types.success, data})
-	// 		})
+	Service.post(url, body)
+		.then(data => {
+				data.error ? 
+					dispatch({type: types.error, err}) : 
+					dispatch({type: types.success, data: data.data})
+			})
 
 };
 

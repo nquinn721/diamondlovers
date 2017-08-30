@@ -2,11 +2,14 @@ const initialState = {
 	user: false,
 	isFetching: false,
 	error: false,
-	notFound: false
+	notFound: false,
+	gettingCard: false
 }
 
 
 export default (state = initialState, action) => {
+	console.log(action.type, action.data);
+	
 	switch(action.type){
 		case 'LOGGING_IN': 
 			return {
@@ -31,6 +34,17 @@ export default (state = initialState, action) => {
 				...state,
 				isFetching: false,
 				notFound: true
+			}
+		case 'ADD_CARD':
+			return {
+				...state,
+				gettingCard: true
+			}
+		case 'ADD_CARD_SUCCESS':
+			return {
+				...state, 
+				gettingCard: false,
+				user: action.data
 			}
 		default:
 			return state;

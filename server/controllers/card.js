@@ -2,7 +2,7 @@ const StripAPI = require('../apis/stripe');
 
 module.exports = {
 	addCard: (req, res) => {
-		console.log('add card');
+		console.log('add card', req.body);
 		
 		let custId = req.session.stripeCust ? req.session.stripeCust.id : req.session.user.email;
 	    StripAPI.addNewCard(custId, req.body.token, updateClientWithStripeUser.bind(this, req, res));
@@ -40,6 +40,7 @@ module.exports = {
 }
 function updateClientWithStripeUser(req, res, e, data){
     if(data){
+    	User.createStripeCustomer(req.session.user.client._id, data.id);
         req.session.user.stripeCust = data;
         res.send({data: req.session.user});
     }else{
