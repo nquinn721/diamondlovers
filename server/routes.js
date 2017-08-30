@@ -98,25 +98,25 @@ module.exports = function(app){
          */
         'card/add-card' : {
             type: 'post',
-            middleWare: ['loggedIn', 'formidable'],
+            middleWare: ['loggedIn', 'json'],
             method: 'card.addCard'
         }, 
         // {card: cardID}
-        'card/remove-card' : {
+        'card/delete-card' : {
             type: 'post',
-            middleWare: ['loggedIn', 'formidable'],
-            method: 'card.removeCard'
+            middleWare: ['loggedIn', 'json'],
+            method: 'card.deleteCard'
         }, 
         // {card: cardID}
-        'card/update-default-card' : {
+        'card/set-default-card' : {
             type: 'post',
-            middleWare: ['loggedIn', 'formidable'],
+            middleWare: ['loggedIn', 'json'],
             method: 'card.updateDefaultCard'
         }, 
         // {card: cardID} optional
         'card/charge-card' : {
             type: 'post',
-            middleWare: ['loggedIn', 'formidable'],
+            middleWare: ['loggedIn', 'json'],
             method: 'card.chargeCard'
         },
         /**

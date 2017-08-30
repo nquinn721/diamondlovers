@@ -1,156 +1,78 @@
 const chai = require('chai');
 const should = chai.should();
-let s = require('./stripe');
-require('../db/index');
+const stripeClient = require('stripe')('sk_test_His9L7RGJvdVRuuPOkCeuand');
+const stripe = require('./stripe');
 
-let testTime = 5000;
+describe('Stripe API', (done) => {
+	let token, cust, 
+		email = 'natethepcspecialist@gmail.com';
 
-// let req = {
-//   body: {
-//       number: '4242424242424242',
-//       exp_month: 12,
-//       exp_year: 2018,
-//       cvc: '123'
-//       last4 : "1881"
-//       card: cardId,
-//       amount: 10000
-//       currency: 'usd'
-//     }
-//   },
-//   session: {
-//     user: {
-//       // email: 'peanut@bob.com',
-//       stripeId: 'cus_BDEEGNrC34z89w'
-//     }
-//   }
-// } 
+	before((done) => {
 
-describe('Stripe API', function() {
-    let req = {
-        session: {
-            user: {
-                client: {
-                    email: 'hipster@hiphopannonomys.com',
-                },
-                stripeCust: null
-            }
-        }
-    }, cardId;
-    before((done) => {
-        User.get({
-            email: 'hipster@hiphopannonomys.com', 
-            password: 'hippy123'
-        }, (e, doc) => {
-            req.session.user.client = doc;
-            done();
-        })
-    });
-    after(done => {
-        User.delete(req.session.user.client._id, done);
-    });
-    beforeEach(() => {
-        req.body = {};
-    });
-   
-    it('Should create a customer on charge if no stripe customer id is specified', (done) => {
-        req.body.number = '4242424242424242';
-        req.body.exp_month =  12;
-        req.body.exp_year =  2018;
-        req.body.cvc =  '123';
-        req.body.amount = 10000;
+		stripeClient.tokens.create({
+			card: {
+				"number": '4242424242424242',
+				"exp_month": 12,
+				"exp_year": 2018,
+				"cvc": '123'
+			}
+		}).then(t => {
+			token = t.id;
+			done();
+		})
+	});
 
-        s.charge(req, (e, cust, charge) => {
-            req.session.user.stripeCust = cust;
-            charge.object.should.equal('charge');
-            charge.source.object.should.equal('card');
-            charge.source.last4.should.equal('4242');
+	it('should add card and create customer', (done) => {
+		stripe.addNewCard(token, email, (e, c) => {
+			c.description.should.equal('natethepcspecialist@gmail.com');
+			c.sources.data.length.should.equal(1);
+			c.sources.data[0].last4.should.equal('4242');
+			cust = c;
+			done();
+		});
+	}).timeout(5000);
 
-            cust.object.should.equal('customer');
+	it('should add another card and not create customer', (done) => {
+		stripeClient.tokens.create({
+			card: {
+				"number": '4000056655665556',
+				"exp_month": 12,
+				"exp_year": 2018,
+				"cvc": '123'
+			}
+		}).then(t => {
+			stripe.addNewCard(t.id, cust, (e, c, card) => {
+				c.id.should.equal(cust.id);
+				c.sources.data.length.should.equal(2);
+				cust = c;				
+				done();
+			})
+		})
+	});
 
-            done();
-        });
-    }).timeout(testTime);
+	it('should update default card', (done) => {
+		cust.default_source.should.equal(cust.sources.data[0].id);
+		stripe.setDefaultCard(cust.id, cust.sources.data[1].id, (e, c) => {
+			c.default_source.should.equal(cust.sources.data[1].id);
+			cust = c;
+			done();
+		})
+	});
 
-    
+	it('should remove card and update default card', (done) => {
+		stripe.deleteCard(cust.sources.data[1].id, cust, (e, c, confirm) => {
+			c.default_source.should.equal(cust.sources.data[0].id);
+			c.sources.data.length.should.equal(1);
+			cust = c;
+			done();
+		})
+	})
 
-    it('Should charge default card if stripe cust already created without specifying card', (done) => {
-        req.body.amount = 10000;
-        s.charge(req, (e, cust, charge) => {
-            charge.status.should.equal('succeeded');
-            charge.amount.should.equal(10000);
-            done();
-        });
-    }).timeout(testTime);
-
-
-    it('Should add card to customer already there', (done) => {
-        req.body = {
-            number: '4000056655665556',
-            exp_month: 12,
-            exp_year: 2018,
-            cvc: '123'
-        }
-        
-        s.addCard(req, (e, cust, card) => {
-            cust.object.should.equal('customer');
-            cust.sources.data.length.should.equal(2);
-            cardId = card.id;
-            done();
-        });
-    }).timeout(testTime);
-
-
-    it('Should charge the specific card', (done) => {
-        req.body = {
-            card: cardId,
-            amount: 10000,
-        }
-        s.charge(req, (e, cust, charge) => {
-            charge.source.last4.should.equal('5556');
-            charge.amount.should.equal(10000);
-            charge.status.should.equal('succeeded');
-            done();
-        });
-    }).timeout(testTime);
-
-    it('Should update default card', (done) => {
-        req.session.user.stripeCust.default_source.should.not.equal(cardId);
-        req.body.card = cardId;
-        s.updateDefaultCard(req, (e, cust) => {
-            cust.default_source.should.equal(cardId);
-            done();
-        });
-    }).timeout(testTime);
-
-    it('Should remove card from customer', (done) => {
-        req.body.card = cardId;
-        s.removeCard(req, (e, cust, card) => {
-            cust.object.should.equal('customer');
-            cust.sources.data.length.should.equal(1);
-            card.deleted.should.be.true;
-            card.id.should.equal(cardId);
-            
-            
-            s.deleteCustomer(req.session.user.stripeCust.id, done);
-        });
-    }).timeout(testTime);
-
-    it('Add card should create a customer as well', (done) => {
-        delete req.session.user.stripeCust;
-        req.session.user.client.email = 'bob@bob.com';
-        req.body = {
-            number: '4242424242424242',
-            exp_month: 12,
-            exp_year: 2018,
-            cvc: '123'
-        }
-        s.addCard(req, (e, cust, card) => {
-            cust.object.should.equal('customer');
-            cust.email.should.equal('bob@bob.com');
-            cust.sources.data.length.should.equal(1);
-            s.deleteCustomer(cust.id, done);
-        });
-    }).timeout(testTime);
-
-   
+	it('should delete customer', (done) => {
+		stripe.deleteCustomer(cust.id, (e, confirm) => {
+			confirm.deleted.should.be.true;
+			confirm.id.should.equal(cust.id);
+			done();
+		})
+	})
 });

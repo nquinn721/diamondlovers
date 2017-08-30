@@ -2,21 +2,26 @@ const StripAPI = require('../apis/stripe');
 
 module.exports = {
 	addCard: (req, res) => {
-	    StripAPI.addCard(req, updateClientWithStripeUser.bind(this, req, res));
+		let custId = req.session.stripeCust ? req.session.stripeCust.id : req.session.user.email;
+	    StripAPI.addNewCard(custId, req.body.token, updateClientWithStripeUser.bind(this, req, res));
 	},
 	// {card: cardID}
-	removeCard: (req, res) => {
-	    StripAPI.removeCard(req, updateClientWithStripeUser.bind(this, req, res));
+	deleteCard: (req, res) => {
+		let custId = req.session.user.stripeCust.id;
+	    StripAPI.deleteCard(custId, req.body.card, updateClientWithStripeUser.bind(this, req, res));
 	},
 	// {card: cardID}
-	updateDefaultCard: (req, res) => {
-	    StripAPI.updateDefaultCard(req, updateClientWithStripeUser.bind(this, req, res));
+	setDefaultCard: (req, res) => {
+		let custId = req.session.user.stripeCust.id;
+	    StripAPI.setDefaultCard(custId, req.body.card, updateClientWithStripeUser.bind(this, req, res));
 	},
 	// {card: cardID} optional
 	chargeCard: (req, res) => {
-		let userId = req.session.user.client._id;
+		let userId = req.session.user.client._id,
+			token = req.body.token,
+			amount = req.body.amount;
 		
-	    StripAPI.charge(req, (e, cust, charge) => {
+	    StripAPI.charge(token, {amount}, (e, cust, charge) => {
 	        if(charge && charge.status === 'succeeded'){
 	            User.addDiamonds(userId, charge.amount / 10, (e, user) => {
 	                req.session.user.client = user;

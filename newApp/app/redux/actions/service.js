@@ -19,7 +19,7 @@ export default class Service{
 				'Content-Type': 'application/json'
 			},
 			method: 'post',
-			body: JSON.stringify({email: 'natethepcspecialist@gmail.com', password: 'nate123'}),
+			body: JSON.stringify(body),
 			credentials: 'same-origin'
 		});
 		let res = this.handleResponse(data);
