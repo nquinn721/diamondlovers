@@ -4,7 +4,7 @@ import axios from 'axios';
 export default class Service{
 
 	static async get(url) {
-		let data = await fetch(config.baseUrl + url, {
+		let data = await axion.get(config.baseUrl + url, {
 			type: 'get',
 			credentials: 'same-origin'
 		});
@@ -15,20 +15,20 @@ export default class Service{
 
 	static async post(url, body) {
 		console.log(body);
-		
-		// let data = await axios.post(config.baseUrl + url, body);
+
+		let data = await axios.post(config.baseUrl + url,{
 			// headers: {
 			// 	'Accept': 'application/json',
 			// 	'Content-Type': 'application/json'
 			// },
 			// method: 'post',
-			// body: JSON.stringify(body),
-			// credentials: 'same-origin'
-		// });
-		console.log(data);
+			data: body,
+			credentials: 'same-origin'
+		});
 		
 		let res = this.handleResponse(data);
-
+		console.log(res);
+		
 		return res.json();
 	}
 

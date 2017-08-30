@@ -210,7 +210,11 @@ module.exports = function(app){
         if(route.middleWare.indexOf('json') > -1){
             middleWare.push(
               bodyParser.urlencoded({ extended: true }),
-              bodyParser.json()
+              bodyParser.json(),
+              (req, res, next) => {
+                req.body = req.body.data ? req.body.data : req.body;
+                nex();
+              }
             )
         }
         if(route.middleWare.indexOf('formidable') > -1){

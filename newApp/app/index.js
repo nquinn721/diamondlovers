@@ -11,6 +11,8 @@ import gStyles from './config/globalStyles';
 class App extends React.Component{
   componentDidMount(){
     this.props.login();
+    console.log(this.props);
+    
   }
 
   
