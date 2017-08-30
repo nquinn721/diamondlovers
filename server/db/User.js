@@ -170,7 +170,11 @@ class User {
      * END PROFILE
      */
 
-
+    static updateModel(_id, field, value, cb = function(){}){
+        let update = {};
+        update[field] = value;
+        UserModel.findOneAndUpdate({_id}, update, {new: true}, cb);
+    }
     /**
      * SEARCH
      */

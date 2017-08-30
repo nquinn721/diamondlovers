@@ -1,19 +1,30 @@
 app.factory('http', function($rootScope){
 	return {
-		post: function(url, data, cb = function(){}){
+		post: function(url, data, cb = function(){}, headers){
 	        if(typeof data === 'function'){
 	            cb = data;
 	            data = this.fd({});
 	        }
-	        
-		    return fetch(url, {
+	        let body = {
 		        method: 'post',
 		        body: data,
-		        credentials: "same-origin"
-		    }).then((d) => d.json()).then((data) => {
+		        credentials: "same-origin",
+		    }
+
+		    if(headers)
+			    body.headers = headers;
+
+			console.log(body);
+			
+
+	        
+		    return fetch(url, body).then((d) => d.json()).then((data) => {
 		    	this.updateUser(data, cb);
 		    	$rootScope.$apply();
 		    });
+		},
+		postJSON: function(url, data, cb = function(){}) {
+			this.post(url, JSON.stringify(data), cb, {'Content-Type': 'application/json'});
 		},
 	    get: function(url, cb = function(){}) {
 	        return fetch(url, {

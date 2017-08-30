@@ -170,6 +170,16 @@ module.exports = function(app){
             middleWare: ['isAdmin'],
             method: 'admin.getImagesForUser'
          },
+         'admin/get-full-user': {
+            type: 'get',
+            middleWare: ['isAdmin'],
+            method: 'admin.getFullUser'
+         },
+         'admin/update-model': {
+            type: 'post',
+            middleWare: ['isAdmin', 'json'],
+            method: 'admin.updateModel'
+         },
          
         /**
          * END ADMIN

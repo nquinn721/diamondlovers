@@ -12,12 +12,10 @@ app.controller('main', function($scope, http){
 
 
     this.login = function(){
-		http.post('/db/login', http.fd({email: this.email, password: this.password}), (user) => {
+		http.postJSON('/db/login', ({email: this.email, password: this.password}), (user) => {
             this.handleUser(user);
-
-            http.get('/profile/get-nearby', (profiles) => {
-                console.log('profiles');
-                console.log(profiles);
+            http.get('/admin/get-full-user', user => {
+                this.user = user;
             })
 	    });
     }
@@ -29,9 +27,14 @@ app.controller('main', function($scope, http){
     }
 
     this.updateUser = function(field, value) {
-        http.post('/user/update-profile-field', http.fd({field, value}), (user) => {
+        http.postJSON('/user/update-profile-field', ({field, value}), (user) => {
             this.handleUser(user);
         });
+    }
+    this.updateModel = function(field, value) {
+        http.postJSON('/admin/update-model', {field, value: value || ''}, (user) => {
+            this.user = user;
+        })
     }
 
     this.uploadImage = function(form) {
@@ -44,10 +47,10 @@ app.controller('main', function($scope, http){
     }
     this.makeImageDefault = function(image){
     	delete image.$$hashKey;
-    	http.post('/image/make-image-default', http.fd(image), this.handleUser.bind(this));
+    	http.postJSON('/image/make-image-default', (image), this.handleUser.bind(this));
     }
     this.deleteImage = function(image) {
-    	http.post('/image/delete-image', http.fd(image), (user) => {
+    	http.postJSON('/image/delete-image', (image), (user) => {
             console.log(user);
             if(user.client){
         		this.user = user.client;
@@ -59,14 +62,14 @@ app.controller('main', function($scope, http){
 
     this.addCard = function() {
     	let card = {number: this.cardNumber, exp_month: this.exp_month, exp_year: this.exp_year, cvc: this.cvc};
-    	http.post('/card/add-card', http.fd(card), (user) => {
+    	http.postJSON('/card/add-card', (card), (user) => {
     		this.user = user.client;	
     		this.stripeCust = user.stripeCust;
     	})
     }
 
     this.deleteCard = function(card) {
-    	http.post('/card/remove-card', http.fd({card}), (user) => {
+    	http.postJSON('/card/remove-card', ({card}), (user) => {
     		console.log(user);
     		this.user = user.client;
     		this.stripeCust = user.stripeCust;
@@ -74,7 +77,7 @@ app.controller('main', function($scope, http){
     }
     this.makeCardDefault = function(card) {
     	console.log('make default card');
-    	http.post('/card/update-default-card', http.fd({card}), (user) => {
+    	http.postJSON('/card/update-default-card', ({card}), (user) => {
     		console.log(user);
     		this.user = user.client;
     		this.stripeCust = user.stripeCust;

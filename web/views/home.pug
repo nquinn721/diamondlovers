@@ -12,6 +12,11 @@ table.table.table-striped
         td {{main.user.profile.displayName}} 
         td: button.btn.btn-primary(ng-click="main.updateUser('displayName', main.displayName)") Update
     tr
+        td Stripe Id
+        td: input.form-control(ng-model="main.stripeId")
+        td {{main.user.stripeId}} 
+        td: button.btn.btn-primary(ng-click="main.updateModel('stripeId', main.stripeId)") Update
+    tr
         td City
         td: input.form-control(ng-model="main.city")
         td {{main.user.profile.city}} 

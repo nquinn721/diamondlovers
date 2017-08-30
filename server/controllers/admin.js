@@ -3,6 +3,9 @@ module.exports = {
 	    Image.deleteAllImages();
 	    res.send('ok');
 	},
+	getFullUser: (req, res) => {
+		res.send(req.session.model);
+	},
 	getAllUsers: (req, res) => {
 		User.getAllUsers((e, doc) => res.send(e ? {error: e} : {data: doc}));
 	},
@@ -12,14 +15,20 @@ module.exports = {
     clearDBImages: (req, res) => {
         User.deleteAllImages(res.send);
     },
+    updateModel: (req, res) => {
+    	console.log(req.session.model._id, req.body.field, req.body.value);
+    	
+    	User.updateModel(req.session.model._id, req.body.field, req.body.value, (e, doc) => {
+    		req.session.model = doc;
+    		res.send({data: doc});
+    	})
+    },
     updateUser: (req, res) => {
     	User.update(req.body, (e, doc) => {
     		res.send(e ? {error: e} : {data: doc});
     	})
     },
     updateUserProfile: (req, res) => {
-    	console.log('update user profile', req.body);
-    	
 		User.updateProfile(req.body._id, req.body.field, req.body.value, (e, doc) => {
 			if(e)return res.send({error: `failed to update[${req.body.field}]`});
 			req.session.user.client = doc;
