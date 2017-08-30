@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
@@ -23,23 +23,25 @@ class HomeScreen extends React.Component {
   	
   }
   render() {
+  	const user = this.props.user.user,
+  				card = this.props.card;
     return (
       <View style={styles.container}>
         <FormLabel>Card Number</FormLabel>
-				<FormInput onChangeText={this.updateNumber} placeholder={this.props.card.number}/>
-				<FormValidationMessage>{!this.props.card.number && "Please fill in number"}</FormValidationMessage>
+				<FormInput onChangeText={this.updateNumber} placeholder={card.number}/>
+				<FormValidationMessage>{!card.number && "Please fill in number"}</FormValidationMessage>
 				
 				<FormLabel>Exp Month</FormLabel>
-				<FormInput onChangeText={this.updateNumber} placeholder={this.props.card.exp_month}/>
-				<FormValidationMessage>{!this.props.card.number && "Please fill in number"}</FormValidationMessage>
+				<FormInput onChangeText={this.updateNumber} placeholder={card.exp_month}/>
+				<FormValidationMessage>{!card.number && "Please fill in number"}</FormValidationMessage>
 
 				<FormLabel>Exp Year</FormLabel>
-				<FormInput onChangeText={this.updateNumber} placeholder={this.props.card.exp_year}/>
-				<FormValidationMessage>{!this.props.card.number && "Please fill in number"}</FormValidationMessage>
+				<FormInput onChangeText={this.updateNumber} placeholder={card.exp_year}/>
+				<FormValidationMessage>{!card.number && "Please fill in number"}</FormValidationMessage>
 
 				<FormLabel>CVC</FormLabel>
-				<FormInput onChangeText={this.updateNumber} placeholder={this.props.card.cvc}/>
-				<FormValidationMessage>{!this.props.card.number && "Please fill in number"}</FormValidationMessage>
+				<FormInput onChangeText={this.updateNumber} placeholder={card.cvc}/>
+				<FormValidationMessage>{!card.number && "Please fill in number"}</FormValidationMessage>
 
 				<Button 
         	raised
@@ -50,6 +52,7 @@ class HomeScreen extends React.Component {
         	onPress={() => this.addCard()}
         	/>
 
+        	<ActivityIndicator animating={user.addingCard} size="large"/>
       </View>
     )
   }

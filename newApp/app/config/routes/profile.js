@@ -16,6 +16,12 @@ const routeConfiguration = {
   			title: 'Add Card'
   		}
   	},
+    Cards: {
+      screen: Profile.Cards,
+      navigationOptions: {
+        title: 'Cards'
+      }
+    }
 
 }
 

@@ -3,7 +3,7 @@ const initialState = {
 	isFetching: false,
 	error: false,
 	notFound: false,
-	gettingCard: false
+	addingCard: false
 }
 
 
@@ -38,12 +38,12 @@ export default (state = initialState, action) => {
 		case 'ADD_CARD':
 			return {
 				...state,
-				gettingCard: true
+				addingCard: true
 			}
 		case 'ADD_CARD_SUCCESS':
 			return {
 				...state, 
-				gettingCard: false,
+				addingCard: false,
 				user: action.data
 			}
 		default:

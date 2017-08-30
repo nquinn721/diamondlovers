@@ -230,7 +230,7 @@ class User {
                     if(match){
                         if(doc.stripeId){
                             Stripe.getCustomer(doc.stripeId, (e, cust) => {
-                                user.cust = cust
+                                user.stripeCust = cust
                                 
                                 this.getImagesForLogin(e, doc, user, cb);
                             });
