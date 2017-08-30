@@ -7,8 +7,8 @@ module.exports = {
 	},
 	// {card: cardID}
 	deleteCard: (req, res) => {
-		let custId = req.session.user.stripeCust.id;
-	    StripAPI.deleteCard(custId, req.body.card, updateClientWithStripeUser.bind(this, req, res));
+		let cust = req.session.user.stripeCust;
+	    StripAPI.deleteCard(req.body.card, cust, updateClientWithStripeUser.bind(this, req, res));
 	},
 	// {card: cardID}
 	setDefaultCard: (req, res) => {

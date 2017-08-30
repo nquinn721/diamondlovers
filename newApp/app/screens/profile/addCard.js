@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
-import {addCard, setDefaultCard, deleteCard, chargeCard} from 'newApp/app/redux/actions/card';
+import { addCard } from 'newApp/app/redux/actions/card';
 const stripe = require('stripe-client')(Config.stripeApiKey);
 
 class HomeScreen extends React.Component {
@@ -65,5 +65,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({card: state.card, user: state.user}), 
-  (dispatch) => (bindActionCreators({addCard, setDefaultCard, deleteCard, chargeCard}, dispatch))
+  (dispatch) => (bindActionCreators({addCard}, dispatch))
 )(HomeScreen);

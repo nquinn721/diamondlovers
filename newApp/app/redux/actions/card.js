@@ -21,9 +21,11 @@ export const setDefaultCard = (card) => {
 }
 
 export const deleteCard = (card) => {
-	console.log('deleting card', card);
+	console.log('delete');
 	
 	return (dispatch) => {
+		console.log('dispatched');
+		
 		postToCard(dispatch, 'card/delete-card', {card}, {
 			init: 'DELETE_CARD',
 			success: 'DELETE_CARD_SUCCESS',

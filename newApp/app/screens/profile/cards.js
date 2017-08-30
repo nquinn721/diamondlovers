@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FormLabel, FormInput, FormValidationMessage, Button, Icon } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
-import { deleteCard } from 'newApp/app/redux/actions/card';
+import { deleteCard, setDefaultCard } from 'newApp/app/redux/actions/card';
 
 class CardsScreen extends React.Component {
   renderCards({stripeCust, client} = this.props.user.user){
@@ -22,11 +22,11 @@ class CardsScreen extends React.Component {
             <Text>**** **** **** {card.last4}</Text>
             {
               stripeCust.default_source === card.id ? 
-                <Icon name="check" color="green" type="font-awesome"/> :
-                <Text></Text>
+                <Icon style={styles.check} name="check" color="green" type="font-awesome"/> :
+                <Text style={styles.check}></Text>
             }
             {
-              client.deletingCard ? 
+              this.props.user.deletingCard ? 
                 <ActivityIndicator /> :
                 <Icon name="trash" color="#555" type="font-awesome" onPress={() => this.deleteCard(card)}/>
             }
@@ -42,7 +42,7 @@ class CardsScreen extends React.Component {
       `Are you sure you want to delete card ending in ${card.last4}?`,
       [
         {text: 'Cancel', style: 'cancel'},
-        {text: 'OK', onPress: () => deleteCard(card.id)},
+        {text: 'OK', onPress: () => this.props.deleteCard(card.id)},
       ],
       { cancelable: true }
     )
@@ -72,6 +72,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     padding: 5
+  },
+  check: {
+    width: 20
   }
 })
 
@@ -80,5 +83,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({user: state.user}), 
-  // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
+  (dispatch) => (bindActionCreators({deleteCard, setDefaultCard}, dispatch))
 )(CardsScreen);
