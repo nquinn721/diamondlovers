@@ -9,10 +9,6 @@ import {addCard, setDefaultCard, deleteCard, chargeCard} from 'newApp/app/redux/
 const stripe = require('stripe-client')(Config.stripeApiKey);
 
 class HomeScreen extends React.Component {
-	componentDidMount(){
-		console.log(this.props);
-		
-	}
   updateNumber(){
   	console.log('update number');
   }
@@ -23,8 +19,10 @@ class HomeScreen extends React.Component {
   	
   }
   render() {
-  	const user = this.props.user.user,
+  	const user = this.props.user,
   				card = this.props.card;
+  				console.log('render', user);
+  				
     return (
       <View style={styles.container}>
         <FormLabel>Card Number</FormLabel>
@@ -51,8 +49,7 @@ class HomeScreen extends React.Component {
         	title="Add Card"
         	onPress={() => this.addCard()}
         	/>
-
-        	<ActivityIndicator animating={user.addingCard} size="large"/>
+        	{user.addingCard && <ActivityIndicator size="large"/>}
       </View>
     )
   }
