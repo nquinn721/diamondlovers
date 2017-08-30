@@ -41,8 +41,8 @@ class CardsScreen extends React.Component {
       'Delete Card',
       `Are you sure you want to delete card ending in ${card.last4}?`,
       [
-        {text: 'Cancel', onPress: () => deleteCard(card.id), style: 'cancel'},
-        {text: 'OK'},
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: () => deleteCard(card.id)},
       ],
       { cancelable: true }
     )
