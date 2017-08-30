@@ -2,29 +2,24 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
-
+import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
+import Config from '../../config/config';
+import gStyles from '../../config/globalStyles';
+const stripe = require('stripe-client')(Config.stripeApiKey);
 
 class HomeScreen extends React.Component {
-	displayUser({isFetching} = this.props.user, {client, images} = this.props.user.user){
-		return client && <Text>{client.email}</Text>;
-	}
-	addCard(){
-		this.props.navigation.navigate('AddCard');
-		console.log('adding card');
-	}
   render() {
     return (
       <View style={styles.container}>
-        {this.displayUser()}
-        <Button 
+				<Button 
         	raised
-    			icon={{name: 'home', size: 15}}
+    			icon={{name: 'credit-card', size: 15}}
     			buttonStyle={{backgroundColor: '#2980b9', borderRadius: 5}}
     			textStyle={{textAlign: 'center'}}
-        	title="Cards"
+        	title="Add Card"
         	onPress={() => this.addCard()}
-        />
+        	/>
+
       </View>
     )
   }

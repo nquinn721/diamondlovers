@@ -5,11 +5,10 @@ export const login = () => {
 		dispatch(getUser());
 		Service.post('db/login', {email: 'natethepcspecialist@gmail.com', password: 'nate123'})
 			.then(user => {
-				console.log('then', user);
-				
-			// 	dispatch(getUserSuccess(user.data.data))
-			})		
-			// .catch(err => dispatch(getUserFailed(err)));
+				user.data ? 
+					dispatch(getUserSuccess(user.data)) :
+					dispatch(getUserFailed(user.error));
+			});
 	}
 }
 

@@ -2,11 +2,54 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
+import Config from 'newApp/app/config/config';
+import gStyles from 'newApp/app/config/globalStyles';
+import {addCard, setDefaultCard, deleteCard, chargeCard} from 'newApp/app/redux/actions/card';
+const stripe = require('stripe-client')(Config.stripeApiKey);
 
 class HomeScreen extends React.Component {
+	componentDidMount(){
+		console.log(this.props);
+		
+	}
+  updateNumber(){
+  	console.log('update number');
+  }
+  async addCard(){
+  	let token = await stripe.createToken({card: this.props.card});
+  	console.log(token);
+  	this.props.addCard(token.id);
+  	
+  }
   render() {
     return (
       <View style={styles.container}>
+        <FormLabel>Card Number</FormLabel>
+				<FormInput onChangeText={this.updateNumber} placeholder={this.props.card.number}/>
+				<FormValidationMessage>{!this.props.card.number && "Please fill in number"}</FormValidationMessage>
+				
+				<FormLabel>Exp Month</FormLabel>
+				<FormInput onChangeText={this.updateNumber} placeholder={this.props.card.exp_month}/>
+				<FormValidationMessage>{!this.props.card.number && "Please fill in number"}</FormValidationMessage>
+
+				<FormLabel>Exp Year</FormLabel>
+				<FormInput onChangeText={this.updateNumber} placeholder={this.props.card.exp_year}/>
+				<FormValidationMessage>{!this.props.card.number && "Please fill in number"}</FormValidationMessage>
+
+				<FormLabel>CVC</FormLabel>
+				<FormInput onChangeText={this.updateNumber} placeholder={this.props.card.cvc}/>
+				<FormValidationMessage>{!this.props.card.number && "Please fill in number"}</FormValidationMessage>
+
+				<Button 
+        	raised
+    			icon={{name: 'credit-card', size: 15}}
+    			buttonStyle={{backgroundColor: '#2980b9', borderRadius: 5}}
+    			textStyle={{textAlign: 'center'}}
+        	title="Add Card"
+        	onPress={() => this.addCard()}
+        	/>
+
       </View>
     )
   }
@@ -21,6 +64,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  // (state) => ({user: state.user}), 
-  // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
+  (state) => ({card: state.card, user: state.user}), 
+  (dispatch) => (bindActionCreators({addCard, setDefaultCard, deleteCard, chargeCard}, dispatch))
 )(HomeScreen);

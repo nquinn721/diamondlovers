@@ -1,9 +1,5 @@
 import Service from './service';
 
-export const sum = (a, b)  => {
-  return a + b;
-}
-
 export const addCard = (token) => {
 	return (dispatch) => {
 		postToCard(dispatch, 'card/add-card', {
