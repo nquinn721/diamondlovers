@@ -5,8 +5,6 @@ module.exports = {
 		console.log('add card', req.body);
 		
 		let custId = req.session.user.stripeCust ? req.session.user.stripeCust.id : req.session.user.client.email;
-		console.log(custId);
-		
 	    StripAPI.addNewCard(custId, req.body.token, updateClientWithStripeUser.bind(this, req, res));
 	},
 	// {card: cardID}
@@ -41,6 +39,10 @@ module.exports = {
 
 }
 function updateClientWithStripeUser(req, res, e, data){
+	console.log('update client');
+	
+	console.log(e, data);
+	
     if(data){
     	User.createStripeCustomer(req.session.user.client._id, data.id);
         req.session.user.stripeCust = data;
