@@ -40,6 +40,8 @@ function updateClientWithStripeUser(req, res, e, data){
     if(data){
     	if(!data.deleted){
     		if(!req.session.model.stripeId){
+    			console.log('CREATE STRIPE CUST IN DB');
+    			
 		    	User.createStripeCustomer(req.session.user.client._id, data.id, (e, user, model) => {
 		    		req.session.user.client = user
 			        req.session.user.stripeCust = data;
@@ -47,6 +49,8 @@ function updateClientWithStripeUser(req, res, e, data){
 			        res.send({data: req.session.user});
 		    	});
 		    }else{
+		    	console.log('NO CREATE STRIPE CUST');
+		    	
 		        req.session.user.stripeCust = data;
 		        res.send({data: req.session.user});
 		    }
