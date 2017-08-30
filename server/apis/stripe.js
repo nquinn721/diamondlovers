@@ -135,8 +135,8 @@ class Stripe{
     console.log('add new card', token, cust);
     
 		cust.id ? 
-			this.createCustomer(token, cust, cb) :
-      this.addCard(token, cust, cb);
+      this.addCard(token, cust, cb) :
+      this.createCustomer(token, cust, cb);
 	}
 
 
