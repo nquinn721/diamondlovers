@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Config from 'newApp/app/config/config';
 import { Button } from 'react-native-elements';
+import { getDefaultImage } from 'newApp/app/redux/actions/image';
 
 
 class HomeScreen extends React.Component {
@@ -12,10 +14,20 @@ class HomeScreen extends React.Component {
 
     return <View>{page}</View>
 	}
+
+  displayDefaultImage({user} = this.props.user, {images} = this.props.image){    
+    if(!user || !images)return;
+    console.log(user, images);
+    
+    let img = getDefaultImage(user.profile.defaultImage, this.props.image.images);
+    
+    return <Image source={{uri: img.url}} style={styles.profileImage} />   
+  }
 		
   render() {
     return (
       <View style={styles.container}>
+        {this.displayDefaultImage()}
         {this.displayUser()}
         <Button 
           raised
@@ -44,6 +56,10 @@ const styles = StyleSheet.create({
   profileButton:{
     backgroundColor: '#2980b9', 
     borderRadius: 5
+  },
+  profileImage: {
+    width:Config.w,
+    height:Config.h / 2
   }
 })
 
@@ -51,6 +67,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({user: state.user}), 
+  (state) => ({user: state.user, image: state.image}), 
   // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
 )(HomeScreen);

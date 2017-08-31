@@ -5,7 +5,7 @@ import { ImagePicker, BlurView } from 'expo';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
-import { addImage, deleteImage, setDefaultImage } from 'newApp/app/redux/actions/image';
+import { addImage, deleteImage, setDefaultImage, sortByDefault } from 'newApp/app/redux/actions/image';
 
 class CardsScreen extends React.Component {
   state = {images: {}};
@@ -45,19 +45,11 @@ class CardsScreen extends React.Component {
   }
   
   renderImages({images} = this.props.image){
-    let imgs = []
-    let di = this.state.defaultImage;
-    if(di && images){
-      di = di.toString();
-       images.forEach(img => img._id.toString() === di ? imgs.unshift(img) : imgs.push(img))
-    }
-
-    console.log(imgs, di);
+    images = sortByDefault(this.state.defaultImage, images);
     
-    
-    if(imgs){
+    if(images){
       return [1,2,3,4].map((card, i) => {
-        let image = imgs[i],
+        let image = images[i],
             stateImage = this.state.images['image' + i];
             
         

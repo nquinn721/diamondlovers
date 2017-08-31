@@ -39,6 +39,28 @@ export const deleteImage = (public_id) => {
 	}
 }
 
+export const sortByDefault = (userDefaultImage, images) => {
+	let imgs = [];
+	let di = userDefaultImage;
+    if(di && images){
+      di = di.toString();
+       images.forEach(img => img._id.toString() === di ? imgs.unshift(img) : imgs.push(img))
+    }else{
+    	imgs = images;
+    }
+    return imgs;
+}
+
+export const getDefaultImage = (userDefaultImage, images) => {
+	let img;
+	let di = userDefaultImage;
+    if(di && images){
+      di = di.toString();
+       images.forEach(image => image._id.toString() === di ? img = image : null);
+    }
+    return img;
+}
+
 
 const postToImage = (dispatch, url, body, types) => {
 	dispatch({type: types.init});
