@@ -8,7 +8,6 @@ const initialState = {
 
 
 export default (state = initialState, action) => {
-	console.log(action.type, action.data);
 	
 	switch(action.type){
 		case 'LOGGING_IN': 
@@ -35,57 +34,7 @@ export default (state = initialState, action) => {
 				isFetching: false,
 				notFound: true
 			}
-		case 'ADD_CARD':
-			return {
-				...state,
-				addingCard: true
-			}
-		case 'ADD_CARD_SUCCESS':
-			return {
-				...state, 
-				addingCard: false,
-				user: action.data
-			}
-		case 'ADD_CARD_FAILED':
-			return {
-				...state,
-				addingCard: false,
-				addingCardFailed: true
-			}
-		case 'SET_DEFAULT_CARD':
-			return {
-				...state,
-				settingDefault: true
-			}
-		case 'SET_DEFAULT_CARD_SUCCESS':
-			return {
-				...state,
-				settingDefault: false,
-				user: action.data
-			}
-		case 'SET_DEFAULT_CARD_FAILED':
-			return {
-				...state,
-				settingDefault: false,
-				settingDefaultFailed: true
-			}
-		case 'DELETE_CARD':
-			return {
-				...state,
-				deletingCard: true,
-			}
-		case 'DELETE_CARD_SUCCESS':
-			return {
-				...state,
-				user: action.data,
-				deletingCard: false
-			}
-		case 'DELETE_CARD_FAILED':
-			return {
-				...state,
-				deletingCard: false,
-				deletingCardFailed: true
-			}
+		
 		default:
 			return state;
 	}

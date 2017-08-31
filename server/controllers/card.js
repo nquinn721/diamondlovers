@@ -27,7 +27,7 @@ module.exports = {
 	                req.session.user.client = user;
 	                req.session.user.stripeCust = cust;
 	                
-	                res.send({data: req.session.user})
+	                res.send({data: req.session.user.stripeCust})
 	            });
 	        }else{
 	            res.send({error: 'failed to charge card'});
@@ -46,14 +46,14 @@ function updateClientWithStripeUser(req, res, e, data){
 		    		req.session.user.client = user
 			        req.session.user.stripeCust = data;
 			        req.session.model = model;
-			        res.send({data: req.session.user});
+			        res.send({data: req.session.user.stripeCust});
 		    	});
 		    }else{
 		        req.session.user.stripeCust = data;
-		        res.send({data: req.session.user});
+		        res.send({data: req.session.user.stripeCust});
 		    }
     	}else{
-	        res.send({data: req.session.user});
+	        res.send({data: req.session.user.stripeCust});
     	}
     }else{
         res.send({error: 'failed'});

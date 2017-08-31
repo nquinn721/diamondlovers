@@ -43,9 +43,8 @@ describe('Image Management', (done) => {
 			.attach('image', 'server/lib/test.jpg')
 			.expect(200)
 			.then(res  => {
-              	let user = res.body.data.client;
-              	let image = res.body.data.images[0];
-              	image.userId.should.equal(user._id);
+              	let image = res.body.data[0];
+              	image.userId.toString().should.equal(user._id.toString());
               	image.status.should.equal('new');
               	image1 = image;
               	done();
@@ -64,7 +63,7 @@ describe('Image Management', (done) => {
               	let image = res.body.data.images[images.length - 1];
               	image.userId.should.equal(user._id);
               	image.status.should.equal('new');
-              	user.profile.defaultImage.should.equal(image._id);
+              	user.profile.defaultImage.toString().should.equal(image._id.toString());
               	image2 = image;
               	done();
               });

@@ -6,8 +6,12 @@ module.exports = {
                 req.session.user.images.push(image);
 
             if(req.body.defaultImage)
-                return User.setDefaultImage(req.session.user.client._id, image, updateClient.bind(this, req, res));
-            res.send(e ? {error: 'failed'} : {data: req.session.user});
+                return User.setDefaultImage(req.session.user.client._id, image, (e, user, doc) => {
+                    req.session.user.client = user;
+                    req.session.model = doc;
+                    res.send(e ? {error: 'failed'} : {data: {client: user, images: req.session.user.images}});
+                });
+            res.send(e ? {error: 'failed'} : {data: req.session.user.images});
         });
     },
     makeImageDefault: (req, res) => {
@@ -18,15 +22,15 @@ module.exports = {
         Image.delete(req.session.user.client._id, req.body.public_id, (e, images) => {
             if(e)return res.send({error: 'failed'});
             req.session.user.images = images;
-            res.send({data: req.session.user});
+            res.send({data: req.session.user.images});
         });
     }
 
 
 }
 
-function updateClient(req, res, e, user, doc) {
+function updateClient(req, res, e, images, doc) {
     if(e)return res.send({error: 'failed'});
-    req.session.user.client = user;
-    res.send({data: req.session.user});
+    req.session.user.images = images;
+    res.send({data: req.session.user.images});
 }

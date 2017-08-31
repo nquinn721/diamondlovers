@@ -11,12 +11,13 @@ class CardsScreen extends React.Component {
   state = {}
 
   setDefaultCard(card){
-    if(this.props.user.user.stripeCust.default_source === card)return;
+    if(this.props.card.stripeCust.default_source === card)return;
     this.state.defaultCard = card;
     this.props.setDefaultCard(card);
   }
 
-  renderCards({stripeCust, client} = this.props.user.user){
+  renderCards({stripeCust} = this.props.card){
+    console.log(this.props);
     
     if(stripeCust && stripeCust.sources){
       const cards = stripeCust.sources.data;
@@ -26,7 +27,7 @@ class CardsScreen extends React.Component {
         return (
           <View key={i} style={styles.card}>
             {
-              this.state.defaultCard === card.id && this.props.user.settingDefault ?
+              this.state.defaultCard === card.id && this.props.card.settingDefault ?
                 <ActivityIndicator style={styles.cardIcon}/> :
                 <Icon style={styles.cardIcon} onPress={() => this.setDefaultCard(card.id)} name={`cc-${brand}`} type='font-awesome'color='#0157a2'/>
               
@@ -38,7 +39,7 @@ class CardsScreen extends React.Component {
                 <Text style={styles.check}></Text>
             }
             {
-              this.props.user.deletingCard && this.state.cardBeingDeleted === card.id ? 
+              this.props.card.deletingCard && this.state.cardBeingDeleted === card.id ? 
                 <ActivityIndicator /> :
                 <Icon name="trash" color="#555" type="font-awesome" onPress={() => this.deleteCard(card)}/>
             }
@@ -107,6 +108,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({user: state.user}), 
+  (state) => ({card: state.card}), 
   (dispatch) => (bindActionCreators({deleteCard, setDefaultCard}, dispatch))
 )(CardsScreen);
