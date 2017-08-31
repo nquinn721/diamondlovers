@@ -6,9 +6,9 @@ import { Button } from 'react-native-elements';
 
 
 class HomeScreen extends React.Component {
-	displayUser({isFetching} = this.props.user, {client, images, stripeCust} = this.props.user.user){
+	displayUser({isFetching} = this.props.user, {user} = this.props.user){
     let page = [];
-		client && page.push(<Text key='client'>{client.email}</Text>);
+		user && page.push(<Text key='client'>{user.email}</Text>);
 
     return <View>{page}</View>
 	}

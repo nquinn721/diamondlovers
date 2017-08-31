@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				isFetching: false,
-				user: action.data
+				user: action.data.client
 			}
 		case 'LOG_IN_FAILED':
 			return {
@@ -33,6 +33,11 @@ export default (state = initialState, action) => {
 				...state,
 				isFetching: false,
 				notFound: true
+			}
+		case 'ADD_IMAGE_WITH_DEFAULT_SUCCESS':
+			return {
+				...state,
+				user: action.data.client
 			}
 		
 		default:
