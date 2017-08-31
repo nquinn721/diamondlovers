@@ -14,6 +14,10 @@ const styles = StyleSheet.create({
 	    justifyContent: 'center', 
 		alignItems: 'center',
 		flex: 1
+	},
+	smallText: {
+		fontSize: 12,
+		color: '#aaa'
 	}
 });
 export default styles;

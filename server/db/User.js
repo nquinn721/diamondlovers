@@ -129,28 +129,33 @@ const UserModel = mongoose.model('User', UserSchema);
     
 
 class User {
-
     static find(_id, cb = function(){}){
-        UserModel.findOne({_id}, cb);
+        UserModel.findOne({_id}, this.returnDoc.bind(this, cb));
     }
-    
+    static get(obj, cb = function(){}){
+        UserModel.findOrCreate(obj, this.returnDoc.bind(this, cb));
+    }
+
+    static returnDoc(cb, e, doc){
+        if(doc){
+            return cb(e, doc.client(), doc);
+        }else{
+            return cb(e, null, null);
+        }
+    }
+
+
     // TODO:: check for a stripe charge id before adding diamonds
     static addDiamonds(_id, diamonds, cb = function(){}){
-        UserModel.findOneAndUpdate({_id}, {$inc: {diamonds: diamonds}}, {new: true}, cb);
-    }
-    
-    static get(obj, cb = function(){}){
-        UserModel.findOrCreate(obj, (e, doc) => {
-            cb(e, doc.client(), doc);
-        })
+        UserModel.findOneAndUpdate({_id}, {$inc: {diamonds: diamonds}}, {new: true}, this.returnDoc.bind(this, cb));
     }
 
     static setDefaultImage(_id, imageId, cb = function(){}){
-        UserModel.findOneAndUpdate({_id}, {$set: {'profile.defaultImage': imageId}}, {new: true}, cb);
+        UserModel.findOneAndUpdate({_id}, {$set: {'profile.defaultImage': imageId}}, {new: true}, this.returnDoc.bind(this, cb));
     }
 
     static update(user, cb = function(){}){
-        UserModel.findOneAndUpdate({_id: user._id}, user, {new: true}, cb);
+        UserModel.findOneAndUpdate({_id: user._id}, user, {new: true}, this.returnDoc.bind(this, cb));
     }
    
     /**
@@ -159,12 +164,12 @@ class User {
     static updateProfileStatus(doc, status, cb = function(){}){
         if(!doc)return cb({error: 'no doc to update'});
         doc.profile.status = status;
-        doc.save(cb);
+        doc.save(this.returnDoc.bind(this, cb));
     }
     static updateProfile(_id, field, value, cb = function(){}){
         let update = {};
         update['profile.' + field] = value;
-        UserModel.findOneAndUpdate({_id}, update, {new: true}, cb);
+        UserModel.findOneAndUpdate({_id}, update, {new: true}, this.returnDoc.bind(this, cb));
     }
     /**
      * END PROFILE
@@ -173,7 +178,7 @@ class User {
     static updateModel(_id, field, value, cb = function(){}){
         let update = {};
         update[field] = value;
-        UserModel.findOneAndUpdate({_id}, update, {new: true}, cb);
+        UserModel.findOneAndUpdate({_id}, update, {new: true}, this.returnDoc.bind(this, cb));
     }
     /**
      * SEARCH
@@ -209,7 +214,7 @@ class User {
      * IMAGE
      */
     static setDefaultImage(_id, image, cb = function(){}){
-        UserModel.findOneAndUpdate({_id}, {$set: {'profile.defaultImage': image}}, {new: true}, cb);
+        UserModel.findOneAndUpdate({_id}, {$set: {'profile.defaultImage': image}}, {new: true}, this.returnDoc.bind(this, cb));
     }
 
     /**
@@ -236,10 +241,10 @@ class User {
                             Stripe.getCustomer(doc.stripeId, (e, cust) => {
                                 user.stripeCust = cust
                                 
-                                this.getImagesForLogin(e, doc, user, cb);
+                                this.getImagesForLogin(e, user, doc, cb);
                             });
                         }else{
-                            this.getImagesForLogin(e, doc, user, cb);
+                            this.getImagesForLogin(e, user, doc, cb);
                         }
                     }else cb(matchError);
                 });
@@ -257,11 +262,11 @@ class User {
         });
     }
 
-    static getImagesForLogin(e, doc, user, cb){
+    static getImagesForLogin(e, user, doc, cb){
         Image.basic(doc._id, (e, images) => {
             if(e)return cb(e);
             user.images = images;
-            cb(e, doc, user);
+            cb(e, user, doc);
         });
     }
 
@@ -287,13 +292,10 @@ class User {
      * STRIPE
      */
     static createStripeCustomer(_id, stripeId, cb = function(){}){
-        UserModel.findOneAndUpdate({_id}, {stripeId: stripeId}, {new: true}, (e, doc) => {
-            if(e)return cb(e);
-            cb(e, doc.client(), doc);
-        });
+        UserModel.findOneAndUpdate({_id}, {stripeId: stripeId}, {new: true}, this.returnDoc.bind(this, cb));
     }
     static deleteStripeCustomer(_id, cb = function(){}){
-        UserModel.findOneAndUpdate({_id}, {$unset: {stripeId: ''}}, {new: true}, cb);
+        UserModel.findOneAndUpdate({_id}, {$unset: {stripeId: ''}}, {new: true}, this.returnDoc.bind(this, cb));
     }
     /**
      * END STRIPE
@@ -307,7 +309,7 @@ class User {
      }
 
      static seed(cb = function(){}){
-        UserModel.create(seeds);
+        UserModel.create(seeds, cb);
 
      }
     /**

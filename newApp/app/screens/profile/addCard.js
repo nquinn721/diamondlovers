@@ -9,8 +9,16 @@ import { addCard } from 'newApp/app/redux/actions/card';
 const stripe = require('stripe-client')(Config.stripeApiKey);
 
 class HomeScreen extends React.Component {
-  updateNumber(){
-  	console.log('update number');
+  state = {}
+  updateNumber(number){
+    if(/\d{16}/.test(number)){
+      this.setState({numberError: false});
+      this.props.card.number = number;
+    }else{
+      console.log('setting state');
+      
+      this.setState({numberError: true});
+    }
   }
   async addCard(){
   	let token = await stripe.createToken({card: this.props.card});
@@ -20,16 +28,15 @@ class HomeScreen extends React.Component {
   render() {
   	const user = this.props.user,
   				card = this.props.card;
-  				console.log('render', user);
   				
     return (
       <View style={styles.container}>
         <FormLabel>Card Number</FormLabel>
-				<FormInput onChangeText={this.updateNumber} placeholder={card.number}/>
-				<FormValidationMessage>{!card.number && "Please fill in number"}</FormValidationMessage>
+				<FormInput onChangeText={number => this.updateNumber(number)} placeholder={card.number}/>
+				<FormValidationMessage>{this.state.numberError && "Must be 16 digits"}</FormValidationMessage>
 				
 				<FormLabel>Exp Month</FormLabel>
-				<FormInput onChangeText={this.updateNumber} placeholder={card.exp_month}/>
+				<FormInput onChangeText={month => this.updateMonth(month)} placeholder={card.exp_month}/>
 				<FormValidationMessage>{!card.number && "Please fill in number"}</FormValidationMessage>
 
 				<FormLabel>Exp Year</FormLabel>

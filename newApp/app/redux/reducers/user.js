@@ -46,6 +46,29 @@ export default (state = initialState, action) => {
 				addingCard: false,
 				user: action.data
 			}
+		case 'ADD_CARD_FAILED':
+			return {
+				...state,
+				addingCard: false,
+				addingCardFailed: true
+			}
+		case 'SET_DEFAULT_CARD':
+			return {
+				...state,
+				settingDefault: true
+			}
+		case 'SET_DEFAULT_CARD_SUCCESS':
+			return {
+				...state,
+				settingDefault: false,
+				user: action.data
+			}
+		case 'SET_DEFAULT_CARD_FAILED':
+			return {
+				...state,
+				settingDefault: false,
+				settingDefaultFailed: true
+			}
 		case 'DELETE_CARD':
 			return {
 				...state,
@@ -56,6 +79,12 @@ export default (state = initialState, action) => {
 				...state,
 				user: action.data,
 				deletingCard: false
+			}
+		case 'DELETE_CARD_FAILED':
+			return {
+				...state,
+				deletingCard: false,
+				deletingCardFailed: true
 			}
 		default:
 			return state;

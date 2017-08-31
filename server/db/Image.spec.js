@@ -33,24 +33,23 @@ describe('Image Management', (done) => {
 			.send({email :'bob@marley.com', password: 'bobmarley123'})
 			.expect(200)
 			.then(res => {
-				res.body.client.firstName.should.equal('Bob');
+				res.body.data.client.firstName.should.equal('Bob');
 				done();
 			});
 	})
 
 	it('Should upload image', (done) => {
 		agent.post('/image/profile-image-upload')
-              .attach('image', 'server/lib/test.jpg')
-              .expect(200)
-              .then(res  => {
-              	let user = res.body.client;
-              	let image = res.body.images[res.body.images.length - 1];
+			.attach('image', 'server/lib/test.jpg')
+			.expect(200)
+			.then(res  => {
+              	let user = res.body.data.client;
+              	let image = res.body.data.images[0];
               	image.userId.should.equal(user._id);
               	image.status.should.equal('new');
-              	should.equal(user.profile.defaultImage, undefined);
               	image1 = image;
               	done();
-              });
+			});
 
 	}).timeout(10000);
 
@@ -60,8 +59,9 @@ describe('Image Management', (done) => {
               .field('defaultImage', true)
               .expect(200)
               .then(res  => {
-              	let user = res.body.client;
-              	let image = res.body.images[res.body.images.length - 1];
+              	let user = res.body.data.client;
+              	let images = res.body.data.images;
+              	let image = res.body.data.images[images.length - 1];
               	image.userId.should.equal(user._id);
               	image.status.should.equal('new');
               	user.profile.defaultImage.should.equal(image._id);
@@ -72,6 +72,7 @@ describe('Image Management', (done) => {
 
 	it('Should be a basic image', (done) => {
 		Image.basic(user._id, (e, images) => {
+			
 			images[0]._id.toString().should.equal(image1._id.toString());
 			images[1]._id.toString().should.equal(image2._id.toString());
 			should.equal(images[0].secure_url, undefined);

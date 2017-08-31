@@ -9,16 +9,28 @@ import { deleteCard, setDefaultCard } from 'newApp/app/redux/actions/card';
 
 class CardsScreen extends React.Component {
   state = {}
+
+  setDefaultCard(card){
+    if(this.props.user.user.stripeCust.default_source === card)return;
+    this.state.defaultCard = card;
+    this.props.setDefaultCard(card);
+  }
+
   renderCards({stripeCust, client} = this.props.user.user){
     
     if(stripeCust && stripeCust.sources){
       const cards = stripeCust.sources.data;
       
       return cards.map((card, i) => {
-        let brand = card.brand;
+        let brand = card.brand.toLowerCase();
         return (
           <View key={i} style={styles.card}>
-            <Icon name='cc-visa'type='font-awesome'color='#0157a2'/>
+            {
+              this.state.defaultCard === card.id && this.props.user.settingDefault ?
+                <ActivityIndicator style={styles.cardIcon}/> :
+                <Icon style={styles.cardIcon} onPress={() => this.setDefaultCard(card.id)} name={`cc-${brand}`} type='font-awesome'color='#0157a2'/>
+              
+            }
             <Text>**** **** **** {card.last4}</Text>
             {
               stripeCust.default_source === card.id ? 
@@ -54,6 +66,7 @@ class CardsScreen extends React.Component {
     return (
       <View style={styles.container}>
 				{this.renderCards()}
+        <Text style={[gStyles.smallText, styles.aligned]}>Press the card icon to set default card.</Text>
         <Button 
           raised
           icon={{name: 'home', size: 15}}
@@ -78,6 +91,15 @@ const styles = StyleSheet.create({
   },
   check: {
     width: 20
+  },
+  cardIcon: {
+    width: 30
+  },
+  aligned: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: 5
   }
 })
 

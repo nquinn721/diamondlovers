@@ -25,8 +25,8 @@ module.exports = {
 
 }
 
-function updateClient(req, res, e, user) {
+function updateClient(req, res, e, user, doc) {
     if(e)return res.send({error: 'failed'});
-    req.session.user.client = user.client();
+    req.session.user.client = user;
     res.send({data: req.session.user});
 }

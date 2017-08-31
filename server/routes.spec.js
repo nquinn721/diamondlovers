@@ -35,7 +35,7 @@ describe('App Routes', function() {
 			.send({email: 'natethepcspecialist@gmail.com', password: 'nate123'})
 			.expect(200)
 			.then(res => {
-				res.body.client.firstName.should.equal('Nate');
+				res.body.data.client.firstName.should.equal('Nate');
 				done();
 			});
 	});
@@ -71,7 +71,7 @@ describe('App Routes', function() {
 			.send({email: 'bob@bob.com', password: 'bob123'})
 			.expect(200)
 			.then(res => {
-				res.body.client.firstName.should.equal('Bob');
+				res.body.data.client.firstName.should.equal('Bob');
 				done();
 
 			});
