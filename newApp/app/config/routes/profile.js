@@ -21,6 +21,12 @@ const routeConfiguration = {
       navigationOptions: {
         title: 'Cards'
       }
+    },
+    Images: {
+      screen: Profile.Images,
+      navigationOptions: {
+        title: 'Profile Images'
+      }
     }
 
 }

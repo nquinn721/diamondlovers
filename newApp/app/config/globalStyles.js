@@ -18,6 +18,11 @@ const styles = StyleSheet.create({
 	smallText: {
 		fontSize: 12,
 		color: '#aaa'
+	},
+	center: {
+	    alignItems: 'center',
+	    justifyContent: 'center',
+	    textAlign: 'center'
 	}
 });
 export default styles;

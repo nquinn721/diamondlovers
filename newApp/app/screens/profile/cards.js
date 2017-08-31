@@ -67,13 +67,14 @@ class CardsScreen extends React.Component {
     return (
       <View style={styles.container}>
 				{this.renderCards()}
+        {this.props.card.addingCard && <ActivityIndicator size="small" />}
         <Text style={[gStyles.smallText, styles.aligned]}>Press the card icon to set default card.</Text>
         <Button 
           raised
-          icon={{name: 'home', size: 15}}
+          // icon={{name: 'plus', size: 15}}
           buttonStyle={{backgroundColor: '#2980b9', borderRadius: 5}}
           textStyle={{textAlign: 'center'}}
-          title="Add Card"
+          title="+ Add Card"
           onPress={() => this.props.navigation.navigate('AddCard')}
         />
 

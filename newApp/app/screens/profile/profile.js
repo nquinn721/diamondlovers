@@ -19,11 +19,19 @@ class HomeScreen extends React.Component {
         {this.displayUser()}
         <Button 
           raised
-          icon={{name: 'home', size: 15}}
-          buttonStyle={{backgroundColor: '#2980b9', borderRadius: 5}}
+          icon={{name: 'credit-card', size: 15}}
+          buttonStyle={styles.profileButton}
           textStyle={{textAlign: 'center'}}
           title="Cards"
           onPress={() => this.props.navigation.navigate('Cards')}
+        />
+        <Button 
+          raised
+          icon={{name: 'image', size: 15}}
+          buttonStyle={styles.profileButton}
+          textStyle={{textAlign: 'center'}}
+          title="Profile Images"
+          onPress={() => this.props.navigation.navigate('Images')}
         />
         
       </View>
@@ -33,7 +41,10 @@ class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  
+  profileButton:{
+    backgroundColor: '#2980b9', 
+    borderRadius: 5
+  }
 })
 
 

@@ -4,7 +4,11 @@ const initialState = {
 		exp_year: '23',
 		exp_month: '03',
 		cvc: '123'
-	}
+	},
+	addingCard: false,
+	addingCardFailed: false,
+	settingDefault: false,
+	settingDefaultFailed: false
 }
 
 export default (state = initialState, action) => {

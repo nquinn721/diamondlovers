@@ -39,7 +39,7 @@ describe('Image Management', (done) => {
 	})
 
 	it('Should upload image', (done) => {
-		agent.post('/image/profile-image-upload')
+		agent.post('/image/add-profile-image')
 			.attach('image', 'server/lib/test.jpg')
 			.expect(200)
 			.then(res  => {
@@ -53,7 +53,7 @@ describe('Image Management', (done) => {
 	}).timeout(10000);
 
 	it('Should uplaod image and set default', (done) => {
-		agent.post('/image/profile-image-upload')
+		agent.post('/image/add-profile-image')
               .attach('image', 'server/lib/test.jpg')
               .field('defaultImage', true)
               .expect(200)

@@ -68,13 +68,13 @@ module.exports = function(app){
          * IMAGE
          */
 
-        'image/profile-image-upload' : {
+        'image/add-profile-image' : {
             type: 'post',
             middleWare: ['loggedIn'],
             method: 'image.profileImageUpload'
         },
 
-        'image/make-image-default' : {
+        'image/set-default-image' : {
             type: 'post',
             middleWare: ['loggedIn', 'formidable'],
             method: 'image.makeImageDefault'
