@@ -25,9 +25,9 @@ class Images extends React.Component {
 
     if (!result.cancelled) {
 
-        this.props.addImage(result.uri, index === 0);
         let images = Object.assign({['image' + index]: result.uri});
-        // this.setState({images});
+        this.setState({images});
+        this.props.addImage(result.uri, index === 0);
     }
   }
 
@@ -52,7 +52,7 @@ class Images extends React.Component {
     )
   }
   isDefaultImage(imageId){
-    return imageId === this.state.defaultImage && true;
+    // return imageId === this.state.defaultImage && true;
   }
   longPress(image){
     console.log('long press');
@@ -60,7 +60,7 @@ class Images extends React.Component {
     
   }
   renderImages({images} = this.props.image){
-    images = sortByDefault(this.state.defaultImage, images);
+    // images = sortByDefault(this.state.defaultImage, images);
     
     if(images){
       return [1,2,3,4].map((card, i) => {
@@ -105,8 +105,9 @@ class Images extends React.Component {
   }
  
   render() {
-    if(!this.props.user.user)return <View></View>;
-    this.state.defaultImage = this.props.user.user.profile.defaultImage;
+    console.log(this.props);
+
+    // this.state.defaultImage = this.props.user.user.profile.defaultImage;
 
     return (
       <View style={styles.container}>
@@ -169,6 +170,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({image: state.image, user: state.user}), 
+  (state) => ({image: state.image}), 
   (dispatch) => (bindActionCreators({addImage, deleteImage, setDefaultImage}, dispatch))
 )(Images);

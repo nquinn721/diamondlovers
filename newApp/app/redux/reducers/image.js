@@ -3,11 +3,14 @@ const initialState = {
 
 
 export default (state = initialState, action) => {
+	console.log(action.type, action.data);
+	
 	switch(action.type){
 		case 'LOGGED_IN':
 			return {
 				...state,
-				images: action.data.images
+				images: sortByDefault(action.data.client.profile.defaultImage, action.data.images),
+				defaultImage: getDefaultImage(action.data.client.profile.defaultImage, action.data.images)
 			}
 		case 'ADD_IMAGE':
 			return {
@@ -24,7 +27,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				addingImage: false,
-				images: action.data.images
+				images: sortByDefault(action.data.client.profile.defaultImage, action.data.images)
 			}
 		case 'ADD_IMAGE_FAILED':
 			return {
@@ -40,7 +43,8 @@ export default (state = initialState, action) => {
 		case 'SET_DEFAULT_IMAGE_SUCCESS':
 			return {
 				...state,
-				settingDefaultImage: false
+				settingDefaultImage: false,
+				defaultImage: getDefaultImage(action.data.user.profile.defaultImage, state.images)
 			}
 		case 'SET_DEFAULT_IMAGE_FAILED':
 			return {
@@ -57,7 +61,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				deletingImage: false,
-				images: action.data
+				images: sortByDefault(action.data.client.profile.defaultImage, state.images)
 			}
 		case 'DELETE_IMAGE_FAILED':
 			return {
@@ -68,4 +72,28 @@ export default (state = initialState, action) => {
 		default:
 			return state;
 	}
+}
+
+
+export const sortByDefault = (userDefaultImage, images) => {
+	let imgs = [];
+	let di = userDefaultImage;
+    if(di && images){
+      di = di.toString();
+       images.forEach(img => img._id.toString() === di ? imgs.unshift(img) : imgs.push(img))
+    }else{
+    	imgs = images;
+    }
+    return imgs;
+}
+
+export const getDefaultImage = (userDefaultImage, images) => {
+	let img;
+	let di = userDefaultImage;
+    if(di && images){
+      di = di.toString();
+       images.forEach(image => image._id.toString() === di ? img = image : null);
+    }
+    if(img)
+	    return {uri: img.url};
 }

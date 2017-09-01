@@ -25,7 +25,7 @@ module.exports = {
         Image.delete(req.session.user.client._id, req.body.public_id, (e, images) => {
             if(e)return res.send({error: 'failed'});
             req.session.user.images = images;
-            res.send({data: req.session.user.images});
+            res.send({data: {client: req.session.user.client, images: req.session.user.images}});
         });
     }
 
