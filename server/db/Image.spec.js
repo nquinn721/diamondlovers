@@ -43,7 +43,7 @@ describe('Image Management', (done) => {
 			.attach('image', 'server/lib/test.jpg')
 			.expect(200)
 			.then(res  => {
-              	let image = res.body.data[0];
+              	let image = res.body.data.images[0];
               	image.userId.toString().should.equal(user._id.toString());
               	image.status.should.equal('new');
               	image1 = image;
