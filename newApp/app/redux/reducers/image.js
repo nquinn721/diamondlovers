@@ -85,8 +85,6 @@ getDefaultImage = (di, images) => {
     if(di && images.length){
       	di = di.toString();
        	images.forEach(image => image._id.toString() === di ? img = image : null);
-    }else if(!di && images.length === 1){
-    	return {uri: images[0].url};
     }
     if(img)
 	    return {uri: img.url};

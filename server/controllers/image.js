@@ -8,7 +8,7 @@ module.exports = {
                 else req.session.user.images = [image];
             }
 
-            if(req.body.defaultImage)
+            if(req.body.defaultImage || req.session.user.images.length === 1)
                 return User.setDefaultImage(req.session.user.client._id, image, (e, user, doc) => {
                     req.session.user.client = user;
                     req.session.model = doc;
@@ -17,6 +17,7 @@ module.exports = {
                     res.send(e ? {error: 'failed'} : {data: {client: user, images: req.session.user.images}});
                 });
             console.log('adding image without default', req.session.user.client.profile);
+
             res.send(e ? {error: 'failed'} : {data: {client: req.session.user.client, images: req.session.user.images}});
         });
     },
