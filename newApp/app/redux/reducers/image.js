@@ -55,13 +55,20 @@ export default (state = initialState, action) => {
 }
 
 updatedImageData = (state, action) => {
-	return {
+	let obj = {
 		...state,
 		addingImage: false,
 		defaultImageId: action.data.client.profile.defaultImage,
 		defaultImage: getDefaultImage(action.data.client.profile.defaultImage, action.data.images),
 		images: sortByDefault(action.data.client.profile.defaultImage, action.data.images)
 	}
+	console.log('*');
+	console.log('*');
+	console.log('*');
+	console.log('*');
+	
+	console.log(obj);
+	return obj;
 }
 sortByDefault = (di, images) => {
 	let imgs = [];

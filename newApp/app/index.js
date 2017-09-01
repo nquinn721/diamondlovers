@@ -12,14 +12,13 @@ import gStyles from './config/globalStyles';
 class App extends React.Component{
   componentDidMount(){
     this.props.login();
-    if(this.props.user.isLoggedIn){
-      this.props.getNearby();
-    }
+    // if(this.props.user.isLoggedIn){
+    //   this.props.getNearby();
+    // }
   }
 
   
   render(){
-    console.log('render in App');
     
     const {isFetching} = this.props.user;
     return (

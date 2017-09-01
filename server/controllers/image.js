@@ -12,8 +12,11 @@ module.exports = {
                 return User.setDefaultImage(req.session.user.client._id, image, (e, user, doc) => {
                     req.session.user.client = user;
                     req.session.model = doc;
+                    console.log('adding image with default', req.session.user.client.profile);
+                    
                     res.send(e ? {error: 'failed'} : {data: {client: user, images: req.session.user.images}});
                 });
+            console.log('adding image without default', req.session.user.client.profile);
             res.send(e ? {error: 'failed'} : {data: {client: req.session.user.client, images: req.session.user.images}});
         });
     },
