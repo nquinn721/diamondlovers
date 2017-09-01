@@ -21,7 +21,7 @@ module.exports = {
         User.setDefaultImage(req.session.user.client._id, req.body.image, (e, user, model) => {
             req.session.user.client = user;
             req.session.model = model;
-            res.send({data: req.session.user});
+            res.send({data: req.session.user.client});
         });
     },
 
