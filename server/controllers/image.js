@@ -18,7 +18,11 @@ module.exports = {
         });
     },
     setDefaultImage: (req, res) => {
-        User.setDefaultImage(req.session.user.client._id, req.body.image, updateClient.bind(this, req, res));
+        User.setDefaultImage(req.session.user.client._id, req.body.image, (e, user, model) => {
+            req.session.user.client = user;
+            req.session.model = model;
+            res.send({data: req.session.user});
+        });
     },
 
     deleteImage: (req, res) => {
@@ -32,8 +36,3 @@ module.exports = {
 
 }
 
-function updateClient(req, res, e, images, doc) {
-    if(e)return res.send({error: 'failed'});
-    req.session.user.images = images;
-    res.send({data: req.session.user.images});
-}

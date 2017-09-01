@@ -52,7 +52,7 @@ class Images extends React.Component {
     )
   }
   isDefaultImage(imageId){
-    // return imageId === this.state.defaultImage && true;
+    return imageId === this.props.image.defaultImageId && true;
   }
   longPress(image){
     console.log('long press');

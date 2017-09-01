@@ -9,6 +9,7 @@ export default (state = initialState, action) => {
 		case 'LOGGED_IN':
 			return {
 				...state,
+				defaultImageId: action.data.client.profile.defaultImage,
 				images: sortByDefault(action.data.client.profile.defaultImage, action.data.images),
 				defaultImage: getDefaultImage(action.data.client.profile.defaultImage, action.data.images)
 			}
@@ -27,6 +28,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				addingImage: false,
+				defaultImageId: action.data.client.profile.defaultImage,
 				images: sortByDefault(action.data.client.profile.defaultImage, action.data.images)
 			}
 		case 'ADD_IMAGE_FAILED':
@@ -44,7 +46,8 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				settingDefaultImage: false,
-				defaultImage: getDefaultImage(action.data.user.profile.defaultImage, state.images)
+				defaultImageId: action.data.profile.defaultImage,
+				defaultImage: getDefaultImage(action.data.profile.defaultImage, state.images)
 			}
 		case 'SET_DEFAULT_IMAGE_FAILED':
 			return {
@@ -61,7 +64,9 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				deletingImage: false,
-				images: sortByDefault(action.data.client.profile.defaultImage, state.images)
+				defaultImageId: action.data.client.profile.defaultImage,
+				defaultImage: getDefaultImage(action.data.user.profile.defaultImage, state.images),
+				images: sortByDefault(action.data.client.profile.defaultImage, action.data.images)
 			}
 		case 'DELETE_IMAGE_FAILED':
 			return {
