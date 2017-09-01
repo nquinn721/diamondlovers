@@ -7,30 +7,16 @@ export default (state = initialState, action) => {
 	
 	switch(action.type){
 		case 'LOGGED_IN':
-			return {
-				...state,
-				defaultImageId: action.data.client.profile.defaultImage,
-				images: sortByDefault(action.data.client.profile.defaultImage, action.data.images),
-				defaultImage: getDefaultImage(action.data.client.profile.defaultImage, action.data.images)
-			}
+			return updatedImageData(state, action);
 		case 'ADD_IMAGE':
 			return {
 				...state,
 				addingImage: true
 			}
 		case 'ADD_IMAGE_SUCCESS':
-			return {
-				...state,
-				addingImage: false,
-				images: action.data
-			}
+			return updatedImageData(state, action);
 		case 'ADD_IMAGE_WITH_DEFAULT_SUCCESS':
-			return {
-				...state,
-				addingImage: false,
-				defaultImageId: action.data.client.profile.defaultImage,
-				images: sortByDefault(action.data.client.profile.defaultImage, action.data.images)
-			}
+			return updatedImageData(state, action);
 		case 'ADD_IMAGE_FAILED':
 			return {
 				...state,
@@ -43,12 +29,7 @@ export default (state = initialState, action) => {
 				settingDefaultImage: true
 			}
 		case 'SET_DEFAULT_IMAGE_SUCCESS':
-			return {
-				...state,
-				settingDefaultImage: false,
-				defaultImageId: action.data.profile.defaultImage,
-				defaultImage: getDefaultImage(action.data.profile.defaultImage, state.images)
-			}
+			return updatedImageData(state, action);
 		case 'SET_DEFAULT_IMAGE_FAILED':
 			return {
 				...state,
@@ -61,13 +42,7 @@ export default (state = initialState, action) => {
 				deletingImage: true
 			}
 		case 'DELETE_IMAGE_SUCCESS':
-			return {
-				...state,
-				deletingImage: false,
-				defaultImageId: action.data.client.profile.defaultImage,
-				defaultImage: getDefaultImage(action.data.user.profile.defaultImage, state.images),
-				images: sortByDefault(action.data.client.profile.defaultImage, action.data.images)
-			}
+			return updatedImageData(state, action);
 		case 'DELETE_IMAGE_FAILED':
 			return {
 				...state,
@@ -79,25 +54,32 @@ export default (state = initialState, action) => {
 	}
 }
 
-
-export const sortByDefault = (userDefaultImage, images) => {
+updatedImageData = (state, action) => {
+	return {
+		...state,
+		addingImage: false,
+		defaultImageId: action.data.client.profile.defaultImage,
+		defaultImage: getDefaultImage(action.data.client.profile.defaultImage, action.data.images),
+		images: sortByDefault(action.data.client.profile.defaultImage, action.data.images)
+	}
+}
+sortByDefault = (di, images) => {
 	let imgs = [];
-	let di = userDefaultImage;
-    if(di && images){
-      di = di.toString();
-       images.forEach(img => img._id.toString() === di ? imgs.unshift(img) : imgs.push(img))
+    if(di && images.length){
+      	di = di.toString();
+       	images.forEach(img => img._id.toString() === di ? imgs.unshift(img) : imgs.push(img))
     }else{
     	imgs = images;
     }
     return imgs;
 }
-
-export const getDefaultImage = (userDefaultImage, images) => {
+getDefaultImage = (di, images) => {
 	let img;
-	let di = userDefaultImage;
-    if(di && images){
-      di = di.toString();
-       images.forEach(image => image._id.toString() === di ? img = image : null);
+    if(di && images.length){
+      	di = di.toString();
+       	images.forEach(image => image._id.toString() === di ? img = image : null);
+    }else if(!di && images.length === 1){
+    	return {uri: images[0].url};
     }
     if(img)
 	    return {uri: img.url};

@@ -12,14 +12,15 @@ import gStyles from './config/globalStyles';
 class App extends React.Component{
   componentDidMount(){
     this.props.login();
-    
+    if(this.props.user.isLoggedIn){
+      this.props.getNearby();
+    }
   }
 
   
   render(){
-    if(this.props.user.isLoggedIn){
-      this.props.getNearby();
-    }
+    console.log('render in App');
+    
     const {isFetching} = this.props.user;
     return (
       <View style={gStyles.container}>

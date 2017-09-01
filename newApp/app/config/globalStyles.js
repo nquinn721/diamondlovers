@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 	},
 	smallText: {
 		fontSize: 12,
-		color: '#aaa'
+		color: '#999'
 	},
 	center: {
 	    alignItems: 'center',

@@ -40,9 +40,7 @@ class Images extends React.Component {
         {text: 'OK', onPress: () => {
           this.state.imageBeingDeleted = image._id;
           if(this.isDefaultImage(image._id) && this.props.image.images.length > 1){
-            console.log('saving set default', image._id);
-            
-            this.state.imageNeededToSetDefault = image._id;
+            this.setDefaultImage(this.props.image.images[1]._id);            
           }
 
           this.props.deleteImage(image.public_id);
@@ -112,7 +110,7 @@ class Images extends React.Component {
     return (
       <View style={styles.container}>
 				<View style={styles.imagesContainer}>{this.renderImages()}</View>
-        <Text style={[gStyles.smallText, gStyles.center]}>Press the card icon to set default card.</Text>
+        <Text style={[gStyles.smallText, gStyles.center]}>Long press image to set to default</Text>
 
       </View>
     )
@@ -146,6 +144,7 @@ const styles = StyleSheet.create({
   imageContainer:{
     width: Config.w * (1/3) - 15,
     height: Config.h / 6,
+    marginBottom: 5
   },
   noImageContainer: {
     justifyContent: 'center',

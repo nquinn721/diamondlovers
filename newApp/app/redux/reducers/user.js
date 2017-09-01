@@ -40,6 +40,11 @@ export default (state = initialState, action) => {
 				...state,
 				user: action.data.client
 			}
+		case 'DELETE_IMAGE_SUCCESS':
+			return {
+				...state,
+				user: action.data
+			}
 		case 'SET_DEFAULT_IMAGE_SUCCESS':
 			return {
 				...state,

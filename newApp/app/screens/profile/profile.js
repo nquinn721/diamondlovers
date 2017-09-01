@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
 import { Button } from 'react-native-elements';
-import { getDefaultImage } from 'newApp/app/redux/actions/image';
 const avatar = require('newApp/app/assets/img/avatar.png');
 
 
@@ -16,10 +15,11 @@ class Profile extends React.Component {
     return <View>{page}</View>
 	}
 
-  displayDefaultImage({user} = this.props.user, {images} = this.props.image){    
-    if(!user || !images)return;
+  displayDefaultImage({user} = this.props.user, {image} = this.props){    
+    if(!user || !image)return;
+    console.log(image);
     
-    let img = getDefaultImage(user.profile.defaultImage, this.props.image.images) || avatar;
+    let img =  image.defaultImage || avatar;
     
     return <Image source={img} style={styles.profileImage} />   
   }
