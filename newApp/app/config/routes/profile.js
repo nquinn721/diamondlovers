@@ -5,29 +5,29 @@ import Profile from 'newApp/app/screens/profile';
 
 const routeConfiguration = {
 	Profile: {
-  		screen: Profile.Profile,
-  		navigationOptions: {
-  			title: 'Profile'
-  		}
-  	},
-  	AddCard: { 
-  		screen: Profile.AddCard,
-  		navigationOptions: {
-  			title: 'Add Card'
-  		}
-  	},
-    Cards: {
-      screen: Profile.Cards,
-      navigationOptions: {
-        title: 'Cards'
-      }
-    },
-    Images: {
-      screen: Profile.Images,
-      navigationOptions: {
-        title: 'Profile Images'
-      }
+		screen: Profile.Profile,
+		navigationOptions: {
+			title: 'Profile'
+		}
+	},
+	AddCard: { 
+		screen: Profile.AddCard,
+		navigationOptions: {
+			title: 'Add Card'
+		}
+	},
+  Cards: {
+    screen: Profile.Cards,
+    navigationOptions: {
+      title: 'Cards'
     }
+  },
+  Images: {
+    screen: Profile.Images,
+    navigationOptions: {
+      title: 'Profile Images'
+    }
+  }
 
 }
 

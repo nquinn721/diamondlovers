@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
 import { Button } from 'react-native-elements';
 import { getDefaultImage } from 'newApp/app/redux/actions/image';
+const avatar = require('newApp/app/assets/img/avatar.png');
 
 
-class HomeScreen extends React.Component {
+class Profile extends React.Component {
 	displayUser({isFetching} = this.props.user, {user} = this.props.user){
     let page = [];
 		user && page.push(<Text key='client'>{user.email}</Text>);
@@ -17,11 +18,10 @@ class HomeScreen extends React.Component {
 
   displayDefaultImage({user} = this.props.user, {images} = this.props.image){    
     if(!user || !images)return;
-    console.log(user, images);
     
-    let img = getDefaultImage(user.profile.defaultImage, this.props.image.images);
+    let img = getDefaultImage(user.profile.defaultImage, this.props.image.images) || avatar;
     
-    return <Image source={{uri: img.url}} style={styles.profileImage} />   
+    return <Image source={img} style={styles.profileImage} />   
   }
 		
   render() {
@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
 export default connect(
   (state) => ({user: state.user, image: state.image}), 
   // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
-)(HomeScreen);
+)(Profile);

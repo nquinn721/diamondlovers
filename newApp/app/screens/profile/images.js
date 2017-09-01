@@ -7,9 +7,11 @@ import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
 import { addImage, deleteImage, setDefaultImage, sortByDefault } from 'newApp/app/redux/actions/image';
 
-class CardsScreen extends React.Component {
+class Images extends React.Component {
   state = {images: {}};
   setDefaultImage(image){
+    console.log('setting default image', image);
+    this.props.setDefaultImage(image);
   }
   async addImage(index){
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -32,7 +34,11 @@ class CardsScreen extends React.Component {
       [
         {text: 'Cancel', style: 'cancel'},
         {text: 'OK', onPress: () => {
-          this.state.imageBeingDeleted = image.id;
+          this.state.imageBeingDeleted = image._id;
+          if(this.isDefaultImage(image._id) && this.props.image.images.length > 1){
+            this.setDefaultImage(this.props.image.images[1]._id);
+          }
+
           this.props.deleteImage(image.public_id);
         }},
       ],
@@ -40,10 +46,12 @@ class CardsScreen extends React.Component {
     )
   }
   isDefaultImage(imageId){
-    return imageId === this.state.defaultImage ? styles.defaultImage : styles.image;
+    return imageId === this.state.defaultImage && true;
+  }
+  longPress(){
+    console.log('long press');
     
   }
-  
   renderImages({images} = this.props.image){
     images = sortByDefault(this.state.defaultImage, images);
     
@@ -58,7 +66,9 @@ class CardsScreen extends React.Component {
             {
               image ?
                 <View style={StyleSheet.absoluteFill} >
-                  <Image source={{uri: image.url}} style={StyleSheet.absoluteFill} />
+                  <TouchableHighlight onLongPress={() => this.longPress(i)} style={StyleSheet.absoluteFill} >
+                    <Image source={{uri: image.url}} style={StyleSheet.absoluteFill} />
+                  </TouchableHighlight>
                   <TouchableHighlight onPress={this.deleteImage.bind(this, image)}style={styles.deleteImage}>
                     <Text style={styles.deleteImageText}>-</Text>
                   </TouchableHighlight>
@@ -88,6 +98,7 @@ class CardsScreen extends React.Component {
   }
  
   render() {
+    if(!this.props.user.user)return <View></View>;
     this.state.defaultImage = this.props.user.user.profile.defaultImage;
 
     return (
@@ -153,4 +164,4 @@ const styles = StyleSheet.create({
 export default connect(
   (state) => ({image: state.image, user: state.user}), 
   (dispatch) => (bindActionCreators({addImage, deleteImage, setDefaultImage}, dispatch))
-)(CardsScreen);
+)(Images);

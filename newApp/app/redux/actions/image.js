@@ -11,7 +11,7 @@ export const addImage = (uri, defaultImage) => {
     if(defaultImage)
     	formData.append('defaultImage', true);
 	return (dispatch) => {
-		postToImage(dispatch, 'image/add-profile-image', formData, {
+		Service.dispatchPost(dispatch, 'image/add-profile-image', formData, {
 			init: 'ADD_IMAGE',
 			success: defaultImage ? 'ADD_IMAGE_WITH_DEFAULT_SUCCESS' : 'ADD_IMAGE_SUCCESS',
 			error: 'ADD_IMAGE_FAILED'
@@ -20,8 +20,10 @@ export const addImage = (uri, defaultImage) => {
 }
 
 export const setDefaultImage = (image) => {
+	console.log('in set default image', image);
+	
 	return (dispatch) => {
-		postToImage(dispatch, 'image/set-default-image', {image}, {
+		Service.dispatchPost(dispatch, 'image/set-default-image', {image}, {
 			init: 'SET_DEFAULT_IMAGE',
 			success: 'SET_DEFAULT_IMAGE_SUCCESS',
 			error: 'SET_DEFAULT_IMAGE_FAILED'
@@ -31,7 +33,7 @@ export const setDefaultImage = (image) => {
 
 export const deleteImage = (public_id) => {
 	return (dispatch) => {
-		postToImage(dispatch, 'image/delete-image', {public_id}, {
+		Service.dispatchPost(dispatch, 'image/delete-image', {public_id}, {
 			init: 'DELETE_IMAGE',
 			success: 'DELETE_IMAGE_SUCCESS',
 			error: 'DELETE_IMAGE_FAILED'
@@ -58,19 +60,6 @@ export const getDefaultImage = (userDefaultImage, images) => {
       di = di.toString();
        images.forEach(image => image._id.toString() === di ? img = image : null);
     }
-    return img;
+    if(img)
+	    return {uri: img.url};
 }
-
-
-const postToImage = (dispatch, url, body, types) => {
-	dispatch({type: types.init});
-	Service.post(url, body)
-		.then(data => {
-				data.error ? 
-					dispatch({type: types.error, error: data.error}) : 
-					dispatch({type: types.success, data: data.data})
-			})
-		
-
-};
-

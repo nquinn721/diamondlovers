@@ -3,14 +3,33 @@ import axios from 'axios';
 
 export default class Service{
 
-	static async get(url) {
-		let data = await axion.get(config.baseUrl + url, {
-			type: 'get',
-			credentials: 'same-origin'
-		});
-		let res = this.handleResponse(data);
+	static dispatchPost(dispatch, url, body, types){
+		dispatch({type: types.init});
+		Service.post(url, body)
+			.then(data => {
+				data.error ? 
+					dispatch({type: types.error, error: data.error}) : 
+					dispatch({type: types.success, data: data.data})
+			})
+	}
+	static dispatchGet(dispatch, url, types){
+		dispatch({type: types.init});
+		Service.get(url)
+			.then(data => {
+				data.error ? 
+					dispatch({type: types.error, error: data.error}) : 
+					dispatch({type: types.success, data: data.data})
+			})
+	}
 
-		return res.json();
+	static async get(url) {
+
+		try{
+			let data = await axios.get(config.baseUrl + url);
+			return data.data
+		}catch(e){
+			return {error: e}
+		}
 	}
 
 	static async post(url, body) {

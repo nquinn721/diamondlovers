@@ -4,8 +4,8 @@ import Cards 	from './cards';
 import Images 	from './images';
 
 export default {
-	AddCard: AddCard,
-	Profile: Profile,
-	Cards: Cards,
-	Images: Images
+	AddCard,
+	Profile,
+	Cards,
+	Images
 }

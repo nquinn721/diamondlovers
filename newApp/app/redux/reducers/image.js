@@ -3,6 +3,8 @@ const initialState = {
 
 
 export default (state = initialState, action) => {
+	console.log(action.type, action.data);
+	
 	switch(action.type){
 		case 'LOGGED_IN':
 			return {
@@ -30,7 +32,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				addingImage: false,
-				addingImageFailed: true
+				addingImageFailed: action.error
 			}
 		case 'SET_DEFAULT_IMAGE':
 			return {
@@ -46,7 +48,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				settingDefaultImage: false,
-				settingDefaultImageFailed: true
+				settingDefaultImageFailed: action.error
 			}
 		case 'DELETE_IMAGE':
 			return {
@@ -63,7 +65,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				deletingImage: false,
-				deletingImageFailed: true
+				deletingImageFailed: action.error
 			}
 		default:
 			return state;

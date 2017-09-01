@@ -19,6 +19,7 @@ const seeds = require('./seed');
         type: String,
         unique: true
     },
+    dislikes: [{type: Schema.Types.ObjectId, ref: 'User'}],
     city: String,
     state: String,
     zip: String,

@@ -14,8 +14,8 @@ module.exports = {
             res.send(e ? {error: 'failed'} : {data: req.session.user.images});
         });
     },
-    makeImageDefault: (req, res) => {
-        User.setDefaultImage(req.session.user.client._id, req.body, updateClient.bind(this, req, res));
+    setDefaultImage: (req, res) => {
+        User.setDefaultImage(req.session.user.client._id, req.body.image, updateClient.bind(this, req, res));
     },
 
     deleteImage: (req, res) => {

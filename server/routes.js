@@ -77,7 +77,7 @@ module.exports = function(app){
         'image/set-default-image' : {
             type: 'post',
             middleWare: ['loggedIn', 'formidable'],
-            method: 'image.makeImageDefault'
+            method: 'image.setDefaultImage'
         },
 
         'image/delete-image' : {

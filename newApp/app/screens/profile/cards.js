@@ -7,7 +7,7 @@ import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
 import { deleteCard, setDefaultCard } from 'newApp/app/redux/actions/card';
 
-class CardsScreen extends React.Component {
+class Cards extends React.Component {
   state = {}
 
   setDefaultCard(card){
@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
 export default connect(
   (state) => ({card: state.card}), 
   (dispatch) => (bindActionCreators({deleteCard, setDefaultCard}, dispatch))
-)(CardsScreen);
+)(Cards);

@@ -8,7 +8,7 @@ import gStyles from 'newApp/app/config/globalStyles';
 import { addCard } from 'newApp/app/redux/actions/card';
 const stripe = require('stripe-client')(Config.stripeApiKey);
 
-class HomeScreen extends React.Component {
+class AddCard extends React.Component {
   state = {}
   updateNumber(number){
     if(/\d{16}/.test(number)){
@@ -47,11 +47,12 @@ class HomeScreen extends React.Component {
   async addCard(){
   	let token = await stripe.createToken({card: this.props.card.card});
   	this.props.addCard(token.id);
-  	this.props.navigation.navigate('Cards')
+  	this.props.navigation.goBack()
   }
   render() {
   	const card = this.props.card;
-    
+     console.log(this.props.navigation);
+     
     return (
       <View style={styles.container}>
         <FormLabel>Card Number</FormLabel>
@@ -99,4 +100,4 @@ const styles = StyleSheet.create({
 export default connect(
   (state) => ({card: state.card}), 
   (dispatch) => (bindActionCreators({addCard}, dispatch))
-)(HomeScreen);
+)(AddCard);

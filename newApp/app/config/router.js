@@ -4,10 +4,10 @@ import { Icon } from 'react-native-elements';
 
 
 // Tab Nav Items
-import Swipe 		from 'newApp/app/screens/swipe';
+import Swipe 		from './routes/swipe';
 import Profile 		from './routes/profile';
+import Purchase		from './routes/purchase';
 import Message 		from 'newApp/app/screens/message';
-import Purchase		from 'newApp/app/screens/purchase';
 
 // Stack Nav Items
 import Login 		from 'newApp/app/screens/login';
@@ -18,18 +18,8 @@ import Intro 		from 'newApp/app/screens/intro';
 
 const tabRoutes = {
 	...Profile,
-	Swipe: {
-		screen: Swipe,
-		navigationOptions: {
-			tabBarIcon: ({tintColor}) => <Icon name="list" size={25} color={tintColor} />,
-		}
-	},
-	Purchase: {
-		screen: Purchase,
-		navigationOptions: {
-			tabBarIcon: ({tintColor}) => <Icon name='diamond' size={25} type='font-awesome'color={tintColor}/>,
-		}
-	},
+	...Purchase,
+	...Swipe,
 	Message: {
 		screen: Message,
 		navigationOptions: {

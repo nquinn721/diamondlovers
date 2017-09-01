@@ -20,13 +20,14 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				isFetching: false,
+				isLoggedIn: true,
 				user: action.data.client
 			}
 		case 'LOG_IN_FAILED':
 			return {
 				...state,
 				isFetching: false,
-				error: action.err
+				error: action.error
 			}
 		case 'LOGGED_IN_404':
 			return {

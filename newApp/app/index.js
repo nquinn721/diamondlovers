@@ -4,6 +4,7 @@ import { Constants } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { login } from './redux/actions/login';
+import { getNearby } from './redux/actions/nearby';
 import Nav from './components/nav';
 import gStyles from './config/globalStyles';
 
@@ -11,12 +12,14 @@ import gStyles from './config/globalStyles';
 class App extends React.Component{
   componentDidMount(){
     this.props.login();
-    console.log(this.props);
     
   }
 
   
   render(){
+    if(this.props.user.isLoggedIn){
+      this.props.getNearby();
+    }
     const {isFetching} = this.props.user;
     return (
       <View style={gStyles.container}>
@@ -43,5 +46,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({user: state.user}), 
-  (dispatch) => (bindActionCreators({login}, dispatch))
+  (dispatch) => (bindActionCreators({login, getNearby}, dispatch))
 )(App);

@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				addingCard: false,
-				addingCardFailed: true
+				addingCardFailed: action.error,
 			}
 		case 'SET_DEFAULT_CARD':
 			return {
@@ -45,7 +45,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				settingDefault: false,
-				settingDefaultFailed: true
+				settingDefaultFailed: action.error
 			}
 		case 'DELETE_CARD':
 			return {
@@ -62,7 +62,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				deletingCard: false,
-				deletingCardFailed: true
+				deletingCardFailed: action.error
 			}
 		case 'LOGGED_IN':
 			return {
