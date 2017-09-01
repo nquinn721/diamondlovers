@@ -2,8 +2,11 @@
 module.exports = {
     profileImageUpload: (req, res) => {
         Image.addImage(req.session.user.client._id, req, res, (e, image) => {
-            if(image)
-                req.session.user.images.push(image);
+            if(image){
+                if(req.session.user.images)
+                    req.session.user.images.push(image);
+                else req.session.user.images = [image];
+            }
 
             if(req.body.defaultImage)
                 return User.setDefaultImage(req.session.user.client._id, image, (e, user, doc) => {

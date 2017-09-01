@@ -3,8 +3,6 @@ const initialState = {
 
 
 export default (state = initialState, action) => {
-	console.log(action.type, action.data);
-	
 	switch(action.type){
 		case 'LOGGED_IN':
 			return {

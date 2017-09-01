@@ -9,8 +9,12 @@ import { addImage, deleteImage, setDefaultImage, sortByDefault } from 'newApp/ap
 
 class Images extends React.Component {
   state = {images: {}};
+
+  componentWillMount(){
+    console.log('component will mount');
+    
+  }
   setDefaultImage(image){
-    console.log('setting default image', image);
     this.props.setDefaultImage(image);
   }
   async addImage(index){
@@ -23,7 +27,7 @@ class Images extends React.Component {
 
         this.props.addImage(result.uri, index === 0);
         let images = Object.assign({['image' + index]: result.uri});
-        this.setState({images});
+        // this.setState({images});
     }
   }
 
@@ -36,7 +40,9 @@ class Images extends React.Component {
         {text: 'OK', onPress: () => {
           this.state.imageBeingDeleted = image._id;
           if(this.isDefaultImage(image._id) && this.props.image.images.length > 1){
-            this.setDefaultImage(this.props.image.images[1]._id);
+            console.log('saving set default', image._id);
+            
+            this.state.imageNeededToSetDefault = image._id;
           }
 
           this.props.deleteImage(image.public_id);
@@ -48,8 +54,9 @@ class Images extends React.Component {
   isDefaultImage(imageId){
     return imageId === this.state.defaultImage && true;
   }
-  longPress(){
+  longPress(image){
     console.log('long press');
+    this.setDefaultImage(image._id);
     
   }
   renderImages({images} = this.props.image){
@@ -66,10 +73,10 @@ class Images extends React.Component {
             {
               image ?
                 <View style={StyleSheet.absoluteFill} >
-                  <TouchableHighlight onLongPress={() => this.longPress(i)} style={StyleSheet.absoluteFill} >
+                  <TouchableHighlight onLongPress={() => this.longPress(image)} style={StyleSheet.absoluteFill} >
                     <Image source={{uri: image.url}} style={StyleSheet.absoluteFill} />
                   </TouchableHighlight>
-                  <TouchableHighlight onPress={this.deleteImage.bind(this, image)}style={styles.deleteImage}>
+                  <TouchableHighlight onPress={() => this.deleteImage(image)}style={styles.deleteImage}>
                     <Text style={styles.deleteImageText}>-</Text>
                   </TouchableHighlight>
                 </View> :
@@ -85,7 +92,7 @@ class Images extends React.Component {
                 </View> :
 
                 <TouchableHighlight 
-                  onPress={this.addImage.bind(this, i)} 
+                  onPress={() => this.addImage(i)} 
                   style={[StyleSheet.absoluteFill, styles.noImageContainer]}>
                     <Text style={styles.addImage}>+</Text>
                 </TouchableHighlight>
