@@ -7,7 +7,8 @@ import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
 import SwipeCards from 'react-native-swipe-cards';
 import Swiper from 'react-native-deck-swiper';
-import { getDefaultImage } from 'newApp/app/redux/actions/image';
+import { getDefaultImage } from 'newApp/app/redux/reducers/image';
+import { getNearby } from 'newApp/app/redux/actions/nearby';
 const avatar = require('newApp/app/assets/img/avatar.png');
 
 
@@ -15,36 +16,41 @@ class Nearby extends React.Component {
   state = {
     hasCards: true
   }
-  displayNearby(user){
-    // let image = getDefaultImage(user.profile.defaultImage, user.images) || avatar;
+  componentDidMount(){
+    this.props.getNearby();
 
-    // console.log(user);
+  }
+  displayNearby(user){
+    let image = getDefaultImage(user.profile.defaultImage, user.images) || avatar;
+
+    console.log(user);
     
-    // return (
-    //   <View style={styles.card}>
-    //     <Image source={image} style={styles.image} />
-    //     <Text style={styles.cardText}>{user.profile.displayName}</Text>
-    //   </View>
-    // )
+    return (
+      <View style={styles.card} key={user._id}>
+        <Image source={image} style={styles.image} />
+        <Text style={styles.cardText}>{user.profile.displayName}</Text>
+      </View>
+    )
     
   }
   handleYup(){
-
+    console.log('yup');
+    
   }
   handleNope(){  
-
+    console.log('nope');
+    
   }
   handleMaybe(){
 
   }
   render() {
     if(!this.props.nearby.users)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
-    
+    this.props.nearby.users.forEach((v, i) => v.key = i );
     return (
        <SwipeCards
         cards={this.props.nearby.users}
-         // cards={[{name: 'bob'}, {name: 'santa'}]}
-
+        stack={true}
         renderCard={(cardData) => this.displayNearby(cardData)}
         renderNoMoreCards={() => <View><Text>No more Cards</Text></View>}
 
@@ -94,5 +100,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({nearby: state.nearby}), 
-  // (dispatch) => (bindActionCreators({addCard}, dispatch))
+  (dispatch) => (bindActionCreators({getNearby}, dispatch))
 )(Nearby);

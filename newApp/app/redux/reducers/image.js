@@ -3,8 +3,6 @@ const initialState = {
 
 
 export default (state = initialState, action) => {
-	console.log(action.type, action.data);
-	
 	switch(action.type){
 		case 'LOGGED_IN':
 			return updatedImageData(state, action);
@@ -53,6 +51,25 @@ export default (state = initialState, action) => {
 			return state;
 	}
 }
+export const sortByDefault = (di, images) => {
+	let imgs = [];
+    if(di && images.length){
+      	di = di.toString();
+       	images.forEach(img => img._id.toString() === di ? imgs.unshift(img) : imgs.push(img))
+    }else{
+    	imgs = images;
+    }
+    return imgs;
+}
+export const getDefaultImage = (di, images) => {
+	let img;
+    if(di && images.length){
+      	di = di.toString();
+       	images.forEach(image => image._id.toString() === di ? img = image : null);
+    }
+    if(img)
+	    return {uri: img.url};
+}
 
 updatedImageData = (state, action) => {
 	let obj = {
@@ -69,23 +86,4 @@ updatedImageData = (state, action) => {
 	
 	console.log(obj);
 	return obj;
-}
-sortByDefault = (di, images) => {
-	let imgs = [];
-    if(di && images.length){
-      	di = di.toString();
-       	images.forEach(img => img._id.toString() === di ? imgs.unshift(img) : imgs.push(img))
-    }else{
-    	imgs = images;
-    }
-    return imgs;
-}
-getDefaultImage = (di, images) => {
-	let img;
-    if(di && images.length){
-      	di = di.toString();
-       	images.forEach(image => image._id.toString() === di ? img = image : null);
-    }
-    if(img)
-	    return {uri: img.url};
 }
