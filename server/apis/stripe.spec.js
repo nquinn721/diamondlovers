@@ -66,6 +66,13 @@ describe('Stripe API', (done) => {
 			cust = c;
 			done();
 		})
+	});
+
+	it('should charge default card', (done) => {
+		stripe.charge(cust.id, {amount: 100}, (e, charge) => {
+			charge.amount.should.equal(100);
+			done();
+		})
 	})
 
 	it('should delete customer', (done) => {

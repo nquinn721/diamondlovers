@@ -20,14 +20,10 @@ module.exports = {
 		let userId = req.session.user.client._id,
 			amount = req.body.amount;
 		
-	    StripAPI.charge(req.session.user.stripeCust.id, {amount}, (e, cust, charge) => {
-	    	console.log(e, cust, charge);
-	    	
+	    StripAPI.charge(req.session.user.stripeCust.id, {amount}, (e, charge) => {
 	        if(charge && charge.status === 'succeeded'){
 	            User.addDiamonds(userId, charge.amount / 10, (e, user) => {
 	                req.session.user.client = user;
-	                req.session.user.stripeCust = cust;
-	                
 	                res.send({data: req.session.user.stripeCust})
 	            });
 	        }else{
