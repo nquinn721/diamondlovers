@@ -24,7 +24,7 @@ module.exports = {
 	        if(charge && charge.status === 'succeeded'){
 	            User.addDiamonds(userId, charge.amount / 10, (e, user) => {
 	                req.session.user.client = user;
-	                res.send({data: req.session.user.client})
+	                res.send({data: req.session.user.client});
 	            });
 	        }else{
 	            res.send({error: 'failed to charge card'});

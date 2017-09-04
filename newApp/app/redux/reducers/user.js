@@ -50,6 +50,11 @@ export default (state = initialState, action) => {
 				...state,
 				user: action.data
 			}
+		case 'CHARGE_CARD_SUCCES':
+			return {
+				...state,
+				user: action.data
+			}
 		default:
 			return state;
 	}

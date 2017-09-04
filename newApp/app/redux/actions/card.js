@@ -39,6 +39,11 @@ export const chargeCard = (card, amount) => {
 		});
 	}
 }
+export const resetCharging = () => {
+	return (dispatch) => {
+		dispatch({type: 'RESET_CARD_CHARGING'});
+	}
+}
 
 export const purchase = (cost) => {
 	return (dispatch) => {

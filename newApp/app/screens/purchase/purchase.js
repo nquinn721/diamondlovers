@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'react-native-elements';
-import { purchase } from 'newApp/app/redux/actions/card';
+import { purchase, resetCharging } from 'newApp/app/redux/actions/card';
 
 class Purchase extends React.Component {
   state = {
@@ -12,32 +12,28 @@ class Purchase extends React.Component {
       save: '%50',
       originalCost: '$10,000',
       price: '$5,000',
-      cost: 5000
+      cost: 500000
     }, {
       diamonds: '50,000',
       save: '%20',
       originalCost: '$5,000',
       price: '$3,000',
-      cost: 3000
+      cost: 300000
     }, {
       diamonds: '10,000',
       save: '%10',
       originalCost: '$1,000',
       price: '$900',
-      cost: 900
+      cost: 90000
     }, {
       diamonds: '1,000',
       price: '$100',
-      cost: 100
+      cost: 10000
     }, {
       diamonds: '100',
       price: '$10',
       cost: 10
     }]
-  }
-
-  purchaseDiamonds(cost){
-    this.props.navigation.navigate('Charge', cost);
   }
 
   renderCosts(){
@@ -57,7 +53,7 @@ class Purchase extends React.Component {
             buttonStyle={styles.purchaseButton}
             textStyle={{textAlign: 'center'}}
             title={cost.price}
-            onPress={() => this.purchaseDiamonds(cost)}
+            onPress={() => this.props.navigation.navigate('Charge', cost)}
           />
         </View>
       );
@@ -114,5 +110,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({card: state.card}), 
-  (dispatch) => (bindActionCreators({purchase}, dispatch))
+  (dispatch) => (bindActionCreators({purchase, resetCharging}, dispatch))
 )(Purchase);

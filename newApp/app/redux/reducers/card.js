@@ -79,6 +79,28 @@ export default (state = initialState, action) => {
 				...state,
 				purchase: action.data
 			}
+		case 'CHARGE_CARD':
+			return {
+				...state,
+				chargingCard: true
+			}
+		case 'CHARGE_CARD_SUCCESS':
+			return {
+				...state,
+				chargingCard: false,
+				chargingCardSuccess: true
+			}
+		case 'CHARGE_CARD_FAILED':
+			return {
+				...state,
+				chargingCard: false,
+				chargingCardFailed: true
+			}
+		case 'RESET_CARD_CHARGING':
+			return {
+				...state,
+				chargingCardSuccess: false
+			}
 		default:
 			return state;
 	}
