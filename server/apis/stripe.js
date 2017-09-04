@@ -156,6 +156,8 @@ class Stripe{
 
 	 // Returns charge
 	 static charge(card, charge, cb = function(){}){
+    console.log('charging cust', card, charge);
+    
 	 	stripe.charges.create({
 		  amount: charge.amount || 10000,
 		  currency: charge.currency || "usd",
