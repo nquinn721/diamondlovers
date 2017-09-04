@@ -18,11 +18,9 @@ module.exports = {
 	// {card: cardID} optional
 	chargeCard: (req, res) => {
 		let userId = req.session.user.client._id,
-			card = req.body.card,
 			amount = req.body.amount;
-		console.log(card, amount);
 		
-	    StripAPI.charge(card, {amount}, (e, cust, charge) => {
+	    StripAPI.charge(req.session.user.stripeCust.id, {amount}, (e, cust, charge) => {
 	    	console.log(e, cust, charge);
 	    	
 	        if(charge && charge.status === 'succeeded'){

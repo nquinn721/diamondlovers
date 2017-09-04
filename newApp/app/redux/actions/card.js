@@ -31,10 +31,8 @@ export const deleteCard = (card) => {
 }
 
 export const chargeCard = (card, amount) => {
-	console.log('charge card', card, amount);
-	
 	return (dispatch) => {
-		Service.dispatchPost(dispatch, 'card/charge-card', {card, amount}, {
+		Service.dispatchPost(dispatch, 'card/charge-card', {amount}, {
 			init: 'CHARGE_CARD',
 			success: 'CHARGE_CARD_SUCCESS',
 			error: 'CHARGE_CARD_FAILED'
