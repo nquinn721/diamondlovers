@@ -79,11 +79,5 @@ updatedImageData = (state, action) => {
 		defaultImage: getDefaultImage(action.data.client.profile.defaultImage, action.data.images),
 		images: sortByDefault(action.data.client.profile.defaultImage, action.data.images)
 	}
-	console.log('*');
-	console.log('*');
-	console.log('*');
-	console.log('*');
-	
-	console.log(obj);
 	return obj;
 }

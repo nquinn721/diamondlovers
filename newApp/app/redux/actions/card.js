@@ -40,3 +40,9 @@ export const chargeCard = (card, amount) => {
 	}
 }
 
+export const purchase = (cost) => {
+	return (dispatch) => {
+		dispatch({type: 'PURCHASE_DIAMONDS', data: cost});
+	}
+}
+

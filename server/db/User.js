@@ -34,7 +34,6 @@ const seeds = require('./seed');
     drugs: Boolean,
     drinks: Boolean,
     smokes: Boolean,
-    location: String,
     lookingFor: String,
     cost: {
         date1: Number,

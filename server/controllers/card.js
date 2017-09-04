@@ -18,7 +18,7 @@ module.exports = {
 	// {card: cardID} optional
 	chargeCard: (req, res) => {
 		let userId = req.session.user.client._id,
-			token = req.body.token,
+			card = req.body.card,
 			amount = req.body.amount;
 		
 	    StripAPI.charge(token, {amount}, (e, cust, charge) => {

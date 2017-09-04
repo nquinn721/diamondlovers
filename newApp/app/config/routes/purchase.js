@@ -5,11 +5,17 @@ import Purchase from 'newApp/app/screens/purchase';
 
 const routeConfiguration = {
 	Purchase: {
-  		screen: Purchase.Purchase,
-  		navigationOptions: {
-  			title: 'Purchase'
-  		}
-  	}
+		screen: Purchase.Purchase,
+		navigationOptions: {
+			title: 'Purchase'
+		}
+  },
+  Charge: {
+    screen: Purchase.Charge,
+    navigationOptions: {
+      title: 'Charge'
+    }
+  }
 
 }
 
@@ -24,7 +30,7 @@ export default {
 	Purchase: {
 		screen: PurchaseStack,
 		navigationOptions: {
-     tabBarIcon: ({tintColor}) => <Icon name="diamond" size={25} color={tintColor} />,
+     		tabBarIcon: ({tintColor}) => <Icon name="diamond" size={25} color={tintColor} />,
 		}
 	}
 }

@@ -155,11 +155,11 @@ class Stripe{
 	 }
 
 	 // Returns charge
-	 static charge(token, charge, cb = function(){}){
+	 static charge(card, charge, cb = function(){}){
 	 	stripe.charges.create({
 		  amount: charge.amount || 10000,
 		  currency: charge.currency || "usd",
-		  source: token, // obtained with Stripe.js
+		  source: card, 
 		  description: charge.description || null
 		}, cb);
 	 }

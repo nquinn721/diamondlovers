@@ -13,9 +13,6 @@ const avatar = require('newApp/app/assets/img/avatar.png');
 
 
 class Nearby extends React.Component {
-  state = {
-    hasCards: true
-  }
   componentDidMount(){
     this.props.getNearby();
 
@@ -23,12 +20,15 @@ class Nearby extends React.Component {
   displayNearby(user){
     let image = getDefaultImage(user.profile.defaultImage, user.images) || avatar;
 
-    console.log(user);
     
     return (
       <View style={styles.card} key={user._id}>
-        <Image source={image} style={styles.image} />
-        <Text style={styles.cardText}>{user.profile.displayName}</Text>
+        <Image source={image} style={[StyleSheet.absoluteFill, styles.card]}/>
+        <View style={styles.imageArea}></View>
+        <View style={styles.userInfo}>
+          <Text style={styles.cardText}>{user.profile.displayName}, {user.profile.age || 'N/A'}</Text>
+          <Text style={styles.cardText}>{user.profile.education || 'N/A'}</Text>
+        </View>
       </View>
     )
     
@@ -71,28 +71,19 @@ const styles = StyleSheet.create({
   },
    card: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 300,
-    height: 300,
+    justifyContent: 'space-between',
+    width: Config.w - 50,
+    height: Config.h / 1.5,
+    backgroundColor: '#aaa',
+    borderRadius: 4
   },
-  // image: {
-  //   height: Config.h / 2,
-  //   width: Config.w - 20
-  // },
-  // card: {
-  //   borderRadius: 4,
-  //   borderWidth: 2,
-  //   borderColor: '#E8E8E8',
-  //   backgroundColor: '#222',
-  // },
-  // cardText: {
-  //   color: 'white'
-  // },
-  text: {
-    textAlign: 'center',
-    fontSize: 50,
-    backgroundColor: 'transparent'
+  userInfo: {
+    backgroundColor:'rgba(0,0,0,0.2)',
+    height: 40,
+    padding: 4
+  },
+  cardText: {
+    color: 'white'
   }
 })
 

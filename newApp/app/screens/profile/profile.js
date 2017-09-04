@@ -8,7 +8,8 @@ const avatar = require('newApp/app/assets/img/avatar.png');
 
 
 class Profile extends React.Component {
-	displayUser({isFetching} = this.props.user, {user} = this.props.user){
+
+ 	displayUser({isFetching} = this.props.user, {user} = this.props.user){
     let page = [];
 		user && page.push(<Text key='client'>{user.email}</Text>);
 
@@ -17,7 +18,6 @@ class Profile extends React.Component {
 
   displayDefaultImage({user} = this.props.user, {image} = this.props){    
     if(!user || !image)return;
-    console.log(image);
     
     let img =  image.defaultImage || avatar;
     

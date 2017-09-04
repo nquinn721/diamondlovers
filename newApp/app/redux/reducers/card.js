@@ -8,7 +8,8 @@ const initialState = {
 	addingCard: false,
 	addingCardFailed: false,
 	settingDefault: false,
-	settingDefaultFailed: false
+	settingDefaultFailed: false,
+
 }
 
 export default (state = initialState, action) => {
@@ -22,6 +23,7 @@ export default (state = initialState, action) => {
 			return {
 				...state, 
 				addingCard: false,
+				defaultCard: getDefaultCard(action.data),
 				stripeCust: action.data
 			}
 		case 'ADD_CARD_FAILED':
@@ -38,6 +40,7 @@ export default (state = initialState, action) => {
 		case 'SET_DEFAULT_CARD_SUCCESS':
 			return {
 				...state,
+				defaultCard: getDefaultCard(action.data),
 				settingDefault: false,
 				stripeCust: action.data
 			}
@@ -56,6 +59,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				stripeCust: action.data,
+				defaultCard: getDefaultCard(action.data),
 				deletingCard: false
 			}
 		case 'DELETE_CARD_FAILED':
@@ -67,10 +71,22 @@ export default (state = initialState, action) => {
 		case 'LOGGED_IN':
 			return {
 				...state,
+				defaultCard: getDefaultCard(action.data.stripeCust),
 				stripeCust: action.data.stripeCust
+			}
+		case 'PURCHASE_DIAMONDS':
+			return {
+				...state,
+				purchase: action.data
 			}
 		default:
 			return state;
 	}
 
+}
+
+const getDefaultCard = (stripeCust) => {
+	if(!stripeCust)return false;
+	let def = stripeCust.default_source;
+	return stripeCust.sources.data.filter(v => v.id === def)[0];
 }

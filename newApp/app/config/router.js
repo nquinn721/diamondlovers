@@ -17,9 +17,9 @@ import Intro 		from 'newApp/app/screens/intro';
 
 
 const tabRoutes = {
+	...Purchase,
 	...Swipe,
 	...Profile,
-	...Purchase,
 	Message: {
 		screen: Message,
 		navigationOptions: {
@@ -29,7 +29,7 @@ const tabRoutes = {
 };
 const tabConfig = {
 	tabBarPosition: 'top',
-	swipeEnabled: true,
+	swipeEnabled: false,
 	tabBarOptions: {
 		activeTintColor: '#2980b9',
 		activeBackgroundColor: 'white',
