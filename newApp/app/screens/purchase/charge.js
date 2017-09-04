@@ -4,6 +4,7 @@ import { Icon, Button } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import Config from 'newApp/app/config/config';
 import { connect } from 'react-redux';
+import { chargeCard } from 'newApp/app/redux/actions/card';
 
 class Charge extends React.Component {
 	state = {};
@@ -38,7 +39,7 @@ class Charge extends React.Component {
 		        buttonStyle={{backgroundColor: '#2980b9', borderRadius: 5}}
 		        textStyle={{textAlign: 'center'}}
 		        title="$ Purchase"
-		        onPress={() => this.props.navigation.navigate('AddCard')}
+		        onPress={() => this.props.chargeCard(card.id, charge.cost)}
 		      	/>
 	      </View>
 			</View>
@@ -96,5 +97,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({card: state.card}), 
-  // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
+  (dispatch) => (bindActionCreators({chargeCard}, dispatch))
 )(Charge);
