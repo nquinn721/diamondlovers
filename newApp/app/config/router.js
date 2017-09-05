@@ -17,8 +17,8 @@ import Intro 		from 'newApp/app/screens/intro';
 
 
 const tabRoutes = {
-	...Purchase,
 	...Swipe,
+	...Purchase,
 	...Profile,
 	Message: {
 		screen: Message,

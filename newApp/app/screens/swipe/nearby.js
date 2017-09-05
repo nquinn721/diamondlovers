@@ -13,6 +13,7 @@ const avatar = require('newApp/app/assets/img/avatar.png');
 
 
 class Nearby extends React.Component {
+  state = {noCards: false}
   componentDidMount(){
     this.props.getNearby();
 
@@ -46,21 +47,27 @@ class Nearby extends React.Component {
   }
   render() {
     if(!this.props.nearby.users)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
-    this.props.nearby.users.forEach((v, i) => v.key = i );
     return (
-       <SwipeCards
-        cards={this.props.nearby.users}
-        stack={true}
-        renderCard={(cardData) => this.displayNearby(cardData)}
-        renderNoMoreCards={() => <View><Text>No more Cards</Text></View>}
-
-        handleYup={this.handleYup}
-        handleNope={this.handleNope}
-        handleMaybe={this.handleMaybe}
-        hasMaybeAction
-      />
-         
-    )
+      <View style={styles.container}>
+      {this.state.noCards ? 
+        <Text>No Cards Left</Text>
+        : 
+          <Swiper
+              cards={this.props.nearby.users}
+              renderCard={(card) => this.displayNearby(card)}
+              onSwiped={(cardIndex) => {console.log(cardIndex)}}
+              onSwipedAll={() => {this.setState({noCards: true})}}
+              cardIndex={0}
+              cardVerticalMargin={20}
+              cardStyle={styles.card}
+              backgroundColor={'white'}>
+          </Swiper>
+        }
+        <View style={styles.bottomButtons}>
+           
+        </View>
+       </View>
+      )
   }
 
 }
@@ -73,7 +80,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     width: Config.w - 50,
-    height: Config.h / 1.5,
+    height: Config.h / 1.6,
     backgroundColor: '#aaa',
     borderRadius: 4
   },

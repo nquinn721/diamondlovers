@@ -8,31 +8,39 @@ import { purchase, resetCharging } from 'newApp/app/redux/actions/card';
 class Purchase extends React.Component {
   state = {
     costs: [{
-      diamonds: '100,000',
-      save: '%50',
-      originalCost: '$10,000',
-      price: '$5,000',
-      cost: 500000
-    }, {
-      diamonds: '50,000',
-      save: '%20',
-      originalCost: '$5,000',
-      price: '$3,000',
-      cost: 300000
-    }, {
       diamonds: '10,000',
-      save: '%10',
-      originalCost: '$1,000',
-      price: '$900',
-      cost: 90000
+      save: '%50',
+      originalCost: '$999.99',
+      price: '$499.99',
+      cost: 49999
+    },{
+      diamonds: '5,000',
+      save: '%40',
+      originalCost: '$499.99',
+      price: '$299.99',
+      cost: 29999
+    }, {
+      diamonds: '3,000',
+      save: '%30',
+      originalCost: '$299.99',
+      price: '$199.99',
+      cost: 19999
     }, {
       diamonds: '1,000',
-      price: '$100',
-      cost: 10000
+      save: '%20',
+      originalCost: '$99.99',
+      price: '$79.99',
+      cost: 7999
+    }, {
+      diamonds: '500',
+      save: '%10',
+      originalCost: '$49.99',
+      price: '$44.99',
+      cost: 4499
     }, {
       diamonds: '100',
-      price: '$10',
-      cost: 10
+      price: '$9.99',
+      cost: 999
     }]
   }
 
