@@ -14,10 +14,6 @@ app.factory('http', function($rootScope){
 		    if(headers)
 			    body.headers = headers;
 
-			console.log(body);
-			
-
-	        
 		    return fetch(url, body).then((d) => d.json()).then((data) => {
 		    	this.updateUser(data, cb);
 		    	$rootScope.$apply();
@@ -36,7 +32,6 @@ app.factory('http', function($rootScope){
 	        });
 	    },
 	    updateUser: function(user, cb) {
-	    	console.log('http', user);
 	        if(user.error)return console.error(user.error);
 	        cb(user);
 	    },

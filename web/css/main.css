@@ -30,3 +30,9 @@ input[type="file"] {
 	border-bottom:1px solid #eee;
 	margin:5px 0;
 }
+
+
+.submitted{
+	background: #84d284;
+	color: white;
+}

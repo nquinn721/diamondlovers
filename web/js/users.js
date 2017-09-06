@@ -1,8 +1,9 @@
-app.controller('users', function(http) {
+app.controller('users', function(http, $timeout) {
 	this.currentUser;
 	this.users;
     this.userStatus = ['new', 'flagged', 'public'];
     this.update = {};
+    this.updateStyle = false;
 
     
     this.updateUsers = function() {
@@ -16,7 +17,7 @@ app.controller('users', function(http) {
 
     this.updateUser = function() {
     	let user = this.currentUser;
-    	
+    	this.updateStyle = true;
     	fetch('/admin/update-user', {
     		method: 'post',
     		headers: {
@@ -26,7 +27,10 @@ app.controller('users', function(http) {
 		    body: JSON.stringify(user),
 		    credentials: 'same-origin'
 		    }).then(d => d.json()).then((user) => {
-    		this.currentUser = user;
+    		this.currentUser = user.data;
+            $timeout(() => {
+                this.updateStyle = false;
+            }, 1000);
     	})
     }
 
@@ -39,26 +43,30 @@ app.controller('users', function(http) {
         // this.getImagesForUser();
         this.currentUser = this.users.filter(u => u.email === this.currentUserEmail)[0];
     }
+    this.handleUserUpdate = function(user){
+        console.log(user);
+        if(user.data){
+            user = user.data;
+            this.currentUser = user;
+            this.users.forEach(u => u.email === user.email ? u = user : null);
+        }
+    }
     this.uploadIamge = function() {
-    	console.log('uploading');
-    	
     	http.post('/admin/upload-image-for-user/' + this.currentUser._id, new FormData(document.querySelector('.upload')), (user) => {
-    		if(user.email){
-    			this.currentUser = user;
-    			this.users.forEach(u => u.email === user.email ? u = user : null);
-    		}
+    		this.handleUserUpdate(user);
 	    });
     }
 
-    this.deleteImage = function() {
-    	
+    this.deleteImage = function(public_id) {
+    	http.postJSON('/admin/delete-image-for-user/' + this.currentUser._id, {public_id}, (user) => {
+            this.handleUserUpdate(user);
+        });
     }
 
     this.makeImageDefault = function(imageId) {
     	http.post('/admin/update-user-profile', http.fd({_id: this.currentUser._id, field: 'defaultImage', value: imageId}), (user) => {
-            console.log(user);
-            // this.
-        })
+            this.handleUserUpdate(user);
+        });
     }
     this.updateUsers();
 })

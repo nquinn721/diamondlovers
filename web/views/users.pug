@@ -3,7 +3,7 @@ h1 Users
 	select.form-control(ng-model="users.currentUserEmail", ng-change="users.updateCurrentUser()")
 		option(ng-repeat="user in users.users track by $index", value="{{user.email}}") {{user.email}}
 	pre(ng-if="users.currentUser") {{users.currentUser | json}} 
-form.user-update(ng-submit="users.updateUser()")
+form.user-update(ng-submit="users.updateUser()", ng-class="{submitted: users.updateStyle}")
 	span Status
 	select.form-control(ng-model="users.currentUser.profile.status")
 		option(ng-repeat="status in users.userStatus", value="{{status}}") {{status}}
@@ -86,7 +86,7 @@ form.user-update(ng-submit="users.updateUser()")
 		div 
 			img.profile-image(ng-src="{{img.url}}")
 		div
-			button.btn.btn-primary(ng-click="users.deleteImage(img)") Delete
-			span(ng-show="users.currentUser.profile.defaultImage === img._id") Default
-			span(ng-show="users.currentUser.profile.defaultImage !== img._id") 
+			button.btn.btn-primary(ng-click="users.deleteImage(img.public_id)") Delete
+			span(ng-show="users.currentUser.profile.defaultImage.toString() === img._id.toString()") Default
+			span(ng-show="users.currentUser.profile.defaultImage.toString() !== img._id.toString()") 
 				input.btn.btn-primary(value="Make Default", type="button.btn.btn-primary", ng-click="users.makeImageDefault(img._id)")

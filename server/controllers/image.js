@@ -29,12 +29,15 @@ module.exports = {
     deleteImage: (req, res) => {
         Image.delete(req.session.user.client._id, req.body.public_id, (e, images) => {
             if(e)return res.send({error: 'failed'});
-            User.setDefaultImage(req.session.user.client._id, images[0] ? images[0]._id : null, (e, user, model) => {
-                req.session.user.client = user;
-                req.session.user.images = images;
+            let defaultImage = images.filter(img => img._id === req.session.user.client.profile.defaultImage);
 
-                res.send({data: {client: req.session.user.client, images: req.session.user.images}});
-            });
+            if(!defaultImage.length)
+                User.setDefaultImage(req.session.user.client._id, images[0], (e, user, model) => {
+                    req.session.user.client = user;
+                    req.session.user.images = images;
+
+                    res.send({data: {client: req.session.user.client, images: req.session.user.images}});
+                });
         });
     }
 

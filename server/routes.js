@@ -165,6 +165,11 @@ module.exports = function(app){
             middleWare: ['isAdmin'],
             method: 'admin.uploadImageForUser'
          },
+         'admin/delete-image-for-user/:id': {
+            type: 'post',
+            middleWare: ['isAdmin', 'json'],
+            method: 'admin.deleteImageForUser'
+         },
          'admin/get-images-for-user/:id': {
             type: 'get',
             middleWare: ['isAdmin'],
