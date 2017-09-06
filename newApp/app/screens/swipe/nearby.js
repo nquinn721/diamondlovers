@@ -35,7 +35,7 @@ class Nearby extends React.Component {
             {user.profile.cost && user.profile.cost.date1 && 
               <View style={styles.cardItem}>
                 <Icon type='font-awesome' size={10} name='diamond' color='white'/>
-                <Text style={styles.cardText}>{user.profile.cost.date1}</Text>
+                <Text style={styles.cardText}> {user.profile.cost.date1}</Text>
               </View>
             }
             
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 4
   },
   userInfo: {
-    backgroundColor:'rgba(0,0,0,0.2)',
+    backgroundColor:'rgba(0,0,0,0.3)',
     padding: 4,
     flexDirection: 'row',
     justifyContent: 'space-between',

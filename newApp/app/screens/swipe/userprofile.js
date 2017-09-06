@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, ActivityIndicator, ScrollView, Animated } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
 import { getDefaultImage } from 'newApp/app/redux/reducers/image';
@@ -23,7 +23,7 @@ class UserProfile extends React.Component {
     console.log(user);
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
           <View style={styles.profileImages}>
               <Carousel
                 images={user.images}
@@ -31,18 +31,25 @@ class UserProfile extends React.Component {
               />
           </View>
           <View style={styles.profileInfo}>
-            <View style={styles.item}>
-              <Text>
-                {profile.displayName}
+            <View style={styles.section}>
+              <Text style={styles.profileName}>
+                {profile.displayName}, {profile.age || 'N/A'}
               </Text>
+              <View style={styles.group}>
+                <Icon style={styles.topInfoIcon} name='graduation-cap' type='font-awesome' size={14} color='#aaa' />
+                <Text> {profile.education}</Text>
+              </View>
+              <View style={styles.group}>
+                <Icon style={styles.topInfoIcon} name='map-marker' type='font-awesome' size={14} color='#aaa'/>
+                <Text> {profile.city}, {profile.state} </Text>
+              </View>
             </View>
-            <View style={styles.item}>
-              <Text>
-                {profile.city}, {profile.state}
-              </Text>
+            <View style={styles.section}>
+              <Text>Looking for...</Text>
+              <Text>{profile.lookingFor || 'N/A'}</Text>
             </View>
           </View>
-      </View>
+      </ScrollView>
       )
   }
 
@@ -50,7 +57,7 @@ class UserProfile extends React.Component {
 
 const styles = StyleSheet.create({
   profileImages: {
-    height: Config.h / 3,
+    height: Config.h / 2,
     width: Config.w,
     backgroundColor: 'black'
   },
@@ -58,11 +65,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1
   },
+  profileName: {
+    fontSize: 24
+  },
   profileInfo: {
     padding: 5
   },
-  item: {
-    padding: 5
+  section: {
+    padding: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  topInfoIcon: {
+    width: 15,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  group: {
+    flexDirection: 'row'
   }
 })
 
