@@ -5,11 +5,17 @@ import Swipe from 'newApp/app/screens/swipe';
 
 const routeConfiguration = {
 	Nearby: {
-  		screen: Swipe.Nearby,
-  		navigationOptions: {
-  			title: 'Swipe'
-  		}
-  	}
+		screen: Swipe.Nearby,
+		navigationOptions: {
+			title: 'Swipe'
+		}
+	},
+  UserProfile: {
+    screen: Swipe.UserProfile,
+    navigationOptions: {
+      title: 'User profile'
+    }
+  }
 
 }
 

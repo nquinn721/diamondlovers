@@ -2,10 +2,9 @@ import React from 'react';
 import { Text, View, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
-import SwipeCards from 'react-native-swipe-cards';
 import Swiper from 'react-native-deck-swiper';
 import { getDefaultImage } from 'newApp/app/redux/reducers/image';
 import { getNearby } from 'newApp/app/redux/actions/nearby';
@@ -27,8 +26,13 @@ class Nearby extends React.Component {
         <Image source={image} style={[StyleSheet.absoluteFill, styles.card]}/>
         <View style={styles.imageArea}></View>
         <View style={styles.userInfo}>
-          <Text style={styles.cardText}>{user.profile.displayName}, {user.profile.age || 'N/A'}</Text>
-          <Text style={styles.cardText}>{user.profile.education || 'N/A'}</Text>
+          <View style={styles.userInfoLeft}>
+            <Text style={styles.cardText}>{user.profile.displayName}, {user.profile.age || 'N/A'}</Text>
+            <Text style={styles.cardText}>{user.profile.education || 'N/A'}</Text>
+          </View>
+          <View style={styles.userInfoRight}>
+            <Icon onPress={() => this.props.navigation.navigate('UserProfile', user)} type='font-awesome' name='info-circle' size={25} color='white' />
+          </View>
         </View>
       </View>
     )
@@ -87,7 +91,10 @@ const styles = StyleSheet.create({
   userInfo: {
     backgroundColor:'rgba(0,0,0,0.2)',
     height: 40,
-    padding: 4
+    padding: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   cardText: {
     color: 'white'

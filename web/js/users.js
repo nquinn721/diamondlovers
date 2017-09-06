@@ -7,8 +7,8 @@ app.controller('users', function(http) {
     
     this.updateUsers = function() {
     	http.post('/admin/get-all-users', (users) => {
-	    	this.users = users
-			this.currentUser = users[0];
+	    	this.users = users.data
+			this.currentUser = users.data[0];
             this.update.status = this.currentUser.profile.status;
             this.currentUserEmail = this.currentUser.email;
 	    });

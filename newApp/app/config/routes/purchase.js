@@ -30,7 +30,7 @@ export default {
 	Purchase: {
 		screen: PurchaseStack,
 		navigationOptions: {
-     		tabBarIcon: ({tintColor}) => <Icon name="diamond" size={25} color={tintColor} />,
+     		tabBarIcon: ({tintColor}) => <Icon name="diamond" size={25} color={tintColor} type='font-awesome'/>,
 		}
 	}
 }
