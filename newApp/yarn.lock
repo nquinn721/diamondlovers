@@ -3739,7 +3739,7 @@ mkdirp@*, "mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.1:
   dependencies:
     minimist "0.0.8"
 
-moment@2.x.x, moment@^2.10.6:
+moment@2.x.x, moment@^2.10.6, moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
@@ -4414,6 +4414,12 @@ react-devtools-core@2.3.1:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-animatable@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.2.3.tgz#d0f0bd694833b934f3aaa1275739228b786ecb4b"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-branch@2.0.0-beta.3:
   version "2.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.0.0-beta.3.tgz#2167af86bbc9f964bd45bd5f37684e5b54965e32"
@@ -4472,6 +4478,21 @@ react-native-image-progress@^1.0.1:
 react-native-maps@0.15.3:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.15.3.tgz#5d9e0a8e30ecc51dc755b7a3b9d6b6ed5e2dd08c"
+
+react-native-modal-datetime-picker@^4.11.0:
+  version "4.11.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-4.11.0.tgz#bd2eb3a21cda584c6a018b11f6aed4bf4d020aca"
+  dependencies:
+    moment "^2.18.1"
+    prop-types "15.5.10"
+    react-native-modal "3.1.0"
+
+react-native-modal@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-3.1.0.tgz#3e6911152e9dcd6e15457cf0c24d7fd833c4a57a"
+  dependencies:
+    prop-types "15.5.10"
+    react-native-animatable "^1.2.3"
 
 react-native-progress@^3.4.0:
   version "3.4.0"

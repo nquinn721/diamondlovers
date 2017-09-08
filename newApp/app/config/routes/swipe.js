@@ -10,12 +10,18 @@ const routeConfiguration = {
 			title: 'Swipe'
 		}
 	},
-  UserProfile: {
-    screen: Swipe.UserProfile,
-    navigationOptions: {
-      title: 'User profile'
-    }
-  }
+	UserProfile: {
+		screen: Swipe.UserProfile,
+		navigationOptions: {
+			title: 'User profile'
+		}
+	},
+	SetupDate: {
+		screen: Swipe.SetupDate,
+		navigationOptions: {
+			title: 'Setup date'
+		}
+	}
 
 }
 

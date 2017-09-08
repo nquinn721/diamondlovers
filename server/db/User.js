@@ -63,7 +63,10 @@ const UserSchema = new Schema({
     passCode: Number,
     admin: Boolean,
     stripeId: String,
-    diamonds: Number,
+    diamonds: {
+        type: Number,
+        default: 0
+    },
     email: {
         type: String,
         index: true,

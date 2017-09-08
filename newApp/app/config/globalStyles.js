@@ -21,11 +21,13 @@ const styles = StyleSheet.create({
 	},
 	center: {
 	    alignItems: 'center',
-	    justifyContent: 'center',
-	    textAlign: 'center'
+	    justifyContent: 'center'
 	},
 	row: {
 		flexDirection: 'row'
+	},
+	textCenter: {
+	    textAlign: 'center'
 	}
 });
 export default styles;

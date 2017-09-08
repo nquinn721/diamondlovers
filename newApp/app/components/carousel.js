@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View, StyleSheet, ActivityIndicator, ScrollView, Animated } from 'react-native';
 import Config from 'newApp/app/config/config';
 import Image from 'react-native-image-progress';
-import ProgressBar from 'react-native-progress/Bar';
 
 const avatar = require('newApp/app/assets/img/avatar.png');
 const FIXED_BAR_WIDTH = 100

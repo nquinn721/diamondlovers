@@ -91,6 +91,18 @@ module.exports = function(app){
          * END IMAGE
          */
 
+        /**
+         * YELP
+         */
+        'yelp/:lat/:lng': {
+            type: 'get',
+            middleWare: ['loggedIn'],
+            method: 'yelp.search'
+        },
+        /**
+         * END YELP
+         */
+
         
 
         /**

@@ -29,7 +29,7 @@ class Charge extends React.Component {
 		      	</Text>
 	          <Icon name="diamond" size={13} color="blue" type="font-awesome" />
           </View>
-          {charge.originalCost && <Text style={styles.lineItem}>{charge.originalCost}</Text>}
+          {charge.originalCost && <Text style={styles.lineItem}>Original Cost: {charge.originalCost}</Text>}
           {charge.save && <Text style={styles.lineItem}>- {charge.save}</Text>}
 
           <Text style={styles.total}>

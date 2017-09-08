@@ -2,14 +2,14 @@ import React from 'react';
 import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Icon } from 'react-native-elements';
+import { Icon, Button } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
 import Swiper from 'react-native-deck-swiper';
 import { getDefaultImage } from 'newApp/app/redux/reducers/image';
 import { getNearby } from 'newApp/app/redux/actions/nearby';
 import Image from 'react-native-image-progress';
-import ProgressBar from 'react-native-progress/Bar';
+import BottomButtons from './components/bottomButtons';
 const avatar = require('newApp/app/assets/img/avatar.png');
 
 class Nearby extends React.Component {
@@ -18,11 +18,11 @@ class Nearby extends React.Component {
     this.props.getNearby();
   }
 
-  displayNearby(user){
+  renderCard(user){
     let image = getDefaultImage(user.profile.defaultImage, user.images) || avatar;
     return (
       <View style={styles.card} key={user._id}>
-        <Image source={image} style={[StyleSheet.absoluteFill, styles.card]}/>
+        <Image source={image} style={styles.card}/>
         <View style={styles.imageArea}></View>
         <View style={styles.userInfo}>
           <View style={styles.userInfoSection}>
@@ -49,74 +49,53 @@ class Nearby extends React.Component {
     )
     
   }
-  renderBottomButtons(user){
+  renderNoCards(){
     return (
-      <View style={styles.bottomButtons}>
-        <View style={styles.bottomButtonsItem}>
-          <TouchableOpacity onPress={() => this.undoCard(user)}>
-            <Icon name="undo" type="font-awesome" size={30} color="#95a5a6" />
-          </TouchableOpacity>
-        </View>
-        <View  style={[styles.bottomButtonsItem, styles.center]}>
-          <TouchableOpacity onPress={() => this.handleNope(user)}>
-            <Text style={styles.no}>X</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.handleYup(user)}>
-            <Icon name="check" type="font-awesome" size={30} color="#2ecc71" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.bottomButtonsItem}>
-          <TouchableOpacity onPress={() => this.gotToCalendar(user)}>
-            <Icon name="calendar" type="font-awesome" size={30} color="#f39c12" />
-          </TouchableOpacity>
-        </View>
+      <View style={styles.container}>
+        <Icon name="ban" type="font-awesome" size={200} color="#eee"/>
+        <Text style={{color: '#ccc'}}>No more cards</Text>
       </View>
-    );
-  }
-
-  swiper(users){
-    if(this.state.noCards) return (<Text>No cards Left</Text>)
-    return (
-      <Swiper
-          cards={users}
-          renderCard={(card, cardIndex) => this.displayNearby(card, cardIndex)}
-          onSwiped={(cardIndex) => {console.log('you swiped', cardIndex)}}
-          onSwipedLeft={(user) => this.handleNope(user)}
-          onSwipedRight={(user) => this.handleYup(user)}
-          onSwipedAll={() => this.setState({noCards: true})}
-          cardIndex={0}
-          showSecondCard={false}
-          cardVerticalMargin={20}
-          cardStyle={styles.card}
-          onTapCard={index => console.log(index)}
-          backgroundColor={'white'}>
-
-      </Swiper>
     )
   }
-  handleNope(cardIndex){
+  renderSwiper(users){
+    return (
+      <View style={styles.container}>
+        <Swiper
+          ref={swiper => this.swiper = swiper}
+          cards={users}
+          renderCard={(card, cardIndex) => this.renderCard(card, cardIndex)}
+          onSwiped={(cardIndex) => {console.log('you swiped', cardIndex)}}
+          onSwipedLeft={(user) => this.swipeLeft(user)}
+          onSwipedRight={(user) => this.swipeRight(user)}
+          onSwipedAll={() => this.setState({noCards: true})}
+          cardVerticalMargin={20}
+          cardStyle={{height: Config.h / 1.50}}
+          showSecondCard={false}
+          onTapCard={index => console.log(index)}
+          backgroundColor={'white'}
+          verticalSwipe={false}
+          >
+        </Swiper>
+        <BottomButtons swiper={this.swiper} navigation={this.props.navigation}/>
+      </View>
+    )
+  }
+  swipeLeft(cardIndex){
     let user = typeof cardIndex === 'number' ? this.props.nearby.users[cardIndex] : cardIndex;
     console.log(user);
   }
-  handleYup(cardIndex){
+  swipeRight(cardIndex){
     let user = typeof cardIndex === 'number' ? this.props.nearby.users[cardIndex] : cardIndex;
+    this.props.navigation.navigate('SetupDate', user);
     console.log(user);
-  }
-  undoCard(user){
-    
   }
   render() {
     let {users} = this.props.nearby;
     if(!users)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
 
 
-      
-    return (
-      <View style={styles.container}>
-        {this.swiper(users)}
-        {this.renderBottomButtons()}
-       </View>
-      )
+    if(this.state.noCards) return this.renderNoCards();
+    return this.renderSwiper(users);
   }
 
 }
@@ -124,30 +103,18 @@ class Nearby extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
-  },
-  bottomButtonsItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: 'white',
-    justifyContent: 'center',
-    flex: 1
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  center: {
-    justifyContent: 'space-around',
-  },
-  no: {
-    color: '#e74c3c',
-    fontWeight: '900',
-    fontSize: 30
-  },
-   card: {
+  card: {
     flex: 1,
-    justifyContent: 'space-between',
-    width: Config.w - 50,
-    height: Config.h / 1.45,
-    backgroundColor: '#aaa',
-    borderRadius: 4
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: '#E8E8E8',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    // height: Config.h / 1.45,
   },
   userInfo: {
     backgroundColor:'rgba(0,0,0,0.3)',
@@ -163,34 +130,6 @@ const styles = StyleSheet.create({
   },
   cardText: {
     color: 'white'
-  },
-  dots: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    top: 0,
-    width: Config.w - 50,
-    zIndex: 1000,
-    justifyContent: 'center'
-  },
-  dot: {
-    backgroundColor: '#eee',
-    width: 8,
-    height: 8,
-    margin: 5,
-    borderRadius: 100
-  },
-  selectedDot: {
-    backgroundColor: '#3498db',
-  },
-  bottomButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    height: Config.h / 10,
-    position: 'absolute',
-    bottom: 0,
-    width: Config.w
   },
   cardItem: {
     flexDirection: 'row',

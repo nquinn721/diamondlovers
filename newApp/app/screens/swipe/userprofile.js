@@ -8,6 +8,7 @@ import gStyles from 'newApp/app/config/globalStyles';
 import { getDefaultImage } from 'newApp/app/redux/reducers/image';
 import { getNearby } from 'newApp/app/redux/actions/nearby';
 import Carousel from 'newApp/app/components/carousel';
+import BottomButtons from './components/bottomButtons';
 
 
 const FIXED_BAR_WIDTH = 75
@@ -20,15 +21,15 @@ class UserProfile extends React.Component {
   render() {
     let user = this.props.navigation.state.params;
     let profile = user.profile;
-    console.log(user);
 
     return (
+      <View style={{height: Config.h, flex: 1}}>
       <ScrollView style={styles.container}>
           <View style={styles.profileImages}>
-              <Carousel
-                images={user.images}
-                imageStyle={styles.profileImages}
-              />
+            <Carousel
+              images={user.images}
+              imageStyle={styles.profileImages}
+            />
           </View>
           <View style={styles.profileInfo}>
             <View style={styles.section}>
@@ -50,6 +51,8 @@ class UserProfile extends React.Component {
             </View>
           </View>
       </ScrollView>
+      <BottomButtons isProfile={true} navigation={this.props.navigation}/>
+      </View>
       )
   }
 
@@ -69,7 +72,8 @@ const styles = StyleSheet.create({
     fontSize: 24
   },
   profileInfo: {
-    padding: 5
+    padding: 5,
+    marginBottom: 100
   },
   section: {
     padding: 5,
