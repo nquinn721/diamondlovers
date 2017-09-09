@@ -44,7 +44,7 @@ class SetupDate extends React.Component {
     });
   };
 
-  showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+  showDateTimePicker = () => t;
 
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
@@ -76,59 +76,22 @@ class SetupDate extends React.Component {
   	}
   }
 
-  renderMap(){
-  	let text = 'Waiting..',
-  			{location} = this.state;
+  renderCost(user, userSwiped){
 
-  	if (this.state.errorMessage) {
-      text = this.state.errorMessage;
-    } else if (location) {
-      text = JSON.stringify(location);
-    }
-
-  	if(this.state.location){ 
-      return (
-      	<MapView
-	        style={{flex: 1}}
-	        initialRegion={{
-	          latitude: location.coords.latitude,
-	          longitude: location.coords.longitude,
-	          latitudeDelta: 0.0922,
-	          longitudeDelta: 0.0421,
-	        }}
-	      >
-	      	<MapView.Marker
-			      coordinate={{latitude: location.coords.latitude, longitude: location.coords.longitude}}
-			      title='You are here!'
-			    />
-	      </MapView>
-	    )
-	  }else {
-	  	return <MapView
-	  		style={{flex: 1}}
-		    initialRegion={{
-		      latitude: 37.78825,
-		      longitude: -122.4324,
-		      latitudeDelta: 0.0922,
-		      longitudeDelta: 0.0421,
-		    }}
-		  />
-	  }
   }
+
+  
 
   render () {
   	let userSwiped = this.props.navigation.state.params,
   			{user} = this.props.user;
 
-    
-
-
-
 
     return (
 			<View style={styles.container}>
 			  <View style={styles.row}>
-        	{this.renderMap()}	
+          {this.state.errorMessage && <Text>{this.state.errorMessage}</Text>}
+          {this.renderCost(user, userSwiped)}
 			  </View>
 			  <View style={styles.row}>
 				  {this.renderRestaurants()}
