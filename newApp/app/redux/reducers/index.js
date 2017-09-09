@@ -4,6 +4,7 @@ import nav from './nav';
 import card from './card';
 import image from './image';
 import nearby from './nearby';
+import dates from './dates';
 
 const rootReducer = combineReducers({
 	user,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
 	card,
 	image,
 	nearby,
+	dates,
 });
 
 export default rootReducer;

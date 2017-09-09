@@ -10,7 +10,7 @@ var DatesSchema = new Schema({
         type: Date,
         default: Date.now()
     },
-    approvedAt: Date,
+    agreedAt: Date,
     completedAt: Date,
     status: {
         type: String,
@@ -25,10 +25,29 @@ var DatesModel = mongoose.model('Dates', DatesSchema);
 
 class Dates{
     getDates(_id, cb = function(){}){
-        DatesModel.find({ $or: [{'to': _id}, {'from': _id}]});
+        DatesModel.find({ $or: [{'to': _id}, {'from': _id}]}, cb);
     }
     setDate(to, from, location, time, cb = function(){}){
         DatesModel.create({to, from, location, time}, cb);
+    }
+
+    agreeToDate(_id, cb = function(){}){
+        DatesModel.findOneAndUpdate({_id}, {agreedAt: Date.now()}, {new: true}, cb);
+    }
+    confirmShowed(_id, userId, cb = function(){}){
+        DatesModel.findOne({_id}, (e, doc) => {
+            if(e)return cb(e);
+            if(doc.to.toSting() === userId){
+                doc.fromShowed = true;
+            }else if(doc.from.toSting() === userId){
+                doc.toShowed = true;
+            }
+
+            if(doc.fromShowed && doc.toShowed){
+                doc.completedAt = Date.now();
+            }
+            doc.save(cb);
+        });
     }
 }
 module.exports = Dates;

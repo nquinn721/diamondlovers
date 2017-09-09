@@ -69,7 +69,7 @@ class Nearby extends React.Component {
           onSwipedRight={(user) => this.swipeRight(user)}
           onSwipedAll={() => this.setState({noCards: true})}
           cardVerticalMargin={20}
-          cardStyle={{height: Config.h / 1.50}}
+          cardStyle={{height: 330}}
           showSecondCard={false}
           onTapCard={index => console.log(index)}
           backgroundColor={'white'}

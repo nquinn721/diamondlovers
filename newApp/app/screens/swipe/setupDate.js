@@ -38,6 +38,8 @@ class SetupDate extends React.Component {
 
     let location = await Location.getCurrentPositionAsync({});
     Yelp.search(location.coords, (restaurants) => {
+      console.log(restaurants);
+      
 	    this.setState({ location, restaurants });
     });
   };

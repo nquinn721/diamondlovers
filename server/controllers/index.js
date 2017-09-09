@@ -6,5 +6,6 @@ module.exports = {
 	image: require('./image'),
 	admin: require('./admin'),
 	user: require('./user'),
+	dates: require('./dates'),
 	test: require('./test')
 }

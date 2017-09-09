@@ -63,6 +63,35 @@ module.exports = function(app){
         /**
          * END USER
          */
+        
+
+        /**
+         * DATES
+         */
+            'dates/get-dates': {
+                type: 'get',
+                middleWare: ['loggedIn'],
+                method: 'dates.getDates'
+            },
+            'dates/set-date': {
+                type: 'post',
+                middleWare: ['loggedIn'],
+                method: 'dates.setDate'
+            },
+            'dates/agree-to-date': {
+                type: 'post',
+                middleWare: ['loggedIn'],
+                method: 'dates.agreeToDate'
+            },
+            'dates/confirm-showed': {
+                type: 'get',
+                middleWare: ['loggedIn'],
+                method: 'dates.confirmShowed'
+            },
+        /**
+         * END DATES
+         */
+        
 
         /**
          * IMAGE
