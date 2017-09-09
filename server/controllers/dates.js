@@ -18,8 +18,9 @@ module.exports = {
 		});
 	},
 	confirmShowed: (req, res) => {
-		let _id = req.session.user.model._id;
-		Dates.confirmShowed(_id, (e, doc) => {
+		let userId = req.session.user.model._id,
+			_id = req.body.id;
+		Dates.confirmShowed(_id, userId, (e, doc) => {
 			res.send(e ? {error: 'failed to confirm date'} : {data: doc});
 		})
 	}

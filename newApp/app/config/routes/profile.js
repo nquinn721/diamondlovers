@@ -7,11 +7,17 @@ const tabRoutes = {
 	PendingDates: {
 		screen: Profile.PendingDates,
 		navigationOptions: {
-			tabBarIcon: ({tintColor}) => <Icon name='calendar' size={25} type='font-awesome'color={tintColor}/>,
+			tabBarIcon: ({tintColor}) => <Icon name='calendar' size={25} type='font-awesome'color={tintColor}/>
 		}
 	},
 	ApprovedDates: {
 		screen: Profile.ApprovedDates,
+		navigationOptions: {
+			tabBarIcon: ({tintColor}) => <Icon name='user' size={25} type='font-awesome' color={tintColor}/>
+		}
+	},
+	CompletedDates: {
+		screen: Profile.CompletedDates,
 		navigationOptions: {
 			tabBarIcon: ({tintColor}) => <Icon name='user' size={25} type='font-awesome' color={tintColor}/>
 		}
@@ -44,24 +50,24 @@ const routeConfiguration = {
 			title: 'Add Card'
 		}
 	},
-  Cards: {
-    screen: Profile.Cards,
-    navigationOptions: {
-      title: 'Cards'
-    }
-  },
-  Images: {
-    screen: Profile.Images,
-    navigationOptions: {
-      title: 'Profile Images'
-    }
-  },
-  Calendar: {
-  	screen: CalendarTab,
-  	navigationOptions: {
-  		title: 'Calendar'
-  	},
-  }
+	Cards: {
+		screen: Profile.Cards,
+		navigationOptions: {
+		  	title: 'Cards'
+		}
+	},
+	Images: {
+		screen: Profile.Images,
+		navigationOptions: {
+		  title: 'Profile Images'
+		}
+	},
+	Calendar: {
+		screen: CalendarTab,
+		navigationOptions: {
+			title: 'Calendar'
+		},
+	}
 }
 
 // going to disable the header for now

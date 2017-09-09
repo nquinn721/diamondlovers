@@ -29,9 +29,9 @@ export const agreeToDate = (id) => {
 	}
 }
 
-export const confirmShowed = () => {
+export const confirmShowed = (id) => {
 	return (dispatch) => {
-		Service.dispatchGet(dispatch, 'dates/confirm-showed', {
+		Service.dispatchPost(dispatch, {id}, 'dates/confirm-showed', {
 			init: 'CONFIRM_SHOWED',
 			success: 'CONFIRM_SHOWED_SUCCESS',
 			error: 'CONFIRM_SHOWED_FAILED'
