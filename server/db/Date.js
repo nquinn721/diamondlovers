@@ -24,17 +24,17 @@ var DatesSchema = new Schema({
 var DatesModel = mongoose.model('Dates', DatesSchema);
 
 class Dates{
-    getDates(_id, cb = function(){}){
+    static getDates(_id, cb = function(){}){
         DatesModel.find({ $or: [{'to': _id}, {'from': _id}]}, cb);
     }
-    setDate(to, from, location, time, cb = function(){}){
+    static setDate(to, from, location, time, cb = function(){}){
         DatesModel.create({to, from, location, time}, cb);
     }
 
-    agreeToDate(_id, cb = function(){}){
+    static agreeToDate(_id, cb = function(){}){
         DatesModel.findOneAndUpdate({_id}, {agreedAt: Date.now()}, {new: true}, cb);
     }
-    confirmShowed(_id, userId, cb = function(){}){
+    static confirmShowed(_id, userId, cb = function(){}){
         DatesModel.findOne({_id}, (e, doc) => {
             if(e)return cb(e);
             if(doc.to.toSting() === userId){
