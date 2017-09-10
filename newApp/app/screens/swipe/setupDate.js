@@ -56,7 +56,7 @@ class SetupDate extends React.Component {
 
   handleDatePicked = (date) => {
     console.log('A date has been picked: ', date);
-    this.setState({date: moment(date).format('MMMM Do YYYY, h:mm a')});
+    this.setState({date, dateString: moment(date).format('MMMM Do YYYY, h:mm a')});
     this.hideDateTimePicker();
   };
   searchRestaurant(text){
@@ -121,7 +121,7 @@ class SetupDate extends React.Component {
               <View>
                 <Text>Congratulations!</Text>
                 <Text>Your date is setup for</Text>
-                <Text>{this.state.date}</Text>
+                <Text>{this.state.dateString}</Text>
                 <Text>At</Text>
                 <Text>{this.state.pickedRestaurant.name}</Text>
                 <Text>Click on the calendar icon to check out your dates</Text>
