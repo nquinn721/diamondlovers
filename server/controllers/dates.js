@@ -1,7 +1,11 @@
 module.exports = {
 	setDate: (req, res) => {
 		let {to, from, location, time} = req.body;
+		console.log(req. body);
+		
 		Dates.setDate(to, from, location, time, (e, doc) => {
+			console.log(e, doc);
+			
 			res.send(e ? {error: 'failed to create date'} : {data: doc});
 		})
 	},
