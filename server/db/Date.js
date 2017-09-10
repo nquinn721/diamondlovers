@@ -10,7 +10,7 @@ var DatesSchema = new Schema({
         type: Date,
         default: Date.now()
     },
-    agreedAt: Date,
+    approvedAt: Date,
     completedAt: Date,
     status: {
         type: String,
@@ -34,8 +34,8 @@ class Dates{
         DatesModel.create({to, from, location, time}, cb);
     }
 
-    static agreeToDate(_id, cb = function(){}){
-        DatesModel.findOneAndUpdate({_id}, {agreedAt: Date.now()}, {new: true}, cb);
+    static approvedDate(_id, cb = function(){}){
+        DatesModel.findOneAndUpdate({_id}, {approvedAt: Date.now()}, {new: true}, cb);
     }
     static confirmShowed(_id, userId, cb = function(){}){
         DatesModel.findOne({_id}, (e, doc) => {

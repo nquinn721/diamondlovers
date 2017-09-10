@@ -80,10 +80,10 @@ module.exports = function(app){
                 method: 'dates.setDate'
             },
             // {dateId}
-            'dates/agree-to-date': {
+            'dates/approve-date': {
                 type: 'post',
                 middleWare: ['loggedIn', 'json'],
-                method: 'dates.agreeToDate'
+                method: 'dates.approvedDate'
             },
             // {dateId}
             'dates/confirm-showed': {

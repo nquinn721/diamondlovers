@@ -13,9 +13,9 @@ module.exports = {
 			res.send(e ? {error: 'failed to retreive dates'} : {data: doc});
 		})
 	},
-	agreeToDate: (req, res) => {
+	approvedDate: (req, res) => {
 		let _id = req.body.id;
-		Dates.agreeToDate(_id, (e, doc) => {
+		Dates.approvedDate(_id, (e, doc) => {
 			res.send(e ? {error: 'failed to retreive dates'} : {data: doc});
 		});
 	},
