@@ -1,8 +1,6 @@
 module.exports = {
 	setDate: (req, res) => {
 		let {to, from, location, time} = req.body;
-		console.log(req. body);
-		
 		Dates.setDate(to, from, location, time, (e, doc) => {
 			console.log(e, doc);
 			
@@ -10,9 +8,7 @@ module.exports = {
 		})
 	},
 	getDates: (req, res) => {
-		let _id = req.session.user.model._id;
-		console.log(_id);
-		
+		let _id = req.session.model._id;
 		Dates.getDates(_id, (e, doc) => {
 			res.send(e ? {error: 'failed to retreive dates'} : {data: doc});
 		})
@@ -24,7 +20,7 @@ module.exports = {
 		});
 	},
 	confirmShowed: (req, res) => {
-		let userId = req.session.user.model._id,
+		let userId = req.session.model._id,
 			_id = req.body.id;
 		Dates.confirmShowed(_id, userId, (e, doc) => {
 			res.send(e ? {error: 'failed to confirm date'} : {data: doc});
