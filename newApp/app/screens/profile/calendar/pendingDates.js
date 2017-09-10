@@ -8,8 +8,9 @@ import { Button } from 'react-native-elements';
 
 class PendingDates extends React.Component {
 
- 
   render() {
+    console.log(this.props);
+    
     return (
       <View style={styles.container}>
         

@@ -11,6 +11,8 @@ module.exports = {
 	},
 	getDates: (req, res) => {
 		let _id = req.session.user.model._id;
+		console.log(_id);
+		
 		Dates.getDates(_id, (e, doc) => {
 			res.send(e ? {error: 'failed to retreive dates'} : {data: doc});
 		})

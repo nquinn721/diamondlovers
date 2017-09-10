@@ -8,6 +8,7 @@ import gStyles from 'newApp/app/config/globalStyles';
 import Swiper from 'react-native-deck-swiper';
 import { getDefaultImage } from 'newApp/app/redux/reducers/image';
 import { getNearby } from 'newApp/app/redux/actions/nearby';
+import { getDates } from 'newApp/app/redux/actions/dates';
 import Image from 'react-native-image-progress';
 import BottomButtons from './components/bottomButtons';
 const avatar = require('newApp/app/assets/img/avatar.png');
@@ -16,6 +17,7 @@ class Nearby extends React.Component {
   state = {noCards: false, currentImage: 0}
   componentDidMount(){
     this.props.getNearby();
+    this.props.getDates();
   }
 
   renderCard(user){
@@ -139,5 +141,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({nearby: state.nearby}), 
-  (dispatch) => (bindActionCreators({getNearby}, dispatch))
+  (dispatch) => (bindActionCreators({getNearby, getDates}, dispatch))
 )(Nearby);
