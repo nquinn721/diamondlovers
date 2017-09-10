@@ -9,9 +9,9 @@ export const getDates = () => {
 		});	
 	}
 }
-export const setDate = () => {
+export const setDate = (to, from, location, time) => {
 	return (dispatch) => {
-		Service.dispatchPost(dispatch, 'dates/get-dates', {to, from, location, time} {
+		Service.dispatchPost(dispatch, 'dates/get-dates', {to, from, location, time}, {
 			init: 'SET_DATE',
 			success: 'SET_DATE_SUCCESS',
 			error: 'SET_DATE_FAILED'

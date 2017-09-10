@@ -4,6 +4,10 @@ const styles = StyleSheet.create({
 		backgroundColor: '#3498db',
 		padding:10
 	},
+	button1: {
+		backgroundColor: '#e74c3c',
+		padding: 10
+	},
 	buttonText: {
 		color: 'white'
 	},

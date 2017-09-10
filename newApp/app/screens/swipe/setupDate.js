@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform, Text, View, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Icon, Button, Grid, Row } from 'react-native-elements';
+import { Icon, Button, SearchBar } from 'react-native-elements';
 import { MapView, Constants, Location, Permissions } from 'expo';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
@@ -10,6 +10,8 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import Yelp from 'newApp/app/components/yelp';
 import Image from 'react-native-image-progress';
+import Splash from 'newApp/app/components/splash';
+import { setDate } from 'newApp/app/redux/actions/dates';
 
 class SetupDate extends React.Component {
   state = {
@@ -18,34 +20,38 @@ class SetupDate extends React.Component {
     errorMessage: null,
   };
 
+  constructor(props){
+    super();
+    this.state.userSwiped = props.navigation.state.params,
+    this.state.user = props.user.user;
+  }
+
   componentWillMount() {
-    if (Platform.OS === 'android' && !Constants.isDevice) {
-      this.setState({
-        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-      });
-    } else {
+    // if (Platform.OS === 'android' && !Constants.isDevice) {
+    //   this.setState({
+    //     errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+    //   });
+    // } else {
       this._getLocationAsync();
-    }
+    // }
   }
 
   _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        errorMessage: 'Permission to access location was denied',
-      });
-    }
+    // let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    // if (status !== 'granted') {
+    //   this.setState({
+    //     errorMessage: 'Permission to access location was denied',
+    //   });
+    // }
 
-    let location = await Location.getCurrentPositionAsync({});
-    Yelp.search(location.coords, (restaurants) => {
-      console.log(restaurants);
-      
+    // let location = await Location.getCurrentPositionAsync({});
+    
+    Yelp.search({lat: 37.78825, lng: -122.4324}, (restaurants) => {
 	    this.setState({ location, restaurants });
     });
   };
 
-  showDateTimePicker = () => t;
-
+  showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   handleDatePicked = (date) => {
@@ -53,52 +59,113 @@ class SetupDate extends React.Component {
     this.setState({date: moment(date).format('MMMM Do YYYY, h:mm a')});
     this.hideDateTimePicker();
   };
+  searchRestaurant(text){
+
+  }
+  pickRestaurant(restaurant){
+    this.setState({pickedRestaurant: restaurant});
+  }
 
   renderRestaurants(){
-  	if(this.state.restaurants){
-  		return (
-  		<View style={styles.restaurants}>
-	  		{this.state.restaurants.map((r, i) => {
-			   	return (
-			   		<View key={i} style={[styles.restaurant, gStyles.row]}>
-				   		<Image source={{uri: r.image_url}} style={{width: 30, height: 30}} raised/>
-				   		<View>
-					   		<Text> {r.name} </Text>
-					   		<Text style={styles.lightText}> {r.location.address1}</Text>
-					   	</View>
+    let restaurants = [];
+    if(this.state.restaurants){
+  	  restaurants = this.state.restaurants.map((r, i) => {
+        let selected = this.state.pickedRestaurant === r;
+		   	return (
+		   		<TouchableOpacity onPress={() => this.pickRestaurant(r)} key={i} style={[styles.restaurant, gStyles.row, selected && styles.selected]}>
+			   		<Image source={{uri: r.image_url}} style={{width: 30, height: 30, marginRight: 10}} raised/>
+			   		<View>
+				   		<Text style={selected && styles.lightText}> {r.name} </Text>
+				   		<Text style={styles.lightText}> {r.location.address1}</Text>
 				   	</View>
-				  )
-	  		})}
-  		</View>
-  		)
-  	}else{
-  		return <Text>No restaurants found</Text>;
+			   	</TouchableOpacity>
+			  )
+  		})
   	}
-  }
-
-  renderCost(user, userSwiped){
-
-  }
-
-  
-
-  render () {
-  	let userSwiped = this.props.navigation.state.params,
-  			{user} = this.props.user;
-
 
     return (
+      <View style={styles.restaurants}>
+        <SearchBar
+        onChangeText={(text) => this.searchRestaurant(text)}
+        placeholder='Search restaurants..' />
+        {restaurants.length ? restaurants : <View style={gStyles.containerCenter}><ActivityIndicator /></View>}
+      </View>
+    )
+  }
+
+  renderCost(){
+    let {userSwiped, user} = this.state;
+    let cost = userSwiped.profile.cost.date1;
+    return (
+      <View style={styles.dateCost}>
+        <Text>Cost: {cost} diamonds</Text>
+        <Text>You have: {user.diamonds} diamonds </Text>
+        <Text>{user.diamonds} - {cost} = {user.diamonds - cost}</Text>
+      </View>
+    )
+  }
+
+  submitDate(){
+    if(this.state.pickedRestaurant && this.state.date){
+      this.props.setDate(this.state.user._id, this.state.userSwiped._id, this.state.pickedRestaurant, this.state.date);
+      this.setState({showSplash: true});
+    }  
+  }
+
+  renderSplash(){
+    return (
+      <Splash
+        style={{height: 200}}
+         content={() => {
+            return (
+              <View>
+                <Text>Congratulations!</Text>
+                <Text>Your date is setup for</Text>
+                <Text>{this.state.date}</Text>
+                <Text>At</Text>
+                <Text>{this.state.pickedRestaurant.name}</Text>
+                <Text>Click on the calendar icon to check out your dates</Text>
+                <Button 
+                  raised
+                  icon={{name: 'calendar', size: 15, type: 'font-awesome'}}
+                  buttonStyle={gStyles.button}
+                  title="Set the date"
+                  onPress={() => this.props.navigation.navigate('Nearby')}
+                  />
+              </View>
+            )
+         }}
+       />
+    )
+  }
+
+  render () {
+    return (
 			<View style={styles.container}>
-			  <View style={styles.row}>
-          {this.state.errorMessage && <Text>{this.state.errorMessage}</Text>}
-          {this.renderCost(user, userSwiped)}
-			  </View>
-			  <View style={styles.row}>
-				  {this.renderRestaurants()}
-			  </View>
-			  <View style={styles.row}>
-				  {this.renderRestaurants()}
-			  </View>
+			  {this.renderRestaurants()}
+        {this.renderCost()}
+        {this.state.showSplash && this.renderSplash()}
+        <Button 
+          raised
+          icon={{name: 'calendar', size: 15, type: 'font-awesome'}}
+          buttonStyle={gStyles.button}
+          title="Set the date"
+          onPress={this.showDateTimePicker}
+          />
+        <Button 
+          raised
+          icon={{name: 'calendar', size: 15, type: 'font-awesome'}}
+          buttonStyle={gStyles.button1}
+          title="Submit Date"
+          onPress={() => this.submitDate()}
+          />
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this.handleDatePicked}
+          onCancel={this.hideDateTimePicker}
+          is24Hour={false}
+          mode='datetime'
+        />
 			</View>
       
     );
@@ -106,78 +173,30 @@ class SetupDate extends React.Component {
 
 }
 
-// <View style={styles.container}>
 
-
-        
-//         <View style={styles.date}>
-//         	<Text>Great! Your date is setup for:</Text>
-//         	<Text>
-//         		{this.state.date}
-//         	</Text>
-//         </View>
-//         <View style={[gStyles.row, gStyles.center]}>
-//         	<Text>
-//         		Your date costs {userSwiped.profile.cost.date1}
-//         	</Text>
-//         	<Icon type='font-awesome' name='diamond' size={12} />
-//         </View>
-//         <View style={[gStyles.row, gStyles.center]}>
-//         	{user.diamonds && user.diamonds > userSwiped.profile.cost.date1 ?
-//         		<Text>
-//         			You have {user.diamonds} and after purchasing you will have {user.diamonds - userSwiped.profile.cost.date1}
-// 	        	</Text>
-// 	        	:
-// 	        	<View style={gStyles.row}>
-// 		        	<Text>
-// 		        		You don't have enough diamonds to set up a date with {userSwiped.profile.displayName}, please visit the store and purchase more diamonds
-// 		        	</Text>
-// 		        	<Button 
-// 			          raised
-// 			          icon={{name: 'calendar', size: 15, type: 'font-awesome'}}
-// 			          buttonStyle={gStyles.button}
-// 			          title="Set the date"
-// 			          onPress={this.showDateTimePicker}
-// 			          />
-// 		        </View>
-// 	        }
-//         </View>
-//         <Button 
-//           raised
-//           icon={{name: 'calendar', size: 15, type: 'font-awesome'}}
-//           buttonStyle={gStyles.button}
-//           title="Set the date"
-//           onPress={this.showDateTimePicker}
-//           />
-//         <DateTimePicker
-//           isVisible={this.state.isDateTimePickerVisible}
-//           onConfirm={this.handleDatePicked}
-//           onCancel={this.hideDateTimePicker}
-//           is24Hour={false}
-//           mode='datetime'
-//         />
-//       </View>
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white'
   },
-  title: {
-  	fontSize: 18,
-  	padding: 10
+  selected: {
+    backgroundColor: '#555'
   },
-  row: {
-  	height: Config.h / 3.5
+  dateCost: {
+    padding: 10
+  },
+  restaurants: {
+  	height: Config.h / 2.5
   },
   restaurant: {
   	borderBottomWidth: 1,
   	padding: 10,
+    alignItems: 'center',
   	borderBottomColor: '#aaa'
   },
   lightText: {
   	color: '#aaa'
-
   }
 })
 
@@ -185,5 +204,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({user: state.user}), 
-  // (dispatch) => (bindActionCreators({getNearby}, dispatch))
+  (dispatch) => (bindActionCreators({setDate}, dispatch))
 )(SetupDate);

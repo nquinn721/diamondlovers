@@ -82,12 +82,10 @@ class Nearby extends React.Component {
   }
   swipeLeft(cardIndex){
     let user = typeof cardIndex === 'number' ? this.props.nearby.users[cardIndex] : cardIndex;
-    console.log(user);
   }
   swipeRight(cardIndex){
     let user = typeof cardIndex === 'number' ? this.props.nearby.users[cardIndex] : cardIndex;
     this.props.navigation.navigate('SetupDate', user);
-    console.log(user);
   }
   render() {
     let {users} = this.props.nearby;
