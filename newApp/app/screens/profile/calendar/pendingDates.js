@@ -6,12 +6,14 @@ import Config from 'newApp/app/config/config';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import gStyles from 'newApp/app/config/globalStyles';
-import { agreeToDate } from 'newApp/app/redux/actions/dates';
+import { approveDate } from 'newApp/app/redux/actions/dates';
 
 
 class PendingDates extends React.Component {
   approveDate(id){
-    this.props.agreeToDate(id);
+    console.log('approving date', id);
+    
+    this.props.approveDate(id);
   }
 
   render() {
@@ -59,5 +61,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({dates: state.dates.dates.filter(d => d.status === 'pending')}), 
-  (dispatch) => (bindActionCreators({agreeToDate}, dispatch))
+  (dispatch) => (bindActionCreators({approveDate}, dispatch))
 )(PendingDates);

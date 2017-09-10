@@ -39,19 +39,19 @@ export default (state = initialState, action) => {
 				settingDateFailed: action.error
 			}
 
-		case 'AGREE_TO_DATE':
+		case 'APPROVE_DATE':
 
 			return {
 				...state,
 				agreeingToDate: true
 			}
-		case 'AGREE_TO_DATE_SUCCESS':
+		case 'APPROVE_DATE_SUCCESS':
 			return {
 				...state,
 				agreeingToDate: false,
 				dates: updateDate(state.dates, action.data)
 			}
-		case 'AGREE_TO_DATE_FAILED':
+		case 'APPROVE_DATE_FAILED':
 			return {
 				...state,
 				agreeingToDate: false,

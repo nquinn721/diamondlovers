@@ -83,7 +83,7 @@ module.exports = function(app){
             'dates/approve-date': {
                 type: 'post',
                 middleWare: ['loggedIn', 'json'],
-                method: 'dates.approvedDate'
+                method: 'dates.approveDate'
             },
             // {dateId}
             'dates/confirm-showed': {

@@ -34,7 +34,7 @@ class Dates{
         DatesModel.create({to, from, location, time}, cb);
     }
 
-    static approvedDate(_id, cb = function(){}){
+    static approveDate(_id, cb = function(){}){
         DatesModel.findOneAndUpdate({_id}, {approvedAt: Date.now()}, {new: true}, cb);
     }
     static confirmShowed(_id, userId, cb = function(){}){

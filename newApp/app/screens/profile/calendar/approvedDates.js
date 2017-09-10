@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  // (state) => ({user: state.user, image: state.image}), 
+  (state) => ({dates: state.dates.dates.filter(d => d.status === 'approved')}), 
   // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
 )(ApprovedDates);

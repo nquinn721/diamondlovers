@@ -19,12 +19,12 @@ export const setDate = (to, from, location, time) => {
 	}
 }
 
-export const agreeToDate = (id) => {
+export const approveDate = (id) => {
 	return (dispatch) => {
-		Service.dispatchPost(dispatch, 'dates/agree-to-date', {id}, {
-			init: 'AGREE_TO_DATE',
-			success: 'AGREE_TO_DATE_SUCCESS',
-			error: 'AGREE_TO_DATE_FAILED'
+		Service.dispatchPost(dispatch, 'dates/approve-date', {id}, {
+			init: 'APPROVE_DATE',
+			success: 'APPROVE_DATE_SUCCESS',
+			error: 'APPROVE_DATE_FAILED'
 		});
 	}
 }
