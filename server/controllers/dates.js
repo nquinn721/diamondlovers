@@ -1,11 +1,9 @@
 module.exports = {
 	setDate: (req, res) => {
-		console.log(req.body);
-		
-		// let {to, from, location, time} = req.body;
-		// Dates.setDate(to, from, location, time, (e, doc) => {
-		// 	res.send(e ? {error: 'failed to create date'} : {data: doc});
-		// })
+		let {to, from, location, time} = req.body;
+		Dates.setDate(to, from, location, time, (e, doc) => {
+			res.send(e ? {error: 'failed to create date'} : {data: doc});
+		})
 	},
 	getDates: (req, res) => {
 		let _id = req.session.user.model._id;

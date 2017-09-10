@@ -76,19 +76,19 @@ module.exports = function(app){
             // {to, from, location, time}
             'dates/set-date': {
                 type: 'post',
-                middleWare: ['loggedIn'],
+                middleWare: ['loggedIn', 'json'],
                 method: 'dates.setDate'
             },
             // {dateId}
             'dates/agree-to-date': {
                 type: 'post',
-                middleWare: ['loggedIn'],
+                middleWare: ['loggedIn', 'json'],
                 method: 'dates.agreeToDate'
             },
             // {dateId}
             'dates/confirm-showed': {
                 type: 'post',
-                middleWare: ['loggedIn'],
+                middleWare: ['loggedIn', 'json'],
                 method: 'dates.confirmShowed'
             },
         /**
