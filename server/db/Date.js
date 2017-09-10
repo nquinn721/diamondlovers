@@ -26,8 +26,8 @@ var DatesModel = mongoose.model('Dates', DatesSchema);
 class Dates{
     static getDates(_id, cb = function(){}){
         DatesModel.find({ $or: [{'to': _id}, {'from': _id}]})
-            .populate('to')
-            .populate('from')
+            .populate('to', 'id profile.displayName')
+            .populate('from', 'id profile.displayName')
             .exec(cb);
     }
     static setDate(to, from, location, time, cb = function(){}){
