@@ -45,11 +45,16 @@ class SetupDate extends React.Component {
     // }
 
     // let location = await Location.getCurrentPositionAsync({});
-    
-    Yelp.search({lat: 37.78825, lng: -122.4324}, (restaurants) => {
-	    this.setState({ location, restaurants });
-    });
+    this.state.searchData = {lat: 37.78825, lng: -122.4324};
+
+    this.getYelpData();
   };
+
+  getYelpData(){
+    Yelp.search(this.state.searchData, (restaurants) => {
+      this.setState({ location, restaurants });
+    });    
+  }
 
   showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -60,7 +65,13 @@ class SetupDate extends React.Component {
     this.hideDateTimePicker();
   };
   searchRestaurant(text){
-
+    if(text.length > 3){
+      clearTimeout(this.isSearching);
+      this.state.searchData.term = text;
+      this.isSearching = setTimeout(() => {
+        this.getYelpData();
+      }, 500);
+    }
   }
   pickRestaurant(restaurant){
     this.setState({pickedRestaurant: restaurant});

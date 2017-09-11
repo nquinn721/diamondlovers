@@ -40,15 +40,16 @@ class Dates{
     static confirmShowed(_id, userId, cb = function(){}){
         DatesModel.findOne({_id}, (e, doc) => {
             if(e)return cb(e);
-            if(doc.to.toSting() === userId){
+            if(doc.to.equals(userId)){
                 doc.fromShowed = true;
-            }else if(doc.from.toSting() === userId){
+            }else if(doc.from.equals(userId)){
                 doc.toShowed = true;
             }
 
             if(doc.fromShowed && doc.toShowed){
                 doc.completedAt = Date.now();
             }
+            console.log(doc);
             doc.save(cb);
         });
     }

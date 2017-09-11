@@ -11,8 +11,6 @@ import { approveDate } from 'newApp/app/redux/actions/dates';
 
 class PendingDates extends React.Component {
   approveDate(id){
-    console.log('approving date', id);
-    
     this.props.approveDate(id);
   }
 
@@ -60,6 +58,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({dates: state.dates.dates.filter(d => d.status === 'pending')}), 
+  (state) => ({dates: state.dates.pendingDates}), 
   (dispatch) => (bindActionCreators({approveDate}, dispatch))
 )(PendingDates);

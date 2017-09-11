@@ -68,29 +68,29 @@ module.exports = function(app){
         /**
          * DATES
          */
-            'dates/get-dates': {
-                type: 'get',
-                middleWare: ['loggedIn'],
-                method: 'dates.getDates'
-            },
-            // {to, from, location, time}
-            'dates/set-date': {
-                type: 'post',
-                middleWare: ['loggedIn', 'json'],
-                method: 'dates.setDate'
-            },
-            // {dateId}
-            'dates/approve-date': {
-                type: 'post',
-                middleWare: ['loggedIn', 'json'],
-                method: 'dates.approveDate'
-            },
-            // {dateId}
-            'dates/confirm-showed': {
-                type: 'post',
-                middleWare: ['loggedIn', 'json'],
-                method: 'dates.confirmShowed'
-            },
+        'dates/get-dates': {
+            type: 'get',
+            middleWare: ['loggedIn'],
+            method: 'dates.getDates'
+        },
+        // {to, from, location, time}
+        'dates/set-date': {
+            type: 'post',
+            middleWare: ['loggedIn', 'json'],
+            method: 'dates.setDate'
+        },
+        // {dateId}
+        'dates/approve-date': {
+            type: 'post',
+            middleWare: ['loggedIn', 'json'],
+            method: 'dates.approveDate'
+        },
+        // {dateId}
+        'dates/confirm-showed': {
+            type: 'post',
+            middleWare: ['loggedIn', 'json'],
+            method: 'dates.confirmShowed'
+        },
         /**
          * END DATES
          */

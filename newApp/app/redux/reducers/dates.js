@@ -1,5 +1,8 @@
 const initialState = {
-	dates: []
+	dates: [],
+	pendingDates: [],
+	approvedDates: [],
+	completedDates: []
 }
 
 export default (state = initialState, action) => {
@@ -12,8 +15,9 @@ export default (state = initialState, action) => {
 		case 'GET_DATES_SUCCESS':
 			return {
 				...state,
+				...setDates(action.data),
 				gettingDate: false,
-				dates: action.data
+				
 			}
 		case 'GET_DATES_FAILED':
 			return {
@@ -29,8 +33,8 @@ export default (state = initialState, action) => {
 		case 'SET_DATE_SUCCESS':
 			return {
 				...state,
-				settingDate: false,
-				dates: state.dates.push(action.data)
+				...setDates(state.dates.push(action.data)),
+				settingDate: false
 			}
 		case 'SET_DATE_FAILED':
 			return {
@@ -48,8 +52,8 @@ export default (state = initialState, action) => {
 		case 'APPROVE_DATE_SUCCESS':
 			return {
 				...state,
-				agreeingToDate: false,
-				dates: updateDate(state.dates, action.data)
+				...setDates(updateDate(state.dates, action.data)),
+				agreeingToDate: false
 			}
 		case 'APPROVE_DATE_FAILED':
 			return {
@@ -66,8 +70,8 @@ export default (state = initialState, action) => {
 		case 'CONFIRM_SHOWED_SUCCESS':
 			return {
 				...state,
-				confirmingDate: false,
-				dates: updateDate(state.dates, action.data)
+				...setDates(updateDate(state.dates, action.data)),
+				confirmingDate: false
 			}
 		case 'CONFIRM_SHOWED_FAILED':
 			return {
@@ -77,6 +81,14 @@ export default (state = initialState, action) => {
 			}
 		default:
 			return state;
+	}
+}
+const setDates = (data) => {
+	return {
+		dates: data,
+		pendingDates: data.filter(d => d.status === 'pending'),
+		approvedDates: data.filter(d => d.status === 'approved'),
+		completedDates: data.filter(d => d.status === 'completed')
 	}
 }
 
