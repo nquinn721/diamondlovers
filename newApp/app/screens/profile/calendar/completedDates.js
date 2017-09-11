@@ -21,12 +21,7 @@ class ApprovedDates extends React.Component {
               <Text>{date.location.name}</Text>
               <Text>{date.location.location.address1}</Text>
               <Text>{moment(date.time).format('MMMM Do YYYY, h:mm a')}</Text>
-              <Button 
-                raised 
-                buttonStyle={gStyles.button} 
-                title="They showed up"
-                onPress={() => this.approveDate(date._id)}
-                />
+              
             </View>
           )            
         })}

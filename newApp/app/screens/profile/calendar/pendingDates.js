@@ -22,17 +22,15 @@ class PendingDates extends React.Component {
       <ScrollView style={styles.container}>
         {this.props.dates.map((date, i) => {
           let to, from, u, dateUser, showed;
-
+          console.log(user._id, date);
           if(date.from._id === user._id){
             from = true;
             u = date.from;
             dateUser = date.to;
-            dateShowed = date.toShowed;
           }else{
             to = true;
             u = date.to;
             dateUser = date.from;
-            dateShowed = date.fromShowed;
           }
           return (
             <View key={i} style={styles.date}>
@@ -40,12 +38,12 @@ class PendingDates extends React.Component {
               <Text>{date.location.name}</Text>
               <Text>{date.location.location.address1}</Text>
               <Text>{moment(date.time).format('MMMM Do YYYY, h:mm a')}</Text>
-              <Button 
+              {to ? <Button 
                 raised 
                 buttonStyle={gStyles.button} 
                 title="Approve Date"
                 onPress={() => this.approveDate(date._id)}
-                />
+                /> : <Text>Waiting for {dateUser.profile.displayName} to approve your date!</Text>}
             </View>
           )            
         })}

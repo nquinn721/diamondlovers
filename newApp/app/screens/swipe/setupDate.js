@@ -118,7 +118,7 @@ class SetupDate extends React.Component {
 
   submitDate(){
     if(this.state.pickedRestaurant && this.state.date){
-      this.props.setDate(this.state.user._id, this.state.userSwiped._id, this.state.pickedRestaurant, this.state.date);
+      this.props.setDate(this.state.userSwiped._id, this.state.user._id, this.state.pickedRestaurant, this.state.date);
       this.setState({showSplash: true});
     }  
   }
