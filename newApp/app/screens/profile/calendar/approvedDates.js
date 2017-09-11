@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
@@ -19,7 +19,7 @@ class ApprovedDates extends React.Component {
 
     console.log(this.props.dates);
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         {this.props.dates.map((date, i) => {
           return (
             <View key={i} style={styles.date}>
@@ -38,7 +38,7 @@ class ApprovedDates extends React.Component {
             </View>
           )            
         })}
-      </View>
+      </ScrollView>
     )
   }
 

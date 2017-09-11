@@ -30,12 +30,24 @@ class Dates{
             .populate('from', 'id profile.displayName')
             .exec(cb);
     }
+    static returnDoc(_id, cb = function(){}){
+        DatesModel.findOne({_id})
+            .populate('to', 'id profile.displayName')
+            .populate('from', 'id profile.displayName')
+            .exec(cb);
+    }
     static setDate(to, from, location, time, cb = function(){}){
-        DatesModel.create({to, from, location, time}, cb);
+        DatesModel.create({to, from, location, time}, (e, doc) => {
+            if(e)return cb(e);
+            returnDoc(doc._id, cb);
+        });
     }
 
     static approveDate(_id, cb = function(){}){
-        DatesModel.findOneAndUpdate({_id}, {approvedAt: Date.now(), status: 'approved'}, {new: true}, cb);
+        DatesModel.findOneAndUpdate({_id}, {approvedAt: Date.now(), status: 'approved'}, {new: true}, (e, doc) => {
+            if(e)return cb(e);
+            returnDoc(doc._id, cb);
+        });
     }
     static confirmShowed(_id, userId, cb = function(){}){
         DatesModel.findOne({_id}, (e, doc) => {
@@ -49,7 +61,10 @@ class Dates{
             if(doc.fromShowed && doc.toShowed){
                 doc.completedAt = Date.now();
             }
-            doc.save(cb);
+            doc.save((e, doc) => {
+                if(e)return cb(e);
+                returnDoc(_id, cb);
+            });
         });
     }
 }

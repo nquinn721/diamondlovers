@@ -6,6 +6,7 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
+	let dates;
 	switch(action.type){
 		case 'GET_DATES':
 			return {
@@ -31,9 +32,10 @@ export default (state = initialState, action) => {
 				settingDate: true
 			}
 		case 'SET_DATE_SUCCESS':
+			dates = state.dates.push(action.data);
 			return {
 				...state,
-				...setDates(state.dates.push(action.data)),
+				...setDates(),
 				settingDate: false
 			}
 		case 'SET_DATE_FAILED':
@@ -50,9 +52,10 @@ export default (state = initialState, action) => {
 				agreeingToDate: true
 			}
 		case 'APPROVE_DATE_SUCCESS':
+			dates = updateDate(state.dates, action.data);
 			return {
 				...state,
-				...setDates(updateDate(state.dates, action.data)),
+				...setDates(dates),
 				agreeingToDate: false
 			}
 		case 'APPROVE_DATE_FAILED':
@@ -68,9 +71,10 @@ export default (state = initialState, action) => {
 				confirmingDate: true,
 			}
 		case 'CONFIRM_SHOWED_SUCCESS':
+			dates = updateDate(state.dates, action.data);
 			return {
 				...state,
-				...setDates(updateDate(state.dates, action.data)),
+				...setDates(dates),
 				confirmingDate: false
 			}
 		case 'CONFIRM_SHOWED_FAILED':
@@ -84,7 +88,6 @@ export default (state = initialState, action) => {
 	}
 }
 const setDates = (data) => {
-	console.log(data);
 	return {
 		dates: data,
 		pendingDates: data.filter(d => d.status === 'pending'),
@@ -94,8 +97,8 @@ const setDates = (data) => {
 }
 
 const updateDate = (dates, date) => {
-	return dates.forEach( d => {
-		if(d._id.match(date._id))
+	return dates.map( d => {
+		if(d._id.toString() === date._id.toString())
 			return date;
 		return d;
 	})	
