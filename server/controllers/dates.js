@@ -23,6 +23,7 @@ module.exports = {
 		let userId = req.session.model._id,
 			_id = req.body.id;
 		Dates.confirmShowed(_id, userId, (e, doc) => {
+			console.log(e, doc);
 			res.send(e ? {error: 'failed to confirm date'} : {data: doc});
 		})
 	}

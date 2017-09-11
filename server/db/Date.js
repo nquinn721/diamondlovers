@@ -49,7 +49,6 @@ class Dates{
             if(doc.fromShowed && doc.toShowed){
                 doc.completedAt = Date.now();
             }
-            console.log(doc);
             doc.save(cb);
         });
     }

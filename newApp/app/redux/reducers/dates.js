@@ -84,6 +84,7 @@ export default (state = initialState, action) => {
 	}
 }
 const setDates = (data) => {
+	console.log(data);
 	return {
 		dates: data,
 		pendingDates: data.filter(d => d.status === 'pending'),
@@ -94,7 +95,7 @@ const setDates = (data) => {
 
 const updateDate = (dates, date) => {
 	return dates.forEach( d => {
-		if(d._id.toString() === date._id.toString())
+		if(d._id.match(date._id))
 			return date;
 		return d;
 	})	

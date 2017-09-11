@@ -15,6 +15,8 @@ class ApprovedDates extends React.Component {
  
   render() {
     if(!this.props.dates.length)return <Text>No dates have been completed yet</Text>;
+    let user = this.props.user;
+
     console.log(this.props.dates);
     return (
       <View style={styles.container}>
@@ -25,12 +27,14 @@ class ApprovedDates extends React.Component {
               <Text>{date.location.name}</Text>
               <Text>{date.location.location.address1}</Text>
               <Text>{moment(date.time).format('MMMM Do YYYY, h:mm a')}</Text>
-              <Button 
+              {date.fromShowed && date.from._id.match(user._id) ? 
+                <Text>Waiting on your date to confirm</Text> : 
+                <Button 
                 raised 
                 buttonStyle={gStyles.button} 
                 title="Confirm your date showed"
                 onPress={() => this.confirmShowed(date._id)}
-                />
+                />}
             </View>
           )            
         })}
@@ -50,6 +54,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({dates: state.dates.approvedDates}), 
+  (state) => ({dates: state.dates.approvedDates, user: state.user}), 
   (dispatch) => (bindActionCreators({confirmShowed}, dispatch))
 )(ApprovedDates);
