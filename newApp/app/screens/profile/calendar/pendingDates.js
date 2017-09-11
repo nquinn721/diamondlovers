@@ -16,14 +16,27 @@ class PendingDates extends React.Component {
 
   render() {
     if(!this.props.dates.length)return <Text>No dates yet</Text>;
-    console.log(this.props);
-    
+    let {user} = this.props.user;
+
     return (
       <ScrollView style={styles.container}>
         {this.props.dates.map((date, i) => {
+          let to, from, u, dateUser, showed;
+
+          if(date.from._id === user._id){
+            from = true;
+            u = date.from;
+            dateUser = date.to;
+            dateShowed = date.toShowed;
+          }else{
+            to = true;
+            u = date.to;
+            dateUser = date.from;
+            dateShowed = date.fromShowed;
+          }
           return (
             <View key={i} style={styles.date}>
-              <Text>{date.from.profile.displayName}</Text>
+              <Text>{dateUser.profile.displayName}</Text>
               <Text>{date.location.name}</Text>
               <Text>{date.location.location.address1}</Text>
               <Text>{moment(date.time).format('MMMM Do YYYY, h:mm a')}</Text>
@@ -58,6 +71,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({dates: state.dates.pendingDates}), 
+  (state) => ({dates: state.dates.pendingDates, user: state.user}), 
   (dispatch) => (bindActionCreators({approveDate}, dispatch))
 )(PendingDates);

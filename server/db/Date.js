@@ -60,6 +60,7 @@ class Dates{
 
             if(doc.fromShowed && doc.toShowed){
                 doc.completedAt = Date.now();
+                doc.status = 'completed';
             }
             doc.save((e, doc) => {
                 if(e)return cb(e);

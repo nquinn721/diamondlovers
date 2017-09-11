@@ -32,10 +32,10 @@ export default (state = initialState, action) => {
 				settingDate: true
 			}
 		case 'SET_DATE_SUCCESS':
-			dates = state.dates.push(action.data);
+			state.dates.push(action.data);
 			return {
 				...state,
-				...setDates(),
+				...setDates(state.dates),
 				settingDate: false
 			}
 		case 'SET_DATE_FAILED':
@@ -88,6 +88,7 @@ export default (state = initialState, action) => {
 	}
 }
 const setDates = (data) => {
+	console.log(data);
 	return {
 		dates: data,
 		pendingDates: data.filter(d => d.status === 'pending'),
@@ -98,7 +99,7 @@ const setDates = (data) => {
 
 const updateDate = (dates, date) => {
 	return dates.map( d => {
-		if(d._id.toString() === date._id.toString())
+		if(d._id === date._id)
 			return date;
 		return d;
 	})	

@@ -36,7 +36,10 @@ const seeds = require('./seed');
     smokes: Boolean,
     lookingFor: String,
     cost: {
-        date1: Number,
+        date1: {
+            type: Number,
+            default: "0"
+        },
         date2: Number,
         date3: Number
     },

@@ -34,12 +34,11 @@ class Nearby extends React.Component {
             <View style={styles.cardItem}>
               <Text style={styles.cardText}>{user.profile.education || 'N/A'}</Text>
             </View>
-            {user.profile.cost && user.profile.cost.date1 && 
+            
               <View style={styles.cardItem}>
                 <Icon type='font-awesome' size={10} name='diamond' color='white'/>
                 <Text style={styles.cardText}> {user.profile.cost.date1}</Text>
               </View>
-            }
             
           </View>
           
