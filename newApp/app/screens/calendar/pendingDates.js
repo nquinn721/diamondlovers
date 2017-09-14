@@ -15,11 +15,12 @@ class PendingDates extends React.Component {
   }
 
   render() {
+    return (<View><Text style={styles.black}>Hello</Text></View>)
     if(!this.props.dates.length)return <Text>No dates yet</Text>;
     let {user} = this.props.user;
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={gStyles.container}>
         {this.props.dates.map((date, i) => {
           let to, from, u, dateUser, showed;
           console.log(user._id, date);
@@ -55,8 +56,8 @@ class PendingDates extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
+  black: {
+    color: 'black'
   },
   date: {
     padding: 10,

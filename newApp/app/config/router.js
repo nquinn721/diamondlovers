@@ -7,6 +7,7 @@ import { Icon } from 'react-native-elements';
 import Swipe 		from './routes/swipe';
 import Profile 		from './routes/profile';
 import Purchase		from './routes/purchase';
+import Calendar		from './routes/calendar';
 import Message 		from 'newApp/app/screens/message';
 
 // Stack Nav Items
@@ -20,6 +21,7 @@ const tabRoutes = {
 	...Swipe,
 	...Purchase,
 	...Profile,
+	...Calendar,
 	Message: {
 		screen: Message,
 		navigationOptions: {

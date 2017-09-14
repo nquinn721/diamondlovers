@@ -13,7 +13,7 @@ class ApprovedDates extends React.Component {
   render() {
     if(!this.props.dates.length)return <Text>No dates have been completed yet</Text>;
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={gStyles.container}>
         {this.props.dates.map((date, i) => {
           return (
             <View key={i} style={styles.date}>
@@ -32,9 +32,6 @@ class ApprovedDates extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
 })
 
 
