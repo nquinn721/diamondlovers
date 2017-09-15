@@ -15,7 +15,6 @@ class PendingDates extends React.Component {
   }
 
   render() {
-    return (<View><Text style={styles.black}>Hello</Text></View>)
     if(!this.props.dates.length)return <Text>No dates yet</Text>;
     let {user} = this.props.user;
 

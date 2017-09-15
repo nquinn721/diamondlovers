@@ -32,10 +32,12 @@ const tabRoutes = {
 const tabConfig = {
 	tabBarPosition: 'top',
 	swipeEnabled: false,
+	lazyLoad: true,
+	animationEnabled: false,
 	tabBarOptions: {
 		activeTintColor: '#2980b9',
 		activeBackgroundColor: 'white',
-		inactiveBackgroundColor: 'white'
+		inactiveBackgroundColor: 'white',
 	}
 
 }
