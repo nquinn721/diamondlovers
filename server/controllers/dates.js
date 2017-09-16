@@ -1,9 +1,7 @@
 module.exports = {
 	setDate: (req, res) => {
-		let {to, from, location, time} = req.body;
-		Dates.setDate(to, from, location, time, (e, doc) => {
-			console.log(e, doc);
-			
+		let {to, from, location, time, cost} = req.body;
+		Dates.setDate(to, from, location, time, cost, (e, doc) => {
 			res.send(e ? {error: 'failed to create date'} : {data: doc});
 		})
 	},
@@ -22,9 +20,19 @@ module.exports = {
 	confirmShowed: (req, res) => {
 		let userId = req.session.model._id,
 			_id = req.body.id;
-		Dates.confirmShowed(_id, userId, (e, doc) => {
-			console.log(e, doc);
-			res.send(e ? {error: 'failed to confirm date'} : {data: doc});
-		})
+		Dates.confirmShowed(_id, userId, (e, dateDoc) => {
+			if(doc.status === 'completed'){
+				User.updateDiamonds(doc.from, -(doc.cost), (err, fromDoc) => {
+					User.updateDiamonds(doc.to, doc.cost, (e, toDoc) => {
+						if(err || e){
+							// Handle retry on switch of diamonds
+						}
+						res.send({data: dateDoc});
+					})
+				});
+			}else{
+				res.send(e ? {error: 'failed to confirm date'} : {data: dateDoc});
+			}
+		});
 	}
 }

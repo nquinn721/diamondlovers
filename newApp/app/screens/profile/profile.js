@@ -11,7 +11,14 @@ class Profile extends React.Component {
 
  	displayUser({isFetching} = this.props.user, {user} = this.props.user){
     let page = [];
-		user && page.push(<Text key='client'>{user.email}</Text>);
+		if(user){
+      return (
+        <View>
+          <Text>{user.email}</Text>
+          <Text>{user.diamonds}</Text> 
+        </View>
+      );
+    } 
 
     return <View>{page}</View>
 	}

@@ -22,7 +22,7 @@ module.exports = {
 		
 	    StripAPI.charge(req.session.user.stripeCust.id, {amount}, (e, charge) => {
 	        if(charge && charge.status === 'succeeded'){
-	            User.addDiamonds(userId, charge.amount / 10, (e, user) => {
+	            User.updateDiamonds(userId, charge.amount / 10, (e, user) => {
 	                req.session.user.client = user;
 	                res.send({data: req.session.user.client});
 	            });

@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var DatesSchema = new Schema({
     location: Object,
     time: Date,
+    cost: Number,
     from: {type: Schema.Types.ObjectId, ref: 'User'},
     to: {type: Schema.Types.ObjectId, ref: 'User'},
     createdAt: {
@@ -36,8 +37,8 @@ class Dates{
             .populate('from', 'id profile.displayName')
             .exec(cb);
     }
-    static setDate(to, from, location, time, cb = function(){}){
-        DatesModel.create({to, from, location, time}, (e, doc) => {
+    static setDate(to, from, location, time, cost, cb = function(){}){
+        DatesModel.create({to, from, location, time, cost}, (e, doc) => {
             if(e)return cb(e);
             this.returnDoc(doc._id, cb);
         });

@@ -151,9 +151,8 @@ class User {
     }
 
 
-    // TODO:: check for a stripe charge id before adding diamonds
-    static addDiamonds(_id, diamonds, cb = function(){}){
-        UserModel.findOneAndUpdate({_id}, {$inc: {diamonds: diamonds}}, {new: true}, this.returnDoc.bind(this, cb));
+    static updateDiamonds(_id, diamonds, cb = function(){}){
+        UserModel.findOneAndUpdate({_id}, {$inc: {diamonds}}, {new: true}, this.returnDoc.bind(this, cb));
     }
 
     static setDefaultImage(_id, imageId, cb = function(){}){

@@ -106,19 +106,19 @@ class SetupDate extends React.Component {
 
   renderCost(){
     let {userSwiped, user} = this.state;
-    let cost = userSwiped.profile.cost.date1;
+    this.state.dateCost = userSwiped.profile.cost.date1;
     return (
       <View style={styles.dateCost}>
-        <Text>Cost: {cost} diamonds</Text>
+        <Text>Cost: {this.state.dateCost} diamonds</Text>
         <Text>You have: {user.diamonds} diamonds </Text>
-        <Text>{user.diamonds} - {cost} = {user.diamonds - cost}</Text>
+        <Text>{user.diamonds} - {this.state.dateCost} = {user.diamonds - cost}</Text>
       </View>
     )
   }
 
   submitDate(){
     if(this.state.pickedRestaurant && this.state.date){
-      this.props.setDate(this.state.userSwiped._id, this.state.user._id, this.state.pickedRestaurant, this.state.date);
+      this.props.setDate(this.state.userSwiped._id, this.state.user._id, this.state.pickedRestaurant, this.state.date, this.state.dateCost);
       this.setState({showSplash: true});
     }  
   }
