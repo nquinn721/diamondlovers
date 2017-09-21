@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, TextInput, Switch } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
@@ -13,45 +13,12 @@ const avatar = require('newApp/app/assets/img/avatar.png');
 class Profile extends React.Component {
   state = {}
   editItem(item, field, value){
-    let elements = item.split(',');
-    this.setState({splash: (
-      <Splash
-        style={{height: 200}}
-         content={() => {
-            return (
-              <View>
-                {
-                  elements.map((v, i) => {
-                    let el = v.split('=');                    
-                    return (
-                      <View key={i} style={gStyles.group}>
-                        <Text>{el[0]}</Text>
-                        <TextInput 
-                          style={styles.textInput}
-                          keyboardType = 'numeric'
-                          onChangeText = {(newVal)=> value = newVal}
-                          value = {value}
-                        />
-                      </View>
-                    ) 
-                  })
-                }
-                
-                <Button 
-                  raised
-                  icon={{name: 'check', size: 15, type: 'font-awesome'}}
-                  buttonStyle={gStyles.button}
-                  title=""
-                  onPress={() => {
-                    this.props.updateProfile(field, value);
-                    this.setState({splash: null});
-                  }}
-                  />
-              </View>
-            )
-         }}
-       />
-      )});
+    this.state.fieldElements = item.split(',');
+    this.state.fieldValue = value;
+    this.state.fieldField = field;
+    console.log('edit item');
+    
+    this.setState({splash: true});
   }
  	displayUser({isFetching, user}){
     let page = [];
@@ -74,7 +41,11 @@ class Profile extends React.Component {
             <Text>{user.profile.height}</Text>
             <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('feet=number,inches=number', 'height', user.profile.height)}/>
           </View>
-          <Text>Drugs: {user.profile.drugs}</Text>
+          <View style={[gStyles.group, styles.profileItem]}>
+            <Text>Drugs: </Text>
+            <Text>{user.profile.drugs ? 'Yes' : 'No'}</Text>
+            <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('drugs=boolean', 'drugs', user.profile.drugs)}/>
+          </View>
           <Text>Drinks: {user.profile.drinks}</Text>
           <Text>Smokes: {user.profile.smokes}</Text>
           <View style={gStyles.paragraph}>
@@ -95,11 +66,64 @@ class Profile extends React.Component {
     
     return <Image source={img} style={styles.profileImage} />   
   }
+
+  renderSplash(){
+    if(!this.state.splash)return;
+    return (
+      <Splash
+        style={{height: 200}}
+         content={() => {
+           console.log('content');
+           
+            return (
+              <View>
+                {
+                  this.state.fieldElements.map((v, i) => {
+                    let el = v.split('=');                    
+                    return (
+                      <View key={i} style={gStyles.group}>
+                        <Text>{el[0]}</Text>
+                        {
+                          el[1].match(/number|text/) ?
+                            <TextInput 
+                              style={styles.textInput}
+                              keyboardType = {(el[1] === 'number' ? 'numeric' : 'default')}
+                              onChangeText = {(newVal)=> this.state.fieldValue = newVal}
+                              value = {this.state.fieldValue}
+                            />
+                          :  <Switch
+                            onValueChange={(fieldValue) => {
+                              this.setState({fieldValue})
+                            }}
+                            value={this.state.fieldValue}
+                          />
+                        }
+                      </View>
+                    ) 
+                  })
+                }
+                
+                <Button 
+                  raised
+                  icon={{name: 'check', size: 15, type: 'font-awesome'}}
+                  buttonStyle={gStyles.button}
+                  title=""
+                  onPress={() => {
+                    this.props.updateProfile(this.state.fieldField, this.state.fieldValue);
+                    this.setState({splash: null});
+                  }}
+                  />
+              </View>
+            )
+         }}
+       />
+     );
+  }
 		
   render() {
     return (
       <View style={styles.container}>
-        {this.state.splash}
+        {this.renderSplash()}
         <ScrollView style={styles.container}>
           {this.displayDefaultImage()}
           <Button 
