@@ -1,21 +1,39 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
-import { Button } from 'react-native-elements';
+import { Icon, Button } from 'react-native-elements';
+import gStyles from 'newApp/app/config/globalStyles';
 const avatar = require('newApp/app/assets/img/avatar.png');
 
 
 class Profile extends React.Component {
 
- 	displayUser({isFetching} = this.props.user, {user} = this.props.user){
+ 	displayUser({isFetching, user}){
     let page = [];
 		if(user){
       return (
-        <View>
+        <View style={gStyles.padding}>
+          <Text>{user.profile.age}, {user.profile.sex}</Text>
+          <Text>{user.profile.city}, {user.profile.state} {user.profile.zip}</Text>
+          <View style={gStyles.group}>
+            <Icon name='diamond' type='font-awesome' size={15} />
+            <Text> {user.diamonds}</Text> 
+          </View>
+          <View style={gStyles.group}>
+            <Icon name='graduation-cap' type='font-awesome' size={15} />
+            <Text>{user.profile.education}</Text>
+          </View>
           <Text>{user.email}</Text>
-          <Text>{user.diamonds}</Text> 
+          <Text>Height: {user.profile.height}</Text>
+          <Text>Drugs: {user.profile.drugs}</Text>
+          <Text>Drinks: {user.profile.drinks}</Text>
+          <Text>Smokes: {user.profile.smokes}</Text>
+          <View style={gStyles.paragraph}>
+            <Text>About...</Text>
+            <Text>{user.profile.about}</Text>
+          </View>
         </View>
       );
     } 
@@ -33,9 +51,8 @@ class Profile extends React.Component {
 		
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         {this.displayDefaultImage()}
-        {this.displayUser()}
         <Button 
           raised
           icon={{name: 'credit-card', size: 15}}
@@ -52,8 +69,16 @@ class Profile extends React.Component {
           title="Profile Images"
           onPress={() => this.props.navigation.navigate('Images')}
         />
-        
-      </View>
+        {this.displayUser(this.props.user)}
+
+        <Button 
+          raised
+          icon={{name: 'image', size: 15}}
+          buttonStyle={styles.profileButton}
+          title="Logout"
+          onPress={() => this.props.navigation.navigate('Images')}
+        />
+      </ScrollView>
     )
   }
 

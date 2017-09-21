@@ -106,12 +106,11 @@ class SetupDate extends React.Component {
 
   renderCost(){
     let {userSwiped, user} = this.state;
-    this.state.dateCost = userSwiped.profile.cost.date1;
     return (
       <View style={styles.dateCost}>
         <Text>Cost: {this.state.dateCost} diamonds</Text>
         <Text>You have: {user.diamonds} diamonds </Text>
-        <Text>{user.diamonds} - {this.state.dateCost} = {user.diamonds - cost}</Text>
+        <Text>{user.diamonds} - {this.state.dateCost} = {user.diamonds - this.state.dateCost}</Text>
       </View>
     )
   }
@@ -124,6 +123,7 @@ class SetupDate extends React.Component {
   }
 
   renderSplash(){
+    
     return (
       <Splash
         style={{height: 200}}
@@ -151,6 +151,25 @@ class SetupDate extends React.Component {
   }
 
   render () {
+    let {user, userSwiped} = this.state;
+    let diamonds = user.diamonds;
+    this.state.dateCost = userSwiped.profile.cost.date1;
+    if(diamonds < this.state.dateCost){
+      return (
+        <View style={gStyles.containerCenter}>
+          <Text>You do not have enough diamonds</Text>
+          <Text>You currently have {diamonds} diamonds and your date costs {this.state.dateCost}</Text>
+          <Button 
+            raised
+            icon={{name: 'diamond', size: 15, type: 'font-awesome'}}
+            buttonStyle={gStyles.button}
+            title="Purchase diamonds"
+            onPress={() => this.props.navigation.navigate('Purchase')}
+            />
+        </View>
+      )
+    }
+
     return (
 			<View style={styles.container}>
 			  {this.renderRestaurants()}

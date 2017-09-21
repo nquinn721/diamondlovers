@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
 		backgroundColor: '#e74c3c',
 		padding: 10
 	},
+	padding: {
+		padding: 10
+	},
 	buttonText: {
 		color: 'white'
 	},
@@ -29,6 +32,14 @@ const styles = StyleSheet.create({
 	},
 	row: {
 		flexDirection: 'row'
+	},
+	group: {
+		flexDirection: 'row',
+		alignItems: 'center'
+	},
+	paragraph: {
+		paddingTop:10,
+		paddingBottom:10
 	},
 	textCenter: {
 	    textAlign: 'center'

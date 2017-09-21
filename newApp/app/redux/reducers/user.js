@@ -55,6 +55,23 @@ export default (state = initialState, action) => {
 				...state,
 				user: action.data
 			}
+		case 'UPDATE_PROFILE':
+			return {
+				...state,
+				updatingProfile: true
+			}
+		case 'UPDATE_PROFILE_SUCCESS':
+			return {
+				...state,
+				updatingProfile: false,
+				user: action.data
+			}
+		case 'UPDATE_PROFILE_FAILED':
+			return {
+				...state,
+				updatingProfile: false,
+				updatingProfileFailed: true
+			}
 		default:
 			return state;
 	}
