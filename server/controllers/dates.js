@@ -21,9 +21,9 @@ module.exports = {
 		let userId = req.session.model._id,
 			_id = req.body.id;
 		Dates.confirmShowed(_id, userId, (e, dateDoc) => {
-			if(doc.status === 'completed'){
-				User.updateDiamonds(doc.from, -(doc.cost), (err, fromDoc) => {
-					User.updateDiamonds(doc.to, doc.cost, (e, toDoc) => {
+			if(dateDoc.status === 'completed'){
+				User.updateDiamonds(dateDoc.from, -(dateDoc.cost), (err, fromDoc) => {
+					User.updateDiamonds(dateDoc.to, dateDoc.cost, (e, toDoc) => {
 						if(err || e){
 							// Handle retry on switch of diamonds
 						}

@@ -11,7 +11,7 @@ export const getDates = () => {
 }
 export const setDate = (to, from, location, time, cost) => {
 	return (dispatch) => {
-		Service.dispatchPost(dispatch, 'dates/set-date', {to, from, location, time}, {
+		Service.dispatchPost(dispatch, 'dates/set-date', {to, from, location, time, cost}, {
 			init: 'SET_DATE',
 			success: 'SET_DATE_SUCCESS',
 			error: 'SET_DATE_FAILED'
