@@ -13,10 +13,11 @@ const avatar = require('newApp/app/assets/img/avatar.png');
 class Profile extends React.Component {
   state = {}
   editItem(item, field, value){
+    console.log(value);
+    
     this.state.fieldElements = item.split(',');
     this.state.fieldValue = value;
     this.state.fieldField = field;
-    console.log('edit item');
     
     this.setState({splash: true});
   }
@@ -37,17 +38,25 @@ class Profile extends React.Component {
           </View>
           <Text>{user.email}</Text>
           <View style={[gStyles.group, styles.profileItem]}>
-            <Text>Height:</Text>
-            <Text>{user.profile.height}</Text>
+            <Text style={styles.title}>Height:</Text>
+            <Text style={styles.title}>{user.profile.height}</Text>
             <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('feet=number,inches=number', 'height', user.profile.height)}/>
           </View>
           <View style={[gStyles.group, styles.profileItem]}>
-            <Text>Drugs: </Text>
-            <Text>{user.profile.drugs ? 'Yes' : 'No'}</Text>
+            <Text style={styles.title}>Drugs: </Text>
+            <Text style={styles.title}>{user.profile.drugs === void(0) ? 'N/A' : user.profile.drugs === true ? 'Yes' : 'No'}</Text>
             <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('drugs=boolean', 'drugs', user.profile.drugs)}/>
           </View>
-          <Text>Drinks: {user.profile.drinks}</Text>
-          <Text>Smokes: {user.profile.smokes}</Text>
+          <View style={[gStyles.group, styles.profileItem]}>
+            <Text style={styles.title}>Drinks: </Text>
+            <Text style={styles.title}>{user.profile.drinks === void(0) ? 'N/A' : user.profile.drinks === true ? 'Yes' : 'No'}</Text>
+            <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('drinks=boolean', 'drinks', user.profile.drinks)}/>
+          </View>
+          <View style={[gStyles.group, styles.profileItem]}>
+            <Text style={styles.title}>Smokes: </Text>
+            <Text style={styles.title}>{user.profile.smokes === void(0) ? 'N/A' : user.profile.smokes === true ? 'Yes' : 'No'}</Text>
+            <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('smokes=boolean', 'smokes', user.profile.smokes)}/>
+          </View>
           <View style={gStyles.paragraph}>
             <Text>About...</Text>
             <Text>{user.profile.about}</Text>
@@ -170,6 +179,13 @@ const styles = StyleSheet.create({
   },
   profileItem: {
     justifyContent: 'space-between'
+  },
+  title: {
+    flex: 1
+  },
+  width: {
+    flex: 1,
+    textAlign: 'center'
   }
 })
 
