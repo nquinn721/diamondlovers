@@ -4,7 +4,7 @@ module.exports = {
 		User.updateProfile(req.session.user.client._id, req.body.field, req.body.value, (e, doc) => {
 			if(e)return res.send({error: `failed to update[${req.body.field}]`});
 			req.session.user.client = doc;
-			res.send({data: req.session.user});
+			res.send({data: req.session.user.client});
 		})
 	},
 	getNearBy: (req, res) => {
