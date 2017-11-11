@@ -17,5 +17,6 @@ global.User = require('./User');
 global.Dates = require('./Date');
 global.Messages = require('./Message');
 global.Image = require('./Image');
+global.Chat = require('./Chat');
 
 module.exports = promise;
