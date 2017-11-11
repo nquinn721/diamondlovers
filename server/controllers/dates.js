@@ -1,23 +1,32 @@
 module.exports = {
-	setDate: (req, res) => {
+	setDate: function(req, res) {
 		let {to, from, location, time, cost} = req.body;
 		Dates.setDate(to, from, location, time, cost, (e, doc) => {
-			res.send(e ? {error: 'failed to create date'} : {data: doc});
+			this.createChat(to, from, (e, doc) => {
+				console.log(doc);
+				
+				res.send(e ? {error: 'failed to create date'} : {data: doc});
+			});
+		});
+	},
+	createChat: function(to, from, cb) {
+		Chat.createChat(to, from, function(e, chat) {
+			User.createChat(to, from, chat._id, cb);
 		})
 	},
-	getDates: (req, res) => {
+	getDates: function(req, res) {
 		let _id = req.session.model._id;
 		Dates.getDates(_id, (e, doc) => {
 			res.send(e ? {error: 'failed to retreive dates'} : {data: doc});
 		})
 	},
-	approveDate: (req, res) => {
+	approveDate: function(req, res) {
 		let _id = req.body.id;
 		Dates.approveDate(_id, (e, doc) => {
 			res.send(e ? {error: 'failed to retreive dates'} : {data: doc});
 		});
 	},
-	confirmShowed: (req, res) => {
+	confirmShowed: function(req, res) {
 		let userId = req.session.model._id,
 			_id = req.body.id;
 		Dates.confirmShowed(_id, userId, (e, dateDoc) => {

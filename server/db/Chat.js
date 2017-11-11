@@ -1,13 +1,21 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ChatModel = new Schema({
+var ChatSchema = new Schema({
     from: {type: Schema.Types.ObjectId, ref: 'User'},
     to: {type: Schema.Types.ObjectId, ref: 'User'},
-    date: Date,
-    message: String
+    date: {
+    	type: Date,
+    	default: Date.now()
+    }
 });
 
-var Chat = mongoose.model('Chat', ChatModel);
+var ChatModel = mongoose.model('Chat', ChatSchema);
+
+class Chat{
+	createChat(to, from, cb) => {
+		ChatModel.create({to, from}, cb);
+	}
+}
 
 module.exports = Chat;

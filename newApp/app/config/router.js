@@ -29,15 +29,25 @@ const tabRoutes = {
 		}
 	}
 };
+const mainNavBackground = 'rgb(250, 250, 250)';
 const tabConfig = {
 	tabBarPosition: 'top',
 	swipeEnabled: false,
 	lazyLoad: true,
 	animationEnabled: false,
 	tabBarOptions: {
-		activeTintColor: '#2980b9',
-		activeBackgroundColor: 'white',
-		inactiveBackgroundColor: 'white',
+		showIcon: true,
+		showLabel: false,
+		activeTintColor: 'rgb(205, 59, 135)',
+		inactiveTintColor: 'grey',
+		activeBackgroundColor: mainNavBackground,
+		inactiveBackgroundColor: mainNavBackground,
+		style: {
+		    backgroundColor: mainNavBackground,
+		},
+		indicatorStyle: {
+			backgroundColor: mainNavBackground
+		}
 	}
 
 }
