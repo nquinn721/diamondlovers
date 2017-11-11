@@ -13,7 +13,7 @@ var ChatSchema = new Schema({
 var ChatModel = mongoose.model('Chat', ChatSchema);
 
 class Chat{
-	createChat(to, from, cb) => {
+	createChat(to, from, cb){
 		ChatModel.create({to, from}, cb);
 	}
 }
