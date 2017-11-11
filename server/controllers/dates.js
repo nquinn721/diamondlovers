@@ -2,17 +2,16 @@ module.exports = {
 	setDate: function(req, res) {
 		let {to, from, location, time, cost} = req.body;
 		Dates.setDate(to, from, location, time, cost, (e, doc) => {
-			this.createChat(to, from, (e, doc) => {
-				console.log(doc);
+			Chat.createChat(to, from, function(e, chat) {
+				console.log(chat);
 				
-				res.send(e ? {error: 'failed to create date'} : {data: doc});
+				User.createChat(to, from, chat._id, function(e, userDoc) {
+					console.log(userDoc);
+					
+					res.send(e ? {error: 'failed to create date'} : {data: doc});
+				});
 			});
 		});
-	},
-	createChat: function(to, from, cb) {
-		Chat.createChat(to, from, function(e, chat) {
-			User.createChat(to, from, chat._id, cb);
-		})
 	},
 	getDates: function(req, res) {
 		let _id = req.session.model._id;
