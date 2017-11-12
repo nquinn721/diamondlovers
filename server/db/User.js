@@ -126,7 +126,8 @@ UserSchema.methods.client = function() {
         diamonds:   this.diamonds,
         email:      this.email,
         profile:    this.profile,
-        stripeCust: this.stripeCust
+        stripeCust: this.stripeCust,
+        chats:      this.chats
     }
 }
 UserSchema.plugin(findOrCreate);
