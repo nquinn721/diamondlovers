@@ -16,10 +16,20 @@ class Chat{
 	static createChat(to, from, cb){
 		ChatModel.create({to, from}, cb);
 	}
-	static get(ids, cb){
+	static get(userId, ids, cb){
 		ChatModel.find({_id: {$in: ids}})
-			.populate('to', 'profile.displayName profile.defaultImage')
-			.populate('from', 'profile.displayName profile.defaultImage')
+			.populate('to',  { 
+				path : 'to',
+				match: {_id : { $ne: userId}},
+				select:'profile.displayName profile.defaultImage',
+              	model: 'User'
+            })
+			.populate('from', { 
+				path : 'from',
+				match: {_id : { $ne: userId}},
+				select:'profile.displayName profile.defaultImage',
+              	model: 'User'
+            })
 			.exec(cb);
 	}
 }
