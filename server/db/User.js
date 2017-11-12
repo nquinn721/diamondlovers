@@ -244,6 +244,10 @@ class User {
         let user = UserModel.findOne({email})
             .populate('chats')
             .exec((e, doc) => {
+                console.log('LOGIN');
+                console.log(doc);
+                
+                
             if(e)return cb(e);
             if(!doc)return cb({error: 'no user found'});
 
