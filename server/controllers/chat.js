@@ -1,5 +1,5 @@
 module.exports = {
-	message: (req, res) => {
+	sendMessage: (req, res) => {
 		let msg = req.body.msg,
 			chatId = req.body.chat,
 			userId = req.session.user.user._id;

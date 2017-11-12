@@ -122,6 +122,24 @@ module.exports = function(app){
         /**
          * END IMAGE
          */
+        
+
+        /**
+         * CHAT
+         */
+        'chat/send-message': {
+            type: 'post',
+            middleWare: ['loggedIn', 'json'],
+            method: 'chat.sendMessage'
+        },
+        'chat/get-messages/:chatId': {
+            type: 'get',
+            middleWare: ['loggedIn'],
+            method: 'chat.getMessages'
+        },
+        /**
+         * END CHAT
+         */
 
         /**
          * YELP
