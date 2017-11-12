@@ -6,6 +6,7 @@ import image from './image';
 import nearby from './nearby';
 import dates from './dates';
 import settings from './settings';
+import chat from './chat';
 
 const rootReducer = combineReducers({
 	user,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
 	nearby,
 	dates,
 	settings,
+	chat,
 });
 
 export default rootReducer;

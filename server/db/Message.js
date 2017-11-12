@@ -1,13 +1,21 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var MessageModel = new Schema({
+var MessageSchema = new Schema({
     chat: {type: Schema.Types.ObjectId, ref: 'Chat'},
-    from: {type: Schema.Types.ObjectId, ref: 'User'},
-    to: {type: Schema.Types.ObjectId, ref: 'User'},
+    owner: {type: Schema.Types.ObjectId, ref: 'User'},
     message: String
 });
 
-var Message = mongoose.model('Message', MessageModel);
+var MessageModel = mongoose.model('Message', MessageSchema);
+
+class Message{
+	newMessage(chat, owner, message) {
+		MessageModel.create({chat, owner, message}, cb);
+	}
+	getMessages(chat, cb){
+		MessageModel.find({chat}, cb);
+	}
+}
 
 module.exports = Message;

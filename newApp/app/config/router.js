@@ -8,7 +8,7 @@ import Swipe 		from './routes/swipe';
 import Profile 		from './routes/profile';
 import Purchase		from './routes/purchase';
 import Calendar		from './routes/calendar';
-import Message 		from 'newApp/app/screens/message';
+import Chat			from './routes/chat';
 
 // Stack Nav Items
 import Login 		from 'newApp/app/screens/login';
@@ -22,12 +22,7 @@ const tabRoutes = {
 	...Purchase,
 	...Profile,
 	...Calendar,
-	Message: {
-		screen: Message,
-		navigationOptions: {
-			tabBarIcon: ({tintColor}) => <Icon name='comments-o' size={25} type='font-awesome'color={tintColor}/>,
-		}
-	}
+	...Chat
 };
 const mainNavBackground = 'rgb(250, 250, 250)';
 const tabConfig = {

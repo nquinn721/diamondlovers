@@ -4,6 +4,13 @@ var Schema = mongoose.Schema;
 var ChatSchema = new Schema({
     from: {type: Schema.Types.ObjectId, ref: 'User'},
     to: {type: Schema.Types.ObjectId, ref: 'User'},
+    recentMsg: {
+    	msg: String,
+    	time: {
+    		type: Date,
+    		default: Date.now()
+    	}
+    },
     date: {
     	type: Date,
     	default: Date.now()
@@ -15,6 +22,10 @@ var ChatModel = mongoose.model('Chat', ChatSchema);
 class Chat{
 	static createChat(to, from, cb){
 		ChatModel.create({to, from}, cb);
+	}
+
+	static recentMsg(_id, msg, cb){
+		Chat.findOneAndUpdate({_id}, {'recentMsg.msg', msg, 'recentMsg.time': Date.now()}, {new: true}, cb);
 	}
 	static get(userId, ids, cb){
 		ChatModel.find({_id: {$in: ids}})
