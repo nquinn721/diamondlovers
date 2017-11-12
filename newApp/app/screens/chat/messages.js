@@ -6,15 +6,16 @@ import { getMessages, sendMessage } from 'newApp/app/redux/actions/chat';
 
 class ChatScreen extends React.Component {
 	state = {}
-	renderChats(){
-		return this.props.chats.map((chat, k) => {
+	renderMessages(){
+		console.log(this.props.chat.messages);
+		
+		return this.props.chat.messages.map((msg, k) => {
 
 			return (
 				<View key={k}>
         			<View style={styles.imageContainer}>
-        				<Image source={{uri: chat.from.profile.defaultImage.url}} style={styles.image}/>
         			</View>
-					<Text>{from.profile.displayName}</Text>
+					<Text>{msg.message}</Text>
 				</View>
 			);
 		})	
@@ -33,6 +34,7 @@ class ChatScreen extends React.Component {
 	return (
 	  <View style={styles.container}>
 	  	<Text>Messages</Text>
+	  	{this.renderMessages()}
 	  	<TextInput onChangeText={(text) => this.setState({text})}/>
 	  	<Button title="send" onPress={() => this.sendMessage()} />
 	  </View>

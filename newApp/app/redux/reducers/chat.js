@@ -9,44 +9,44 @@ export default (state = initialState, action) => {
 	switch(action.type){
 		case 'CURRENT_CHAT':
 			return {
-				currentChat: action.chatId,
-				...state
+				...state,
+				currentChat: action.chatId
 			}
 		case 'SENDING_MESSAGE':
 			return {
-				sending: true,
-				...state
+				...state,
+				sending: true
 			}
 		case 'MESSAGE_SENT':
 			return {
+				...state,
 				sending: false,
-				message: action.data,
-				...state
+				message: action.data
 			}
 		case 'MESSAGE_FAILED':
 			return {
+				...state,
 				sending: false,
-				error: action.error,
-				...state
+				error: action.error
 			}
 
 		case 'GETTING_MESSAGES':
 			return {
-				gettingMessages: true,
-				...state
+				...state,
+				gettingMessages: true
 			}
 		case 'MESSAGES_RECIEVED':
 			return {
+				...state,
 				gettingMessages: false,
 				messages: action.data,
-				receivedMessages: true,
-				...state
+				receivedMessages: true
 			}
 		case 'GET_MESSAGES_FAILED':
 			return {
+				...state,
 				gettingMessages: false,
-				gettingMessagesFailed: true,
-				...state
+				gettingMessagesFailed: true
 			}
 		default:
 			return state;

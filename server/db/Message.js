@@ -14,7 +14,17 @@ class Message{
 		MessageModel.create({chat, owner, message}, cb);
 	}
 	static getMessages(chat, cb){
-		MessageModel.find({chat}, cb);
+		MessageModel.find({chat})
+			.populate({
+				path: 'owner',
+				select: 'profile.displayName profile.defaultImage',
+				model: 'User',
+				populate: {
+					path: 'profile.defaultImage',
+					model: 'Image'
+				}
+			})
+			.exec(cb);
 	}
 }
 
