@@ -1,10 +1,11 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image, TextInput, Button } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getMessages } from 'newApp/app/redux/actions/chat';
+import { getMessages, sendMessage } from 'newApp/app/redux/actions/chat';
 
 class ChatScreen extends React.Component {
+	state = {}
 	renderChats(){
 		return this.props.chats.map((chat, k) => {
 
@@ -18,16 +19,22 @@ class ChatScreen extends React.Component {
 			);
 		})	
 	}
+	sendMessage() {
+		this.props.sendMessage(this.state.text, this.props.chat.currentChat)		
+	}
 	render() {
 		let chat = this.props.chat.currentChat;
 		if(!chat)return;
 		
-		this.props.getMessages(chat);
-		console.log(this.props.chat);
-		
+		// if(!this.props.chat.recievedMessages)
+		// 	this.props.getMessages(chat);
+		// console.log(this.props.chat);
+	
 	return (
 	  <View style={styles.container}>
 	  	<Text>Messages</Text>
+	  	<TextInput onChangeText={(text) => this.setState({text})}/>
+	  	<Button title="send" onPress={() => this.sendMessage()} />
 	  </View>
 	)
 	}
@@ -47,5 +54,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({chat: state.chat, userId: state.user.user._id}), 
-  (dispatch) => (bindActionCreators({getMessages}, dispatch))
+  (dispatch) => (bindActionCreators({getMessages, sendMessage}, dispatch))
 )(ChatScreen);

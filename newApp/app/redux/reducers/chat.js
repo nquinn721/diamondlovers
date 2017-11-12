@@ -39,6 +39,7 @@ export default (state = initialState, action) => {
 			return {
 				gettingMessages: false,
 				messages: action.data,
+				receivedMessages: true,
 				...state
 			}
 		case 'GET_MESSAGES_FAILED':
