@@ -6,8 +6,6 @@ import { setChat } from 'newApp/app/redux/actions/chat';
 
 class ChatScreen extends React.Component {
 	openChat(chat){
-		console.log('open chat');
-		
 		this.props.setChat(chat._id);
 		this.props.navigation.navigate('Messages')
 	}

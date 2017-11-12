@@ -26,9 +26,9 @@ class ChatScreen extends React.Component {
 		let chat = this.props.chat.currentChat;
 		if(!chat)return;
 		
-		// if(!this.props.chat.recievedMessages)
-		// 	this.props.getMessages(chat);
-		// console.log(this.props.chat);
+		if(!this.props.chat.recievedMessages && !this.props.chat.gettingMessages)
+			this.props.getMessages(chat);
+		console.log(this.props.chat);
 	
 	return (
 	  <View style={styles.container}>
