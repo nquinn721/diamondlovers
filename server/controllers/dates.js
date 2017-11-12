@@ -1,6 +1,8 @@
 module.exports = {
 	setDate: function(req, res) {
 		let {to, from, location, time, cost} = req.body;
+		console.log('creating date');
+		
 		Dates.setDate(to, from, location, time, cost, (e, doc) => {
 			Chat.createChat(to, from, function(e, chat) {
 				console.log(chat);
