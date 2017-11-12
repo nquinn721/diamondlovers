@@ -22,7 +22,7 @@ class Chat{
 				path: 'to',
 				select: 'profile.displayName profile.defaultImage',
 				model: 'User',
-				populdate: {
+				populate: {
 					path: 'profile.defaultImage',
 					model: 'Image'
 				}
@@ -31,7 +31,7 @@ class Chat{
 				path: 'from',
 				select: 'profile.displayName profile.defaultImage',
 				model: 'User',
-				populdate: {
+				populate: {
 					path: 'profile.defaultImage',
 					model: 'Image'
 				}
