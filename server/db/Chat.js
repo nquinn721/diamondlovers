@@ -18,8 +18,8 @@ class Chat{
 	}
 	static get(ids, cb){
 		ChatModel.find({_id: {$in: ids}})
-			.populate('to', 'profile.displayName, profile.defaultImage')
-			.populate('from', 'profile.displayName, profile.defaultImage')
+			.populate('to', 'profile.displayName profile.defaultImage')
+			.populate('from', 'profile.displayName profile.defaultImage')
 			.exec(cb);
 	}
 }
