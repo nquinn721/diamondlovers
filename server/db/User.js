@@ -242,14 +242,12 @@ class User {
       */
     static login(email, pw, cb = function(){}){
         let user = UserModel.findOne({email})
-            .populate('chats')
             .exec((e, doc) => {
-                console.log('LOGIN');
-                console.log(doc);
-                
-                
+
             if(e)return cb(e);
             if(!doc)return cb({error: 'no user found'});
+
+            if(!doc.chats)doc.chats = [];
 
             let user = {
                 client: doc.client()
@@ -258,15 +256,20 @@ class User {
             if(pw){
                 doc.comparePassword(pw, (matchError, match) => {
                     if(match){
-                        if(doc.stripeId){
-                            Stripe.getCustomer(doc.stripeId, (e, cust) => {
-                                user.stripeCust = cust
-                                
+                        Chat.get(doc.chats, (chatE, chats) => {
+                            user.client.chats = chats;
+                            console.log(user.client);
+                            
+                            if(doc.stripeId){
+                                Stripe.getCustomer(doc.stripeId, (e, cust) => {
+                                    user.stripeCust = cust
+                                    
+                                    this.getImagesForLogin(e, user, doc, cb);
+                                });
+                            }else{
                                 this.getImagesForLogin(e, user, doc, cb);
-                            });
-                        }else{
-                            this.getImagesForLogin(e, user, doc, cb);
-                        }
+                            }
+                        });
                     }else cb(matchError);
                 });
                 

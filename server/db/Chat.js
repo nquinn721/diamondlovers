@@ -16,6 +16,9 @@ class Chat{
 	static createChat(to, from, cb){
 		ChatModel.create({to, from}, cb);
 	}
+	static get(ids, cb){
+		ChatModel.find({_id: {$in, ids}}, cb);
+	}
 }
 
 module.exports = Chat;
