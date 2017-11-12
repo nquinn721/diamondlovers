@@ -1,8 +1,8 @@
 module.exports = {
 	sendMessage: (req, res) => {
 		let msg = req.body.msg,
-			chatId = req.body.chat,
-			userId = req.session.user._id;
+			chatId = req.body.chatId,
+			userId = req.session.user.client._id;
 		console.log('send message', msg, chatId, userId);
 		
 		Chat.recentMsg(chatId, msg, function(chatE, chat) {
