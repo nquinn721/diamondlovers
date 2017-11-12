@@ -10,10 +10,10 @@ var MessageSchema = new Schema({
 var MessageModel = mongoose.model('Message', MessageSchema);
 
 class Message{
-	newMessage(chat, owner, message) {
+	static newMessage(chat, owner, message) {
 		MessageModel.create({chat, owner, message}, cb);
 	}
-	getMessages(chat, cb){
+	static getMessages(chat, cb){
 		MessageModel.find({chat}, cb);
 	}
 }
