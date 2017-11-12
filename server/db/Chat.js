@@ -18,24 +18,24 @@ class Chat{
 	}
 	static get(userId, ids, cb){
 		ChatModel.find({_id: {$in: ids}})
-			// .populate({
-			// 	path: 'to',
-			// 	// select: 'profile.displayName profile.defaultImage',
-			// 	model: 'User',
-			// 	// populate: {
-			// 	// 	path: 'profile.defaultImage',
-			// 	// 	model: 'Image'
-			// 	// }
-			// })
-			// .populate({
-			// 	path: 'from',
-			// 	// select: 'profile.displayName profile.defaultImage',
-			// 	model: 'User',
-			// 	// populate: {
-			// 	// 	path: 'profile.defaultImage',
-			// 	// 	model: 'Image'
-			// 	// }
-			// })
+			.populate({
+				path: 'to',
+				select: 'profile.displayName profile.defaultImage',
+				model: 'User',
+				populate: {
+					path: 'profile.defaultImage',
+					model: 'Image'
+				}
+			})
+			.populate({
+				path: 'from',
+				select: 'profile.displayName profile.defaultImage',
+				model: 'User',
+				populate: {
+					path: 'profile.defaultImage',
+					model: 'Image'
+				}
+			})
 			.exec(cb);
 	}
 }

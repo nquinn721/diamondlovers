@@ -256,7 +256,7 @@ class User {
             if(pw){
                 doc.comparePassword(pw, (matchError, match) => {
                     if(match){
-                        Chat.get(doc.chats, (chatE, chats) => {
+                        Chat.get(doc._id, doc.chats, (chatE, chats) => {
                             user.client.chats = chats;
                             console.log(user.client);
                             
