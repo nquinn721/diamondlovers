@@ -240,7 +240,9 @@ class User {
       * DB
       */
     static login(email, pw, cb = function(){}){
-        let user = UserModel.findOne({email}, (e, doc) => {
+        let user = UserModel.findOne({email})
+            .populate('chats')
+            .exec((e, doc) => {
             if(e)return cb(e);
             if(!doc)return cb({error: 'no user found'});
 
