@@ -152,7 +152,7 @@ class User {
     }
 
     static createChat(to, from, chat, cb){
-        UserModel.update({id: {$in: [to._id, from._id]}}, {$push: {chats: chat}}, {multi: true}, cb);
+        UserModel.update({_id: {$in: [to._id, from._id]}}, {$push: {chats: chat}}, {multi: true}, cb);
     }
 
     static destroyChat(to, from, chatId, cb){
