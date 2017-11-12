@@ -20,21 +20,21 @@ class Chat{
 		ChatModel.find({_id: {$in: ids}})
 			.populate({
 				path: 'to',
-				select: 'profile.displayName profile.defaultImage',
+				// select: 'profile.displayName profile.defaultImage',
 				model: 'User',
-				populate: {
-					path: 'profile.defaultImage',
-					model: 'Image'
-				}
+				// populate: {
+				// 	path: 'profile.defaultImage',
+				// 	model: 'Image'
+				// }
 			})
 			.populate({
 				path: 'from',
-				select: 'profile.displayName profile.defaultImage',
+				// select: 'profile.displayName profile.defaultImage',
 				model: 'User',
-				populate: {
-					path: 'profile.defaultImage',
-					model: 'Image'
-				}
+				// populate: {
+				// 	path: 'profile.defaultImage',
+				// 	model: 'Image'
+				// }
 			})
 			.exec(cb);
 	}
