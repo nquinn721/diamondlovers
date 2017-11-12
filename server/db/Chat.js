@@ -17,7 +17,7 @@ class Chat{
 		ChatModel.create({to, from}, cb);
 	}
 	static get(ids, cb){
-		ChatModel.find({_id: {$in, ids}}, cb);
+		ChatModel.find({_id: {$in: ids}}, cb);
 	}
 }
 
