@@ -7,13 +7,14 @@ import { getMessages, sendMessage } from 'newApp/app/redux/actions/chat';
 class ChatScreen extends React.Component {
 	state = {}
 	renderMessages(){
-		console.log(this.props.chat.messages);
-		
-		return this.props.chat.messages.map((msg, k) => {
+		let userId = this.props.userId;
 
+		return this.props.chat.messages.map((msg, k) => {
+			let msgUserId = msg.owner._id;
 			return (
 				<View key={k}>
         			<View style={styles.imageContainer}>
+        				{ userId !== msgUserId && <Image source={{uri: msg.owner.profile.defaultImage.url}} style={{width: 50, height: 50, borderRadius: 50}} />}
         			</View>
 					<Text>{msg.message}</Text>
 				</View>
@@ -27,8 +28,9 @@ class ChatScreen extends React.Component {
 		let chat = this.props.chat.currentChat;
 		if(!chat)return;
 		
-		if(!this.props.chat.recievedMessages && !this.props.chat.gettingMessages)
-			this.props.getMessages(chat);
+		if(!this.props.chat.receivedMessages)
+			if(!this.props.chat.gettingMessages)
+				this.props.getMessages(chat);
 		console.log(this.props.chat);
 	
 	return (

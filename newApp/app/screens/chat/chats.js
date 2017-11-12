@@ -19,6 +19,7 @@ class ChatScreen extends React.Component {
         				<Image source={{uri: from.profile.defaultImage.url}} style={styles.image}/>
         			</View>
 					<Text>{from.profile.displayName}</Text>
+					<Text>{chat.recentMsg.msg} - {chat.recentMsg.time}</Text>
 				</TouchableOpacity>
 			);
 		})	
