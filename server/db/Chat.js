@@ -25,7 +25,7 @@ class Chat{
 	}
 
 	static recentMsg(_id, msg, cb){
-		Chat.findOneAndUpdate({_id}, {'recentMsg.msg', msg, 'recentMsg.time': Date.now()}, {new: true}, cb);
+		Chat.findOneAndUpdate({_id}, {'recentMsg.msg': msg, 'recentMsg.time': Date.now()}, {new: true}, cb);
 	}
 	static get(userId, ids, cb){
 		ChatModel.find({_id: {$in: ids}})

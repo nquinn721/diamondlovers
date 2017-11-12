@@ -7,5 +7,6 @@ module.exports = {
 	admin: require('./admin'),
 	user: require('./user'),
 	dates: require('./dates'),
-	test: require('./test')
+	test: require('./test'),
+	chat: require('./chat')
 }
