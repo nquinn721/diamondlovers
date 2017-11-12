@@ -2,13 +2,18 @@ import React from 'react';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import Chat from 'newApp/app/screens/chat';
-console.log(Chat);
 
 const routeConfiguration = {
-	Message: {
+	Chats: {
 		screen: Chat.Chats,
 		navigationOptions: {
 			title: 'Chat'
+		}
+	},
+	Messages: {
+		screen: Chat.Messages,
+		navigationOptions: {
+			title: 'Messages'
 		}
 	}
 

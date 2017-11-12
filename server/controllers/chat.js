@@ -12,8 +12,11 @@ module.exports = {
 	},
 	getMessages: (req, res) => {
 		let chatId = req.body.chatId;
-
+		console.log('chat id ', chatId);
+		
 		Message.getMessages(chatId, (e, data) => {
+			console.log(data);
+			
 			res.send(e ? {error: 'failed to retreive messages'} : {data});
 		});
 	}

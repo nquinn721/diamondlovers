@@ -14,12 +14,16 @@ export const message = (msg, chatId) => {
 export const getMessages = (chatId) => {
 	return (dispatch) => {
 		Service.dispatchGet(dispatch, 'chat/get-messages/' + chatId, {
-			init: 'SENDING_MESSAGE',
-			success: 'MESSAGE_SENT',
-			error: 'MESSAGE_FAILED'
+			init: 'GETTING_MESSAGES',
+			success: 'MESSAGES_RECIEVED',
+			error: 'GET_MESSAGES_FAILED'
 		})
 
 	}	
 }
 
- 
+export const setChat = (chatId) => {
+	return (dispatch) => {
+		dispatch({type: 'CURRENT_CHAT', chatId});
+	}	
+}

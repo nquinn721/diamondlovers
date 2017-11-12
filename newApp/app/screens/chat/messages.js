@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { getMessages } from 'newApp/app/redux/actions/chat';
 
 class ChatScreen extends React.Component {
 	renderChats(){
@@ -18,11 +19,15 @@ class ChatScreen extends React.Component {
 		})	
 	}
 	render() {
+		let chat = this.props.chat.currentChat;
+		if(!chat)return;
+		
+		this.props.getMessages(chat);
+		console.log(this.props.chat);
 		
 	return (
 	  <View style={styles.container}>
 	  	<Text>Messages</Text>
-	  	{this.renderChats()}
 	  </View>
 	)
 	}
@@ -42,5 +47,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({chat: state.chat, userId: state.user.user._id}), 
-  // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
+  (dispatch) => (bindActionCreators({getMessages}, dispatch))
 )(ChatScreen);
