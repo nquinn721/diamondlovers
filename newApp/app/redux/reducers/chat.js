@@ -18,10 +18,10 @@ export default (state = initialState, action) => {
 				sending: true
 			}
 		case 'MESSAGE_SENT':
+			state.messages.push(action.data);
 			return {
 				...state,
-				sending: false,
-				message: action.data
+				sending: false
 			}
 		case 'MESSAGE_FAILED':
 			return {

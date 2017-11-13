@@ -6,7 +6,7 @@ module.exports = {
 		
 		Chat.recentMsg(chatId, msg, function(chatE, chat) {
 			Message.newMessage(chatId, userId, msg, function(msgE, msg) {
-				
+				res.send(msgE ? {error: 'failed to send message'} : {data: msg})
 			})
 		});
 	},
