@@ -27,29 +27,32 @@ class Nearby extends React.Component {
         <Image source={image} style={styles.card}/>
         <View style={styles.imageArea}></View>
         <View style={styles.userInfo}>
-          <View style={styles.userInfoSection}>
+          <View style={styles.cardSection}>
             <View style={styles.cardItem}>
-              <Text style={styles.cardText}>{user.profile.displayName}, {user.profile.age || 'N/A'}</Text>
+              <Text style={[styles.cardText, styles.name]}>{user.profile.displayName}, {user.profile.age || 'N/A'}</Text>
             </View>
             <View style={styles.cardItem}>
-              <Text style={styles.cardText}>{user.profile.education || 'N/A'}</Text>
+              <Text style={[styles.cardText, styles.location]}>{user.profile.city || 'N/A'},</Text>
+              <Text style={[styles.cardText, styles.location]}>{user.profile.state || 'N/A'}</Text>
             </View>
             
-              <View style={styles.cardItem}>
-                <Icon type='font-awesome' size={10} name='diamond' color='white'/>
-                <Text style={styles.cardText}> {user.profile.cost.date1}</Text>
-              </View>
+              
             
           </View>
           
-          <View style={styles.userInfoSection}>
-            <Icon onPress={() => this.props.navigation.navigate('UserProfile', user)} type='font-awesome' name='info-circle' size={25} color='white' />
+          <View style={styles.cardSection}>
+            <Image source={require  ('newApp/app/assets/img/Icon-Purchase.png')} style={[styles.costDiamond, StyleSheet.absoluteFill]}/>
+            <Text style={[styles.cardText, styles.costDiamondText]}> {user.profile.cost.date1}</Text>
           </View>
         </View>
       </View>
     )
     
   }
+
+  // <View style={styles.userInfoSection}>
+  //           <Icon onPress={() => this.props.navigation.navigate('UserProfile', user)} type='font-awesome' name='info-circle' size={25} color='white' />
+  //         </View>
   renderNoCards(){
     return (
       <View style={styles.container}>
@@ -115,17 +118,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     // height: Config.h / 1.45,
   },
+  cardSection: {
+    padding: 10
+  },
+  name: {
+    fontSize: 20
+  },
+  location: {
+    fontSize: 13
+  },
   userInfo: {
-    backgroundColor:'rgba(0,0,0,0.3)',
+    backgroundColor:'rgba(0,0,0,0.6)',
     padding: 4,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     position: 'absolute',
-    left: 0,
-    right: 0,
-    paddingRight: 10,
-    bottom: 0
+    left: 2,
+    right: 2,
+    display: 'flex',
+    bottom: 2
   },
   cardText: {
     color: 'white'
@@ -133,6 +145,16 @@ const styles = StyleSheet.create({
   cardItem: {
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  costDiamond: {
+    width: 30,
+    height: 30,
+    marginLeft: -10
+  },
+  costDiamondText: {
+    fontSize: 11,
+    marginTop: -7,
+    marginLeft: -15
   }
 })
 

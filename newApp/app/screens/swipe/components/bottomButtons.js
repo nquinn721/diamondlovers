@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
@@ -15,17 +15,21 @@ class BottomButtons extends React.Component {
     ),
     no: (
       <TouchableOpacity onPress={() => this.props.swiper.swipeLeft()}>
-        <Icon name="ban" type="font-awesome" size={25} color="#e74c3c" raised/>
+        <Image source={require('newApp/app/assets/img/Icon-Delete.png')} style={[styles.button, styles.circle]}/>
       </TouchableOpacity>
     ),
     yes: (
       <TouchableOpacity onPress={() => this.props.swiper.swipeRight()}>
-        <Icon name="check" type="font-awesome" size={25} color="#2ecc71" raised/>
+        <Image source={require('newApp/app/assets/img/Icon-Like.png')} style={[styles.button, styles.circle]}/>
       </TouchableOpacity>
     ),
     calendar: (
       <TouchableOpacity onPress={() => this.props.navigation.navigate('Calendar')}>
-        <Icon name="calendar" type="font-awesome" size={25} color="#f39c12" raised/>
+      </TouchableOpacity>
+    ),
+    info: (
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Calendar')}>
+        <Image source={require('newApp/app/assets/img/Icon-Details.png')} style={[styles.button, styles.circle]}/>
       </TouchableOpacity>
     )
   }
@@ -33,14 +37,13 @@ class BottomButtons extends React.Component {
     return (
       <View style={styles.bottomButtonsFloat}>
         <View style={styles.bottomButtonsItem}>
-          {this.buttons.swipeBack}
+          {this.buttons.no}
         </View>
         <View  style={[styles.bottomButtonsItem, styles.center]}>
-          {this.buttons.no}
-          {this.buttons.yes}     
+          {this.buttons.info}
         </View>
         <View style={styles.bottomButtonsItem}>
-          {this.buttons.calendar}
+          {this.buttons.yes}     
         </View>
       </View>
     )
@@ -97,6 +100,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1
+  },
+  button: {
+    width: 50,
+    height: 50
   },
   center: {
     justifyContent: 'space-around',
