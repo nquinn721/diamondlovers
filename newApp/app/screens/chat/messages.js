@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, TextInput, Button } from 'react-native';
+import { Text, View, StyleSheet, Image, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getMessages, sendMessage } from 'newApp/app/redux/actions/chat';
+import gStyles from 'newApp/app/config/globalStyles';
+import { defaults } from 'newApp/app/config/globalStyles';
 
 class ChatScreen extends React.Component {
 	state = {}
@@ -12,16 +14,20 @@ class ChatScreen extends React.Component {
 		return this.props.chat.messages.map((msg, k) => {
 			let msgUserId = msg.owner._id;
 			return (
-				<View key={k}>
-        			<View style={styles.imageContainer}>
-        				{ userId !== msgUserId && <Image source={{uri: msg.owner.profile.defaultImage.url}} style={{width: 50, height: 50, borderRadius: 50}} />}
-        			</View>
-					<Text>{msg.message}</Text>
+				<View key={k} style={userId !== msgUserId ? styles.fromMessage : styles.message}>
+					<View style={userId !== msgUserId ? styles.fromMsgContent : styles.msgContent}>
+	        			<View style={styles.imageContainer}>
+	        				{ userId !== msgUserId && <Image source={{uri: msg.owner.profile.defaultImage.url}} style={{width: 50, height: 50, borderRadius: 50}} />}
+	        			</View>
+						<View style={userId !== msgUserId ? styles.fromArrow : styles.arrow}></View>
+						<Text style={userId !== msgUserId ? styles.fromMsgText : styles.msgText}>{msg.message}</Text>
+					</View>
 				</View>
 			);
 		})	
 	}
 	sendMessage() {
+		if(!this.state.text)return;
 		this.props.sendMessage(this.state.text, this.props.chat.currentChat)		
 	}
 	render() {
@@ -31,26 +37,91 @@ class ChatScreen extends React.Component {
 		if(!this.props.chat.receivedMessages)
 			if(!this.props.chat.gettingMessages)
 				this.props.getMessages(chat);
-		console.log(this.props.chat);
 	
 	return (
-	  <View style={styles.container}>
-	  	<Text>Messages</Text>
-	  	{this.renderMessages()}
-	  	<TextInput onChangeText={(text) => this.setState({text})}/>
-	  	<Button title="send" onPress={() => this.sendMessage()} />
-	  </View>
+		<View style={styles.container}>
+			<ScrollView style={styles.messageContainer}>
+				{this.renderMessages()}
+			</ScrollView>
+			<View style={[gStyles.row, styles.input]}>
+			  	<TextInput onChangeText={(text) => this.setState({text})} style={{width: defaults.width - 80, backgroundColor: 'white', borderRadius: 5, height: 30}} underlineColorAndroid="transparent"/>
+			  	<TouchableOpacity onPress={() => this.sendMessage()} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+			  		<Text style={{fontSize: 18}}>Send</Text>
+			  	</TouchableOpacity>
+			</View>
+		</View>
 	)
 	}
 
 }
 
 const styles = StyleSheet.create({
-  image: {
-  	width:50, 
-  	height: 50,
-  	borderRadius: 35
-  },
+	input: {
+		backgroundColor: '#eee',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		padding: 10
+	},
+	container: {
+		backgroundColor: 'white',
+	},
+	messageContainer: {
+		display: 'flex',
+		height: defaults.height - 180
+	},
+  	image: {
+	  	width:30, 
+	  	height: 30,
+	  	borderRadius: 35
+  	},
+  	fromArrow: {
+  		height: 10,
+  		width: 20,
+  		left: 50,
+  		backgroundColor: 'transparent',
+  		marginLeft: 10,
+  		bottom: 0,
+  		position: 'absolute',
+  		borderWidth: 1,
+  		borderColor: 'transparent',
+		borderBottomLeftRadius: 100,
+		borderBottomRightRadius: 100,
+		shadowColor: '#000',
+	    shadowOffset: { width: 2, height: 2 },
+	    shadowOpacity: 1,
+	    shadowRadius: 2,
+		// boxShadow: '-21px 9px 0px 8px pink',
+  	},
+  	fromMessage: {
+  		margin: 10,
+  		width: 200,
+  		bottom: 0
+  	},
+  	message: {
+  		margin: 10,
+  		alignItems: 'flex-end'
+  	},
+  	msgContent: {
+  		backgroundColor: defaults.color,
+  		borderRadius: defaults.borderRadius,
+  		padding: 10
+  	},
+  	fromMsgContent: {
+  		flexDirection: 'row',
+  	},
+  	fromMsgText: {
+  		backgroundColor: '#eee',
+  		borderRadius: defaults.borderRadius,
+  		left: 70,
+  		padding: 10,
+  		position: 'absolute',
+  		bottom: 0,
+  		color: 'black',
+  	},
+  	msgText: {
+  		color: 'white'
+  	}
+
 })
 
 

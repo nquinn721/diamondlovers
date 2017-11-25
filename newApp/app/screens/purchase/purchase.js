@@ -1,32 +1,34 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'react-native-elements';
 import { purchase, resetCharging } from 'newApp/app/redux/actions/card';
+import gStyles from 'newApp/app/config/globalStyles';
+import { defaults } from 'newApp/app/config/globalStyles';
 
 class Purchase extends React.Component {
   state = {
     costs: [{
-      diamonds: '10,000',
+      diamonds: '10000',
       save: '%50',
       originalCost: '$999.99',
       price: '$499.99',
       cost: 49999
     },{
-      diamonds: '5,000',
+      diamonds: '5000',
       save: '%40',
       originalCost: '$499.99',
       price: '$299.99',
       cost: 29999
     }, {
-      diamonds: '3,000',
+      diamonds: '3000',
       save: '%30',
       originalCost: '$299.99',
       price: '$199.99',
       cost: 19999
     }, {
-      diamonds: '1,000',
+      diamonds: '1000',
       save: '%20',
       originalCost: '$99.99',
       price: '$79.99',
@@ -37,32 +39,32 @@ class Purchase extends React.Component {
       originalCost: '$49.99',
       price: '$44.99',
       cost: 4499
-    }, {
-      diamonds: '100',
-      price: '$9.99',
-      cost: 999
-    }]
+    }
+    // , {
+    //   diamonds: '100',
+    //   price: '$9.99',
+    //   originalCost: '$9.99',
+    //   save: '',
+    //   cost: 999
+    // }
+    ]
   }
 
   renderCosts(){
     return this.state.costs.map((cost, i) => {
       return (
         <View style={styles.purchaseItem} key={i}>
-          <View style={styles.cost}>
-            <Text>{cost.diamonds} </Text>
-            <Icon name="diamond" size={13} color="blue" type="font-awesome" />
+
+          <View style={gStyles.row}>
+            <Image source={require('newApp/app/assets/img/Icon-Purchase.png')} style={{width: 30, height: 30}}/>
+            <View style={{paddingLeft: 20}}>
+              <Text style={{fontWeight: 'bold'}}>{cost.diamonds} </Text>
+              <Text>{cost.save ? `Save ${cost.save}` : ''}</Text>
+            </View>
           </View>
-          <View>
-            <Text style={styles.saveText}>{cost.save ? `Save ${cost.save}` : ''}</Text>
-          </View>
-          <Button 
-            raised
-            // icon={{name: 'plus', size: 15}}
-            buttonStyle={styles.purchaseButton}
-            textStyle={{textAlign: 'center'}}
-            title={cost.price}
-            onPress={() => this.props.navigation.navigate('Charge', cost)}
-          />
+          <TouchableOpacity style={styles.purchaseButton} onPress={() => this.props.navigation.navigate('Charge', cost)}>
+            <Text style={styles.purchaseButtonText}>{cost.price}</Text>
+          </TouchableOpacity>
         </View>
       );
     })
@@ -71,7 +73,10 @@ class Purchase extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-      	<Text style={styles.header}>Purchase Diamonds</Text>
+        <View style={[gStyles.row, {alignItems: 'center'}]}>
+        	<Text style={styles.header}>Purchase Diamonds</Text>
+          <Text>(points)</Text>
+        </View>
       	{this.renderCosts()}
       </View>
     )
@@ -81,22 +86,15 @@ class Purchase extends React.Component {
 
 const styles = StyleSheet.create({
   header: {
-     padding: 10
-  },
-  cost: {
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    width: 100,
-    flexDirection: 'row'
-  },
-  saveText: {
-    color: 'red'
+     padding: 10,
+     fontSize: 18,
+     fontWeight: 'bold'
   },
   purchaseItem: {
   	justifyContent: 'space-between',
     flexDirection: 'row',
     backgroundColor: 'white',
-    padding: 5,
+    padding: 15,
     paddingTop: 10,
     paddingBottom: 10,
     borderBottomWidth: 1,
@@ -106,10 +104,17 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   purchaseButton: {
-    backgroundColor: '#2980b9', 
-    width: 100,
-    borderRadius: 5,
+    backgroundColor: 'white',
+    borderColor: defaults.color,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    width: 80,
+    borderRadius: 20,
     height: 30
+  },
+  purchaseButtonText: {
+    color: defaults.color, 
   }
 })
 

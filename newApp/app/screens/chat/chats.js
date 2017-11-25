@@ -3,6 +3,9 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setChat } from 'newApp/app/redux/actions/chat';
+import gStyles from 'newApp/app/config/globalStyles';
+import { defaults } from 'newApp/app/config/globalStyles';
+import moment from 'moment';
 
 class ChatScreen extends React.Component {
 	openChat(chat){
@@ -14,12 +17,18 @@ class ChatScreen extends React.Component {
 			let from = chat.to._id === this.props.userId ? chat.from : chat.to;
 
 			return (
-				<TouchableOpacity key={k} onPress={() => this.openChat(chat)}>
-        			<View style={styles.imageContainer}>
+				<TouchableOpacity key={k} onPress={() => this.openChat(chat)} style={[gStyles.row, styles.chatItem]}>
+        			<View style={{width: 70}}>
         				<Image source={{uri: from.profile.defaultImage.url}} style={styles.image}/>
         			</View>
-					<Text>{from.profile.displayName}</Text>
-					<Text>{chat.recentMsg.msg} - {chat.recentMsg.time}</Text>
+        			<View style={{flexGrow: 2}}>
+						<Text>{from.profile.displayName}</Text>
+						<Text style={{color: '#aaa'}}>{chat.recentMsg.msg}</Text>
+					</View>
+					<View>
+						<Text style={{color: '#aaa', fontSize: 12}}>{moment(chat.recentMsg.time).fromNow()}</Text>
+						<Text style={{color: 'white'}}>ddd</Text>
+					</View>
 				</TouchableOpacity>
 			);
 		})	
@@ -28,7 +37,6 @@ class ChatScreen extends React.Component {
 		
 	return (
 	  <View style={styles.container}>
-	  	<Text>Messages</Text>
 	  	{this.renderChats()}
 	  </View>
 	)
@@ -37,11 +45,23 @@ class ChatScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  image: {
-  	width:50, 
-  	height: 50,
-  	borderRadius: 35
-  },
+	container: {
+		backgroundColor: 'white',
+		padding: 10,
+		height: gStyles.height
+	},
+	image: {
+		width:50, 
+		height: 50,
+		borderRadius: 35
+	},
+	chatItem: {
+		alignItems: 'center', 
+		justifyContent: 'space-between', 
+		borderBottomColor: '#eee', 
+		borderBottomWidth: 1, 
+		padding: 10
+	}
 })
 
 

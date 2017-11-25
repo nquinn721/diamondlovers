@@ -1,10 +1,12 @@
 import React from 'react';
-import { Text, View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, Alert, ActivityIndicator, Image, TouchableOpacity } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import Config from 'newApp/app/config/config';
 import { connect } from 'react-redux';
 import { chargeCard } from 'newApp/app/redux/actions/card';
+import gStyles from 'newApp/app/config/globalStyles';
+import { defaults } from 'newApp/app/config/globalStyles';
 
 class Charge extends React.Component {
 	state = {};
@@ -14,35 +16,45 @@ class Charge extends React.Component {
     let brand = card.brand.toLowerCase();
     let charge = this.props.navigation.state.params;
 
-    
 		return (
 			<View style={styles.container}>
-        <Icon name="credit-card" size={170} color="#999" type="font-awesome" />
         <View style={styles.cardInfo}>
-	        <Icon style={styles.cardIcon} name={`cc-${brand}`} type='font-awesome' color='#0157a2'/>
-	        <Text>   **** **** **** {card.last4}</Text>
+	        <Icon style={{height: 30}} name={`cc-${brand}`} type='font-awesome' color='#0157a2'/>
+          <View style={{alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row'}}>
+  	        <Text style={{fontSize: 24}}>****</Text>
+            <Text style={{fontSize: 24}}>****</Text>
+            <Text style={{fontSize: 24}}>****</Text> 
+            <Text style={{fontSize: 24}}>{card.last4}</Text>
+          </View>
+          <View style={[gStyles.row, {}]}>
+            <View>
+              <Text>VALID</Text>
+              <Text>THRU</Text>
+            </View>
+            <Text style={{fontWeight: 'bold'}}>   {card.exp_month}/{card.exp_year.toString().substr(-2)}</Text>
+          </View>
 	      </View>
 	      <View style={styles.costInfo}>
-	      	<View style={styles.purchasingTitle}>
-		      	<Text>
-		      		Purchasing {charge.diamonds}
-		      	</Text>
-	          <Icon name="diamond" size={13} color="blue" type="font-awesome" />
+	      	<View style={gStyles.row}>
+            <Image source={require('newApp/app/assets/img/Icon-Purchase.png')} style={{width: 30, height: 30}}/>
+		      	<Text style={{color: defaults.color, fontSize: 18, fontWeight: 'bold'}}>  Purchasing {charge.diamonds}</Text>
           </View>
           {charge.originalCost && <Text style={styles.lineItem}>Original Cost: {charge.originalCost}</Text>}
-          {charge.save && <Text style={styles.lineItem}>- {charge.save}</Text>}
+          {charge.save && <Text style={styles.lineItem}>Discount: {charge.save}</Text>}
 
           <Text style={styles.total}>
           	Total {charge.price}
           </Text>
           <Button 
-		        raised
 		        // icon={{name: 'dollar', size: 15}}
-		        buttonStyle={{backgroundColor: '#2980b9', borderRadius: 5}}
+		        buttonStyle={{backgroundColor: defaults.color, borderRadius: defaults.borderRadius}}
 		        textStyle={{textAlign: 'center'}}
-		        title="$ Purchase"
+		        title="Purchase"
 		        onPress={() => this.props.chargeCard(card.id, charge.cost)}
 		      	/>
+            <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', marginTop: 10}} onPress={() => this.props.navigation.navigate('AddCard')}>
+              <Text style={{fontSize: 18}}>Add Card</Text>
+            </TouchableOpacity>
 	      </View>
 			</View>
 		)
@@ -50,14 +62,12 @@ class Charge extends React.Component {
 
 	renderAddCard(){
 		return (
-			<View>
-    		<Text>No card on file please add one </Text>
+			<View style={{height: defaults.height - 150, alignItems: 'center', justifyContent: 'center', width: defaults.width}}>
+    		<Text style={{marginBottom: 10}}>No card on file please add one </Text>
     		<Button 
-        raised
-        // icon={{name: 'plus', size: 15}}
-        buttonStyle={{backgroundColor: '#2980b9', borderRadius: 5}}
+        buttonStyle={{backgroundColor: defaults.color, borderRadius: defaults.borderRadius, width: 200}}
         textStyle={{textAlign: 'center'}}
-        title="+ Add Card"
+        title="Add Card"
         onPress={() => this.props.navigation.navigate('AddCard')}
       	/>
    	 </View>
@@ -92,15 +102,16 @@ class Charge extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+    backgroundColor: 'white'
 	},
   cardInfo: {
-  	flexDirection: 'row',
-  	justifyContent: 'center',
-  	alignItems: 'center',
+    height: 180,
+    backgroundColor: '#f5f5f5',
+    justifyContent: 'space-between',
+    padding: 20
   },
   cardIcon: {
-    width: 30
   },
   chargingText: {
   	padding: 20,
@@ -139,7 +150,7 @@ const styles = StyleSheet.create({
   },
   total: {
   	borderTopWidth: 1,
-  	borderTopColor: '#aaa',
+  	borderTopColor: '#eee',
   	paddingTop:10,
   	textAlign: 'right',
   	marginBottom: 10,

@@ -7,7 +7,7 @@ const routeConfiguration = {
 	Chats: {
 		screen: Chat.Chats,
 		navigationOptions: {
-			title: 'Chat'
+			title: 'Chat Activity'
 		}
 	},
 	Messages: {
