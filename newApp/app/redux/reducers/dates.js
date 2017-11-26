@@ -88,7 +88,6 @@ export default (state = initialState, action) => {
 	}
 }
 const setDates = (data) => {
-	console.log(data);
 	return {
 		dates: data,
 		pendingDates: data.filter(d => d.status === 'pending'),

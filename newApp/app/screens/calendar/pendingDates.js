@@ -22,7 +22,6 @@ class PendingDates extends React.Component {
       <ScrollView style={gStyles.container}>
         {this.props.dates.map((date, i) => {
           let to, from, u, dateUser, showed;
-          console.log(user._id, date);
           if(date.from._id === user._id){
             from = true;
             u = date.from;

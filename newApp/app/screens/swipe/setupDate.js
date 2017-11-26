@@ -60,7 +60,6 @@ class SetupDate extends React.Component {
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date);
     this.setState({date, dateString: moment(date).format('MMMM Do YYYY, h:mm a')});
     this.hideDateTimePicker();
   };

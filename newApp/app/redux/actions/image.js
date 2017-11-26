@@ -20,8 +20,6 @@ export const addImage = (uri, defaultImage) => {
 }
 
 export const setDefaultImage = (image) => {
-	console.log('in set default image', image);
-	
 	return (dispatch) => {
 		Service.dispatchPost(dispatch, 'image/set-default-image', {image}, {
 			init: 'SET_DEFAULT_IMAGE',

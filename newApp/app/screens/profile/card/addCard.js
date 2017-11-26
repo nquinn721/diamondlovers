@@ -51,7 +51,6 @@ class AddCard extends React.Component {
   }
   render() {
   	const card = this.props.card;
-     console.log(this.props.navigation);
      
     return (
       <View style={styles.container}>

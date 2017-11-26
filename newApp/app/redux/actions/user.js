@@ -1,7 +1,6 @@
 import Service from './service';
 
 export const updateProfile = (field, value) => {
-	console.log('field value', field, value);
 	
 	return (dispatch) => {
 		Service.dispatchPost(dispatch, 'user/update-profile-field', {field, value}, {

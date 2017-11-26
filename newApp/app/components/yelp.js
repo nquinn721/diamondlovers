@@ -69,7 +69,6 @@ export default class YelpAPI{
 
         if(!params.term)
             paramString += '&term=restuarants';
-        console.log(paramString);
         fetch('https://api.yelp.com/v3/businesses/search?' + paramString, {
             method: 'GET',
             headers: {

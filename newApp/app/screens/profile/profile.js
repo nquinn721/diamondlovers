@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
 import { Icon, Button } from 'react-native-elements';
 import gStyles from 'newApp/app/config/globalStyles';
+import { defaults } from 'newApp/app/config/globalStyles';
 import Splash from 'newApp/app/components/splash';
 import { updateProfile } from 'newApp/app/redux/actions/user';
 const avatar = require('newApp/app/assets/img/avatar.png');
@@ -12,156 +13,60 @@ const avatar = require('newApp/app/assets/img/avatar.png');
 
 class Profile extends React.Component {
   state = {}
-  editItem(item, field, value){
-    console.log(value);
-    
-    this.state.fieldElements = item.split(',');
-    this.state.fieldValue = value;
-    this.state.fieldField = field;
-    
-    this.setState({splash: true});
+
+  bottomNav(){
+    return(
+      <View style={styles.bottomNav}>
+        <Image source={require('newApp/app/assets/img/Icon-Edit.png')} style={styles.bottomNavItem} />
+        <Image source={require('newApp/app/assets/img/Icon-Settings.png')} style={styles.bottomNavItem} />
+        <Image source={require('newApp/app/assets/img/Icon-Add-Card.png')} style={styles.bottomNavItem} />
+      </View>
+    )
   }
- 	displayUser({isFetching, user}){
-    let page = [];
-		if(user){
+  displayProfileInfo({user} = this.props.user){
+    console.log(user);
+    
       return (
-        <View style={gStyles.padding}>
-          <Text>{user.profile.age}, {user.profile.sex}</Text>
-          <Text>{user.profile.city}, {user.profile.state} {user.profile.zip}</Text>
-          <View style={gStyles.group}>
-            <Icon name='diamond' type='font-awesome' size={15} />
-            <Text> {user.diamonds}</Text> 
+        <View style={styles.profileInfo}>
+          <View style={styles.profileDiamonds}>
+            <Image source={require  ('newApp/app/assets/img/Icon-Purchase.png')} style={[styles.costDiamond, StyleSheet.absoluteFill]}/>
+            <Text style={[styles.cardText, styles.costDiamondText]}> {user.profile.cost.date1}</Text>
           </View>
-          <View style={gStyles.group}>
-            <Icon name='graduation-cap' type='font-awesome' size={15} />
-            <Text>{user.profile.education}</Text>
+          <Text style={[styles.profileText, styles.userName]}>{user.profile.displayName}</Text>
+          <View style={gStyles.row}>
+            <Text style={styles.profileText}>{user.profile.age || 'N/A'}, </Text>
+            <Text style={styles.profileText}>{user.profile.career || 'N/A'}</Text>
           </View>
-          <Text>{user.email}</Text>
-          <View style={[gStyles.group, styles.profileItem]}>
-            <Text style={styles.title}>Height:</Text>
-            <Text style={styles.title}>{user.profile.height}</Text>
-            <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('feet=number,inches=number', 'height', user.profile.height)}/>
-          </View>
-          <View style={[gStyles.group, styles.profileItem]}>
-            <Text style={styles.title}>Drugs: </Text>
-            <Text style={styles.title}>{user.profile.drugs === void(0) ? 'N/A' : user.profile.drugs === true ? 'Yes' : 'No'}</Text>
-            <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('drugs=boolean', 'drugs', user.profile.drugs)}/>
-          </View>
-          <View style={[gStyles.group, styles.profileItem]}>
-            <Text style={styles.title}>Drinks: </Text>
-            <Text style={styles.title}>{user.profile.drinks === void(0) ? 'N/A' : user.profile.drinks === true ? 'Yes' : 'No'}</Text>
-            <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('drinks=boolean', 'drinks', user.profile.drinks)}/>
-          </View>
-          <View style={[gStyles.group, styles.profileItem]}>
-            <Text style={styles.title}>Smokes: </Text>
-            <Text style={styles.title}>{user.profile.smokes === void(0) ? 'N/A' : user.profile.smokes === true ? 'Yes' : 'No'}</Text>
-            <Icon name='edit' type='font-awesome' size={15} onPress={() => this.editItem('smokes=boolean', 'smokes', user.profile.smokes)}/>
-          </View>
-          <View style={gStyles.paragraph}>
-            <Text>About...</Text>
-            <Text>{user.profile.about}</Text>
+          <Text style={styles.profileText}>{user.profile.city + ', ' + user.profile.state}</Text>
+          <View style={styles.profileAbout}>
+            <Text style={styles.profileText}>{user.profile.about}</Text>
           </View>
         </View>
-      );
-    } 
-
-    return <View>{page}</View>
-	}
-
-  displayDefaultImage({user} = this.props.user, {image} = this.props){    
+      )
+  }
+  
+  displayUser({user} = this.props.user, {image} = this.props){    
     if(!user || !image)return;
     
     let img =  image.defaultImage || avatar;
     
-    return <Image source={img} style={styles.profileImage} />   
+    return (
+      <View style={styles.profileImage}>
+        <Image source={img} style={styles.profileImage} />
+        <Image source={img} style={styles.mainImage} />
+        <View style={[styles.profileImageOverlay, StyleSheet.absoluteFill]}></View>
+        {this.displayProfileInfo()}
+      </View>
+
+    )
   }
 
-  renderSplash(){
-    if(!this.state.splash)return;
-    return (
-      <Splash
-        style={{height: 200}}
-         content={() => {
-           console.log('content');
-           
-            return (
-              <View>
-                {
-                  this.state.fieldElements.map((v, i) => {
-                    let el = v.split('=');                    
-                    return (
-                      <View key={i} style={gStyles.group}>
-                        <Text>{el[0]}</Text>
-                        {
-                          el[1].match(/number|text/) ?
-                            <TextInput 
-                              style={styles.textInput}
-                              keyboardType = {(el[1] === 'number' ? 'numeric' : 'default')}
-                              onChangeText = {(newVal)=> this.state.fieldValue = newVal}
-                              value = {this.state.fieldValue}
-                            />
-                          :  <Switch
-                            onValueChange={(fieldValue) => {
-                              this.setState({fieldValue})
-                            }}
-                            value={this.state.fieldValue}
-                          />
-                        }
-                      </View>
-                    ) 
-                  })
-                }
-                
-                <Button 
-                  raised
-                  icon={{name: 'check', size: 15, type: 'font-awesome'}}
-                  buttonStyle={gStyles.button}
-                  title=""
-                  onPress={() => {
-                    this.props.updateProfile(this.state.fieldField, this.state.fieldValue);
-                    this.setState({splash: null});
-                  }}
-                  />
-              </View>
-            )
-         }}
-       />
-     );
-  }
-		
+  
   render() {
     return (
       <View style={styles.container}>
-        {this.renderSplash()}
-        <ScrollView style={styles.container}>
-          {this.displayDefaultImage()}
-          <Button 
-            raised
-            icon={{name: 'credit-card', size: 15}}
-            buttonStyle={styles.profileButton}
-            textStyle={{textAlign: 'center'}}
-            title="Cards"
-            onPress={() => this.props.navigation.navigate('Cards')}
-          />
-          <Button 
-            raised
-            icon={{name: 'image', size: 15}}
-            buttonStyle={styles.profileButton}
-            textStyle={{textAlign: 'center'}}
-            title="Profile Images"
-            onPress={() => this.props.navigation.navigate('Images')}
-          />
-          {this.displayUser(this.props.user)}
-
-          <Button 
-            raised
-            icon={{name: 'image', size: 15}}
-            buttonStyle={styles.profileButton}
-            title="Logout"
-            onPress={() => this.props.navigation.navigate('Images')}
-          />
-
-        </ScrollView>
+        {this.displayUser()}
+        {this.bottomNav()}
       </View>
     )
   }
@@ -169,24 +74,71 @@ class Profile extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  profileButton:{
-    backgroundColor: '#2980b9', 
-    borderRadius: 5
-  },
-  profileImage: {
-    width:Config.w,
-    height:Config.h / 2
-  },
-  profileItem: {
-    justifyContent: 'space-between'
-  },
-  title: {
-    flex: 1
-  },
-  width: {
-    flex: 1,
-    textAlign: 'center'
-  }
+   container: {
+     height: defaults.availableHeight
+   },
+   profileImage: {
+     height: defaults.availableHeight - 75
+   },
+   profileImageOverlay: {
+     backgroundColor: 'rgba(0,0,0,0.6)'
+   },
+   mainImage: {
+     position: 'absolute',
+     top: 50,
+     left: (defaults.width / 2) - 75,
+     width: 150,
+     height: 150,
+     borderRadius: 1000,
+     borderWidth: 2,
+     borderColor: 'white',
+     zIndex: 1
+   },
+   bottomNav: {
+     flexDirection: 'row',
+     justifyContent: 'space-around',
+     alignItems: 'center',
+     height: 75
+   },
+   bottomNavItem: {
+     width: 60,
+     height: 60   
+   },
+   profileInfo: {
+     position: 'absolute',
+     top: 220,
+     padding: 10,
+     zIndex: 1
+   },
+   profileText: {
+     color: 'white',
+     fontSize: 16
+   },
+   userName: {
+     fontSize: 24
+   },
+   profileAbout: {
+     marginTop: 15
+   },
+   profileDiamonds: {
+    width: 30,
+    height: 30,
+    position: 'absolute',
+    right: 30,
+    marginTop: 15
+   },
+    costDiamond: {
+      width: 45,
+      height: 45,
+      position: 'absolute',
+
+    },
+    costDiamondText: {
+      fontSize: 13,
+      color: 'white',
+      marginTop: 3,
+      marginLeft: 4
+    }
 })
 
 

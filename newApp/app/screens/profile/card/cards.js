@@ -17,7 +17,6 @@ class Cards extends React.Component {
   }
 
   renderCards({stripeCust} = this.props.card){
-    console.log(this.props);
     
     if(stripeCust && stripeCust.sources){
       const cards = stripeCust.sources.data;

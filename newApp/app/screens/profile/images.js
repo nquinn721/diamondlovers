@@ -11,7 +11,6 @@ class Images extends React.Component {
   state = {images: {}};
 
   componentWillMount(){
-    console.log('component will mount');
     
   }
   setDefaultImage(image){
@@ -103,7 +102,6 @@ class Images extends React.Component {
   }
  
   render() {
-    console.log(this.props);
 
     // this.state.defaultImage = this.props.user.user.profile.defaultImage;
 

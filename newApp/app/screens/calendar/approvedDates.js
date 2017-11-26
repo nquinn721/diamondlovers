@@ -17,7 +17,6 @@ class ApprovedDates extends React.Component {
     if(!this.props.dates.length)return <Text>No dates have been completed yet</Text>;
     let {user} = this.props.user;
 
-    console.log(this.props.dates);
     return (
       <ScrollView style={styles.container}>
         {this.props.dates.map((date, i) => {

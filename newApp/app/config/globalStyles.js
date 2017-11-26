@@ -53,5 +53,6 @@ export const defaults = {
 	color: '#ed3671',
 	borderRadius: 20,
 	height: window.height,
-	width: window.width 
+	width: window.width,
+	availableHeight: window.height - 128
 }

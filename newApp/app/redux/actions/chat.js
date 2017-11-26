@@ -1,8 +1,6 @@
 import Service from './service';
 
 export const sendMessage = (msg, chatId) => {
-	console.log('sending message', msg, chatId);
-	
 	return (dispatch) => {
 		Service.dispatchPost(dispatch, 'chat/send-message', {msg, chatId}, {
 			init: 'SENDING_MESSAGE',
