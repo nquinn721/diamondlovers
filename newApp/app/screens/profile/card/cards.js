@@ -1,10 +1,11 @@
 import React from 'react';
-import { Text, View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, Alert, ActivityIndicator, ScrollView, Switch } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { FormLabel, FormInput, FormValidationMessage, Button, Icon } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
+import { defaults } from 'newApp/app/config/globalStyles';
 import { deleteCard, setDefaultCard } from 'newApp/app/redux/actions/card';
 
 class Cards extends React.Component {
@@ -31,23 +32,30 @@ class Cards extends React.Component {
                 <Icon style={styles.cardIcon} onPress={() => this.setDefaultCard(card.id)} name={`cc-${brand}`} type='font-awesome'color='#0157a2'/>
               
             }
-            <Text>**** **** **** {card.last4}</Text>
-            {
-              stripeCust.default_source === card.id ? 
-                <Icon style={styles.check} name="check" color="green" type="font-awesome"/> :
-                <Text style={styles.check}></Text>
-            }
-            {
-              this.props.card.deletingCard && this.state.cardBeingDeleted === card.id ? 
-                <ActivityIndicator /> :
-                <Icon name="trash" color="#555" type="font-awesome" onPress={() => this.deleteCard(card)}/>
-            }
+            <View style={{flexGrow: 1.5, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'space-around', flexDirection: 'row'}}>
+              <Text>****</Text> 
+              <Text>**** </Text>
+              <Text>**** </Text>
+              <Text>{card.last4}</Text>
+            </View>
+            <Switch onTintColor={defaults.color} thumbTintColor='white' value={stripeCust.default_source === card.id} onValueChange={() => this.setDefaultCard(card.id)}/>            
           </View>
         );  
       });
       
     }
   }
+
+  // {
+  //             stripeCust.default_source === card.id ? 
+  //               <Icon style={styles.check} name="check" color="green" type="font-awesome"/> :
+  //               <Text style={styles.check}></Text>
+  //           }
+  //           {
+  //             this.props.card.deletingCard && this.state.cardBeingDeleted === card.id ? 
+  //               <ActivityIndicator /> :
+  //               <Icon name="trash" color="#555" type="font-awesome" onPress={() => this.deleteCard(card)}/>
+  //           }
   deleteCard(card){
     Alert.alert(
       'Delete Card',
@@ -65,18 +73,20 @@ class Cards extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-				{this.renderCards()}
-        {this.props.card.addingCard && <ActivityIndicator size="small" />}
-        <Text style={[gStyles.smallText, styles.aligned]}>Press the card icon to set default card.</Text>
-        <Button 
-          raised
-          // icon={{name: 'plus', size: 15}}
-          buttonStyle={{backgroundColor: '#2980b9', borderRadius: 5}}
-          textStyle={{textAlign: 'center'}}
-          title="+ Add Card"
-          onPress={() => this.props.navigation.navigate('AddCard')}
-        />
+        <ScrollView style={styles.top}>
 
+  				{this.renderCards()}
+          {this.props.card.addingCard && <ActivityIndicator size="small" />}
+        </ScrollView>
+        <View style={styles.bottom}>
+          <Button 
+          buttonStyle={{backgroundColor: defaults.color, borderRadius: defaults.borderRadius}}
+            textStyle={{textAlign: 'center'}}
+            title="Add Card"
+            onPress={() => this.props.navigation.navigate('AddCard')}
+          />
+          <Text style={[gStyles.smallText, styles.aligned]}>Press the card icon to set default card.</Text>
+        </View>
       </View>
     )
   }
@@ -101,6 +111,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
     padding: 5
+  },
+  top: {
+    height: defaults.availableHeight - 75
+  },
+  bottom: {
+    height: 75
   }
 })
 

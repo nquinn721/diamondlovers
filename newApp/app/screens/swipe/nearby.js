@@ -5,16 +5,28 @@ import { connect } from 'react-redux';
 import { Icon, Button } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
+import { defaults } from 'newApp/app/config/globalStyles';
 import Swiper from 'react-native-deck-swiper';
 import { getDefaultImage } from 'newApp/app/redux/reducers/image';
 import { getNearby } from 'newApp/app/redux/actions/nearby';
 import { getDates } from 'newApp/app/redux/actions/dates';
 import Image from 'react-native-image-progress';
 import BottomButtons from './components/bottomButtons';
+import { setCurrentUser } from 'newApp/app/redux/actions/nearby';
 const avatar = require('newApp/app/assets/img/avatar.png');
+const img = require('newApp/app/assets/img/Icon-Profiles.png');
 
 class Nearby extends React.Component {
-  state = {noCards: false, currentImage: 0}
+  state = {noCards: false, currentImage: 0};
+
+  static navigationOptions = {
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={img}
+          style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+      />
+    ),
+  };
   componentDidMount(){
     this.props.getNearby();
     this.props.getDates();
@@ -22,6 +34,14 @@ class Nearby extends React.Component {
 
   renderCard(user){
     let image = getDefaultImage(user.profile.defaultImage, user.images) || avatar;
+
+    if(!this.state.currentUser){
+      console.log('setting current user', user);
+      
+      this.props.setCurrentUser(user);
+      this.state.currentUser = user;
+    }
+
     return (
       <View style={styles.card} key={user._id}>
         <Image source={image} style={styles.card}/>
@@ -85,9 +105,11 @@ class Nearby extends React.Component {
     )
   }
   swipeLeft(cardIndex){
+    this.currentUser = false;
     let user = typeof cardIndex === 'number' ? this.props.nearby.users[cardIndex] : cardIndex;
   }
   swipeRight(cardIndex){
+    this.currentUser = false;
     let user = typeof cardIndex === 'number' ? this.props.nearby.users[cardIndex] : cardIndex;
     this.props.navigation.navigate('SetupDate', user);
   }
@@ -162,5 +184,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({nearby: state.nearby}), 
-  (dispatch) => (bindActionCreators({getNearby, getDates}, dispatch))
+  (dispatch) => (bindActionCreators({getNearby, getDates, setCurrentUser}, dispatch))
 )(Nearby);

@@ -6,8 +6,18 @@ import { Icon, Button } from 'react-native-elements';
 import { purchase, resetCharging } from 'newApp/app/redux/actions/card';
 import gStyles from 'newApp/app/config/globalStyles';
 import { defaults } from 'newApp/app/config/globalStyles';
+const img = require('newApp/app/assets/img/Icon-Purchase.png');
 
 class Purchase extends React.Component {
+  static navigationOptions = {
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={img}
+        style={[{width: 24, height: 26}, {tintColor: tintColor}]}
+      />
+    ),
+  };
+
   state = {
     costs: [{
       diamonds: '10000',
@@ -102,6 +112,10 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#ddd',
     alignItems: 'center'
+  },
+  container: {
+    height: defaults.availableHeight,
+    backgroundColor:'white'
   },
   purchaseButton: {
     backgroundColor: 'white',

@@ -52,6 +52,9 @@ export default styles;
 export const defaults = {
 	color: '#ed3671',
 	borderRadius: 20,
+	red: '#ed4d46',
+	iconWidth: 23,
+	iconHeight: 25,
 	height: window.height,
 	width: window.width,
 	availableHeight: window.height - 128

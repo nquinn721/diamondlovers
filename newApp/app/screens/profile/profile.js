@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, TextInput, Switch } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, TextInput, Switch, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
@@ -9,22 +9,33 @@ import { defaults } from 'newApp/app/config/globalStyles';
 import Splash from 'newApp/app/components/splash';
 import { updateProfile } from 'newApp/app/redux/actions/user';
 const avatar = require('newApp/app/assets/img/avatar.png');
+const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
 
 class Profile extends React.Component {
   state = {}
-
+  static navigationOptions = {
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={img}
+          style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+        />
+      ),
+    };
   bottomNav(){
     return(
       <View style={styles.bottomNav}>
-        <Image source={require('newApp/app/assets/img/Icon-Edit.png')} style={styles.bottomNavItem} />
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Edit')}>
+          <Image source={require('newApp/app/assets/img/Icon-Edit.png')} style={styles.bottomNavItem} />
+        </TouchableOpacity>
         <Image source={require('newApp/app/assets/img/Icon-Settings.png')} style={styles.bottomNavItem} />
-        <Image source={require('newApp/app/assets/img/Icon-Add-Card.png')} style={styles.bottomNavItem} />
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Cards')}>
+          <Image source={require('newApp/app/assets/img/Icon-Add-Card.png')} style={styles.bottomNavItem} />
+        </TouchableOpacity>
       </View>
     )
   }
   displayProfileInfo({user} = this.props.user){
-    console.log(user);
     
       return (
         <View style={styles.profileInfo}>
@@ -78,7 +89,8 @@ const styles = StyleSheet.create({
      height: defaults.availableHeight
    },
    profileImage: {
-     height: defaults.availableHeight - 75
+     height: defaults.availableHeight - 75,
+     position: 'relative'
    },
    profileImageOverlay: {
      backgroundColor: 'rgba(0,0,0,0.6)'
@@ -106,6 +118,7 @@ const styles = StyleSheet.create({
    },
    profileInfo: {
      position: 'absolute',
+     bottom: 0,
      top: 220,
      padding: 10,
      zIndex: 1

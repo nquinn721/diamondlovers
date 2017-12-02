@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ActivityIndicator, ScrollView, Animated } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, ScrollView, Animated, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Icon } from 'react-native-elements';
@@ -9,6 +9,7 @@ import { getDefaultImage } from 'newApp/app/redux/reducers/image';
 import { getNearby } from 'newApp/app/redux/actions/nearby';
 import Carousel from 'newApp/app/components/carousel';
 import BottomButtons from './components/bottomButtons';
+import { defaults } from 'newApp/app/config/globalStyles';
 
 
 const FIXED_BAR_WIDTH = 75
@@ -19,9 +20,10 @@ const BAR_SPACE = 10
 class UserProfile extends React.Component {
 
   render() {
-    let user = this.props.navigation.state.params;
+    let user = this.props.user;
     let profile = user.profile;
-
+    console.log(user);
+    
     return (
       <View style={{height: Config.h, flex: 1}}>
       <ScrollView style={styles.container}>
@@ -37,17 +39,16 @@ class UserProfile extends React.Component {
                 {profile.displayName}, {profile.age || 'N/A'}
               </Text>
               <View style={styles.group}>
-                <Icon style={styles.topInfoIcon} name='graduation-cap' type='font-awesome' size={14} color='#aaa' />
-                <Text> {profile.education}</Text>
-              </View>
-              <View style={styles.group}>
-                <Icon style={styles.topInfoIcon} name='map-marker' type='font-awesome' size={14} color='#aaa'/>
                 <Text> {profile.city}, {profile.state} </Text>
+              </View>
+              <View style={styles.dateCost}>
+                <Image source={require  ('newApp/app/assets/img/Icon-Purchase-Select.png')} style={[styles.costDiamond, StyleSheet.absoluteFill]}/>
+                <Text style={[styles.cardText, styles.costDiamondText]}> {profile.cost.date1}</Text>
               </View>
             </View>
             <View style={styles.section}>
-              <Text>Looking for...</Text>
-              <Text>{profile.lookingFor || 'N/A'}</Text>
+              <Text>About Me</Text>
+              <Text>{profile.about || 'N/A'}</Text>
             </View>
           </View>
       </ScrollView>
@@ -77,10 +78,24 @@ const styles = StyleSheet.create({
   },
   section: {
     padding: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
     paddingTop: 10,
     paddingBottom: 10
+  },
+  dateCost: {
+    position: 'absolute',
+    right: 40,
+    width: 20,
+    marginTop: 15,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  costDiamond: {
+    width: 35,
+    height: 35
+  },
+  costDiamondText: {
+    color: defaults.color,
   },
   topInfoIcon: {
     width: 15,
@@ -95,6 +110,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  // (state) => ({nearby: state.nearby}), 
+  (state) => ({user: state.nearby.currentUser}), 
   // (dispatch) => (bindActionCreators({getNearby}, dispatch))
 )(UserProfile);

@@ -28,7 +28,7 @@ class BottomButtons extends React.Component {
       </TouchableOpacity>
     ),
     info: (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Calendar')}>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('UserProfile')}>
         <Image source={require('newApp/app/assets/img/Icon-Details.png')} style={[styles.button, styles.circle]}/>
       </TouchableOpacity>
     )
@@ -51,15 +51,12 @@ class BottomButtons extends React.Component {
 
   renderProfile(){
     return (
-      <View style={styles.bottomButtonsFloat}>
+      <View style={styles.profileBottomButtons}>
         <View style={[styles.bottomButtonsItem]}>
           {this.buttons.no}
         </View>
         <View  style={[styles.bottomButtonsItem]}>
           {this.buttons.yes}
-        </View>
-        <View style={[styles.bottomButtonsItem]}>
-          {this.buttons.calendar}
         </View>
       </View>
     )
@@ -84,6 +81,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     bottom: 20
   },
+  profileBottomButtons: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    width: Config.w,
+    flexDirection: 'row',
+    alignItems: 'center',
+    bottom: 0,
+    padding: 10,
+    justifyContent: 'space-around'
+  },  
   circle: {
     borderRadius: 100,
     width: 50,

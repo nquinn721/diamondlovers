@@ -20,9 +20,9 @@ import Intro 		from 'newApp/app/screens/intro';
 const tabRoutes = {
 	...Swipe,
 	...Purchase,
-	...Profile,
 	...Calendar,
-	...Chat
+	...Chat,
+	...Profile,
 };
 const mainNavBackground = 'rgb(250, 250, 250)';
 const tabConfig = {

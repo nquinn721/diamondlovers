@@ -6,49 +6,33 @@ import Config from 'newApp/app/config/config';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import gStyles from 'newApp/app/config/globalStyles';
+import { defaults } from 'newApp/app/config/globalStyles';
 import { approveDate } from 'newApp/app/redux/actions/dates';
+import NoDates from './noDates';
+import DateList from './dateList';
+const img = require('newApp/app/assets/img/Icon-Date.png');
 
 
 class PendingDates extends React.Component {
+  static navigationOptions = {
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={img}
+          style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+        />
+      ),
+    };
   approveDate(id){
     this.props.approveDate(id);
   }
 
   render() {
-    if(!this.props.dates.length)return <Text>No dates yet</Text>;
-    let {user} = this.props.user;
+    if(!this.props.dates.length)return <NoDates />;
+    let {user} = this.props.user,
+        dates = this.props.dates
 
-    return (
-      <ScrollView style={gStyles.container}>
-        {this.props.dates.map((date, i) => {
-          let to, from, u, dateUser, showed;
-          if(date.from._id === user._id){
-            from = true;
-            u = date.from;
-            dateUser = date.to;
-          }else{
-            to = true;
-            u = date.to;
-            dateUser = date.from;
-          }
-          return (
-            <View key={i} style={styles.date}>
-              <Text>{dateUser.profile.displayName}</Text>
-              <Text>{date.location.name}</Text>
-              <Text>{date.location.location.address1}</Text>
-              <Text>{moment(date.time).format('MMMM Do YYYY, h:mm a')}</Text>
-              {to ? <Button 
-                raised 
-                buttonStyle={gStyles.button} 
-                title="Approve Date"
-                onPress={() => this.approveDate(date._id)}
-                /> : <Text>Waiting for {dateUser.profile.displayName} to approve your date!</Text>}
-            </View>
-          )            
-        })}
-        
-      </ScrollView>
-    )
+
+    return (<DateList dates={dates} user={user} screen='pending' />)
   }
 
 }
@@ -57,10 +41,25 @@ const styles = StyleSheet.create({
   black: {
     color: 'black'
   },
+  dateTime: {
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRightWidth: 1,
+    borderRightColor: '#eee',
+
+  },
+  month: {
+    fontSize: 18
+  },
   date: {
     padding: 10,
     borderBottomWidth: 2,
-    borderBottomColor: '#aaa'
+    flexDirection: 'row',
+    borderBottomColor: '#eee'
+  },
+  userInfo: {
+    padding: 10
   }
 })
 

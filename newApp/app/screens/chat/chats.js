@@ -6,8 +6,17 @@ import { setChat } from 'newApp/app/redux/actions/chat';
 import gStyles from 'newApp/app/config/globalStyles';
 import { defaults } from 'newApp/app/config/globalStyles';
 import moment from 'moment';
+const img = require('newApp/app/assets/img/Icon-chat.png');
 
 class ChatScreen extends React.Component {
+	static navigationOptions = {
+	    tabBarIcon: ({ tintColor }) => (
+	      <Image
+	        source={img}
+	        style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+	      />
+	    ),
+	  };
 	openChat(chat){
 		this.props.setChat(chat._id);
 		this.props.navigation.navigate('Messages')

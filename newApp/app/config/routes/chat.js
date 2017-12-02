@@ -30,7 +30,7 @@ export default {
 	Chat: {
 		screen: ChatStack,
 		navigationOptions: {
-     		tabBarIcon: ({tintColor}) => <Icon name="comments-o" size={25} color={tintColor} type='font-awesome'/>,
+     		// tabBarIcon: ({tintColor}) => <Icon name="comments-o" size={25} color={tintColor} type='font-awesome'/>,
 		}
 	}
 }

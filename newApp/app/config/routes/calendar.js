@@ -2,6 +2,7 @@ import React from 'react';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import Calendar from 'newApp/app/screens/calendar';
+import { defaults } from 'newApp/app/config/globalStyles';
 
 
 
@@ -36,9 +37,21 @@ const tabConfig = {
 	tabBarPosition: 'top',
 	swipeEnabled: true,
 	tabBarOptions: {
-		activeTintColor: '#2980b9',
-		activeBackgroundColor: 'white',
-		inactiveBackgroundColor: 'white'
+		activeTintColor: defaults.color,
+		inactiveTintColor: 'black',
+		style: {
+			backgroundColor: 'white',
+		},
+		labelStyle: {
+		    fontSize: 14,
+		},
+		indicatorStyle: {
+			backgroundColor: defaults.color,
+			borderRadius: defaults.borderRadius,
+			height: 5
+		},
+		activeBackgroundColor: '#fff',
+		inactiveBackgroundColor: '#fff'
 	}
 
 }
@@ -49,7 +62,7 @@ export default {
 		screen: CalendarTab,
 		navigationOptions: {
 			title: 'Calendar',
-			tabBarIcon: ({tintColor}) => <Icon name="user-circle-o" size={25} type='font-awesome' color={tintColor} />,
+			// tabBarIcon: ({tintColor}) => <Icon name="user-circle-o" size={25} type='font-awesome' color={tintColor} />,
 		}
 	},
 

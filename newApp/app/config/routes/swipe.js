@@ -8,7 +8,8 @@ const routeConfiguration = {
 	Nearby: {
 		screen: Swipe.Nearby,
 		navigationOptions: {
-			title: 'Swipe'
+			title: 'Swipe',
+			
 		}
 	},
 	UserProfile: {
@@ -37,11 +38,11 @@ export default {
 	Swipe: {
 		screen: SwipeStack,
 		navigationOptions: {
-     		tabBarIcon: ({tintColor}) => <Icon name="list" size={25} color={tintColor} />,
+     		// tabBarIcon: ({tintColor}) => <Icon name="list" size={25} color={tintColor} />,
      		// tabBarIcon: ({tintColor}) => {
      		// 	return (<Image
-			    //     source={icon}
-			    //     style={[{tintColor: tintColor}]}
+			    //     source={require('newApp/app/assets/img/Icon-Profiles.png')}
+			    //     style={{tintColor: 'blue'}}
 			    //   />)
      		// },
      		// tabBarIcon: ({tintColor}) => <Image source={img} style={[{tintColor: tintColor}]}/>,

@@ -20,7 +20,7 @@ const seeds = require('./seed');
         unique: true
     },
     nearbyIndex: Number,
-    career: String,
+    occupation: String,
     city: String,
     state: String,
     zip: String,

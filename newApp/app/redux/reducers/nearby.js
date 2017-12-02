@@ -21,6 +21,11 @@ export default (state = initialState, action) => {
 				fetchingNearby: false,
 				fetchingNearbyFailed: action.error
 			}
+		case 'SET_CURRENT_USER':
+			return {
+				...state,
+				currentUser: action.data
+			}
 		default:
 			return state;
 	}
