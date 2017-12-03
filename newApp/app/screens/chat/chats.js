@@ -3,8 +3,7 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setChat } from 'newApp/app/redux/actions/chat';
-import gStyles from 'newApp/app/config/globalStyles';
-import { defaults } from 'newApp/app/config/globalStyles';
+import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import moment from 'moment';
 const img = require('newApp/app/assets/img/Icon-chat.png');
 
@@ -55,9 +54,9 @@ class ChatScreen extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
+    	flex: 1,
 		backgroundColor: 'white',
 		padding: 10,
-		height: gStyles.height
 	},
 	image: {
 		width:50, 

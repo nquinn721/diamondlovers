@@ -12,21 +12,18 @@ const tabRoutes = {
 		screen: Calendar.PendingDates,
 		navigationOptions: {
 			title: 'Pending',
-			tabBarIcon: ({tintColor}) => <Icon name='calendar' size={25} type='font-awesome'color={tintColor}/>
 		}
 	},
 	ApprovedDates: {
 		screen: Calendar.ApprovedDates,
 		navigationOptions: {
 			title: 'Approved',
-			tabBarIcon: ({tintColor}) => <Icon name='user' size={25} type='font-awesome' color={tintColor}/>
 		}
 	},
 	CompletedDates: {
 		screen: Calendar.CompletedDates,
 		navigationOptions: {
 			title: 'Completed',
-			tabBarIcon: ({tintColor}) => <Icon name='user' size={25} type='font-awesome' color={tintColor}/>
 		}
 	}
 };

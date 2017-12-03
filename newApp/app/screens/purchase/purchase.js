@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   container: {
-    height: defaults.availableHeight,
+    flex: 1,
     backgroundColor:'white'
   },
   purchaseButton: {

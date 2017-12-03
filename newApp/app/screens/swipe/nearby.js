@@ -93,7 +93,7 @@ class Nearby extends React.Component {
           onSwipedRight={(user) => this.swipeRight(user)}
           onSwipedAll={() => this.setState({noCards: true})}
           cardVerticalMargin={20}
-          cardStyle={{height: 330}}
+          cardStyle={{height: defaults.availableHeight - 120}}
           showSecondCard={false}
           onTapCard={index => console.log(index)}
           backgroundColor={'white'}
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
     borderColor: '#E8E8E8',
     justifyContent: 'center',
     backgroundColor: 'white',
-    // height: Config.h / 1.45,
   },
   cardSection: {
     padding: 10

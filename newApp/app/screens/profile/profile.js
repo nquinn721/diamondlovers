@@ -86,7 +86,8 @@ class Profile extends React.Component {
 
 const styles = StyleSheet.create({
    container: {
-     height: defaults.availableHeight
+     flex: 1,
+     backgroundColor: 'white'
    },
    profileImage: {
      height: defaults.availableHeight - 75,

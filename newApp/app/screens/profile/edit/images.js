@@ -117,7 +117,8 @@ class Images extends React.Component {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+     backgroundColor: 'white'
   },
   defaultImageContainer:{
     width: Config.w - 20,

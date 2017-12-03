@@ -1,27 +1,10 @@
-import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import Choose from './choose';
+import Login from './login';
+import Register from './register';
 
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-      	<Text>Login</Text>
-      </View>
-    )
-  }
 
+export default {
+	Choose,
+	Login,
+	Register,
 }
-
-const styles = StyleSheet.create({
-  
-})
-
-
-
-
-export default connect(
-  // (state) => ({users: state.users}), 
-  // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
-)(HomeScreen);

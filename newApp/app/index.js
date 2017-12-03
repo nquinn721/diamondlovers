@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 import { login } from './redux/actions/login';
 import Nav from './components/nav';
 import gStyles from './config/globalStyles';
-
+import Loader from './screens/loading';
+import Login from './screens/login';
 
 class App extends React.Component{
   componentDidMount(){
@@ -20,19 +21,20 @@ class App extends React.Component{
       <View style={gStyles.container}>
         <View style={styles.statusBar}></View>
         {isFetching ? 
-          <View style={gStyles.containerCenter}><ActivityIndicator size="large" color="red"/></View> : 
-          <Nav />
+          <Loader /> : 
+          <Login.Choose />
         }
       </View>
       );
   }
 }
 
+          // <Nav />
 
 const styles = StyleSheet.create({
   statusBar: {
     height: Constants.statusBarHeight,
-    backgroundColor:'#e74c3c'
+    backgroundColor:'white'
   }
 })
 

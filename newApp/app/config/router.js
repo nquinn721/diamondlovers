@@ -10,10 +10,6 @@ import Purchase		from './routes/purchase';
 import Calendar		from './routes/calendar';
 import Chat			from './routes/chat';
 
-// Stack Nav Items
-import Login 		from 'newApp/app/screens/login';
-import Registration from 'newApp/app/screens/registration';
-import Intro 		from 'newApp/app/screens/intro';
 
 
 
