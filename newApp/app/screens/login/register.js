@@ -1,20 +1,38 @@
 import React from 'react';
-import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
 import gStyles, { defaults } from 'newApp/app/config/globalStyles';
+import { register } from 'newApp/app/redux/actions/login';
 
 class RegisterScreen extends React.Component {
+  register(){
+    let {email, displayName, password} = this.state;
+
+    this.props.register(email, password, displayName);
+  }
   render() {
+    if(this.props.user.user)
+      this.props.navigation.navigate('Nav')
+
+    if(this.props.user.error){
+      Alert.alert('Login Failed', 'Make sure you fill out all the information', [{text: 'OK'}, ], { cancelable: true } )
+      this.props.user.error = false;
+    }
+    
     return (
       <View style={styles.container}>
-      	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Your Name" />
-      	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Your Email" />
-      	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Create Password" />
+      	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Your Display Name"  onChangeText={(firstName) => this.setState({displayName})}/>
+      	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Your Email"  onChangeText={(email) => this.setState({email})}/>
+      	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Create Password"  onChangeText={(password) => this.setState({password})}/>
       	<View>
-	      	<TouchableOpacity style={styles.signupButton}>
-	      		<Text style={{color: 'white'}}>Sign Up</Text>
+	      	<TouchableOpacity style={styles.signupButton} onPress={() => this.register()}>
+          {
+            this.props.user.registering ?
+              <ActivityIndicator color="white" /> :
+  	      		<Text style={{color: 'white'}}>Sign Up</Text>
+          }
 	      	</TouchableOpacity>
 	      	<View style={{alignItems: 'center', justifyContent: 'center'}}>
 	      		<Text style={styles.smallText}>By clicking "Sign Up" I agree with your</Text>
@@ -85,6 +103,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  // (state) => ({users: state.users}), 
-  // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
+  (state) => ({user: state.user}), 
+  (dispatch) => (bindActionCreators({register}, dispatch))
 )(RegisterScreen);

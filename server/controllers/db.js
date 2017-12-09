@@ -11,7 +11,10 @@ module.exports = {
 		        state: req.body.state ? req.body.state.trim() : null,
 		        city: req.body.city ? req.body.city.trim() : null,
 		        zip: req.body.zip ? req.body.zip.trim() : null,
-	        	displayName: req.body.displayName ? req.body.displayName.trim() : null
+	        	displayName: req.body.displayName ? req.body.displayName.trim() : null,
+	        	cost: {
+	        		date1: 0
+	        	}
 	        }
 	    }, (e, client, doc) => {
 	        if(client){

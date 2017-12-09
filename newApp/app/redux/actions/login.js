@@ -16,9 +16,9 @@ export const login = (email, password) => {
 	}
 }
 
-export const register = (email, password, firstName) => {
+export const register = (email, password, displayName) => {
 	return (dispatch) => {
-		Service.dispatchPost(dispatch, 'db/register', {email, password, firstName}, {
+		Service.dispatchPost(dispatch, 'db/register', {email, password, displayName}, {
 			init: 'REGISTERING',
 			success: 'REGISTERED',
 			error: 'REGISTER_FAILED'
