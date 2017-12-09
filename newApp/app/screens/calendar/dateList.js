@@ -24,7 +24,7 @@ export default class DateList extends React.Component {
   render() {
     let user = this.props.user;
     return (
-      <ScrollView style={gStyles.container}>
+      <ScrollView style={styles.container}>
         {this.props.dates.map((date, i) => {
           let to, from, u, dateUser, showed;
           
@@ -60,6 +60,10 @@ export default class DateList extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    flex: 1
+  },
   black: {
     color: 'black'
   },

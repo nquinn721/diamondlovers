@@ -18,8 +18,8 @@ const img = require('newApp/app/assets/img/Icon-Profiles.png');
 
 class Nearby extends React.Component {
   state = {noCards: false, currentImage: 0};
-
   static navigationOptions = {
+      header:null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={img}
@@ -82,10 +82,12 @@ class Nearby extends React.Component {
     )
   }
   renderSwiper(users){
-    return (
-      <View style={styles.container}>
-        <Swiper
-          ref={swiper => this.swiper = swiper}
+    let swiper = (
+      <Swiper
+          ref={s => {
+            if(this.props.navigation.state.params === 'swipeRight' && s)
+              s.swipeRight();
+          }}
           cards={users}
           renderCard={(card, cardIndex) => this.renderCard(card, cardIndex)}
           onSwiped={(cardIndex) => {console.log('you swiped', cardIndex)}}
@@ -100,7 +102,14 @@ class Nearby extends React.Component {
           verticalSwipe={false}
           >
         </Swiper>
-        <BottomButtons swiper={this.swiper} navigation={this.props.navigation}/>
+    );
+
+    
+
+    return (
+      <View style={styles.container}>
+        {swiper}      
+        <BottomButtons navigation={this.props.navigation}/>
       </View>
     )
   }
@@ -116,6 +125,7 @@ class Nearby extends React.Component {
   render() {
     let {users} = this.props.nearby;
     if(!users)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
+  
 
 
     if(this.state.noCards) return this.renderNoCards();

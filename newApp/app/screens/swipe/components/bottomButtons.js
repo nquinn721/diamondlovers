@@ -14,12 +14,12 @@ class BottomButtons extends React.Component {
       </TouchableOpacity>
     ),
     no: (
-      <TouchableOpacity onPress={() => this.props.swiper.swipeLeft()}>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Nearby', 'swipeLeft')}>
         <Image source={require('newApp/app/assets/img/Icon-Delete.png')} style={[styles.button, styles.circle]}/>
       </TouchableOpacity>
     ),
     yes: (
-      <TouchableOpacity onPress={() => this.props.swiper.swipeRight()}>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Nearby', 'swipeRight')}>
         <Image source={require('newApp/app/assets/img/Icon-Like.png')} style={[styles.button, styles.circle]}/>
       </TouchableOpacity>
     ),

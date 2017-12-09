@@ -38,29 +38,6 @@ class PendingDates extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  black: {
-    color: 'black'
-  },
-  dateTime: {
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRightWidth: 1,
-    borderRightColor: '#eee',
-
-  },
-  month: {
-    fontSize: 18
-  },
-  date: {
-    padding: 10,
-    borderBottomWidth: 2,
-    flexDirection: 'row',
-    borderBottomColor: '#eee'
-  },
-  userInfo: {
-    padding: 10
-  }
 })
 
 

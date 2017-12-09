@@ -19,7 +19,7 @@ module.exports = {
 	                client: client,
 	            }
 	            req.session.model = doc;
-	            res.send({data: req.session.user});
+	            res.send({data: req.session.user.client});
 	        }else{
 	            res.send({error: config.errorMessages.register});
 	        }

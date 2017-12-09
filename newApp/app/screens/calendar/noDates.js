@@ -19,7 +19,7 @@ export default class NoDates extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: defaults.availableHeight,
+    flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center'

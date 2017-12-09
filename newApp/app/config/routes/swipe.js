@@ -14,6 +14,7 @@ const routeConfiguration = {
 	},
 	UserProfile: {
 		screen: Swipe.UserProfile,
+		path: 'profile/:name',
 		navigationOptions: {
 			title: 'User profile'
 		}

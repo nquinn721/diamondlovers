@@ -72,6 +72,24 @@ export default (state = initialState, action) => {
 				updatingProfile: false,
 				updatingProfileFailed: true
 			}
+
+		case 'REGISTERING':
+			return {
+				...state,
+				registering: true
+			}
+		case 'REGISTERED':
+			return {
+				...state,
+				registering: false,
+				user: action.data
+			}
+		case 'REGISTER_FAILED':
+			return {
+				...state,
+				registering: false,
+				error: action.error
+			}
 		default:
 			return state;
 	}

@@ -3,33 +3,29 @@ import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { Constants } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { login } from './redux/actions/login';
-import Nav from './components/nav';
 import gStyles from './config/globalStyles';
 import Loader from './screens/loading';
-import Login from './screens/login';
+import { StackNavigator } from 'react-navigation';
+import LoginStack from './config/loginRouter';
 
 class App extends React.Component{
   componentDidMount(){
-    this.props.login();
   }
 
   
   render(){
-    const {isFetching} = this.props.user;
+    let isFetching = false;
     return (
       <View style={gStyles.container}>
         <View style={styles.statusBar}></View>
         {isFetching ? 
-          <Loader /> : 
-          <Login.Choose />
+
+          <Loader /> : <LoginStack />
         }
       </View>
       );
   }
 }
-
-          // <Nav />
 
 const styles = StyleSheet.create({
   statusBar: {
@@ -42,6 +38,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({user: state.user}), 
-  (dispatch) => (bindActionCreators({login}, dispatch))
+  // (state) => ({user: state.user}), 
+  // (dispatch) => (bindActionCreators({login}, dispatch))
 )(App);
