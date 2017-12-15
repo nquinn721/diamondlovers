@@ -107,8 +107,10 @@ class Charge extends React.Component {
 
   showChargeFailed(){
     return (
-      <View style={styles.chargeSuccess}>
-        <Text>Sorry something went wrong, make sure your card is valid and try again</Text>
+      <View style={styles.charging}>
+        <Text style={{fontSize: 16}}>Sorry something went wrong</Text>
+        <Text style={{fontSize: 16}}>make sure your card is valid</Text>
+        <Text style={{fontSize: 16, marginBottom: 20}}>and try again</Text>
         <TouchableOpacity style={[defaults.defaultButton, {width: defaults.width - 80}]} onPress={() => this.leaveChargingScreen()}>
               <Text style={{color: 'white'}}>Continue</Text>
             </TouchableOpacity>
@@ -125,6 +127,8 @@ class Charge extends React.Component {
 		if(!this.props.navigation.state.params){
 			this.leaveChargingScreen();
 		}
+    console.log(this.props.card);
+    
     return (
       <View style={styles.container}>
         {this.props.card.chargingCard &&  this.showCharging()}
@@ -171,6 +175,7 @@ const styles = StyleSheet.create({
   	justifyContent: 'space-around'
   },
   charging: {
+    padding: 50,
   	backgroundColor: 'white',
   	flex: 1,
   	alignItems: 'center',
