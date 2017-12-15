@@ -28,13 +28,14 @@ class Profile extends React.Component {
         <TouchableOpacity onPress={() => this.props.navigation.navigate('Edit')}>
           <Image source={require('newApp/app/assets/img/Icon-Edit.png')} style={styles.bottomNavItem} />
         </TouchableOpacity>
-        <Image source={require('newApp/app/assets/img/Icon-Settings.png')} style={styles.bottomNavItem} />
         <TouchableOpacity onPress={() => this.props.navigation.navigate('Cards')}>
           <Image source={require('newApp/app/assets/img/Icon-Add-Card.png')} style={styles.bottomNavItem} />
         </TouchableOpacity>
       </View>
     )
   }
+        // <Image source={require('newApp/app/assets/img/Icon-Settings.png')} style={styles.bottomNavItem} />
+  
   displayProfileInfo({user} = this.props.user){
     
       return (
@@ -48,9 +49,9 @@ class Profile extends React.Component {
             <Text style={styles.profileText}>{user.profile.age || 'N/A'}, </Text>
             <Text style={styles.profileText}>{user.profile.career || 'N/A'}</Text>
           </View>
-          <Text style={styles.profileText}>{user.profile.city + ', ' + user.profile.state}</Text>
+          <Text style={styles.profileText}>{(user.profile.city || 'N/A') + ', ' + (user.profile.state || 'N/A')}</Text>
           <View style={styles.profileAbout}>
-            <Text style={styles.profileText}>{user.profile.about}</Text>
+            <Text style={styles.profileText}>{user.profile.about || 'N/A'}</Text>
           </View>
         </View>
       )
@@ -120,6 +121,7 @@ const styles = StyleSheet.create({
    profileInfo: {
      position: 'absolute',
      bottom: 0,
+     width: defaults.width,
      top: 220,
      padding: 10,
      zIndex: 1

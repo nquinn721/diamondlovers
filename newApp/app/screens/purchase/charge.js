@@ -85,14 +85,51 @@ class Charge extends React.Component {
 		)
 	}
 
+  showChargeSuccess(){
+    let charge = this.props.navigation.state.params;
+    return (
+        <View style={styles.chargeSuccess}>
+          <Image source={require('newApp/app/assets/img/Logo.png')} style={{width: 100, height: 100}}/>
+          <Text style={{color: defaults.color, fontSize: 20}}>yay!!!</Text>
+          <Text style={{fontWeight: 'bold', fontSize: 24}}>Payment Successful</Text>
+          <View>
+            <Text>Your payment of {charge.price} has</Text>
+            <Text>been processed successfully</Text>
+          </View>
+          <View>
+            <TouchableOpacity style={[defaults.defaultButton, {width: defaults.width - 80}]} onPress={() => this.leaveChargingScreen()}>
+              <Text style={{color: 'white'}}>Continue</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )
+  }
+
+  showChargeFailed(){
+    return (
+      <View style={styles.chargeSuccess}>
+        <Text>Sorry something went wrong, make sure your card is valid and try again</Text>
+        <TouchableOpacity style={[defaults.defaultButton, {width: defaults.width - 80}]} onPress={() => this.leaveChargingScreen()}>
+              <Text style={{color: 'white'}}>Continue</Text>
+            </TouchableOpacity>
+      </View>
+    )
+  }
+
+  leaveChargingScreen(){
+    this.props.card.chargingCardSuccess = false;
+    this.props.navigation.goBack()
+  }
+
   render() {
-		if(!this.props.navigation.state.params || this.props.card.chargingCardSuccess){
-			this.props.card.chargingCardSuccess = false;
-  		this.props.navigation.goBack()
+		if(!this.props.navigation.state.params){
+			this.leaveChargingScreen();
 		}
     return (
       <View style={styles.container}>
-      	{this.props.card.chargingCard &&  this.showCharging()}
+        {this.props.card.chargingCard &&  this.showCharging()}
+        {this.props.card.chargingCardSuccess &&  this.showChargeSuccess()}
+      	{this.props.card.chargingCardFailed &&  this.showChargeFailed()}
       	{this.props.card.defaultCard ? this.renderCharge() : this.renderAddCard()}
       </View>
     )
@@ -111,18 +148,30 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 20
   },
+  chargeSuccess: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingBottom: 50,
+    alignItems: 'center',
+    backgroundColor: 'white',
+    paddingTop: 50,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1
+  },
   cardIcon: {
   },
   chargingText: {
   	padding: 20,
   	backgroundColor: 'white',
-  	height: Config.h / 4.8,
   	alignItems: 'center',
-  	width: Config.w - 60,
   	justifyContent: 'space-around'
   },
   charging: {
-  	backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  	backgroundColor: 'white',
   	flex: 1,
   	alignItems: 'center',
   	justifyContent: 'center',

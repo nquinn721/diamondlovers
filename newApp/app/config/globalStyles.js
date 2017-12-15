@@ -48,14 +48,21 @@ const styles = StyleSheet.create({
 	}
 });
 export default styles;
-
+const defaultColor = '#ed3671';
 export const defaults = {
-	color: '#ed3671',
+	color: defaultColor,
 	borderRadius: 20,
 	red: '#ed4d46',
 	iconWidth: 26,
 	iconHeight: 25,
 	height: window.height,
 	width: window.width,
-	availableHeight: window.height - 128
+	availableHeight: window.height - 128,
+	defaultButton: {
+	  	backgroundColor: defaultColor,
+	  	borderRadius: 30,
+	  	padding: 15,
+	  	alignItems: 'center',
+	  	justifyContent: 'center'
+	  }
 }

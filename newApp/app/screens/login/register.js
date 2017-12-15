@@ -23,7 +23,7 @@ class RegisterScreen extends React.Component {
     
     return (
       <View style={styles.container}>
-      	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Your Display Name"  onChangeText={(firstName) => this.setState({displayName})}/>
+      	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Your Display Name"  onChangeText={(displayName) => this.setState({displayName})}/>
       	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Your Email"  onChangeText={(email) => this.setState({email})}/>
       	<TextInput style={styles.input} underlineColorAndroid='rgba(0,0,0,0)' placeholder="Create Password"  onChangeText={(password) => this.setState({password})}/>
       	<View>

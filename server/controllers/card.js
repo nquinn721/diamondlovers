@@ -19,17 +19,18 @@ module.exports = {
 	chargeCard: (req, res) => {
 		let userId = req.session.user.client._id,
 			amount = req.body.amount;
-		
-	    StripAPI.charge(req.session.user.stripeCust.id, {amount}, (e, charge) => {
-	        if(charge && charge.status === 'succeeded'){
-	            User.updateDiamonds(userId, charge.amount / 10, (e, user) => {
-	                req.session.user.client = user;
-	                res.send({data: req.session.user.client});
-	            });
-	        }else{
 	            res.send({error: 'failed to charge card'});
-	        }
-	    });
+		
+	    // StripAPI.charge(req.session.user.stripeCust.id, {amount}, (e, charge) => {
+	    //     if(charge && charge.status === 'succeeded'){
+	    //         User.updateDiamonds(userId, charge.amount / 10, (e, user) => {
+	    //             req.session.user.client = user;
+	    //             res.send({data: req.session.user.client});
+	    //         });
+	    //     }else{
+	    //         res.send({error: 'failed to charge card'});
+	    //     }
+	    // });
 	}
 
 }

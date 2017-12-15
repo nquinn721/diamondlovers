@@ -94,6 +94,10 @@ class Cards extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+     flex: 1,
+     backgroundColor: 'white'
+   },
   card:{
     flexDirection: 'row',
     alignItems: 'center',

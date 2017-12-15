@@ -36,8 +36,6 @@ class Nearby extends React.Component {
     let image = getDefaultImage(user.profile.defaultImage, user.images) || avatar;
 
     if(!this.state.currentUser){
-      console.log('setting current user', user);
-      
       this.props.setCurrentUser(user);
       this.state.currentUser = user;
     }
@@ -123,12 +121,15 @@ class Nearby extends React.Component {
     this.props.navigation.navigate('SetupDate', user);
   }
   render() {
+    
     let {users} = this.props.nearby;
+
+
+    if(this.props.nearby.fetchingNearbyFailed || this.state.noCards) 
+      return this.renderNoCards();
+    
     if(!users)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
   
-
-
-    if(this.state.noCards) return this.renderNoCards();
     return this.renderSwiper(users);
   }
 

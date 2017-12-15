@@ -3,6 +3,8 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
+	console.log(action);
+	
 	switch(action.type){
 		case 'FETCH_NEARBY':
 			return {
@@ -16,6 +18,8 @@ export default (state = initialState, action) => {
 				users: action.data
 			}
 		case 'FETCH_NEARBY_FAILED':
+		console.log('returning failed');
+		
 			return {
 				...state,
 				fetchingNearby: false,
