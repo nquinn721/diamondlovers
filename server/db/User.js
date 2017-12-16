@@ -31,7 +31,10 @@ const seeds = require('./seed');
     sex: String,
     children: String,
     education: String,
-    height: String,
+    height: {
+        feet: String,
+        inches: String
+    },
     drugs: Boolean,
     drinks: Boolean,
     smokes: Boolean,

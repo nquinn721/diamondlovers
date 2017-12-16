@@ -7,7 +7,6 @@ import { Icon, Button } from 'react-native-elements';
 import gStyles from 'newApp/app/config/globalStyles';
 import { defaults } from 'newApp/app/config/globalStyles';
 import Splash from 'newApp/app/components/splash';
-import { updateProfile } from 'newApp/app/redux/actions/user';
 const avatar = require('newApp/app/assets/img/avatar.png');
 const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
@@ -162,5 +161,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({user: state.user, image: state.image}), 
-  (dispatch) => (bindActionCreators({updateProfile}, dispatch))
+  // (dispatch) => (bindActionCreators({updateProfile}, dispatch))
 )(Profile);
