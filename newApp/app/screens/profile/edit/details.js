@@ -63,11 +63,15 @@ const inches = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
 
 class Images extends React.Component {
   updateProfile(field, value){
-    clearTimeout(this.timer);
-    this.timer = setTimeout(function() {
-      this.props.updateProfile(field, value);
+    console.log('setting state', field, value);
+    
+    this.setState({about: value});
+
+    // clearTimeout(this.timer);
+    // this.timer = setTimeout(function() {
+    //   this.props.updateProfile(field, value);
       
-    }.bind(this), 1000);
+    // }.bind(this), 1000);
   }
   renderDetails(user){
     return (
@@ -102,20 +106,24 @@ class Images extends React.Component {
         </View>
         <View style={styles.item}>
           <Text style={{flex: 1}}>Height</Text>
-          <Picker
-           style={{flex: 1}}
-           mode="dropdown"
-           selectedValue={user.profile.height.feet}
-           onValueChange={(feet) => this.updateProfile('feet', feet)}>
-           {feet.map((item, index) => <Picker.Item label={item} value={item} key={index} />)}
-        </Picker>
-          <Picker
-           style={{flex: 1}}
-           mode="dropdown"
-           selectedValue={user.profile.height.inches}
-           onValueChange={(inches) => this.updateProfile('inches', inches)}>
-           {inches.map((item, index) => <Picker.Item label={item} value={item} key={index} />)}
-        </Picker>
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+            <Text>ft</Text>
+            <Picker
+             style={{flex: 1, height: 20}}
+             mode="dropdown"
+             selectedValue={user.profile.height && user.profile.height.feet}
+             onValueChange={(feet) => this.updateProfile('height.feet', feet)}>
+             {feet.map((item, index) => <Picker.Item label={item} value={item} key={index} />)}
+          </Picker>
+          <Text>in</Text>
+            <Picker
+             style={{flex: 1}}
+             mode="dropdown"
+             selectedValue={user.profile.height && user.profile.height.inches}
+             onValueChange={(inches) => this.updateProfile('height.inches', inches)}>
+             {inches.map((item, index) => <Picker.Item label={item} value={item} key={index} />)}
+          </Picker>
+        </View>
         </View>
         <View style={styles.item}>
           <Text>Ethnicity</Text>
@@ -136,23 +144,26 @@ class Images extends React.Component {
       </View>
     )
   }
-// <TextInput 
-//             style={styles.itemValue} 
-//             value={user.profile.state} 
-//             underlineColorAndroid='rgba(0,0,0,0)'
-//             onChangeText={(value) => this.updateProfile('state', value)}/>
 
   renderAbout(user){
+    console.log(this.state.about);
+    
     return (
       <View style={styles.about}>
         <Text>About You</Text>
-        <Text>{user.profile.about}</Text>
+        <TextInput
+          multiline={true}
+          numberOfLines={4}
+          onChangeText={(text) => this.updateProfile('about', text)}
+          value={this.state.about}/>
       </View>
     )
   }
   render() {
     let {user} = this.props.user;
-    console.log(user);
+    this.state = {
+      ...user.profile
+    }
     
     return (
       <ScrollView style={styles.container}>
