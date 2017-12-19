@@ -205,6 +205,12 @@ class User {
     static getPublicProfilesNearby(_id, cb = function(){}){
         UserModel.findOne({_id}, (e, doc) => {
             if(e || !doc)return cb(e || {error: 'no doc found with _id [' + _id + ']'});
+            console.log('GETTING PUBLIC RECORDS');
+            console.log('GETTING PUBLIC RECORDS');
+            console.log('GETTING PUBLIC RECORDS');
+            console.log('GETTING PUBLIC RECORDS');
+            console.log('GETTING PUBLIC RECORDS');
+            console.log('GETTING PUBLIC RECORDS');
             if(!doc.profile.city || !doc.profile.state){
                 UserModel.find({_id: {'$ne' : _id}}, (e, users) => {
 
