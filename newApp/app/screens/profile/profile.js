@@ -4,8 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
 import { Icon, Button } from 'react-native-elements';
-import gStyles from 'newApp/app/config/globalStyles';
-import { defaults } from 'newApp/app/config/globalStyles';
+import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import Splash from 'newApp/app/components/splash';
 const avatar = require('newApp/app/assets/img/avatar.png');
 const img = require('newApp/app/assets/img/Icon-My-Profile.png');
@@ -33,6 +32,10 @@ class Profile extends React.Component {
       </View>
     )
   }
+  capitalize(str){
+    if(!str)return;
+    return str.substr(0,1).toUpperCase() + str.substr(1)
+  }
         // <Image source={require('newApp/app/assets/img/Icon-Settings.png')} style={styles.bottomNavItem} />
   
   displayProfileInfo({user} = this.props.user){
@@ -40,17 +43,17 @@ class Profile extends React.Component {
       return (
         <View style={styles.profileInfo}>
           <View style={styles.profileDiamonds}>
-            <Image source={require  ('newApp/app/assets/img/Icon-Purchase.png')} style={[styles.costDiamond, StyleSheet.absoluteFill]}/>
+            <Image source={require('newApp/app/assets/img/Icon-Purchase.png')} style={[styles.costDiamond, StyleSheet.absoluteFill]}/>
             <Text style={[styles.cardText, styles.costDiamondText]}> {user.profile.cost.date1}</Text>
           </View>
-          <Text style={[styles.profileText, styles.userName]}>{user.profile.displayName}</Text>
+          <Text style={[styles.profileText, styles.userName]}>{this.capitalize(user.profile.displayName)}</Text>
           <View style={gStyles.row}>
             <Text style={styles.profileText}>{user.profile.age || 'N/A'}, </Text>
-            <Text style={styles.profileText}>{user.profile.career || 'N/A'}</Text>
+            <Text style={styles.profileText}>{this.capitalize(user.profile.career) || 'N/A'}</Text>
           </View>
-          <Text style={styles.profileText}>{(user.profile.city || 'N/A') + ', ' + (user.profile.state || 'N/A')}</Text>
+          <Text style={styles.profileText}>{(this.capitalize(user.profile.city) || 'N/A') + ', ' + (this.capitalize(user.profile.state) || 'N/A')}</Text>
           <View style={styles.profileAbout}>
-            <Text style={styles.profileText}>{user.profile.about || 'N/A'}</Text>
+            <Text style={styles.profileText}>{this.capitalize(user.profile.about) || 'N/A'}</Text>
           </View>
         </View>
       )
@@ -64,7 +67,9 @@ class Profile extends React.Component {
     return (
       <View style={styles.profileImage}>
         <Image source={img} style={styles.profileImage} />
-        <Image source={img} style={styles.mainImage} />
+        <View style={styles.mainImage}>
+          <Image source={img} style={StyleSheet.absoluteFill} />
+        </View>
         <View style={[styles.profileImageOverlay, StyleSheet.absoluteFill]}></View>
         {this.displayProfileInfo()}
       </View>
@@ -102,7 +107,8 @@ const styles = StyleSheet.create({
      left: (defaults.width / 2) - 75,
      width: 150,
      height: 150,
-     borderRadius: 1000,
+     borderRadius: 100,
+     overflow: 'hidden',
      borderWidth: 2,
      borderColor: 'white',
      zIndex: 1
@@ -127,7 +133,8 @@ const styles = StyleSheet.create({
    },
    profileText: {
      color: 'white',
-     fontSize: 16
+     fontSize: 16,
+     backgroundColor: 'rgba(0,0,0,0)'
    },
    userName: {
      fontSize: 24
@@ -136,23 +143,24 @@ const styles = StyleSheet.create({
      marginTop: 15
    },
    profileDiamonds: {
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     position: 'absolute',
+    alignItems: 'center',
+    backgroundColor: 'black',
     right: 30,
     marginTop: 15
    },
     costDiamond: {
-      width: 45,
-      height: 45,
-      position: 'absolute',
+      width: 50,
+      height: 50,
 
     },
     costDiamondText: {
       fontSize: 13,
       color: 'white',
-      marginTop: 3,
-      marginLeft: 4
+      marginTop: 7,
+      backgroundColor: 'rgba(0,0,0,0)',
     }
 })
 

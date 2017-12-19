@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setChat } from 'newApp/app/redux/actions/chat';
@@ -41,11 +42,19 @@ class ChatScreen extends React.Component {
 			);
 		})	
 	}
+	renderNoChats(){
+		return (
+			<View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+				<Icon name="chat" size={45} color="#aaa" />
+				<Text style={{color: '#aaa'}}>Sorry no chats at this time</Text>
+			</View>
+		);
+	}
 	render() {
 		
 	return (
 	  <View style={styles.container}>
-	  	{this.renderChats()}
+	  	{this.props.chats.length ? this.renderChats() : this.renderNoChats()}
 	  </View>
 	)
 	}

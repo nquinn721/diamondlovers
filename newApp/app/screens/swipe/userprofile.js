@@ -10,6 +10,7 @@ import { getNearby } from 'newApp/app/redux/actions/nearby';
 import Carousel from 'newApp/app/components/carousel';
 import BottomButtons from './components/bottomButtons';
 import { defaults } from 'newApp/app/config/globalStyles';
+const img = require('newApp/app/assets/img/Icon-Profiles.png');
 
 
 const FIXED_BAR_WIDTH = 75
@@ -18,7 +19,15 @@ const BAR_SPACE = 10
 
 
 class UserProfile extends React.Component {
-
+static navigationOptions = {
+      header:null,
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={img}
+          style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+      />
+    ),
+  };
   render() {
     let user = this.props.user;
     let profile = user.profile;

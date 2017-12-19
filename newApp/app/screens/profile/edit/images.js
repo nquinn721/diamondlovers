@@ -4,12 +4,20 @@ import { bindActionCreators } from 'redux';
 import { ImagePicker, BlurView } from 'expo';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
-import gStyles from 'newApp/app/config/globalStyles';
+import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import { addImage, deleteImage, setDefaultImage, sortByDefault } from 'newApp/app/redux/actions/image';
+const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
 class Images extends React.Component {
   state = {images: {}};
-
+  static navigationOptions = {
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={img}
+        style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+      />
+    ),
+  };
   componentWillMount(){
     
   }

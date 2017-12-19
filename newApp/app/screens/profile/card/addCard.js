@@ -1,14 +1,23 @@
 import React from 'react';
-import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
-import gStyles from 'newApp/app/config/globalStyles';
+import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import { addCard } from 'newApp/app/redux/actions/card';
 const stripe = require('stripe-client')(Config.stripeApiKey);
+const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
 class AddCard extends React.Component {
+  static navigationOptions = {
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={img}
+        style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+      />
+    ),
+  };
   state = {}
   updateNumber(number){
     if(/\d{16}/.test(number)){

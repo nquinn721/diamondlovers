@@ -7,9 +7,19 @@ import { connect } from 'react-redux';
 import { chargeCard } from 'newApp/app/redux/actions/card';
 import gStyles from 'newApp/app/config/globalStyles';
 import { defaults } from 'newApp/app/config/globalStyles';
+const img = require('newApp/app/assets/img/Icon-Purchase.png');
 
 class Charge extends React.Component {
 	state = {};
+
+  static navigationOptions = {
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={img}
+        style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+      />
+    ),
+  };
 	
 	renderCharge(){
 		let card = this.props.card.defaultCard;

@@ -8,12 +8,22 @@ import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import Yelp from 'newApp/app/components/yelp';
+import { YelpSearch } from 'newApp/app/redux/actions/yelp';
 import Image from 'react-native-image-progress';
 import Splash from 'newApp/app/components/splash';
 import { setDate } from 'newApp/app/redux/actions/dates';
+const img = require('newApp/app/assets/img/Icon-Profiles.png');
 
 class SetupDate extends React.Component {
+  static navigationOptions = {
+      header:null,
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={img}
+          style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+      />
+    ),
+  };
   state = {
     isDateTimePickerVisible: false,
     location: null,
@@ -51,7 +61,7 @@ class SetupDate extends React.Component {
   };
 
   getYelpData(){
-    Yelp.search(this.state.searchData, (restaurants) => {
+    this.props.YelpSearch(this.state.searchData, (restaurants) => {
       this.setState({ location, restaurants });
     });    
   }
@@ -233,5 +243,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({user: state.user}), 
-  (dispatch) => (bindActionCreators({setDate}, dispatch))
+  (dispatch) => (bindActionCreators({setDate, YelpSearch}, dispatch))
 )(SetupDate);

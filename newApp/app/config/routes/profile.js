@@ -23,6 +23,7 @@ const tabConfig = {
 	tabBarPosition: 'top',
 	swipeEnabled: true,
 	tabBarOptions: {
+		headerMode: 'float',
 		activeTintColor: defaults.color,
 		inactiveTintColor: 'black',
 		style: {
