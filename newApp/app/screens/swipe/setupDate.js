@@ -61,9 +61,7 @@ class SetupDate extends React.Component {
   };
 
   getYelpData(){
-    this.props.YelpSearch(this.state.searchData, (restaurants) => {
-      this.setState({ location, restaurants });
-    });    
+    this.props.YelpSearch(this.state.searchData);    
   }
 
   showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -242,6 +240,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({user: state.user}), 
+  (state) => ({user: state.user, restaurants: state.yelp}), 
   (dispatch) => (bindActionCreators({setDate, YelpSearch}, dispatch))
 )(SetupDate);
