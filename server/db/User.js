@@ -205,12 +205,19 @@ class User {
     static getPublicProfilesNearby(_id, cb = function(){}){
         UserModel.findOne({_id}, (e, doc) => {
             if(e || !doc)return cb(e || {error: 'no doc found with _id [' + _id + ']'});
-            if(!doc.profile.city || !doc.profile.state)
-                return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
-            UserModel.find({_id: {'$ne' : _id}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, (e, users) => {
+            if(!doc.profile.city || !doc.profile.state){
+                UserModel.find({_id: {'$ne' : _id}}, (e, users) => {
 
-                this.getImagesForUsers(users, cb);
-            });
+                    this.getImagesForUsers(users, cb);
+                });
+                // return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
+            }else{
+                UserModel.find({_id: {'$ne' : _id}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, (e, users) => {
+
+                    this.getImagesForUsers(users, cb);
+                });
+                
+            }
         });
     }
     /**
