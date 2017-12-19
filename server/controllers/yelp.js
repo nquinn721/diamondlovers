@@ -1,11 +1,9 @@
+const Yelp = require('../apis/yelp');
 module.exports = {
 	search: function(req, res) {
-		console.log('YELP SEARCH');
-		console.log('YELP SEARCH');
-		console.log('YELP SEARCH');
-		console.log('YELP SEARCH');
-		console.log('YELP SEARCH');
-		console.log(req.params);
-		res.send('hi');
+		Yelp.search(req.body, function(data) {
+			console.log(data);
+			res.send('hi');
+		});
 	}
 }

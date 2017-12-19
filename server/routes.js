@@ -145,7 +145,7 @@ module.exports = function(app){
          * YELP
          */
         'yelp/search': {
-            type: 'get',
+            type: 'post',
             middleWare: ['loggedIn'],
             method: 'yelp.search'
         },

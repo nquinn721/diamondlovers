@@ -1,3 +1,5 @@
+import Service from './service';
+
 export const YelpSearch = function(searchData) {
 	return (dispatch) => {
 		Service.dispatchPost(dispatch, 'yelp/search', searchData, {
