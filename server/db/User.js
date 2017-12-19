@@ -213,7 +213,7 @@ class User {
             console.log('GETTING PUBLIC RECORDS');
             if(!doc.profile.city || !doc.profile.state){
                 UserModel.find({_id: {'$ne' : _id}}, (e, users) => {
-
+                    console.log(users);
                     this.getImagesForUsers(users, cb);
                 });
                 // return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
