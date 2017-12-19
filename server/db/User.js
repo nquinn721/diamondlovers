@@ -204,8 +204,8 @@ class User {
      */
     static getPublicProfilesNearby(_id, city, state, cb = function(){}){
         let search = {_id: {'$ne': _id}};
-        if(city)search['profile.city'] = city;
-        if(state)search['profile.state'] = state;
+        if(city)search['profile.city'] = city.trim();
+        if(state)search['profile.state'] = state.trim();
 
         console.log(search);
         UserModel.find(search, (e, users) => {
