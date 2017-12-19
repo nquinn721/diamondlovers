@@ -32,11 +32,6 @@ class Nearby extends React.Component {
     this.props.getDates();
   }
 
-  capitalize(str){
-    if(!str)return;
-    return str.substr(0,1).toUpperCase() + str.substr(1)
-  }
-
   renderCard(user){
     let image = getDefaultImage(user.profile.defaultImage, user.images) || avatar;
 
@@ -52,11 +47,11 @@ class Nearby extends React.Component {
         <View style={styles.userInfo}>
           <View style={styles.cardSection}>
             <View style={styles.cardItem}>
-              <Text style={[styles.cardText, styles.name]}>{this.capitalize(user.profile.displayName)}, {user.profile.age || 'N/A'}</Text>
+              <Text style={[styles.cardText, styles.name]}>{defaults.capitalize(user.profile.displayName)}, {user.profile.age || 'N/A'}</Text>
             </View>
             <View style={styles.cardItem}>
-              <Text style={[styles.cardText, styles.location]}>{this.capitalize(user.profile.city) || 'N/A'},</Text>
-              <Text style={[styles.cardText, styles.location]}>{this.capitalize(user.profile.state) || 'N/A'}</Text>
+              <Text style={[styles.cardText, styles.location]}>{defaults.capitalize(user.profile.city) || 'N/A'},</Text>
+              <Text style={[styles.cardText, styles.location]}>{defaults.capitalize(user.profile.state) || 'N/A'}</Text>
             </View>
             
               

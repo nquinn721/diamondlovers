@@ -32,10 +32,6 @@ class Profile extends React.Component {
       </View>
     )
   }
-  capitalize(str){
-    if(!str)return;
-    return str.substr(0,1).toUpperCase() + str.substr(1)
-  }
         // <Image source={require('newApp/app/assets/img/Icon-Settings.png')} style={styles.bottomNavItem} />
   
   displayProfileInfo({user} = this.props.user){
@@ -46,14 +42,14 @@ class Profile extends React.Component {
             <Image source={require('newApp/app/assets/img/Icon-Purchase.png')} style={[styles.costDiamond, StyleSheet.absoluteFill]}/>
             <Text style={[styles.cardText, styles.costDiamondText]}> {user.profile.cost.date1}</Text>
           </View>
-          <Text style={[styles.profileText, styles.userName]}>{this.capitalize(user.profile.displayName)}</Text>
+          <Text style={[styles.profileText, styles.userName]}>{defaults.capitalize(user.profile.displayName)}</Text>
           <View style={gStyles.row}>
             <Text style={styles.profileText}>{user.profile.age || 'N/A'}, </Text>
-            <Text style={styles.profileText}>{this.capitalize(user.profile.career) || 'N/A'}</Text>
+            <Text style={styles.profileText}>{defaults.capitalize(user.profile.career) || 'N/A'}</Text>
           </View>
-          <Text style={styles.profileText}>{(this.capitalize(user.profile.city) || 'N/A') + ', ' + (this.capitalize(user.profile.state) || 'N/A')}</Text>
+          <Text style={styles.profileText}>{(defaults.capitalize(user.profile.city) || 'N/A') + ', ' + (defaults.capitalize(user.profile.state) || 'N/A')}</Text>
           <View style={styles.profileAbout}>
-            <Text style={styles.profileText}>{this.capitalize(user.profile.about) || 'N/A'}</Text>
+            <Text style={styles.profileText}>{defaults.capitalize(user.profile.about) || 'N/A'}</Text>
           </View>
         </View>
       )
@@ -147,7 +143,6 @@ const styles = StyleSheet.create({
     height: 50,
     position: 'absolute',
     alignItems: 'center',
-    backgroundColor: 'black',
     right: 30,
     marginTop: 15
    },

@@ -86,8 +86,8 @@ class SetupDate extends React.Component {
 
   renderRestaurants(){
     let restaurants = [];
-    if(this.state.restaurants){
-  	  restaurants = this.state.restaurants.map((r, i) => {
+    if(this.props.restaurants.data){
+  	  restaurants = this.props.restaurants.data.map((r, i) => {
         let selected = this.state.pickedRestaurant === r;
 		   	return (
 		   		<TouchableOpacity onPress={() => this.pickRestaurant(r)} key={i} style={[styles.restaurant, gStyles.row, selected && styles.selected]}>

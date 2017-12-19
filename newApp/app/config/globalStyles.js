@@ -53,6 +53,7 @@ export const defaults = {
 	color: defaultColor,
 	borderRadius: 20,
 	red: '#ed4d46',
+	green: '#6dbf02',
 	iconWidth: 26,
 	iconHeight: 25,
 	height: window.height,
@@ -64,5 +65,10 @@ export const defaults = {
 	  	padding: 15,
 	  	alignItems: 'center',
 	  	justifyContent: 'center'
-	  }
+	},
+
+	capitalize: function(str){
+	    if(!str)return;
+	    return str.substr(0,1).toUpperCase() + str.substr(1)
+	}
 }

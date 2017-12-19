@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({dates: state.dates.completedDates}), 
+  (state) => ({dates: state.dates.completedDates, user: state.user}), 
   // (dispatch) => (bindActionCreators({userServiceCall, selectUser}, dispatch))
 )(ApprovedDates);

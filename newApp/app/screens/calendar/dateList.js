@@ -1,28 +1,59 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, Button } from 'react-native';
-import gStyles from 'newApp/app/config/globalStyles';
-import { defaults } from 'newApp/app/config/globalStyles';
+import { Text, View, StyleSheet, Image, ScrollView, Button, TouchableOpacity } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import moment from 'moment';
+import { approveDate, confirmShowed } from 'newApp/app/redux/actions/dates';
 
-export default class DateList extends React.Component {
+class DateList extends React.Component {
 
-  renderMessage(to, from){
-    let screen = this.props.screen,
-      view;
+  renderMessage(screen, to, from, date){
+    let view;
 
-    switch(screen){
-      case 'pending':
 
-      case 'approved':
-      case 'completed':
 
-    }
+      if(screen === 'pending'){
+        if(to) view = (
+          <Text style={{color: defaults.green}}>Waiting your approval</Text>
+        );
+        else view = (
+          <Text style={{color: defaults.red}}>Waiting for approval</Text>
+        );
+        
+      // case 'completed':
+      }else if(screen === 'approved'){
+        if((!date.fromShowed && to) || (!date.toShowed && from))view = (<Text style={{color: defaults.green}}>Confirm your date showed</Text>)
+        else if((date.fromShowed && to) || (date.toShowed && from))view = (<Text style={{color: defaults.red}}>Waiting for your date to confirm</Text>)
+      }else if(screen = 'completed'){
+        view = (<Text style={{color: defaults.green}}>Completed!</Text>)
+      }
+
+    return view;
+  }
+
+  renderSubmitButton(screen, to, from, date){
+    let view;
+
+    if(screen === 'pending' && to){
+      view = (
+        <TouchableOpacity style={{padding: 10, backgroundColor: defaults.green, borderRadius: 10}} onPress={() => this.props.approveDate(date._id)}>
+          <Text style={{color: 'white'}}>Approve</Text>
+        </TouchableOpacity>
+      )
+    }else if(screen === 'approved'){
+        if((!date.fromShowed && to) || (!date.toShowed && from))view = (
+           <TouchableOpacity style={{padding: 10, backgroundColor: defaults.green, borderRadius: 10}} onPress={() => this.props.confirmShowed(date._id)}>
+            <Text style={{color: 'white'}}>Confirm</Text>
+          </TouchableOpacity>
+        )
+      }
 
     return view;
   }
  
   render() {
-    let user = this.props.user;
+    let { user, screen } = this.props;
     return (
       <ScrollView style={styles.container}>
         {this.props.dates.map((date, i) => {
@@ -39,15 +70,20 @@ export default class DateList extends React.Component {
           }
           return (
             <View key={i} style={styles.date}>
-              <View style={styles.dateTime}>
-                <Text style={styles.month}>{moment(date.time).format('MMM D')}</Text>
-                <Text>{moment(date.time).format('h:mm a')}</Text>
+              <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                <View style={styles.dateTime}>
+                  <Text style={styles.month}>{moment(date.time).format('MMM D')}</Text>
+                  <Text>{moment(date.time).format('h:mm a')}</Text>
+                </View>
+                <View style={styles.userInfo}>
+                  <Text>{defaults.capitalize(dateUser.profile.displayName)}</Text>
+                  <Text>{date.location.name}</Text>
+                  <Text>{date.location.location.address1}</Text>
+                  {this.renderMessage(screen, to, from, date)}
+                </View>
               </View>
-              <View style={styles.userInfo}>
-                <Text>{dateUser.profile.displayName}</Text>
-                <Text>{date.location.name}</Text>
-                <Text>{date.location.location.address1}</Text>
-                {this.renderMessage(to, from)}
+              <View style={styles.submitButton}>
+                  {this.renderSubmitButton(screen, to, from, date)}
               </View>
             </View>
           )            
@@ -82,10 +118,21 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 2,
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     borderBottomColor: '#eee'
+  },
+  submitButton: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   userInfo: {
     padding: 10
   }
 })
+
+export default connect(
+  (state) => ({}), 
+  (dispatch) => (bindActionCreators({approveDate, confirmShowed}, dispatch))
+)(DateList);
 
