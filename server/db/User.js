@@ -209,6 +209,7 @@ class User {
 
         console.log(search);
         UserModel.find(search, (e, users) => {
+            console.log('WOEIFJWE', e, users);
             if(e)return cb({error: 'failed to retrieve profiles'});
             this.getImagesForUsers(users, cb);
         });
