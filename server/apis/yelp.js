@@ -25,19 +25,19 @@ let availableSearchParams = {
     limit: true
 };
 
-export default class YelpAPI{
+module.exports  = {
     
    
 
-    static search(term, cb){
+    search: function(term, cb){
         if(!accessToken){
             this.authorization(() => this.requestYelp(term, cb));
         }else{
             this.requestYelp(term, cb);
         }
-    }
+    },
 
-    static authorization (cb) {
+    authorization: function (cb) {
         fetch('https://api.yelp.com/oauth2/token', {
             method: 'POST',
             headers: headers,
@@ -47,10 +47,10 @@ export default class YelpAPI{
                 accessToken = body.access_token;
                 cb()
             });
-    }
+    },
 
 
-    static requestYelp(params, cb){
+    requestYelp: function(params, cb){
         let lat = params.lat || 39.9826142; //pos.coords.latitude;
         let lng = params.lng || -83.2710139; //pos.coords.longitude;
         let paramString = 'latitude=' + lat + '&longitude=' + lng;
@@ -82,7 +82,7 @@ export default class YelpAPI{
             })
             .catch(e => console.error(e))
 
-    }
+    },
 
 
 
