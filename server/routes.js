@@ -146,7 +146,7 @@ module.exports = function(app){
          */
         'yelp/search': {
             type: 'post',
-            middleWare: ['loggedIn'],
+            middleWare: ['loggedIn', 'json'],
             method: 'yelp.search'
         },
         /**
