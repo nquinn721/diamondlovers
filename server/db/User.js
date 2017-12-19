@@ -202,16 +202,15 @@ class User {
     /**
      * SEARCH
      */
-    static getPublicProfilesNearby(_id, city, state cb = function(){}){
-            let search = {_id: {'$ne': _id}};
-            if(city)search['profile.city'] = city;
-            if(state)search['profile.state'] = state;
+    static getPublicProfilesNearby(_id, city, state, cb = function(){}){
+        let search = {_id: {'$ne': _id}};
+        if(city)search['profile.city'] = city;
+        if(state)search['profile.state'] = state;
 
-            console.log(search);
-            UserModel.find(search, (e, users) => {
-                if(e)return cb({error: 'failed to retrieve profiles'});
-                this.getImagesForUsers(users, cb);
-            });
+        console.log(search);
+        UserModel.find(search, (e, users) => {
+            if(e)return cb({error: 'failed to retrieve profiles'});
+            this.getImagesForUsers(users, cb);
         });
     }
     /**
