@@ -202,28 +202,16 @@ class User {
     /**
      * SEARCH
      */
-    static getPublicProfilesNearby(_id, cb = function(){}){
-        UserModel.findOne({_id}, (e, doc) => {
-            if(e || !doc)return cb(e || {error: 'no doc found with _id [' + _id + ']'});
-            console.log('GETTING PUBLIC RECORDS');
-            console.log('GETTING PUBLIC RECORDS');
-            console.log('GETTING PUBLIC RECORDS');
-            console.log('GETTING PUBLIC RECORDS');
-            console.log('GETTING PUBLIC RECORDS');
-            console.log('GETTING PUBLIC RECORDS');
-            if(!doc.profile.city || !doc.profile.state){
-                UserModel.find({_id: {'$ne' : _id}}, (e, users) => {
-                    console.log(users);
-                    this.getImagesForUsers(users, cb);
-                });
-                // return cb({error: 'We need a city and stated to search for local ' + doc.profile.preferences.sex});
-            }else{
-                UserModel.find({_id: {'$ne' : _id}, 'profile.city': doc.profile.city, 'profile.state': doc.profile.state}, (e, users) => {
+    static getPublicProfilesNearby(_id, city, state cb = function(){}){
+            let search = {_id: {'$ne': _id}};
+            if(city)search['profile.city'] = city;
+            if(state)search['profile.state'] = state;
 
-                    this.getImagesForUsers(users, cb);
-                });
-                
-            }
+            console.log(search);
+            UserModel.find(search, (e, users) => {
+                if(e)return cb({error: 'failed to retrieve profiles'});
+                this.getImagesForUsers(users, cb);
+            });
         });
     }
     /**
