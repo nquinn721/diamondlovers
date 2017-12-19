@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Icon, Button, SearchBar } from 'react-native-elements';
 import { MapView, Constants, Location, Permissions } from 'expo';
 import Config from 'newApp/app/config/config';
-import gStyles from 'newApp/app/config/globalStyles';
+import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import { YelpSearch } from 'newApp/app/redux/actions/yelp';
