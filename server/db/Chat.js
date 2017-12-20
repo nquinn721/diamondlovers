@@ -28,7 +28,7 @@ class Chat{
 		ChatModel.findOneAndUpdate({_id}, {'recentMsg.msg': msg, 'recentMsg.time': Date.now()}, {new: true}, cb);
 	}
 	static get(userId, ids, cb){
-		ChatModel.find({_id: {$in: ids}})
+		ChatModel.find({_id: {$in: ids}}, {sort: {date: -1}})
 			.populate({
 				path: 'to',
 				select: 'profile.displayName profile.defaultImage',
