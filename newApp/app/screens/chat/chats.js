@@ -27,8 +27,8 @@ class ChatScreen extends React.Component {
 
 			return (
 				<TouchableOpacity key={k} onPress={() => this.openChat(chat)} style={[gStyles.row, styles.chatItem]}>
-        			<View style={{width: 70}}>
-        				<Image source={{uri: from.profile.defaultImage.url}} style={styles.image}/>
+        			<View style={styles.image}>
+        				<Image source={{uri: from.profile.defaultImage.url}} style={StyleSheet.absoluteFill}/>
         			</View>
         			<View style={{flexGrow: 2}}>
 						<Text>{from.profile.displayName}</Text>
@@ -70,7 +70,9 @@ const styles = StyleSheet.create({
 	image: {
 		width:50, 
 		height: 50,
-		borderRadius: 35
+		borderRadius: 100,
+		overflow: 'hidden',
+		marginRight: 10
 	},
 	chatItem: {
 		alignItems: 'center', 

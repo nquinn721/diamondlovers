@@ -9,8 +9,12 @@ import { login } from 'newApp/app/redux/actions/login';
 class LoginScreen extends React.Component {
   //TODO:: remove hard coded login
   state = {
-    username: 'willy@willy.com',
-    password: 'willy123'
+    // username: 'willy@willy.com',
+    // password: 'willy123',
+    username: 'natethepcspecialist@gmail.com',
+    password: 'nate123',
+    // username: 'bob@bob.com',
+    // password: 'bob123'
   }
 
   login(){
@@ -36,8 +40,8 @@ class LoginScreen extends React.Component {
       		<Image source={require('newApp/app/assets/img/Logo.png')} style={{width: 120, height: 100}}/>
       	</View>
       	<KeyboardAvoidingView keyboardVerticalOffset={40} style={styles.signIn}>
-  			<TextInput style={styles.input} placeholder="Username" underlineColorAndroid='rgba(0,0,0,0)' onChangeText={(username) => this.setState({username})} value='bob@bob.com'/>
-  			<TextInput style={styles.input} secureTextEntry={true} placeholder="Password" underlineColorAndroid='rgba(0,0,0,0)' onChangeText={(password) => this.setState({password})} value='bob123'/>
+  			<TextInput style={styles.input} placeholder="Username" underlineColorAndroid='rgba(0,0,0,0)' onChangeText={(username) => this.setState({username})} value={this.state.username}/>
+  			<TextInput style={styles.input} secureTextEntry={true} placeholder="Password" underlineColorAndroid='rgba(0,0,0,0)' onChangeText={(password) => this.setState({password})} value={this.state.password}/>
       	</KeyboardAvoidingView>
       	<TouchableOpacity style={styles.loginButton} onPress={() => this.login()}>
         {

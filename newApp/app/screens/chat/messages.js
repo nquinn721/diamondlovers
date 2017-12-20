@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getMessages, sendMessage } from 'newApp/app/redux/actions/chat';
@@ -17,7 +18,7 @@ class ChatScreen extends React.Component {
 				<View key={k} style={userId !== msgUserId ? styles.fromMessage : styles.message}>
 					<View style={userId !== msgUserId ? styles.fromMsgContent : styles.msgContent}>
 	        			<View style={styles.imageContainer}>
-	        				{ userId !== msgUserId && <Image source={{uri: msg.owner.profile.defaultImage.url}} style={{width: 50, height: 50, borderRadius: 50}} />}
+	        				{ userId !== msgUserId && <Image source={{uri: msg.owner.profile.defaultImage.url}} style={StyleSheet.absoluteFill} />}
 	        			</View>
 						<View style={userId !== msgUserId ? styles.fromArrow : styles.arrow}></View>
 						<Text style={userId !== msgUserId ? styles.fromMsgText : styles.msgText}>{msg.message}</Text>
@@ -25,6 +26,14 @@ class ChatScreen extends React.Component {
 				</View>
 			);
 		})	
+	}
+	renderNoMessages(){
+		return (
+			<View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+				<Icon name="chat" size={45} color="#aaa" />
+				<Text style={{color: '#aaa'}}>Sorry no messages at this time</Text>
+			</View>
+		);
 	}
 	sendMessage() {
 		if(!this.state.text)return;
@@ -41,7 +50,7 @@ class ChatScreen extends React.Component {
 	return (
 		<View style={styles.container}>
 			<ScrollView style={styles.messageContainer}>
-				{this.renderMessages()}
+				{this.props.chat.messages.length ? this.renderMessages() : this.renderNoMessages()}
 			</ScrollView>
 			<View style={[gStyles.row, styles.input]}>
 			  	<TextInput onChangeText={(text) => this.setState({text})} style={{width: defaults.width - 80, backgroundColor: 'white', borderRadius: 5, height: 30}} underlineColorAndroid="transparent"/>
@@ -92,6 +101,12 @@ const styles = StyleSheet.create({
 	    shadowOpacity: 1,
 	    shadowRadius: 2,
 		// boxShadow: '-21px 9px 0px 8px pink',
+  	},
+  	imageContainer: {
+  		width: 50, 
+  		height: 50, 
+  		borderRadius: 50,
+  		overflow: 'hidden'
   	},
   	fromMessage: {
   		margin: 10,
