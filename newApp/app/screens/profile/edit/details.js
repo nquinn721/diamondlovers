@@ -7,7 +7,6 @@ import Config from 'newApp/app/config/config';
 import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import { updateProfile } from 'newApp/app/redux/actions/user';
 import { addImage, deleteImage, setDefaultImage, sortByDefault } from 'newApp/app/redux/actions/image';
-const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 const states = [
   {name: 'ALABAMA', abbr: 'al'},
   {name: 'ALASKA', abbr: 'ak'},
@@ -66,14 +65,6 @@ const inches = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
 
 
 class Images extends React.Component {
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={img}
-        style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
-      />
-    ),
-  };
   updateProfile(field, value){
     console.log('setting state', field, value);
     

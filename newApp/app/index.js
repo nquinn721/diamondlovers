@@ -5,13 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import gStyles from './config/globalStyles';
 import Loader from './screens/loading';
-import { StackNavigator } from 'react-navigation';
 import LoginStack from './config/loginRouter';
 
 class App extends React.Component{
-  componentDidMount(){
-  }
-
   
   render(){
     let isFetching = false;

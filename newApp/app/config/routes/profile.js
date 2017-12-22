@@ -51,18 +51,7 @@ const routeConfiguration = {
 			title: 'Profile'
 		}
 	},
-	AddCard: { 
-		screen: Profile.AddCard,
-		navigationOptions: {
-			title: 'Add Card'
-		}
-	},
-	Cards: {
-		screen: Profile.Cards,
-		navigationOptions: {
-		  	title: 'Cards'
-		}
-	},
+	
 	Edit: {
 		screen: Edit,
 		navigationOptions: {

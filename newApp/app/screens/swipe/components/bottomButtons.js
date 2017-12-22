@@ -34,7 +34,6 @@ class BottomButtons extends React.Component {
     )
   }
   renderNearby(){
-    console.log('render nearby');
     return (
       <View style={styles.bottomButtonsFloat}>
         <View style={styles.bottomButtonsItem}>
