@@ -54,7 +54,7 @@ class ChatScreen extends React.Component {
 		
 	return (
 	  <View style={styles.container}>
-	  	{this.props.chats.length ? this.renderChats() : this.renderNoChats()}
+	  	{this.props.chats && this.props.chats.length ? this.renderChats() : this.renderNoChats()}
 	  </View>
 	)
 	}

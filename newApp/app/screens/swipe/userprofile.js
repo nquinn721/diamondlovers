@@ -20,7 +20,6 @@ const BAR_SPACE = 10
 
 class UserProfile extends React.Component {
 static navigationOptions = {
-      header:null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={img}
@@ -105,6 +104,7 @@ const styles = StyleSheet.create({
   },
   costDiamondText: {
     color: defaults.color,
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   topInfoIcon: {
     width: 15,

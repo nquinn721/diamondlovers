@@ -14,13 +14,13 @@ class BottomButtons extends React.Component {
       </TouchableOpacity>
     ),
     no: (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Nearby', 'swipeLeft')}>
-        <Image source={require('newApp/app/assets/img/Icon-Delete.png')} style={[styles.button, styles.circle]}/>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Nearby', 'swipeLeft')} style={[styles.button, styles.circle]}>
+        <Image source={require('newApp/app/assets/img/Icon-Delete.png')} style={styles.button}/>
       </TouchableOpacity>
     ),
     yes: (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Nearby', 'swipeRight')}>
-        <Image source={require('newApp/app/assets/img/Icon-Like.png')} style={[styles.button, styles.circle]}/>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Nearby', 'swipeRight')} style={[styles.button, styles.circle]}>
+        <Image source={require('newApp/app/assets/img/Icon-Like.png')} style={styles.button}/>
       </TouchableOpacity>
     ),
     calendar: (
@@ -28,12 +28,13 @@ class BottomButtons extends React.Component {
       </TouchableOpacity>
     ),
     info: (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('UserProfile')}>
-        <Image source={require('newApp/app/assets/img/Icon-Details.png')} style={[styles.button, styles.circle]}/>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('UserProfile')} style={[styles.button, styles.circle]}>
+        <Image source={require('newApp/app/assets/img/Icon-Details.png')} style={styles.button}/>
       </TouchableOpacity>
     )
   }
   renderNearby(){
+    console.log('render nearby');
     return (
       <View style={styles.bottomButtonsFloat}>
         <View style={styles.bottomButtonsItem}>
@@ -62,7 +63,7 @@ class BottomButtons extends React.Component {
     )
   }
 
-  render() {  
+  render() {
     if(!this.props.isProfile)
       return this.renderNearby();
     else
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
+    zIndex: 100,
     bottom: 20
   },
   profileBottomButtons: {
@@ -110,7 +112,8 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 50,
-    height: 50
+    height: 50,
+    overflow: 'hidden'
   },
   center: {
     justifyContent: 'space-around',
