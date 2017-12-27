@@ -1,9 +1,13 @@
 import Nearby 	from './nearby';
 import UserProfile from './userprofile';
-import SetupDate from './setupDate';
+import Details from './setupDate/details';
+import Location from './setupDate/location';
+import DateTime from './setupDate/datetime';
 
 export default {
 	Nearby,
-	SetupDate,
-	UserProfile
+	UserProfile,
+	Location,
+	Details,
+	DateTime,
 }

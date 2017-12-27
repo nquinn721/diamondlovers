@@ -204,12 +204,28 @@ export default StackNavigator({
 			title: 'User profile'
 		}
 	},
-	SetupDate: {
-		screen: Swipe.SetupDate,
+
+	// SETUP DATE
+	Details: {
+		screen: Swipe.Details,
 		navigationOptions: {
-			title: 'Setup date'
+			title: 'Date Details'
 		}
 	},
+	Location: {
+		screen: Swipe.Location,
+		navigationOptions: {
+			title: 'Pick Location'
+		}
+	},
+	DateTime: {
+		screen: Swipe.DateTime,
+		navigationOptions: {
+			title: 'Pick Date and Time'
+		}
+	},
+
+	// END SETUP DATE
 
 
 	AddCard: { 

@@ -1,15 +1,8 @@
 import { StyleSheet } from 'react-native';
 import {Dimensions} from 'react-native';
 const window = Dimensions.get('window');
+const defaultColor = '#ed3671';
 const styles = StyleSheet.create({
-	button: {
-		backgroundColor: '#3498db',
-		padding:10
-	},
-	button1: {
-		backgroundColor: '#e74c3c',
-		padding: 10
-	},
 	padding: {
 		padding: 10
 	},
@@ -18,6 +11,10 @@ const styles = StyleSheet.create({
 	},
 	container: {
 	    flex: 1
+	},
+	hr: {
+		height: 1,
+		backgroundColor: '#aaa'
 	},
 	containerCenter: {
 	    justifyContent: 'center', 
@@ -33,7 +30,8 @@ const styles = StyleSheet.create({
 	    justifyContent: 'center'
 	},
 	row: {
-		flexDirection: 'row'
+		flexDirection: 'row',
+		alignItems: 'center'
 	},
 	group: {
 		flexDirection: 'row',
@@ -48,7 +46,6 @@ const styles = StyleSheet.create({
 	}
 });
 export default styles;
-const defaultColor = '#ed3671';
 export const defaults = {
 	color: defaultColor,
 	borderRadius: 20,

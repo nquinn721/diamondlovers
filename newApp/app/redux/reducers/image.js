@@ -1,3 +1,4 @@
+const avatar = require('newApp/app/assets/img/Icon-Profiles.png');
 const initialState = {
 }
 
@@ -69,6 +70,8 @@ export const getDefaultImage = (di, images) => {
     }
     if(img)
 	    return {uri: img.url};
+	else
+		return avatar;
 }
 
 updatedImageData = (state, action) => {

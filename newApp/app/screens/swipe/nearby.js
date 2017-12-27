@@ -13,8 +13,7 @@ import { getDates } from 'newApp/app/redux/actions/dates';
 import Image from 'react-native-image-progress';
 import BottomButtons from './components/bottomButtons';
 import { setCurrentUser } from 'newApp/app/redux/actions/nearby';
-const avatar = require('newApp/app/assets/img/avatar.png');
-const img = require('newApp/app/assets/img/Icon-Profiles.png');
+const icon = require('newApp/app/assets/img/Icon-Profiles.png');
 
 class Nearby extends React.Component {
   state = {noCards: false, currentImage: 0};
@@ -22,7 +21,7 @@ class Nearby extends React.Component {
       header:null,
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={img}
+        source={icon}
           style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
       />
     ),
@@ -33,7 +32,7 @@ class Nearby extends React.Component {
   }
 
   renderCard(user){
-    let image = getDefaultImage(user.profile.defaultImage, user.images) || avatar;
+    let image = getDefaultImage(user.profile.defaultImage, user.images);
 
     if(!this.state.currentUser){
       this.props.setCurrentUser(user);
@@ -118,7 +117,7 @@ class Nearby extends React.Component {
   swipeRight(cardIndex){
     this.currentUser = false;
     let user = typeof cardIndex === 'number' ? this.props.nearby.users[cardIndex] : cardIndex;
-    this.props.navigation.navigate('SetupDate', user);
+    this.props.navigation.navigate('Details', user);
   }
   render() {
     
