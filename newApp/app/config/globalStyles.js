@@ -63,6 +63,11 @@ export const defaults = {
 	  	alignItems: 'center',
 	  	justifyContent: 'center'
 	},
+	buttonBottom : {
+		flex: 1, 
+		justifyContent: 'flex-end', 
+		paddingBottom : 15
+	},
 
 	capitalize: function(str){
 	    if(!str)return;

@@ -23,10 +23,13 @@ class LoginScreen extends React.Component {
     this.props.login(username, password);
 
   }
+   componentWillMount(){
+     if(this.props.user.user)
+        this.props.navigation.navigate('Nav');
+   }
   render() {
 
-    if(this.props.user.user)
-      this.props.navigation.navigate('Nav')
+    
 
     if(this.props.user.error){
       Alert.alert('Login Failed', 'Make sure the username and password are correct', [{text: 'OK'}, ], { cancelable: true } )

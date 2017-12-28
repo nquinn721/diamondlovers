@@ -73,14 +73,9 @@ class BottomButtons extends React.Component {
 
 const styles = StyleSheet.create({
   bottomButtonsFloat: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    width: Config.w,
+    height: 100,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    zIndex: 100,
-    bottom: 20
+    justifyContent: 'space-between',
   },
   profileBottomButtons: {
     backgroundColor: 'white',

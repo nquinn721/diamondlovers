@@ -34,14 +34,14 @@ class Nearby extends React.Component {
   renderCard(user){
     let image = getDefaultImage(user.profile.defaultImage, user.images);
 
-    if(!this.state.currentUser){
-      this.props.setCurrentUser(user);
-      this.state.currentUser = user;
-    }
+    // if(!this.state.currentUser){
+    //   this.props.setCurrentUser(user);
+    //   this.state.currentUser = user;
+    // }
 
     return (
       <View style={styles.card} key={user._id}>
-        <Image source={image} style={styles.card}/>
+        <Image source={image} style={StyleSheet.absoluteFill} />
         <View style={styles.imageArea}></View>
         <View style={styles.userInfo}>
           <View style={styles.cardSection}>
@@ -67,9 +67,8 @@ class Nearby extends React.Component {
     
   }
 
-  // <View style={styles.userInfoSection}>
-  //           <Icon onPress={() => this.props.navigation.navigate('UserProfile', user)} type='font-awesome' name='info-circle' size={25} color='white' />
-  //         </View>
+  
+
   renderNoCards(){
     return (
       <View style={styles.container}>
@@ -92,7 +91,6 @@ class Nearby extends React.Component {
           onSwipedRight={(user) => this.swipeRight(user)}
           onSwipedAll={() => this.setState({noCards: true})}
           cardVerticalMargin={20}
-          cardStyle={{height: defaults.availableHeight - 120}}
           showSecondCard={false}
           onTapCard={index => console.log(index)}
           backgroundColor={'white'}
@@ -105,7 +103,7 @@ class Nearby extends React.Component {
 
     return (
       <View style={styles.container}>
-        {swiper}      
+        <View style={{flex: 1, backgroundColor: 'red', marginBottom: 10}}>{swiper}</View>
         <BottomButtons navigation={this.props.navigation}/>
       </View>
     )
@@ -138,16 +136,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center'
   },
   card: {
     flex: 1,
     borderRadius: 4,
+    marginBottom: 140,
     borderWidth: 2,
     borderColor: '#E8E8E8',
-    justifyContent: 'center',
     backgroundColor: 'white',
+    overflow: 'hidden'
   },
   cardSection: {
     padding: 10

@@ -86,7 +86,7 @@ class Cards extends React.Component {
   				{this.renderCards()}
           {this.props.card.addingCard && <ActivityIndicator size="small" />}
         </ScrollView>
-        <View style={styles.bottom}>
+        <View style={defaults.buttonBottom}>
           <Button 
           buttonStyle={{backgroundColor: defaults.color, borderRadius: defaults.borderRadius}}
             textStyle={{textAlign: 'center'}}
@@ -125,11 +125,8 @@ const styles = StyleSheet.create({
     padding: 5
   },
   top: {
-    height: defaults.availableHeight - 75
+    flex: 2
   },
-  bottom: {
-    height: 75
-  }
 })
 
 

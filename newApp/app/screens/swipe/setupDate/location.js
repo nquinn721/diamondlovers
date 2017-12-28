@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Text, View, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Platform, Text, View, StyleSheet, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Icon, Button, SearchBar } from 'react-native-elements';
@@ -78,6 +78,11 @@ class SetupDate extends React.Component {
     )
   }
 
+  continue(){
+    if(!this.state.pickedRestaurant)return Alert.alert('Choose restaurant', 'Please choose a restaurant from the list', [{text: 'OK'}, ], { cancelable: true } );
+    this.props.navigation.navigate('DateTime', {user: this.props.navigation.state.params, location: this.state.pickedRestaurant})
+  }
+
 
   render () {
     return (
@@ -93,7 +98,7 @@ class SetupDate extends React.Component {
              raised
              buttonStyle={defaults.defaultButton}
              title="Continue"
-             onPress={() => this.props.navigation.navigate('DateTime', {user: this.props.navigation.state.params, location: this.state.pickedRestaurant})}
+             onPress={() => this.continue()}
              />
         </View>
        </View>

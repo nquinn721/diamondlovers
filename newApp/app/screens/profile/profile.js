@@ -22,13 +22,15 @@ class Profile extends React.Component {
     };
   bottomNav(){
     return(
-      <View style={styles.bottomNav}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Edit')}>
-          <Image source={require('newApp/app/assets/img/Icon-Edit.png')} style={styles.bottomNavItem} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Cards')}>
-          <Image source={require('newApp/app/assets/img/Icon-Add-Card.png')} style={styles.bottomNavItem} />
-        </TouchableOpacity>
+      <View style={{height: 100, justifyContent: 'flex-end', paddingBottom: 15}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Edit')}>
+            <Image source={require('newApp/app/assets/img/Icon-Edit.png')} style={styles.bottomNavItem} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Cards')}>
+            <Image source={require('newApp/app/assets/img/Icon-Add-Card.png')} style={styles.bottomNavItem} />
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
      backgroundColor: 'white'
    },
    profileImage: {
-     height: defaults.availableHeight - 75,
+     flex: 2,
      position: 'relative'
    },
    profileImageOverlay: {
@@ -109,12 +111,6 @@ const styles = StyleSheet.create({
      borderColor: 'white',
      zIndex: 1
    },
-   bottomNav: {
-     flexDirection: 'row',
-     justifyContent: 'space-around',
-     alignItems: 'center',
-     height: 75
-   },
    bottomNavItem: {
      width: 60,
      height: 60   
@@ -123,7 +119,6 @@ const styles = StyleSheet.create({
      position: 'absolute',
      bottom: 0,
      width: defaults.width,
-     top: 220,
      padding: 10,
      zIndex: 1
    },

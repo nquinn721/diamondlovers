@@ -44,39 +44,9 @@ class SetupDate extends React.Component {
     )
   }
 
-  submitDate(){
-    if(this.state.pickedRestaurant && this.state.date){
-      this.props.setDate(this.state.userSwiped._id, this.state.user._id, this.state.pickedRestaurant, this.state.date, this.state.dateCost);
-      this.setState({showSplash: true});
-    }  
-  }
+  
 
-  renderSplash(){
-    
-    return (
-      <Splash
-        style={{height: 200}}
-         content={() => {
-            return (
-              <View>
-                <Text>Congratulations!</Text>
-                <Text>Your date is setup for</Text>
-                <Text>{this.state.dateString}</Text>
-                <Text>At</Text>
-                <Text>{this.state.pickedRestaurant.name}</Text>
-                <Text>Click on the calendar icon to check out your dates</Text>
-                <Button 
-                  raised
-                  icon={{name: 'calendar', size: 15, type: 'font-awesome'}}
-                  buttonStyle={gStyles.button}
-                  title="Set the date"
-                  onPress={() => this.props.navigation.navigate('Nearby')}
-                  />
-              </View>
-            )
-         }}
-       />
-    )
+  
   }
 
   render () {

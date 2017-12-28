@@ -10,6 +10,7 @@ export const getDates = () => {
 	}
 }
 export const setDate = (to, from, location, time, cost) => {
+	console.log('set date', to, from, location, time, cost);
 	return (dispatch) => {
 		Service.dispatchPost(dispatch, 'dates/set-date', {to, from, location, time, cost}, {
 			init: 'SET_DATE',

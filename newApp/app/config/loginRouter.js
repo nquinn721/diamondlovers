@@ -1,7 +1,6 @@
 import React from 'react';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
-import Nav from 'newApp/app/components/nav';
 import Login from 'newApp/app/screens/login';
 
 
@@ -22,12 +21,6 @@ const routeConfiguration = {
     screen: Login.Login,
     navigationOptions: {
       title: 'Sign In'
-    }
-  },
-  Nav: {
-    screen: Nav,
-    navigationOptions: {
-      header: null
     }
   }
 };

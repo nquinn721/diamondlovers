@@ -45,26 +45,30 @@ class Charge extends React.Component {
           </View>
 	      </View>
 	      <View style={styles.costInfo}>
-	      	<View style={gStyles.row}>
-            <Image source={require('newApp/app/assets/img/Icon-Purchase.png')} style={{width: 30, height: 30}}/>
-		      	<Text style={{color: defaults.color, fontSize: 18, fontWeight: 'bold'}}>  Purchasing {charge.diamonds}</Text>
-          </View>
-          {charge.originalCost && <Text style={styles.lineItem}>Original Cost: {charge.originalCost}</Text>}
-          {charge.save && <Text style={styles.lineItem}>Discount: {charge.save}</Text>}
+          <View style={{flex: 1}}>
+  	      	<View style={gStyles.row}>
+              <Image source={require('newApp/app/assets/img/Icon-Purchase.png')} style={{width: 30, height: 30}}/>
+  		      	<Text style={{color: defaults.color, fontSize: 18, fontWeight: 'bold'}}>  Purchasing {charge.diamonds}</Text>
+            </View>
+            {charge.originalCost && <Text style={styles.lineItem}>Original Cost: {charge.originalCost}</Text>}
+            {charge.save && <Text style={styles.lineItem}>Discount: {charge.save}</Text>}
 
-          <Text style={styles.total}>
-          	Total {charge.price}
-          </Text>
-          <Button 
-		        // icon={{name: 'dollar', size: 15}}
-		        buttonStyle={{backgroundColor: defaults.color, borderRadius: defaults.borderRadius}}
-		        textStyle={{textAlign: 'center'}}
-		        title="Purchase"
-		        onPress={() => this.props.chargeCard(card.id, charge.cost)}
-		      	/>
-            <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', marginTop: 10}} onPress={() => this.props.navigation.navigate('AddCard')}>
-              <Text style={{fontSize: 18}}>Add Card</Text>
-            </TouchableOpacity>
+            <Text style={styles.total}>
+            	Total {charge.price}
+            </Text>
+          </View>
+          <View style={{flex: 1, justifyContent: 'flex-end', paddingBottom: 15}}>
+            <Button 
+  		        // icon={{name: 'dollar', size: 15}}
+  		        buttonStyle={{backgroundColor: defaults.color, borderRadius: defaults.borderRadius}}
+  		        textStyle={{textAlign: 'center'}}
+  		        title="Purchase"
+  		        onPress={() => this.props.chargeCard(card.id, charge.cost)}
+  		      	/>
+              <TouchableOpacity style={{alignItems: 'center', justifyContent: 'center', marginTop: 10}} onPress={() => this.props.navigation.navigate('AddCard')}>
+                <Text style={{fontSize: 18}}>Add Card</Text>
+              </TouchableOpacity>
+          </View>
 	      </View>
 			</View>
 		)
@@ -72,7 +76,7 @@ class Charge extends React.Component {
 
 	renderAddCard(){
 		return (
-			<View style={{height: defaults.height - 150, alignItems: 'center', justifyContent: 'center', width: defaults.width}}>
+			<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
     		<Text style={{marginBottom: 10}}>No card on file please add one </Text>
     		<Button 
         buttonStyle={{backgroundColor: defaults.color, borderRadius: defaults.borderRadius, width: 200}}
@@ -137,7 +141,6 @@ class Charge extends React.Component {
 		if(!this.props.navigation.state.params){
 			this.leaveChargingScreen();
 		}
-    console.log(this.props.card);
     
     return (
       <View style={styles.container}>
@@ -160,7 +163,8 @@ const styles = StyleSheet.create({
     height: 180,
     backgroundColor: '#f5f5f5',
     justifyContent: 'space-between',
-    padding: 20
+    padding: 20,
+    flex: 1
   },
   chargeSuccess: {
     flex: 1,
@@ -200,7 +204,8 @@ const styles = StyleSheet.create({
   costInfo: {
   	backgroundColor: 'white',
   	marginTop: 10,
-  	padding: 10
+  	padding: 10,
+    flex: 2
   },
   purchasingTitle: {
   	flexDirection: 'row',

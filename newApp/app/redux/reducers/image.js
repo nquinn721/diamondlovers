@@ -1,4 +1,4 @@
-const avatar = require('newApp/app/assets/img/Icon-Profiles.png');
+const avatar = require('newApp/app/assets/img/avatar.png');
 const initialState = {
 }
 

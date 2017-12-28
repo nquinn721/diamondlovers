@@ -63,35 +63,37 @@ class AddCard extends React.Component {
      
     return (
       <View style={styles.container}>
-        <FormLabel>Card Number</FormLabel>
-				<FormInput onChangeText={this.updateNumber.bind(this)} placeholder={card.number}/>
-				<FormValidationMessage>{this.state.numberError && "Must be 16 digits"}</FormValidationMessage>
-				
-				<FormLabel>Exp Month</FormLabel>
-				<FormInput onChangeText={this.updateMonth.bind(this)} placeholder={card.exp_month}/>
-				<FormValidationMessage>{this.state.monthError && "Must be 2 digit format (YY)"}</FormValidationMessage>
+        <View style={{flex: 2}}>
+          <FormLabel>Card Number</FormLabel>
+  				<FormInput onChangeText={this.updateNumber.bind(this)} placeholder={card.number}/>
+  				<FormValidationMessage>{this.state.numberError && "Must be 16 digits"}</FormValidationMessage>
+  				
+  				<FormLabel>Exp Month</FormLabel>
+  				<FormInput onChangeText={this.updateMonth.bind(this)} placeholder={card.exp_month}/>
+  				<FormValidationMessage>{this.state.monthError && "Must be 2 digit format (YY)"}</FormValidationMessage>
 
-				<FormLabel>Exp Year</FormLabel>
-				<FormInput onChangeText={this.updateYear.bind(this)} placeholder={card.exp_year}/>
-				<FormValidationMessage>{this.state.yearError && "Must be 2 digit format (MM)"}</FormValidationMessage>
+  				<FormLabel>Exp Year</FormLabel>
+  				<FormInput onChangeText={this.updateYear.bind(this)} placeholder={card.exp_year}/>
+  				<FormValidationMessage>{this.state.yearError && "Must be 2 digit format (MM)"}</FormValidationMessage>
 
-				<FormLabel>CVC</FormLabel>
-				<FormInput onChangeText={this.updateCVC.bind(this)} placeholder={card.cvc}/>
-				<FormValidationMessage>{this.state.cvcError && "Must be 3 digits"}</FormValidationMessage>
-
-				
+  				<FormLabel>CVC</FormLabel>
+  				<FormInput onChangeText={this.updateCVC.bind(this)} placeholder={card.cvc}/>
+  				<FormValidationMessage>{this.state.cvcError && "Must be 3 digits"}</FormValidationMessage>
+        </View>
+			  <View style={defaults.buttonBottom}>
         	{
             card.addingCard ? 
               <ActivityIndicator size="large"/> : 
               <Button 
                 raised
                 icon={{name: 'credit-card', size: 15}}
-                buttonStyle={{backgroundColor: '#2980b9', borderRadius: 5}}
+                buttonStyle={defaults.defaultButton}
                 textStyle={{textAlign: 'center'}}
                 title="Add Card"
                 onPress={() => this.addCard()}
               />
-        }
+          }
+        </View>
       </View>
     )
   }
