@@ -14,12 +14,12 @@ class BottomButtons extends React.Component {
       </TouchableOpacity>
     ),
     no: (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Nearby', 'swipeLeft')} style={[styles.button, styles.circle]}>
+      <TouchableOpacity onPress={() => this.props.swipeLeft()} style={[styles.button, styles.circle]}>
         <Image source={require('newApp/app/assets/img/Icon-Delete.png')} style={styles.button}/>
       </TouchableOpacity>
     ),
     yes: (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Nearby', 'swipeRight')} style={[styles.button, styles.circle]}>
+      <TouchableOpacity onPress={() => this.props.swipeRight()} style={[styles.button, styles.circle]}>
         <Image source={require('newApp/app/assets/img/Icon-Like.png')} style={styles.button}/>
       </TouchableOpacity>
     ),
@@ -28,7 +28,10 @@ class BottomButtons extends React.Component {
       </TouchableOpacity>
     ),
     info: (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('UserProfile')} style={[styles.button, styles.circle]}>
+      <TouchableOpacity onPress={() => {
+        this.props.info();        
+        // this.props.navigation.navigate('UserProfile')
+      }} style={[styles.button, styles.circle]}>
         <Image source={require('newApp/app/assets/img/Icon-Details.png')} style={styles.button}/>
       </TouchableOpacity>
     )
@@ -63,6 +66,7 @@ class BottomButtons extends React.Component {
   }
 
   render() {
+    
     if(!this.props.isProfile)
       return this.renderNearby();
     else

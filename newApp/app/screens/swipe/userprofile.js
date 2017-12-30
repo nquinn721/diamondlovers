@@ -10,6 +10,7 @@ import { getNearby } from 'newApp/app/redux/actions/nearby';
 import Carousel from 'newApp/app/components/carousel';
 import BottomButtons from './components/bottomButtons';
 import { defaults } from 'newApp/app/config/globalStyles';
+import DiamondCost from 'newApp/app/components/diamondCost';
 const img = require('newApp/app/assets/img/Icon-Profiles.png');
 
 
@@ -27,11 +28,17 @@ static navigationOptions = {
       />
     ),
   };
+
+  swipeRight(){
+    this.props.navigation.navigate('Nearby', {direction:'swipeRight'});
+  }
+  swipeLeft(){
+    this.props.navigation.navigate('Nearby', {direction: 'swipeLeft'});
+  }
   render() {
-    let user = this.props.user;
+    let user = this.props.navigation.state.params;
     let profile = user.profile;
-    console.log(user);
-    
+     
     return (
       <View style={{height: Config.h, flex: 1}}>
       <ScrollView style={styles.container}>
@@ -49,10 +56,7 @@ static navigationOptions = {
               <View style={styles.group}>
                 <Text> {profile.city}, {profile.state} </Text>
               </View>
-              <View style={styles.dateCost}>
-                <Image source={require  ('newApp/app/assets/img/Icon-Purchase-Select.png')} style={[styles.costDiamond, StyleSheet.absoluteFill]}/>
-                <Text style={[styles.cardText, styles.costDiamondText]}> {profile.cost.date1}</Text>
-              </View>
+               <DiamondCost cost={profile.cost.date1} default={true} style={styles.dateCost} textColor={defaults.color}/>
             </View>
             <View style={styles.section}>
               <Text>About Me</Text>
@@ -60,7 +64,7 @@ static navigationOptions = {
             </View>
           </View>
       </ScrollView>
-      <BottomButtons isProfile={true} navigation={this.props.navigation}/>
+      <BottomButtons isProfile={true} swipeRight={this.swipeRight.bind(this)} swipeLeft={this.swipeLeft.bind(this)}/>
       </View>
       )
   }
@@ -94,13 +98,6 @@ const styles = StyleSheet.create({
     right: 40,
     width: 20,
     marginTop: 15,
-    height: 20,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  costDiamond: {
-    width: 35,
-    height: 35
   },
   costDiamondText: {
     color: defaults.color,
@@ -119,6 +116,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({user: state.nearby.currentUser}), 
+  // (state) => ({user: state.nearby.currentUser}), 
   // (dispatch) => (bindActionCreators({getNearby}, dispatch))
 )(UserProfile);

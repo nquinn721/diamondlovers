@@ -22,7 +22,7 @@ module.exports = {
 	approveDate: function(req, res) {
 		let _id = req.body.id;
 		Dates.approveDate(_id, (e, doc) => {
-			res.send(e ? {error: 'failed to retreive dates'} : {data: doc});
+			res.send(e ? {error: 'failed to approve date'} : {data: doc});
 		});
 	},
 	confirmShowed: function(req, res) {

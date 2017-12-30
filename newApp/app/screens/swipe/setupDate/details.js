@@ -16,7 +16,7 @@ class SetupDate extends React.Component {
   };
 
 
-  renderCost(diamonds, cost){
+  renderCost(diamonds, cost, user){
     let view;
 
     if(diamonds <= cost){
@@ -38,6 +38,9 @@ class SetupDate extends React.Component {
       view = (
         <View style={styles.container}>
           <View style={{flex: 1, justifyContent: 'space-between', padding: 10}}>
+            <View>
+              <Text style={{fontSize: 16}}>{user.profile.displayName}</Text>
+            </View>
             <View style={[gStyles.row, {justifyContent:'flex-end'}]}>
               <Text style={{fontSize: 18}}>Diamonds: {diamonds} </Text>
               <Icon color={defaults.color} name="diamond"  type="font-awesome" size={20} />
@@ -82,7 +85,7 @@ class SetupDate extends React.Component {
         <View style={{flex: 1}}>
           <Image source={image} style={{height: 300}}/>
         </View>
-         {this.renderCost(diamonds, cost)}
+         {this.renderCost(diamonds, cost, userSwiped)}
       </View>
     )
   

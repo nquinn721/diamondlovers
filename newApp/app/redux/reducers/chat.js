@@ -6,6 +6,23 @@ const initialState = {
 export default (state = initialState, action) => {
 	
 	switch(action.type){
+		case 'CREATE_CHAT':
+			return {
+				...state,
+				creatingChat: true
+			}
+		case 'CREATE_CHAT_SUCCESS':
+			return {
+				...state,
+				chats: action.data
+				creatingChat: false
+			}
+		case 'CREATE_CHAT_FAILED':
+			return {
+				...state,
+				error: action.error
+				creatingChat: false
+			}
 		case 'CURRENT_CHAT':
 			return {
 				...state,

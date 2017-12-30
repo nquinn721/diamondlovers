@@ -15,9 +15,15 @@ module.exports = {
 		console.log('chat id ', chatId);
 		
 		Message.getMessages(chatId, (e, data) => {
-			console.log(data);
-			
 			res.send(e ? {error: 'failed to retreive messages'} : {data});
+		});
+	},
+	create: (req, res) => {
+		let from = req.session.user.client._id,
+			to = req.body.id;
+
+		Chat.createChat(to, from, (e, data) => {
+			res.send(e ? {error: 'failed to create chat'} : {data});
 		});
 	}
 }

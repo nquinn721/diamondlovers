@@ -13,6 +13,7 @@ import { getDates } from 'newApp/app/redux/actions/dates';
 import Image from 'react-native-image-progress';
 import BottomButtons from './components/bottomButtons';
 import { setCurrentUser } from 'newApp/app/redux/actions/nearby';
+import DiamondCost from 'newApp/app/components/diamondCost';
 const icon = require('newApp/app/assets/img/Icon-Profiles.png');
 
 class Nearby extends React.Component {
@@ -33,11 +34,7 @@ class Nearby extends React.Component {
 
   renderCard(user){
     let image = getDefaultImage(user.profile.defaultImage, user.images);
-
-    // if(!this.state.currentUser){
-    //   this.props.setCurrentUser(user);
-    //   this.state.currentUser = user;
-    // }
+    this.user = user;
 
     return (
       <View style={styles.card} key={user._id}>
@@ -57,10 +54,8 @@ class Nearby extends React.Component {
             
           </View>
           
-          <View style={styles.cardSection}>
-            <Image source={require  ('newApp/app/assets/img/Icon-Purchase.png')} style={[styles.costDiamond, StyleSheet.absoluteFill]}/>
-            <Text style={[styles.cardText, styles.costDiamondText]}> {user.profile.cost.date1}</Text>
-          </View>
+         <DiamondCost cost={user.profile.cost.date1} style={styles.dateCost}/>
+          
         </View>
       </View>
     )
@@ -81,14 +76,13 @@ class Nearby extends React.Component {
     let swiper = (
       <Swiper
           ref={s => {
-            if(this.props.navigation.state.params === 'swipeRight' && s)
-              s.swipeRight();
+            if(s)this.swiper = s;
           }}
           cards={users}
           renderCard={(card, cardIndex) => this.renderCard(card, cardIndex)}
           onSwiped={(cardIndex) => {console.log('you swiped', cardIndex)}}
-          onSwipedLeft={(user) => this.swipeLeft(user)}
-          onSwipedRight={(user) => this.swipeRight(user)}
+          // onSwipedLeft={(user) => this.swipeLeft()}
+          onSwipedRight={(user) => this.swipeRight()}
           onSwipedAll={() => this.setState({noCards: true})}
           cardVerticalMargin={20}
           showSecondCard={false}
@@ -104,24 +98,29 @@ class Nearby extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{flex: 1, backgroundColor: 'red', marginBottom: 10}}>{swiper}</View>
-        <BottomButtons navigation={this.props.navigation}/>
+        <BottomButtons  swipeRight={this.swipeRight.bind(this)} swipeLeft={this.swipeLeft.bind(this)} info={this.info.bind(this)}/>
       </View>
     )
   }
-  swipeLeft(cardIndex){
-    this.currentUser = false;
-    let user = typeof cardIndex === 'number' ? this.props.nearby.users[cardIndex] : cardIndex;
+
+  info(){
+    this.props.navigation.navigate('UserProfile', this.user);
   }
-  swipeRight(cardIndex){
-    this.currentUser = false;
-    let user = typeof cardIndex === 'number' ? this.props.nearby.users[cardIndex] : cardIndex;
-    this.props.navigation.navigate('Details', user);
+  swipeLeft(){
+    this.swiper.swipeLeft();
+  }
+  swipeRight(){
+    this.props.navigation.navigate('Details', this.user);
   }
   render() {
-    
     let {users} = this.props.nearby;
 
-
+    if(this.props.navigation.state.params && this.props.navigation.state.params.direction && this.swiper){
+      console.log('SWIPE FROM NAVIGATION', this.props.navigation.state.params);
+      
+      this[this.props.navigation.state.params.direction]();
+      delete this.props.navigation.state.params;
+    }
     if(this.props.nearby.fetchingNearbyFailed || this.state.noCards) 
       return this.renderNoCards();
     
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
     left: 2,
     right: 2,
     display: 'flex',
-    bottom: 2
+    bottom: 10
   },
   cardText: {
     color: 'white'
@@ -174,16 +173,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  costDiamond: {
-    width: 30,
-    height: 30,
-    marginLeft: -10
-  },
-  costDiamondText: {
-    fontSize: 11,
-    marginTop: -7,
-    marginLeft: -15
-  }
 })
 
 

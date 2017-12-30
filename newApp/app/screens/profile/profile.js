@@ -6,6 +6,7 @@ import Config from 'newApp/app/config/config';
 import { Icon, Button } from 'react-native-elements';
 import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import Splash from 'newApp/app/components/splash';
+import DiamondCost from 'newApp/app/components/diamondCost';
 const avatar = require('newApp/app/assets/img/avatar.png');
 const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
@@ -40,10 +41,8 @@ class Profile extends React.Component {
     
       return (
         <View style={styles.profileInfo}>
-          <View style={styles.profileDiamonds}>
-            <Image source={require('newApp/app/assets/img/Icon-Purchase.png')} style={[styles.costDiamond, StyleSheet.absoluteFill]}/>
-            <Text style={[styles.cardText, styles.costDiamondText]}> {user.profile.cost.date1}</Text>
-          </View>
+         <DiamondCost cost={user.profile.cost.date1} style={styles.profileDiamonds}/>
+          
           <Text style={[styles.profileText, styles.userName]}>{defaults.capitalize(user.profile.displayName)}</Text>
           <View style={gStyles.row}>
             <Text style={styles.profileText}>{user.profile.age || 'N/A'}, </Text>
@@ -134,10 +133,7 @@ const styles = StyleSheet.create({
      marginTop: 15
    },
    profileDiamonds: {
-    width: 50,
-    height: 50,
     position: 'absolute',
-    alignItems: 'center',
     right: 30,
     marginTop: 15
    },
