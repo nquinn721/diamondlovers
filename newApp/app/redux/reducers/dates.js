@@ -18,7 +18,6 @@ export default (state = initialState, action) => {
 				...state,
 				...setDates(action.data),
 				gettingDate: false,
-				
 			}
 		case 'GET_DATES_FAILED':
 			return {

@@ -132,6 +132,11 @@ module.exports = function(app){
             middleWare: ['loggedIn', 'json'],
             method: 'chat.create'
         },
+        'chat/get-chats': {
+            type: 'get',
+            middleWare: ['loggedIn'],
+            method: 'chat.getChats'
+        },
         'chat/send-message': {
             type: 'post',
             middleWare: ['loggedIn', 'json'],

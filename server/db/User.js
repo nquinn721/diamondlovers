@@ -70,7 +70,6 @@ const UserSchema = new Schema({
     passCode: Number,
     admin: Boolean,
     stripeId: String,
-    chats: [{type: Schema.Types.ObjectId, ref: 'Chat'}],
     diamonds: {
         type: Number,
         default: 0
@@ -156,9 +155,6 @@ class User {
         }
     }
 
-    static createChat(to, from, chat, cb){
-        UserModel.update({_id: {$in: [to, from]}}, {$push: {chats: chat}}, {multi: true}, cb);
-    }
 
     static destroyChat(to, from, chatId, cb){
 
