@@ -27,6 +27,11 @@ export const approveDate = (id) => {
 			success: 'APPROVE_DATE_SUCCESS',
 			error: 'APPROVE_DATE_FAILED'
 		});
+		Service.dispatchPost(dispatch, 'chat/create', {id}, {
+			init: 'CREATE_CHAT',
+			success: 'CREATE_CHAT_SUCCESS',
+			error: 'CREATE_CHAT_FAILED'
+		});
 	}
 }
 

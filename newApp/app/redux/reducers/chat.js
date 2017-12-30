@@ -14,13 +14,13 @@ export default (state = initialState, action) => {
 		case 'CREATE_CHAT_SUCCESS':
 			return {
 				...state,
-				chats: action.data
+				chats: action.data,
 				creatingChat: false
 			}
 		case 'CREATE_CHAT_FAILED':
 			return {
 				...state,
-				error: action.error
+				error: action.error,
 				creatingChat: false
 			}
 		case 'CURRENT_CHAT':

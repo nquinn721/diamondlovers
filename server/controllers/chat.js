@@ -21,9 +21,9 @@ module.exports = {
 	create: (req, res) => {
 		let from = req.session.user.client._id,
 			to = req.body.id;
-
-		Chat.createChat(to, from, (e, data) => {
-			res.send(e ? {error: 'failed to create chat'} : {data});
-		});
+			res.send('hi');
+		// Chat.createChat(to, from, (e, data) => {
+		// 	res.send(e ? {error: 'failed to create chat'} : {data});
+		// });
 	}
 }
