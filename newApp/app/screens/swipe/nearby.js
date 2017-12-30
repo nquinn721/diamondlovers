@@ -31,7 +31,7 @@ class Nearby extends React.Component {
   componentDidMount(){
     this.props.getNearby();
     this.props.getDates();
-    this.props.getChats();
+    // this.props.getChats();
   }
 
   renderCard(user){

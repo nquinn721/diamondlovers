@@ -19,17 +19,17 @@ module.exports = {
 		});
 	},
 	getChats: (req, res) => {
-		let userId = req.session.user.client._id;
-		Chat.get(userId, (e, data) => {
-			res.send(e ? {error: 'failed to retreive chats'} : {data});
-		});
+		// let userId = req.session.user.client._id;
+		// Chat.get(userId, (e, data) => {
+		// 	res.send(e ? {error: 'failed to retreive chats'} : {data});
+		// });
 	},
 	create: (req, res) => {
-		let from = req.session.user.client._id,
-			to = req.body.id;
-			res.send('hi');
-		Chat.createChat(to, from, function(e, data) {
-			res.send(e ? {error: 'failed to create date'} : {data});
-		});
+		// let from = req.session.user.client._id,
+		// 	to = req.body.id;
+		// 	res.send('hi');
+		// Chat.createChat(to, from, function(e, data) {
+		// 	res.send(e ? {error: 'failed to create date'} : {data});
+		// });
 	}
 }
