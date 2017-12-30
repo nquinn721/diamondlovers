@@ -19,7 +19,7 @@ module.exports = {
 		});
 	},
 	getChats: (req, res) => {
-		let userId = req.session.user.client._id,
+		let userId = req.session.user.client._id;
 		Chat.get(userId, (e, data) => {
 			res.send(e ? {error: 'failed to retreive chats'} : {data});
 		});
