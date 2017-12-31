@@ -6,6 +6,23 @@ const initialState = {
 export default (state = initialState, action) => {
 	
 	switch(action.type){
+		case 'GETTING_CHATS':
+			return {
+				...state,
+				fetchingChats: true
+			}
+		case 'GETTING_CHATS_SUCCESS':
+			return {
+				...state,
+				fetchingChats: false,
+				chats: action.data
+			}
+		case 'GETTING_CHATS_FAILED':
+			return {
+				...state,
+				fetchingChats: false,
+				chatsError: action.error
+			}
 		case 'CREATE_CHAT':
 			return {
 				...state,

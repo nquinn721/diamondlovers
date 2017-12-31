@@ -10,6 +10,7 @@ import Swiper from 'react-native-deck-swiper';
 import { getDefaultImage } from 'newApp/app/redux/reducers/image';
 import { getNearby } from 'newApp/app/redux/actions/nearby';
 import { getDates } from 'newApp/app/redux/actions/dates';
+import { getChats } from 'newApp/app/redux/actions/chat';
 import Image from 'react-native-image-progress';
 import BottomButtons from './components/bottomButtons';
 import { setCurrentUser } from 'newApp/app/redux/actions/nearby';
@@ -30,6 +31,7 @@ class Nearby extends React.Component {
   componentDidMount(){
     this.props.getNearby();
     this.props.getDates();
+    // this.props.getChats();
   }
 
   renderCard(user){
