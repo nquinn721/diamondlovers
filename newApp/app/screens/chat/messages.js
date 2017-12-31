@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { getMessages, sendMessage } from 'newApp/app/redux/actions/chat';
 import gStyles from 'newApp/app/config/globalStyles';
 import { defaults } from 'newApp/app/config/globalStyles';
+import moment from 'moment';
 
 
 
@@ -19,10 +20,11 @@ class ChatScreen extends React.Component {
 		return this.props.chat.messages.map((msg, k) => {
 			console.log(msg);
 			
-			let msgUserId = msg.owner._id;
+			let msgUserId = msg.owner._id,
+				userChat = userId === msgUserId;
 			return (
-				<View key={k} style={userId !== msgUserId ? styles.fromMessage : styles.message}>
-					<View style={userId !== msgUserId ? styles.fromMsgContent : styles.msgContent}>
+				<View key={k} style={userChat ? styles.message : styles.fromMessage}>
+					<View style={styles.msgContent}>
 	        			
 	        				{ 
 	        					userId !== msgUserId && 
@@ -30,8 +32,10 @@ class ChatScreen extends React.Component {
 	        							<Image source={{uri: msg.owner.profile.defaultImage.url}} style={StyleSheet.absoluteFill} />
 	        						</View>
 	        				}
-	        			
-						<Text style={userId !== msgUserId ? styles.fromMsgText : styles.msgText}>{msg.message}</Text>
+	        			<View style={[styles.chatText, (userChat ? styles.msg : styles.fromMsg)]}>
+							<Text style={userChat ? styles.msgText : styles.fromMsgText}>{msg.message}</Text>
+							<Text style={[{color: userChat ? '#eee' : '#555', fontSize: 10, textAlign: 'right'}]}>{moment(msg.date).fromNow()}</Text>
+						</View>
 					</View>
 				</View>
 			);
@@ -61,7 +65,7 @@ class ChatScreen extends React.Component {
 	return (
 		<KeyboardAvoidingView
 	      style={styles.container}
-	      behavior="position"
+	      behavior="padding"
 	    >
 				{
 					this.props.chat.messages.length ? 
@@ -97,10 +101,12 @@ const styles = StyleSheet.create({
 	messageContainer: {
 		flex: 1
 	},
-  	image: {
-	  	width:30, 
-	  	height: 30,
-	  	borderRadius: 35
+  	imageContainer: {
+  		width: 50, 
+  		height: 50, 
+  		borderRadius: 50,
+  		overflow: 'hidden',
+	  	marginRight: 10
   	},
   	fromArrow: {
   		height: 10,
@@ -120,12 +126,6 @@ const styles = StyleSheet.create({
 	    shadowRadius: 2,
 		// boxShadow: '-21px 9px 0px 8px pink',
   	},
-  	imageContainer: {
-  		width: 50, 
-  		height: 50, 
-  		borderRadius: 50,
-  		overflow: 'hidden'
-  	},
   	fromMessage: {
   		margin: 10
   	},
@@ -134,21 +134,22 @@ const styles = StyleSheet.create({
   		alignItems: 'flex-end'
   	},
   	msgContent: {
-  		backgroundColor: defaults.color,
-  		borderRadius: defaults.borderRadius,
-  		padding: 10,
-  		width: 200
-  	},
-  	fromMsgContent: {
   		flexDirection: 'row'
   	},
-  	fromMsgText: {
-  		backgroundColor: '#eee',
-  		borderRadius: defaults.borderRadius,
-  		color: 'black',
-  		width: 200,
+  	chatText: {
   		padding: 10,
-  		marginLeft: 10
+  		maxWidth: 200,
+  		borderRadius: defaults.borderRadius,
+  		
+  	},
+  	fromMsg: {
+  		backgroundColor: '#eee',
+  	},
+  	msg: {
+  		backgroundColor: defaults.color,
+  	},
+  	fromMsgText: {
+  		color: 'black',
   	},
   	msgText: {
   		color: 'white'
