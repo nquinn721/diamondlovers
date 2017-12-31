@@ -272,7 +272,7 @@ class User {
                             console.log('CHATS');
                             console.log('CHATS');
                             console.log('CHATS');
-                            console.log(chats);
+                            console.log(chatE, chats);
                             
                             
                             user.client.chats = chats;
