@@ -15,8 +15,8 @@ module.exports = {
 	approveDate: function(req, res) {
 		let _id = req.body.id;
 		Dates.approveDate(_id, (e, date) => {
-			let to = data.to._id,
-				from = data.from._id;
+			let to = date.to._id,
+				from = date.from._id;
 			
 			Chat.createChat(to, from, function(e, chat) {
 				User.createChat(to, from, chat._id, function(e, userDoc) {
