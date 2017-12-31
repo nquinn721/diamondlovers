@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, TextInput, Button, ScrollView, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -7,12 +7,18 @@ import { getMessages, sendMessage } from 'newApp/app/redux/actions/chat';
 import gStyles from 'newApp/app/config/globalStyles';
 import { defaults } from 'newApp/app/config/globalStyles';
 
+
+
+// <View style={userId !== msgUserId ? styles.fromArrow : styles.arrow}></View>
+
 class ChatScreen extends React.Component {
 	state = {}
 	renderMessages(){
 		let userId = this.props.userId;
 
 		return this.props.chat.messages.map((msg, k) => {
+			console.log(msg);
+			
 			let msgUserId = msg.owner._id;
 			return (
 				<View key={k} style={userId !== msgUserId ? styles.fromMessage : styles.message}>
@@ -20,7 +26,6 @@ class ChatScreen extends React.Component {
 	        			<View style={styles.imageContainer}>
 	        				{ userId !== msgUserId && <Image source={{uri: msg.owner.profile.defaultImage.url}} style={StyleSheet.absoluteFill} />}
 	        			</View>
-						<View style={userId !== msgUserId ? styles.fromArrow : styles.arrow}></View>
 						<Text style={userId !== msgUserId ? styles.fromMsgText : styles.msgText}>{msg.message}</Text>
 					</View>
 				</View>
@@ -37,6 +42,7 @@ class ChatScreen extends React.Component {
 	}
 	sendMessage() {
 		if(!this.state.text)return;
+		this.setState({text: ''});
 		this.props.sendMessage(this.state.text, this.props.chat.currentChat)		
 	}
 	render() {
@@ -48,17 +54,25 @@ class ChatScreen extends React.Component {
 				this.props.getMessages(chat);
 	
 	return (
-		<View style={styles.container}>
-			<ScrollView style={styles.messageContainer}>
-				{this.props.chat.messages.length ? this.renderMessages() : this.renderNoMessages()}
-			</ScrollView>
+		<KeyboardAvoidingView
+	      style={styles.container}
+	      behavior="padding"
+	    >
+				{
+					this.props.chat.messages.length ? 
+					<ScrollView style={styles.messageContainer}> 
+						{this.renderMessages()}
+					</ScrollView> : 
+					this.renderNoMessages()
+				}
+			
 			<View style={[gStyles.row, styles.input]}>
-			  	<TextInput onChangeText={(text) => this.setState({text})} style={{width: defaults.width - 80, backgroundColor: 'white', borderRadius: 5, height: 30}} underlineColorAndroid="transparent"/>
+			  	<TextInput value={this.state.text} onChangeText={(text) => this.setState({text})} style={{width: defaults.width - 80, backgroundColor: 'white', borderRadius: 5, height: 30}} underlineColorAndroid="transparent"/>
 			  	<TouchableOpacity onPress={() => this.sendMessage()} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 			  		<Text style={{fontSize: 18}}>Send</Text>
 			  	</TouchableOpacity>
 			</View>
-		</View>
+		</KeyboardAvoidingView>
 	)
 	}
 
@@ -120,7 +134,8 @@ const styles = StyleSheet.create({
   	msgContent: {
   		backgroundColor: defaults.color,
   		borderRadius: defaults.borderRadius,
-  		padding: 10
+  		padding: 10,
+  		width: 200
   	},
   	fromMsgContent: {
   		flexDirection: 'row',
