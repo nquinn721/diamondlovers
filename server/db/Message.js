@@ -4,7 +4,10 @@ var Schema = mongoose.Schema;
 var MessageSchema = new Schema({
     chat: {type: Schema.Types.ObjectId, ref: 'Chat'},
     owner: {type: Schema.Types.ObjectId, ref: 'User'},
-    date: Date.now(),
+    date: {
+    	type: Date,
+    	default: Date.now()
+    },
     message: String
 });
 
