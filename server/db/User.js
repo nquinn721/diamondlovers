@@ -70,7 +70,7 @@ const UserSchema = new Schema({
     passCode: Number,
     admin: Boolean,
     stripeId: String,
-    chats: [{type: Schema.Types.ObjectId, ref: 'Chat'}],
+    chats: [{type: Schema.Types.ObjectId, ref: 'Chat'}],  
     diamonds: {
         type: Number,
         default: 0
