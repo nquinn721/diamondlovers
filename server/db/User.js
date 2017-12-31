@@ -162,7 +162,7 @@ class User {
 
     static destroyChat(to, from, chatId, cb){
 
-    }
+    }    
  
 
     static updateDiamonds(_id, diamonds, cb = function(){}){
