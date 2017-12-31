@@ -23,9 +23,14 @@ class ChatScreen extends React.Component {
 			return (
 				<View key={k} style={userId !== msgUserId ? styles.fromMessage : styles.message}>
 					<View style={userId !== msgUserId ? styles.fromMsgContent : styles.msgContent}>
-	        			<View style={styles.imageContainer}>
-	        				{ userId !== msgUserId && <Image source={{uri: msg.owner.profile.defaultImage.url}} style={StyleSheet.absoluteFill} />}
-	        			</View>
+	        			
+	        				{ 
+	        					userId !== msgUserId && 
+	        						<View style={styles.imageContainer}>
+	        							<Image source={{uri: msg.owner.profile.defaultImage.url}} style={StyleSheet.absoluteFill} />
+	        						</View>
+	        				}
+	        			
 						<Text style={userId !== msgUserId ? styles.fromMsgText : styles.msgText}>{msg.message}</Text>
 					</View>
 				</View>
@@ -56,7 +61,7 @@ class ChatScreen extends React.Component {
 	return (
 		<KeyboardAvoidingView
 	      style={styles.container}
-	      behavior="padding"
+	      behavior="position"
 	    >
 				{
 					this.props.chat.messages.length ? 
@@ -90,8 +95,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	messageContainer: {
-		display: 'flex',
-		height: defaults.height - 180
+		flex: 1
 	},
   	image: {
 	  	width:30, 
@@ -123,9 +127,7 @@ const styles = StyleSheet.create({
   		overflow: 'hidden'
   	},
   	fromMessage: {
-  		margin: 10,
-  		width: 200,
-  		bottom: 0
+  		margin: 10
   	},
   	message: {
   		margin: 10,
@@ -138,16 +140,15 @@ const styles = StyleSheet.create({
   		width: 200
   	},
   	fromMsgContent: {
-  		flexDirection: 'row',
+  		flexDirection: 'row'
   	},
   	fromMsgText: {
   		backgroundColor: '#eee',
   		borderRadius: defaults.borderRadius,
-  		left: 70,
-  		padding: 10,
-  		position: 'absolute',
-  		bottom: 0,
   		color: 'black',
+  		width: 200,
+  		padding: 10,
+  		marginLeft: 10
   	},
   	msgText: {
   		color: 'white'
