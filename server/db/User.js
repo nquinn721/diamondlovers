@@ -156,14 +156,14 @@ class User {
         }
     }
 
-    static createChat(to, from, chat, cb){
-        UserModel.update({_id: {$in: [to, from]}}, {$push: {chats: chat}}, {multi: true}, cb);
-    }
+    static createChat(to, from, chat, cb){ 
+         UserModel.update({_id: {$in: [to, from]}}, {$push: {chats: chat}}, {multi: true}, cb);
+    } 
 
-    static destroyChat(to, from, chatId, cb){
-
-    }
-
+    static destroyChat(to, from, chatId, cb){ 
+ 
+    } 
+ 
 
     static updateDiamonds(_id, diamonds, cb = function(){}){
         UserModel.findOneAndUpdate({_id}, {$inc: {diamonds}}, {new: true}, this.returnDoc.bind(this, cb));
