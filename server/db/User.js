@@ -240,8 +240,11 @@ class User {
       * DB
       */
     static login(email, pw, cb = function(){}){
+        console.log('1');
+        
         let user = UserModel.findOne({email})
             .exec((e, doc) => {
+        console.log('2');
 
             if(e)return cb(e);
             if(!doc)return cb({error: 'no user found'});
@@ -251,9 +254,11 @@ class User {
             let user = {
                 client: doc.client()
             }
+        console.log('3');
             
             if(pw){
                 doc.comparePassword(pw, (matchError, match) => {
+        console.log('4');
                     if(match){
                         Chat.get(doc._id, doc.chats, (chatE, chats) => {
                             user.client.chats = chats;
