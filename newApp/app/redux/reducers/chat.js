@@ -1,11 +1,17 @@
 const initialState = {
 	sending: false,
-	messages: []
+	messages: [],
+	chats: []
 }
 
 export default (state = initialState, action) => {
 	
 	switch(action.type){
+		case 'APPROVE_DATE_SUCCESS':
+			return {
+				...state,
+				chats: state.chats.shift(action.data.chat)
+			}
 		case 'GETTING_CHATS':
 			return {
 				...state,

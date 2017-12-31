@@ -11,10 +11,10 @@ class LoginScreen extends React.Component {
   state = {
     // username: 'willy@willy.com',
     // password: 'willy123',
-    username: 'natethepcspecialist@gmail.com',
-    password: 'nate123',
-    // username: 'bob@bob.com',
-    // password: 'bob123'
+    // username: 'natethepcspecialist@gmail.com',
+    // password: 'nate123',
+    username: 'bob@bob.com',
+    password: 'bob123'
   }
 
   login(){
@@ -23,7 +23,7 @@ class LoginScreen extends React.Component {
     this.props.login(username, password);
 
   }
-   componentWillMount(){ 
+   componentWillMount(){
      if(this.props.user.user)
         this.props.navigation.navigate('Nav');
    }

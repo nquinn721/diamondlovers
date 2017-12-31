@@ -14,15 +14,16 @@ module.exports = {
 	},
 	approveDate: function(req, res) {
 		let _id = req.body.id;
-		Dates.approveDate(_id, (e, data) => {
-			console.log(data);
+		Dates.approveDate(_id, (e, date) => {
+			let to = data.to._id,
+				from = data.from._id;
 			
-			// Chat.createChat(to, from, function(e, chat) {
-			// 	User.createChat(to, from, chat._id, function(e, userDoc) {
-			// 		res.send(e ? {error: 'failed to approve date'} : {data});
+			Chat.createChat(to, from, function(e, chat) {
+				User.createChat(to, from, chat._id, function(e, userDoc) {
+					res.send(e ? {error: 'failed to approve date'} : {data: {date, chat}});
 					
-			// 	});
-			// });
+				});
+			});
 		});
 	},
 	confirmShowed: function(req, res) {
