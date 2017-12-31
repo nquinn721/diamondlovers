@@ -28,6 +28,12 @@ module.exports = {
 	        }
 
 	    });
+	console.log('*');
+	console.log('*');
+	console.log('*');
+	console.log('*');
+	console.log('*');
+	
 	},
 
 	login: function(req, res){
