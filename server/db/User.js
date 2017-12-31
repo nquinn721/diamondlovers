@@ -163,7 +163,7 @@ class User {
     static destroyChat(to, from, chatId, cb){
 
     }
-
+ 
 
     static updateDiamonds(_id, diamonds, cb = function(){}){
         UserModel.findOneAndUpdate({_id}, {$inc: {diamonds}}, {new: true}, this.returnDoc.bind(this, cb));
