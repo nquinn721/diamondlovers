@@ -51,7 +51,7 @@ export default (state = initialState, action) => {
 				agreeingToDate: true
 			}
 		case 'APPROVE_DATE_SUCCESS':
-			dates = updateDate(state.dates, action.data.dates);
+			dates = updateDate(state.dates, action.data.date);
 			return {
 				...state,
 				...setDates(dates),

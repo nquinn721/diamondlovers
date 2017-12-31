@@ -260,8 +260,17 @@ class User {
                 doc.comparePassword(pw, (matchError, match) => {
                     if(match){
                         Chat.get(doc._id, doc.chats, (chatE, chats) => {
+                            console.log('CHATS');
+                            console.log('CHATS');
+                            console.log('CHATS');
+                            console.log('CHATS');
+                            console.log('CHATS');
+                            console.log('CHATS');
+                            console.log('CHATS');
+                            console.log(chats);
+                            
+                            
                             user.client.chats = chats;
-                            console.log(user.client);
                             
                             if(doc.stripeId){
                                 Stripe.getCustomer(doc.stripeId, (e, cust) => {
