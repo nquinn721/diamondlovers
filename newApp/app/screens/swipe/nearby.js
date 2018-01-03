@@ -37,7 +37,6 @@ class Nearby extends React.Component {
 
   renderCard(user){
     let image = getDefaultImage(user.profile.defaultImage, user.images);
-    
 
     return (
       <View style={styles.card} key={user._id}>
@@ -80,6 +79,10 @@ class Nearby extends React.Component {
       <Swiper
           ref={s => {
             if(s)this.swiper = s;
+            // if(this.props.navigation.state.params && this.props.navigation.state.params.direction && s){
+            //   this[this.props.navigation.state.params.direction](true);
+            //   delete this.props.navigation.state.params.direction;
+            // }
           }}
           cards={users}
           renderCard={(card, cardIndex) => this.renderCard(card, cardIndex)}
@@ -102,7 +105,7 @@ class Nearby extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{flex: 1, backgroundColor: 'red', marginBottom: 10}}>{swiper}</View>
-        <BottomButtons  swipeRight={this.swipeRight.bind(this)} swipeLeft={this.swipeLeft.bind(this)} info={this.info.bind(this)}/>
+        <BottomButtons  swipeRight={this.swipeRight.bind(this)} swipeLeft={this.swipeLeft.bind(this, true)} info={this.info.bind(this)}/>
       </View>
     )
   }
@@ -112,27 +115,23 @@ class Nearby extends React.Component {
     this.props.navigation.navigate('UserProfile', user);
   }
   swipeLeft(swipe){
+    console.log('swiping left');
     this.currentUserIndex++;
     let user = this.swiper.props.cards[this.currentUserIndex];
-    console.log(user);
     swipe && this.swiper.swipeLeft();
   }
   swipeRight(){
     let user = this.swiper.props.cards[this.currentUserIndex];
-    this.currentUserIndex++;
     this.props.navigation.navigate('Details', user);
   }
   render() {
+    console.log('render');
     let {users} = this.props.nearby;
+    if(!users)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
 
-    if(this.props.navigation.state.params && this.props.navigation.state.params.direction && this.swiper){
-      this[this.props.navigation.state.params.direction](true);
-      delete this.props.navigation.state.params;
-    }
     if(this.props.nearby.fetchingNearbyFailed || this.state.noCards) 
       return this.renderNoCards();
     
-    if(!users)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
   
     return this.renderSwiper(users);
   }

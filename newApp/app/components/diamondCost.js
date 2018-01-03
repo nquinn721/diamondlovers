@@ -24,9 +24,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    marginTop: 3,
-    marginLeft: 5,
-    color: 'white'
+    marginTop: 4,
+    marginRight: 4,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'rgba(0,0,0,0)'
   }
 })
 
