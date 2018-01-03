@@ -19,6 +19,8 @@ const icon = require('newApp/app/assets/img/Icon-Profiles.png');
 
 class Nearby extends React.Component {
   state = {noCards: false, currentImage: 0};
+  currentUserIndex = 0;
+
   static navigationOptions = {
       header:null,
     tabBarIcon: ({ tintColor }) => (
@@ -31,12 +33,11 @@ class Nearby extends React.Component {
   componentDidMount(){
     this.props.getNearby();
     this.props.getDates();
-    // this.props.getChats();
   }
 
   renderCard(user){
     let image = getDefaultImage(user.profile.defaultImage, user.images);
-    this.user = user;
+    
 
     return (
       <View style={styles.card} key={user._id}>
@@ -68,7 +69,7 @@ class Nearby extends React.Component {
 
   renderNoCards(){
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {alignItems: 'center', justifyContent: 'center'}]}>
         <Icon name="ban" type="font-awesome" size={200} color="#eee"/>
         <Text style={{color: '#ccc'}}>No more cards</Text>
       </View>
@@ -83,10 +84,11 @@ class Nearby extends React.Component {
           cards={users}
           renderCard={(card, cardIndex) => this.renderCard(card, cardIndex)}
           onSwiped={(cardIndex) => {console.log('you swiped', cardIndex)}}
-          // onSwipedLeft={(user) => this.swipeLeft()}
+          onSwipedLeft={(index) => this.swipeLeft()}
           onSwipedRight={(user) => this.swipeRight()}
           onSwipedAll={() => this.setState({noCards: true})}
           cardVerticalMargin={20}
+          style={{flex: 1}}
           showSecondCard={false}
           onTapCard={index => console.log(index)}
           backgroundColor={'white'}
@@ -106,21 +108,25 @@ class Nearby extends React.Component {
   }
 
   info(){
-    this.props.navigation.navigate('UserProfile', this.user);
+    let user = this.swiper.props.cards[this.currentUserIndex];
+    this.props.navigation.navigate('UserProfile', user);
   }
-  swipeLeft(){
-    this.swiper.swipeLeft();
+  swipeLeft(swipe){
+    this.currentUserIndex++;
+    let user = this.swiper.props.cards[this.currentUserIndex];
+    console.log(user);
+    swipe && this.swiper.swipeLeft();
   }
   swipeRight(){
-    this.props.navigation.navigate('Details', this.user);
+    let user = this.swiper.props.cards[this.currentUserIndex];
+    this.currentUserIndex++;
+    this.props.navigation.navigate('Details', user);
   }
   render() {
     let {users} = this.props.nearby;
 
     if(this.props.navigation.state.params && this.props.navigation.state.params.direction && this.swiper){
-      console.log('SWIPE FROM NAVIGATION', this.props.navigation.state.params);
-      
-      this[this.props.navigation.state.params.direction]();
+      this[this.props.navigation.state.params.direction](true);
       delete this.props.navigation.state.params;
     }
     if(this.props.nearby.fetchingNearbyFailed || this.state.noCards) 
