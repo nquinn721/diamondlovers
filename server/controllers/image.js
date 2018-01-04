@@ -29,14 +29,9 @@ module.exports = {
     deleteImage: (req, res) => {
         Image.delete(req.session.user.client._id, req.body.public_id, (e, images) => {
             if(e)return res.send({error: 'failed'});
-            console.log(req.session.user.client.profile.defaultImage);
-            let defaultImage = images.filter(img => {
-                console.log(img._id);
-                img._id == req.session.user.client.profile.defaultImage
-            });
-            console.log(defaultImage);
+            let defaultImage = images.filter(img => img._id.toString() === req.session.user.client.profile.defaultImage.toString());
+
             if(!defaultImage.length){
-                console.log('about to set default image');
                 User.setDefaultImage(req.session.user.client._id, images[0], (e, user, model) => {
                     req.session.user.client = user;
                     req.session.user.images = images;
