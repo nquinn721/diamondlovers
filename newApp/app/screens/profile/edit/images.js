@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, StyleSheet, Alert, ActivityIndicator, TouchableHighlight, Image } from 'react-native';
+import { Text, View, StyleSheet, Alert, ActivityIndicator, TouchableHighlight } from 'react-native';
+import Image from 'react-native-image-progress';
 import { bindActionCreators } from 'redux';
 import { ImagePicker, BlurView } from 'expo';
 import { connect } from 'react-redux';

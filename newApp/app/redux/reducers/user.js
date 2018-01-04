@@ -43,12 +43,12 @@ export default (state = initialState, action) => {
 		case 'DELETE_IMAGE_SUCCESS':
 			return {
 				...state,
-				user: action.data
+				user: action.data.client
 			}
 		case 'SET_DEFAULT_IMAGE_SUCCESS':
 			return {
 				...state,
-				user: action.data
+				user: action.data.client
 			}
 		case 'CHARGE_CARD_SUCCES':
 			return {
