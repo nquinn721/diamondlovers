@@ -74,7 +74,7 @@ export const getDefaultImage = (di, images) => {
 		return avatar;
 }
 
-updatedImageData = (state, action) => {
+const updatedImageData = (state, action) => {
 	let obj = {
 		...state,
 		addingImage: false,
