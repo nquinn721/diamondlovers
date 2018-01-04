@@ -34,7 +34,12 @@ module.exports = {
             if(e)return res.send({error: 'failed'});
             let defaultImage = images.filter(img => img._id.toString() === client.profile.defaultImage.toString());
 
-            
+            console.log('delete iamge');            
+            console.log('delete iamge');            
+            console.log('delete iamge');            
+            console.log('delete iamge');            
+            console.log('delete iamge');            
+            console.log(defaultImage.length);
             if(!defaultImage.length){
                 User.setDefaultImage(_id, images[0], (e, user, model) => {
                     req.session.user.client = user;
