@@ -150,10 +150,7 @@ class User {
 
     static returnDoc(cb, e, doc){
         if(doc){
-            this.getChats(doc, (e, chats) => {
-                doc.chats = chats;
-                return cb(e, doc.client(), doc);
-            })
+            return cb(e, doc.client(), doc);
         }else{
             return cb(e, null, null);
         }
@@ -271,7 +268,7 @@ class User {
                         
                         this.getChats(doc, (e, chats) => {
 
-                            user.client.chats = chats;
+                            user.chats = chats;
                             
                             if(doc.stripeId){
                                 Stripe.getCustomer(doc.stripeId, (e, cust) => {

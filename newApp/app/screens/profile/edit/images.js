@@ -108,7 +108,7 @@ class Images extends React.Component {
     return (
       <View style={styles.container}>
 				<View style={styles.imagesContainer}>{this.renderImages()}</View>
-        <Text style={[gStyles.smallText, gStyles.center]}>Long press image to set to default</Text>
+        <Text style={[gStyles.smallText, {textAlign: 'center', marginBottom: 10}]}>Long press image to set to default</Text>
 
       </View>
     )

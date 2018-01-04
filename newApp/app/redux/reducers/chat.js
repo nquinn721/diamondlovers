@@ -7,6 +7,11 @@ const initialState = {
 export default (state = initialState, action) => {
 	
 	switch(action.type){
+		case 'LOGGED_IN':
+			return {
+				...state,
+				chats: action.data.chats
+			}
 		case 'APPROVE_DATE_SUCCESS':
 			return {
 				...state,
