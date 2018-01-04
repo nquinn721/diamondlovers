@@ -150,7 +150,10 @@ class User {
 
     static returnDoc(cb, e, doc){
         if(doc){
-            return cb(e, doc.client(), doc);
+            this.getChats(doc, (e, chats) => {
+                doc.chats = chats;
+                return cb(e, doc.client(), doc);
+            })
         }else{
             return cb(e, null, null);
         }
@@ -169,9 +172,7 @@ class User {
         UserModel.findOneAndUpdate({_id}, {$inc: {diamonds}}, {new: true}, this.returnDoc.bind(this, cb));
     }
 
-    static setDefaultImage(_id, imageId, cb = function(){}){
-        UserModel.findOneAndUpdate({_id}, {$set: {'profile.defaultImage': imageId}}, {new: true}, this.returnDoc.bind(this, cb));
-    }
+    
 
     static update(user, cb = function(){}){
         UserModel.findOneAndUpdate({_id: user._id}, user, {new: true}, this.returnDoc.bind(this, cb));
@@ -267,10 +268,9 @@ class User {
                 doc.comparePassword(pw, (matchError, match) => {
                     if(match){
                         
-                        Chat.get(doc.chats, (chatE, chats) => {
-                            console.log(chatE, chats);
-                            
-                            
+                        
+                        this.getChats(doc, (e, chats) => {
+
                             user.client.chats = chats;
                             
                             if(doc.stripeId){
@@ -282,7 +282,8 @@ class User {
                             }else{
                                 this.getImagesForLogin(e, user, doc, cb);
                             }
-                        });
+                        })                            
+                            
                     }else cb(matchError);
                 });
                 
@@ -298,7 +299,13 @@ class User {
             }
         });
     }
+    static getChats(user, cb = function(){}){
+        Chat.get(user.chats, (e, chats) => {
+            if(e)return cb(e);
+            return cb(null, chats);
+        });
 
+    }
     static getImagesForLogin(e, user, doc, cb){
         Image.basic(doc._id, (e, images) => {
             if(e)return cb(e);
