@@ -44,8 +44,8 @@ module.exports = {
                 User.setDefaultImage(_id, images[0]._id, (e, user, model) => {
                     req.session.user.client = user;
                     req.session.user.images = images;
-                    console.log(client, images);
-                    res.send({data: {client, images}});
+                    console.log(user, images);
+                    res.send({data: {client: user, images}});
                 });
                 
             }else{
