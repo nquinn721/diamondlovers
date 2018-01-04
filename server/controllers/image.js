@@ -32,7 +32,7 @@ module.exports = {
             console.log(req.session.user.client.profile.defaultImage);
             let defaultImage = images.filter(img => {
                 console.log(img._id);
-                img._id === req.session.user.client.profile.defaultImage
+                img._id == req.session.user.client.profile.defaultImage
             });
             console.log(defaultImage);
             if(!defaultImage.length){
