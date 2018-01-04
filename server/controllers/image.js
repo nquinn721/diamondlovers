@@ -31,13 +31,17 @@ module.exports = {
             if(e)return res.send({error: 'failed'});
             let defaultImage = images.filter(img => img._id === req.session.user.client.profile.defaultImage);
 
-            if(!defaultImage.length)
+            if(!defaultImage.length){
                 User.setDefaultImage(req.session.user.client._id, images[0], (e, user, model) => {
                     req.session.user.client = user;
                     req.session.user.images = images;
-                    console.log(images);
+                    
                     res.send({data: {client: req.session.user.client, images: req.session.user.images}});
                 });
+                
+            }else{
+                res.send({data: {client: req.session.user.client, images: req.session.user.images}});
+            }
         });
     }
 
