@@ -66,9 +66,10 @@ const inches = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
 
 class Images extends React.Component {
   updateProfile(field, value){
-    console.log('setting state', field, value);
+    console.log('setting state', field);
     
-    this.setState({about: value});
+    this.setState({[field]: value});
+    console.log(this.state);
 
     // clearTimeout(this.timer);
     // this.timer = setTimeout(function() {

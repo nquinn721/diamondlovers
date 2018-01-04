@@ -187,7 +187,14 @@ class User {
     }
     static updateProfile(_id, field, value, cb = function(){}){
         let update = {};
-        update['profile.' + field] = value.toLowerCase();
+        if(typeof field === 'string')
+            update['profile.' + field] = value.toLowerCase();
+        else{
+            for(let i in field){
+                update['profile.' + i] = field[i]; 
+            }
+            cb = value;
+        }
         UserModel.findOneAndUpdate({_id}, update, {new: true}, this.returnDoc.bind(this, cb));
     }
     /**

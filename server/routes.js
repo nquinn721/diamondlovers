@@ -51,7 +51,7 @@ module.exports = function(app){
          // {field: field, value: value} - id is retrieved from session
         'user/update-profile-field': {
           type: 'post',
-          middleWare: ['loggedIn', 'formidable'],
+          middleWare: ['loggedIn', 'json'],
           method: 'user.updateProfileField'
         },
         // ----
