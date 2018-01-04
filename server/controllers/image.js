@@ -34,7 +34,7 @@ module.exports = {
                 console.log(img._id);
                 img._id === req.session.user.client.profile.defaultImage
             });
-
+            console.log(defaultImage);
             if(!defaultImage.length){
                 console.log('about to set default image');
                 User.setDefaultImage(req.session.user.client._id, images[0], (e, user, model) => {
