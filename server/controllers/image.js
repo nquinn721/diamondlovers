@@ -41,7 +41,7 @@ module.exports = {
             console.log('delete iamge');            
             console.log(defaultImage.length);
             if(!defaultImage.length){
-                User.setDefaultImage(_id, images[0], (e, user, model) => {
+                User.setDefaultImage(_id, images[0]._id, (e, user, model) => {
                     req.session.user.client = user;
                     req.session.user.images = images;
                     console.log(client, images);
