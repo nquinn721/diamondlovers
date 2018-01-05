@@ -21,11 +21,13 @@ class Profile extends React.Component {
         />
       ),
     };
+
+
   bottomNav(){
     return(
       <View style={{height: 100, justifyContent: 'flex-end', paddingBottom: 15}}>
         <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Edit')}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Edit', {user: this.props.user.user})}>
             <Image source={require('newApp/app/assets/img/Icon-Edit.png')} style={styles.bottomNavItem} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Cards')}>

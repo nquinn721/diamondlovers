@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Alert, ActivityIndicator, TouchableHighlight, Image, TextInput, Picker, Item, ScrollView } from 'react-native';
+import { Icon, Button } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
-import { ImagePicker, BlurView } from 'expo';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
 import gStyles, { defaults } from 'newApp/app/config/globalStyles';
@@ -75,30 +75,36 @@ const feet = [
   {label: '9', key: 9},
   {label: '10', key: 10}
 ];
-const inches = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+const inches = [
+  {label: '1', key: 1},
+  {label: '2', key: 2},
+  {label: '3', key: 3},
+  {label: '4', key: 4},
+  {label: '5', key: 5},
+  {label: '6', key: 6},
+  {label: '7', key: 7},
+  {label: '8', key: 8},
+  {label: '9', key: 9},
+  {label: '10', key: 10},
+  {label: '11', key: 11} 
+];
 
 
+const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
-//   <Picker
-//    style={{flex: 1}}
-//    mode="dropdown"
-//    selectedValue={user.profile.state}
-//    onValueChange={(state)=> this.updateProfile('state', state)}>
-//    {states.map((item, index) => <Picker.Item label={item.name} value={item.abbr} key={index} />)}
-// </Picker>
 
 
 class Images extends React.Component {
-  updateProfile(field, value){
-    
-    this.setState({[field]: value});
+  state = {};
 
-    // clearTimeout(this.timer);
-    // this.timer = setTimeout(function() {
-    //   this.props.updateProfile(field, value);
-      
-    // }.bind(this), 1000);
+  updateProfile(field, value){
+    clearTimeout(this.timeout);
+    this.state[field] = value;
+    console.log('about to update profile');
+    console.log(this.state);
+    this.props.updateProfile(this.state);
   }
+
   renderDetails(user){
     return (
       <View style={styles.details}>
@@ -124,7 +130,7 @@ class Images extends React.Component {
         <ModalPicker
           data={states}
           initValue={user.profile.state}
-          onChange={(option)=>{ this.updateProfile('state', option.abbr) }} />
+          onChange={(option) => this.updateProfile('state', option.abbr) } />
           
         </View>
         <View style={styles.item}>
@@ -136,13 +142,13 @@ class Images extends React.Component {
               data={feet}
               style={{marginLeft: 10, marginRight: 10}}
               initValue={(user.profile.height && user.profile.height.feet) || '0'}
-              onChange={(feet)=>{ this.updateProfile('height.feet', feet.label) }} />
+              onChange={(feet) => this.updateProfile('height.feet', feet.label) }/>
           <Text>in</Text>
             <ModalPicker
               data={feet}
               style={{marginLeft: 10, marginRight: 10}}
               initValue={(user.profile.height && user.profile.height.inches) || '0'}
-              onChange={(inches)=>{ this.updateProfile('height.inches', inches.label) }} />
+              onChange={(inches) => this.updateProfile('height.inches', inches.label) }/>
         </View>
         </View>
         <View style={styles.item}>
@@ -166,7 +172,6 @@ class Images extends React.Component {
   }
 
   renderAbout(user){
-    console.log(this.state.about);
     
     return (
       <View style={styles.about}>
@@ -174,19 +179,15 @@ class Images extends React.Component {
         <TextInput
           multiline={true}
           numberOfLines={4}
-          style={{borderWidth: 1, borderColor: '#eee', borderRadius: 5}}
+          style={{borderWidth: 1, borderColor: '#eee', borderRadius: 5, height: 100}}
           onChangeText={(text) => this.updateProfile('about', text)}
-          value={this.state.about}/>
+          value={user.profile.about}/>
       </View>
     )
   }
   render() {
-    let {user} = this.props.user;
-
-    this.state = {
-      ...user.profile
-    }
-    
+    let {user} = this.props.navigation.state.params;
+    console.log(user.profile);
     return (
       <ScrollView style={styles.container}>
         {this.renderDetails(user)}
@@ -225,6 +226,7 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({user: state.user}), 
+  // (state) => ({user: state.user}), 
+  () => ({}),
   (dispatch) => (bindActionCreators({updateProfile}, dispatch))
 )(Images);
