@@ -100,8 +100,6 @@ class Images extends React.Component {
   updateProfile(field, value){
     clearTimeout(this.timeout);
     this.state[field] = value;
-    console.log('about to update profile');
-    console.log(this.state);
     this.props.updateProfile(this.state);
   }
 
