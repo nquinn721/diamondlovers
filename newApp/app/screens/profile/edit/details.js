@@ -174,6 +174,7 @@ class Images extends React.Component {
         <TextInput
           multiline={true}
           numberOfLines={4}
+          style={{borderWidth: 1, borderColor: '#eee', borderRadius: 5}}
           onChangeText={(text) => this.updateProfile('about', text)}
           value={this.state.about}/>
       </View>
@@ -181,7 +182,7 @@ class Images extends React.Component {
   }
   render() {
     let {user} = this.props.user;
-    console.log(user.profile);
+
     this.state = {
       ...user.profile
     }

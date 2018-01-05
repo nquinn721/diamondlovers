@@ -1,9 +1,9 @@
 const initialState = {
 	card: {
-		number: '4242424242424242',
-		exp_year: '23',
-		exp_month: '03',
-		cvc: '123'
+		// number: '4242424242424242',
+		// exp_year: '23',
+		// exp_month: '03',
+		// cvc: '123'
 	},
 	addingCard: false,
 	addingCardFailed: false,

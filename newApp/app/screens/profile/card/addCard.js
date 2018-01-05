@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ActivityIndicator, Image } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, Image, Alert } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
@@ -10,53 +10,36 @@ const stripe = require('stripe-client')(Config.stripeApiKey);
 const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
 class AddCard extends React.Component {
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={img}
-        style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
-      />
-    ),
-  };
-  state = {}
-  updateNumber(number){
-    if(/\d{16}/.test(number)){
-      this.setState({numberError: false});
-      this.props.card.number = number;
+  state = {};
+
+  update(total, type, number) {
+    let regStr = '\\d{' + total + '}',
+        reg = new RegExp(regStr);
+
+    if(reg.test(number)){
+      this.setState({[type + 'Error']: false});
+      this.props.card.card[type] = number;
     }else{
-      this.setState({numberError: true});
-    }
-  }
-  updateMonth(month){
-    if(/\d{2}/.test(month)){
-      this.setState({monthError: false});
-      this.props.card.month = month;
-    }else{
-      this.setState({monthError: true});
-    }
-  }
-  updateYear(year){
-    if(/\d{2}/.test(year)){
-      this.setState({yearError: false});
-      this.props.card.year = year;
-    }else{
-      this.setState({yearError: true});
-    }
-  }
-  
-  updateCVC(cvc){
-    if(/\d{3}/.test(cvc)){
-      this.setState({cvcError: false});
-      this.props.card.cvc = cvc;
-    }else{
-      this.setState({cvcError: true});
+      this.setState({[type + 'Error']: true});
     }
   }
 
   async addCard(){
   	let token = await stripe.createToken({card: this.props.card.card});
-  	this.props.addCard(token.id);
-  	this.props.navigation.goBack()
+    
+    if(token.error){
+      Alert.alert(
+        'Failed to add card',
+        token.error.message,
+        [
+          {text: 'OK'},
+        ],
+        { cancelable: true }
+      )
+    }else{
+    	this.props.addCard(token.id);
+    	this.props.navigation.goBack()
+    }
   }
   render() {
   	const card = this.props.card;
@@ -65,19 +48,19 @@ class AddCard extends React.Component {
       <View style={styles.container}>
         <View style={{flex: 2}}>
           <FormLabel>Card Number</FormLabel>
-  				<FormInput onChangeText={this.updateNumber.bind(this)} placeholder={card.number}/>
+  				<FormInput onChangeText={this.update.bind(this, 16, 'number')} placeholder={card.number}/>
   				<FormValidationMessage>{this.state.numberError && "Must be 16 digits"}</FormValidationMessage>
   				
   				<FormLabel>Exp Month</FormLabel>
-  				<FormInput onChangeText={this.updateMonth.bind(this)} placeholder={card.exp_month}/>
-  				<FormValidationMessage>{this.state.monthError && "Must be 2 digit format (YY)"}</FormValidationMessage>
+  				<FormInput onChangeText={this.update.bind(this, 2, 'exp_month')} placeholder={card.exp_month}/>
+  				<FormValidationMessage>{this.state.exp_monthError && "Must be 2 digit format (YY)"}</FormValidationMessage>
 
   				<FormLabel>Exp Year</FormLabel>
-  				<FormInput onChangeText={this.updateYear.bind(this)} placeholder={card.exp_year}/>
-  				<FormValidationMessage>{this.state.yearError && "Must be 2 digit format (MM)"}</FormValidationMessage>
+  				<FormInput onChangeText={this.update.bind(this, 2, 'exp_year')} placeholder={card.exp_year}/>
+  				<FormValidationMessage>{this.state.exp_yearError && "Must be 2 digit format (MM)"}</FormValidationMessage>
 
   				<FormLabel>CVC</FormLabel>
-  				<FormInput onChangeText={this.updateCVC.bind(this)} placeholder={card.cvc}/>
+  				<FormInput onChangeText={this.update.bind(this, 3, 'cvc')} placeholder={card.cvc}/>
   				<FormValidationMessage>{this.state.cvcError && "Must be 3 digits"}</FormValidationMessage>
         </View>
 			  <View style={defaults.buttonBottom}>

@@ -9,14 +9,6 @@ import { deleteCard, setDefaultCard } from 'newApp/app/redux/actions/card';
 const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
 class Cards extends React.Component {
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={img}
-        style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
-      />
-    ),
-  };
   state = {}
 
   setDefaultCard(card){
@@ -35,9 +27,9 @@ class Cards extends React.Component {
         return (
           <View key={i} style={styles.card}>
             {
-              this.state.defaultCard === card.id && this.props.card.settingDefault ?
+              this.state.cardBeingDeleted === card.id ?
                 <ActivityIndicator style={styles.cardIcon}/> :
-                <Icon style={styles.cardIcon} onPress={() => this.setDefaultCard(card.id)} name={`cc-${brand}`} type='font-awesome'color='#0157a2'/>
+                <Icon style={styles.cardIcon} onPress={() => this.deleteCard(card)} name={`cc-${brand}`} type='font-awesome'color='#0157a2'/>
               
             }
             <View style={{flexGrow: 1.5, paddingLeft: 10, paddingRight: 10, display: 'flex', justifyContent: 'space-around', flexDirection: 'row'}}>
@@ -54,16 +46,7 @@ class Cards extends React.Component {
     }
   }
 
-  // {
-  //             stripeCust.default_source === card.id ? 
-  //               <Icon style={styles.check} name="check" color="green" type="font-awesome"/> :
-  //               <Text style={styles.check}></Text>
-  //           }
-  //           {
-  //             this.props.card.deletingCard && this.state.cardBeingDeleted === card.id ? 
-  //               <ActivityIndicator /> :
-  //               <Icon name="trash" color="#555" type="font-awesome" onPress={() => this.deleteCard(card)}/>
-  //           }
+ 
   deleteCard(card){
     Alert.alert(
       'Delete Card',
@@ -93,7 +76,7 @@ class Cards extends React.Component {
             title="Add Card"
             onPress={() => this.props.navigation.navigate('AddCard')}
           />
-          <Text style={[gStyles.smallText, styles.aligned]}>Press the card icon to set default card.</Text>
+          <Text style={[gStyles.smallText, styles.aligned]}>Press the card icon to delete.</Text>
         </View>
       </View>
     )

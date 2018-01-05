@@ -23,6 +23,8 @@ class ChatScreen extends React.Component {
 	}
 	renderChats(){
 		return this.props.chats.map((chat, k) => {
+			if(!chat.to)return;
+			
 			let from = chat.to._id === this.props.userId ? chat.from : chat.to;
 
 			return (
