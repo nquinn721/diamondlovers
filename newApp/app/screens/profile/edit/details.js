@@ -110,6 +110,7 @@ class Images extends React.Component {
           <Text>Looking for</Text>
           <ModalPicker
             data={[{label: 'Male', key: 1}, {label: 'Female', key: 2}]}
+            sectionStyle={{backgroundColor: 'red'}}
             initValue={user.profile.lookingFor}
             onChange={(looking) => this.updateProfile('lookingFor', looking.label) }/>
         </View>
