@@ -207,15 +207,22 @@ class User {
     /**
      * SEARCH
      */
-    static getPublicProfilesNearby(_id, city, state, cb = function(){}){
-        let search = {_id: {'$ne': _id}};
-        if(city)search['profile.city'] = city.trim().toLowerCase();
-        if(state)search['profile.state'] = state.trim().toLowerCase();
+    static getPublicProfilesNearby(_id, profile, cb = function(){}){
+        let search = {_id: {'$ne': _id}},
+            {city, state, lookingFor} = profile;
+
+        if(city)search['profile.city'] = regSearch(city);
+        if(state)search['profile.state'] = regSearch(state);
+        if(lookingFor)search['profile.lookingFor'] = regSearch(lookingFor);
 
         UserModel.find(search, (e, users) => {
             if(e)return cb({error: 'failed to retrieve profiles'});
             this.getImagesForUsers(users, cb);
         });
+
+        function regSearch(str) {
+            return new RegExp("^" + str.trim().toLowerCase(), "i")
+        }
     }
     /**
      * END SEARCH

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Alert, ActivityIndicator, TouchableHighlight, Image, TextInput, Picker, Item, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, Alert, ActivityIndicator, TouchableHighlight, Image, TextInput, Picker, Item, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -107,6 +107,13 @@ class Images extends React.Component {
     return (
       <View style={styles.details}>
         <View style={styles.item}>
+          <Text>Looking for</Text>
+          <ModalPicker
+            data={[{label: 'Male', key: 1}, {label: 'Female', key: 2}]}
+            initValue={user.profile.lookingFor}
+            onChange={(looking) => this.updateProfile('lookingFor', looking.label) }/>
+        </View>
+        <View style={styles.item}>
           <Text>Age</Text>
           <TextInput 
             style={styles.itemValue} 
@@ -131,24 +138,23 @@ class Images extends React.Component {
           onChange={(option) => this.updateProfile('state', option.abbr) } />
           
         </View>
-        <View style={styles.item}>
-          <Text style={{flex: 1}}>Height</Text>
-          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
-            <Text>ft</Text>
+          {/*<View style={styles.item}>
+            <Text style={{flex: 1}}>Height</Text>
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
+              <Text>ft</Text>
 
-            <ModalPicker
-              data={feet}
-              style={{marginLeft: 10, marginRight: 10}}
-              initValue={(user.profile.height && user.profile.height.feet) || '0'}
-              onChange={(feet) => this.updateProfile('height.feet', feet.label) }/>
-          <Text>in</Text>
-            <ModalPicker
-              data={feet}
-              style={{marginLeft: 10, marginRight: 10}}
-              initValue={(user.profile.height && user.profile.height.inches) || '0'}
-              onChange={(inches) => this.updateProfile('height.inches', inches.label) }/>
-        </View>
-        </View>
+              <ModalPicker
+                data={feet}
+                style={{marginLeft: 10, marginRight: 10}}
+                initValue={(user.profile.height && user.profile.height.feet) || '0'}
+                onChange={(feet) => this.updateProfile('height.feet', feet.label) }/>
+            <Text>in</Text>
+              <ModalPicker
+                data={feet}
+                style={{marginLeft: 10, marginRight: 10}}
+                initValue={(user.profile.height && user.profile.height.inches) || '0'}
+                onChange={(inches) => this.updateProfile('height.inches', inches.label) }/>
+          </View>*/}
         <View style={styles.item}>
           <Text>Ethnicity</Text>
           <TextInput 
@@ -187,10 +193,10 @@ class Images extends React.Component {
     let {user} = this.props.navigation.state.params;
     console.log(user.profile);
     return (
-      <ScrollView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         {this.renderDetails(user)}
         {this.renderAbout(user)}
-      </ScrollView>
+      </KeyboardAvoidingView>
     )
   }
 
