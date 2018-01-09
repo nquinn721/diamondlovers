@@ -222,6 +222,11 @@ class User {
         if(lookingFor)search['profile.sex'] = regSearch(lookingFor);
 
         UserModel.find(search, {limit:10, skip: user.profile.nearbyIndex || 0}, (e, users) => {
+            console.log('*');
+            console.log('*');
+            console.log('*');
+            console.log('*');
+            console.log(e, users);
             if(e)return cb({error: 'failed to retrieve profiles'});
             this.getImagesForUsers(users, cb);
         });
