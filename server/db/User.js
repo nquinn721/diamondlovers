@@ -221,7 +221,7 @@ class User {
         if(state)search['profile.state'] = regSearch(state);
         if(lookingFor)search['profile.sex'] = regSearch(lookingFor);
 
-        UserModel.find(search, {limit:10, skip: user.profile.nearbyIndex}, (e, users) => {
+        UserModel.find(search, {limit:10, skip: user.profile.nearbyIndex || 0}, (e, users) => {
             if(e)return cb({error: 'failed to retrieve profiles'});
             this.getImagesForUsers(users, cb);
         });
