@@ -7,6 +7,7 @@ import { Icon, Button } from 'react-native-elements';
 import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import Splash from 'newApp/app/components/splash';
 import DiamondCost from 'newApp/app/components/diamondCost';
+import CircleImage from 'newApp/app/components/circleImage';
 const avatar = require('newApp/app/assets/img/avatar.png');
 const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
@@ -66,9 +67,7 @@ class Profile extends React.Component {
     return (
       <View style={styles.profileImage}>
         <Image source={img} style={styles.profileImage} />
-        <View style={styles.mainImage}>
-          <Image source={img} style={StyleSheet.absoluteFill} />
-        </View>
+        <CircleImage source={img} container={styles.mainImage} />
         <View style={[styles.profileImageOverlay, StyleSheet.absoluteFill]}></View>
         {this.displayProfileInfo()}
       </View>
@@ -106,8 +105,8 @@ const styles = StyleSheet.create({
      left: (defaults.width / 2) - 75,
      width: 150,
      height: 150,
-     borderRadius: 100,
-     overflow: 'hidden',
+     // borderRadius: 100,
+     // overflow: 'hidden',
      borderWidth: 2,
      borderColor: 'white',
      zIndex: 1
