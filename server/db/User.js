@@ -229,13 +229,22 @@ class User {
      */
     static getPublicProfilesNearby(user, profile, cb = function(){}){
         let search = {_id: {'$ne': user._id}},
-            {city, state, lookingFor} = profile;
+            {city, state, lookingFor} = profile,
+            index = getNearbyIndex(user).number;
+            console.log('**');
+            console.log('**');
+            console.log('**');
+            console.log('**');
+            console.log('**');
+            console.log('**');
+            console.log('**');
+            console.log(index);
 
         if(city)search['profile.city'] = regSearch(city);
         if(state)search['profile.state'] = regSearch(state);
         if(lookingFor)search['profile.sex'] = regSearch(lookingFor);
 
-        UserModel.find(search).skip(user.profile.nearbyIndex || 0).limit(10).exec((e, users) => {
+        UserModel.find(search).skip(index || 0).limit(10).exec((e, users) => {
             if(e)return cb({error: 'failed to retrieve profiles'});
             this.getImagesForUsers(users, cb);
         });
@@ -243,6 +252,11 @@ class User {
         function regSearch(str) {
             return new RegExp("^" + str.trim().toLowerCase(), "i")
         }
+    }
+
+    static getNearbyIndex(user, cb){
+        let {state, city} = user.profile;
+        return _.where(user.profile.nearbyIndex, {city, state});
     }
     /**
      * END SEARCH
