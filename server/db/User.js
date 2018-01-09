@@ -221,7 +221,7 @@ class User {
         if(state)search['profile.state'] = regSearch(state);
         if(lookingFor)search['profile.sex'] = regSearch(lookingFor);
 
-        UserModel.find(search, {limit:10, skip: user.profile.nearbyIndex || 0}, (e, users) => {
+        UserModel.find(search).skip(0).limit(10).exec((e, users) => {
             console.log('*');
             console.log('*');
             console.log('*');
