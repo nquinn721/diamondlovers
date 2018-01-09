@@ -208,7 +208,7 @@ class User {
         console.log('about to find user');
         console.log('about to find user');
         console.log('about to find user');
-        UserModel.find({_id}, (e, doc) => {
+        UserModel.findOne({_id}, (e, doc) => {
             console.log('user found');
             console.log('user found');
             console.log('user found');
