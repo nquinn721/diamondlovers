@@ -215,7 +215,7 @@ class User {
             console.log(e, doc);
             if(e)return cb(e);
             let {nearbyIndex, city, state} = doc.profile,
-                nearbyObj = _.where(nearbyIndex, {city, state});
+                nearbyObj = _.where(nearbyIndex, {city, state})[0];
 
             nearbyObj.number++;
             console.log(nearbyObj);
