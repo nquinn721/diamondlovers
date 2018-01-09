@@ -256,10 +256,7 @@ class User {
 
     static getNearbyIndex(user, cb){
         let {state, city} = user.profile;
-        console.log(state, city);
-        console.log(user.profile.nearbyIndex);
-        console.log(_.where(user.profile.nearbyIndex, {city, state}));
-        return _.where(user.profile.nearbyIndex, {city, state});
+        return _.where(user.profile.nearbyIndex, {city, state})[0];
     }
     /**
      * END SEARCH
