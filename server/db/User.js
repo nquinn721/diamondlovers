@@ -189,7 +189,7 @@ class User {
             update['profile.' + field] = value.toLowerCase();
         else{
             for(let i in field){
-                update['profile.' + i] = field[i]; 
+                update['profile.' + i] = field[i].toLowerCase(); 
             }
             cb = value;
         }

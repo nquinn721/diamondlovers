@@ -50,6 +50,11 @@ form.register.jumbotron(ng-cloak, ng-show="main.isLoggedIn")
     input.form-control(type="text", name="state", placeholder="State", value="oh")
     | zip 
     input.form-control(type="text", name="zip", placeholder="zip", value="43123")
+    | Looking For
+    input.form-control(type="text", name="lookingFor", placeholder="Looking for", value="female")
+    | Sex
+    input.form-control(type="text", name="sex", placeholder="Sex", value="male")
+
     button.btn.btn-primary(type="submit", ng-click="main.register()") Submit
 .cards.jumbotron
     .cards(ng-if="main.stripeCust")
