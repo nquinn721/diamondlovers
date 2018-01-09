@@ -14,6 +14,7 @@ import { getChats } from 'newApp/app/redux/actions/chat';
 import Image from 'react-native-image-progress';
 import BottomButtons from './components/bottomButtons';
 import { setCurrentUser } from 'newApp/app/redux/actions/nearby';
+import { updateSearchIndex } from 'newApp/app/redux/actions/user';
 import DiamondCost from 'newApp/app/components/diamondCost';
 const icon = require('newApp/app/assets/img/Icon-Profiles.png');
 
@@ -115,7 +116,7 @@ class Nearby extends React.Component {
     this.props.navigation.navigate('UserProfile', user);
   }
   swipeLeft(swipe){
-    console.log('swiping left');
+    this.props.updateSearchIndex();
     this.currentUserIndex++;
     let user = this.swiper.props.cards[this.currentUserIndex];
     swipe && this.swiper.swipeLeft();

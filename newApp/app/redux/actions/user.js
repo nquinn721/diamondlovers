@@ -10,4 +10,14 @@ export const updateProfile = (obj) => {
 	}
 }
 
+export const updateSearchIndex = () => {
+	return (dispatch) => {
+		Service.dispatchGet(dispatch, 'user/update-search-index', {
+			init: 'UPDATE_SEARCH_INDEX',
+			succes: 'UPDATE_SEARCH_INDEX_SUCCESS',
+			error: 'UPDATE_SEARCH_INDEX_FAILED'
+		});
+	}
+}
+
 
