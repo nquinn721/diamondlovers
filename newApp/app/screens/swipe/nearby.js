@@ -187,5 +187,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({nearby: state.nearby}), 
-  (dispatch) => (bindActionCreators({getNearby, getDates, setCurrentUser}, dispatch))
+  (dispatch) => (bindActionCreators({getNearby, getDates, setCurrentUser, updateSearchIndex}, dispatch))
 )(Nearby);

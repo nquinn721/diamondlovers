@@ -4,7 +4,7 @@ const findOrCreate = require('mongoose-find-or-create');
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 const seeds = require('./seed');
-
+const _ = require('underscore-node');
 /**
  * MODEL
  */
@@ -19,10 +19,14 @@ const seeds = require('./seed');
         type: String,
         unique: true
     },
-    nearbyIndex: {
-        type: Number,
-        default: 0
-    },
+    nearbyIndex: [{
+        city: String,
+        state: String,
+        number: {
+            type: Number,
+            default: 0
+        }
+    }],
     occupation: String,
     city: String,
     state: String,
@@ -198,7 +202,17 @@ class User {
         }
         UserModel.findOneAndUpdate({_id}, update, {new: true}, this.returnDoc.bind(this, cb));
     }
+
+    //::TODO::: update to get nearbyIndex based off of cell location
     static updateSearchIndex(_id, cb = function() {}){
+        UserModel.fine({_id}, (e, doc) => {
+            if(e)return cb(e);
+            let {nearbyIndex, city, state} = doc.profile,
+                nearbyObj = _.where(nearbyIndex, {city, state});
+
+            nearbyObj.number++;
+            doc.save(cb);
+        });
         UserModel.findOneAndUpdate({_id},{$inc: {'profile.nearbyIndex': 1}}, {new: true}, this.returnDoc.bind(this, cb));
     }
     /**

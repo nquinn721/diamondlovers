@@ -9,7 +9,6 @@ module.exports = {
 	getNearBy: (req, res) => {
 		let {client} = req.session.user;
 		User.getPublicProfilesNearby(client, client.profile, (e, data) => {
-			console.log('sending nearby', e, data);
 			if(e)return res.send({error: 'failed'});
 			res.send({data});
 		});
@@ -17,6 +16,10 @@ module.exports = {
 	updateSearchIndex: (req, res) => {
 		let {client} = req.session.user;
 		User.updateSearchIndex(client._id, (e, data) => {
+			console.log('UPDATE SEARCH INDEX');
+			console.log('UPDATE SEARCH INDEX');
+			console.log('UPDATE SEARCH INDEX');
+			console.log(e, data);
 			if(e)return res.send({error: 'failed to update search index'});
 			res.send({data});
 		})
