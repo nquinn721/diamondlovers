@@ -230,7 +230,7 @@ class User {
     static getPublicProfilesNearby(user, profile, cb = function(){}){
         let search = {_id: {'$ne': user._id}},
             {city, state, lookingFor} = profile,
-            index = getNearbyIndex(user).number;
+            index = this.getNearbyIndex(user).number;
             console.log('**');
             console.log('**');
             console.log('**');
