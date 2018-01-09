@@ -211,6 +211,9 @@ class User {
                 nearbyObj = _.where(nearbyIndex, {city, state});
 
             nearbyObj.number++;
+            console.log(nearbyObj);
+            console.log(doc);
+
             doc.save(cb);
         });
         UserModel.findOneAndUpdate({_id},{$inc: {'profile.nearbyIndex': 1}}, {new: true}, this.returnDoc.bind(this, cb));
@@ -230,7 +233,7 @@ class User {
     static getPublicProfilesNearby(user, profile, cb = function(){}){
         let search = {_id: {'$ne': user._id}},
             {city, state, lookingFor} = profile,
-            index = this.getNearbyIndex(user).number;
+            index = this.getNearbyIndex(user).number; //::TODO::: UPDATE USING PHONE LOCATION
             console.log('**');
             console.log('**');
             console.log('**');
@@ -254,6 +257,7 @@ class User {
         }
     }
 
+    //::TODO::: UPDATE USING PHONE LOCATION
     static getNearbyIndex(user, cb){
         let {state, city} = user.profile;
         return _.where(user.profile.nearbyIndex, {city, state})[0];
