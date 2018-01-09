@@ -213,7 +213,7 @@ class User {
 
         if(city)search['profile.city'] = regSearch(city);
         if(state)search['profile.state'] = regSearch(state);
-        if(lookingFor)search['profile.lookingFor'] = regSearch(lookingFor);
+        if(lookingFor)search['profile.sex'] = regSearch(lookingFor);
         UserModel.find(search, (e, users) => {
             if(e)return cb({error: 'failed to retrieve profiles'});
             this.getImagesForUsers(users, cb);

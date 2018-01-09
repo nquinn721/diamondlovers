@@ -7,7 +7,7 @@ import Config from 'newApp/app/config/config';
 import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import { updateProfile } from 'newApp/app/redux/actions/user';
 import { addImage, deleteImage, setDefaultImage, sortByDefault } from 'newApp/app/redux/actions/image';
-import ModalPicker from 'react-native-modal-picker'
+import ModalPicker from 'react-native-modal-picker';
 
 
 const states = [
@@ -111,7 +111,8 @@ class Images extends React.Component {
           <ModalPicker
             data={[{label: 'Male', key: 1}, {label: 'Female', key: 2}]}
             initValue={user.profile.sex}
-            style={{borderColor: 'white'}}
+            style={{borderBottomWidth: 2, borderColor: '#aaa', paddingBottom: 10}}
+            selectStyle={{borderColor: 'rgba(0,0,0,0)'}}
             onChange={(sex) => this.updateProfile('sex', sex.label.toLowerCase()) }/>
         </View>
         <View style={styles.item}>
@@ -119,7 +120,8 @@ class Images extends React.Component {
           <ModalPicker
             data={[{label: 'Male', key: 1}, {label: 'Female', key: 2}]}
             initValue={user.profile.lookingFor}
-            selectTextStyle={{padding: 0}}
+            style={{borderBottomWidth: 2, borderColor: '#aaa', paddingBottom: 10}}
+            selectStyle={{borderColor: 'rgba(0,0,0,0)'}}
             onChange={(looking) => this.updateProfile('lookingFor', looking.label.toLowerCase()) }/>
         </View>
         <View style={styles.item}>
@@ -225,10 +227,10 @@ const styles = StyleSheet.create({
     padding: 10
   },
   item: {
-    // flexDirection: 'row',
+    flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'space-between',
-    padding: 10
+    justifyContent: 'space-between',
+    padding: 10,
   },
   itemValue: {
     borderBottomWidth: 1,
