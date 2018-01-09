@@ -19,7 +19,10 @@ const seeds = require('./seed');
         type: String,
         unique: true
     },
-    nearbyIndex: Number,
+    nearbyIndex: {
+        type: Number,
+        default: 0
+    },
     occupation: String,
     city: String,
     state: String,
@@ -195,6 +198,9 @@ class User {
         }
         UserModel.findOneAndUpdate({_id}, update, {new: true}, this.returnDoc.bind(this, cb));
     }
+    static updateSearchIndex(_id, cb = function() {}){
+        UserModel.findOneAndUpdate({_id},{$inc: {'profile.nearbyIndex': 1}}, {new: true}, this.returnDoc.bind(this, cb));
+    }
     /**
      * END PROFILE
      */
@@ -207,14 +213,15 @@ class User {
     /**
      * SEARCH
      */
-    static getPublicProfilesNearby(_id, profile, cb = function(){}){
-        let search = {_id: {'$ne': _id}},
+    static getPublicProfilesNearby(user, profile, cb = function(){}){
+        let search = {_id: {'$ne': user._id}},
             {city, state, lookingFor} = profile;
 
         if(city)search['profile.city'] = regSearch(city);
         if(state)search['profile.state'] = regSearch(state);
         if(lookingFor)search['profile.sex'] = regSearch(lookingFor);
-        UserModel.find(search, (e, users) => {
+
+        UserModel.find(search, {limit:10, skip: user.profile.nearbyIndex}, (e, users) => {
             if(e)return cb({error: 'failed to retrieve profiles'});
             this.getImagesForUsers(users, cb);
         });
