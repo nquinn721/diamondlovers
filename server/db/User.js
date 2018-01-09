@@ -233,6 +233,8 @@ class User {
         let done = users.length,
             newUsers = [];
 
+        if(!done)return cb(null, users);
+
         users.forEach(user => Image.basic(user._id, (e, images) => {
             user = user.client();
             user.images = images;
