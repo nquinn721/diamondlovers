@@ -34,7 +34,6 @@ module.exports = {
 
 }
 function updateClientWithStripeUser(req, res, e, data){
-	console.log(e);
 	
     if(data){
     	if(!data.deleted){

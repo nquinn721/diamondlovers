@@ -111,7 +111,7 @@ class Images extends React.Component {
           <ModalPicker
             data={[{label: 'Male', key: 1}, {label: 'Female', key: 2}]}
             initValue={user.profile.sex}
-            selectTextStyle={{padding: 0}}
+            style={{borderColor: 'white'}}
             onChange={(sex) => this.updateProfile('sex', sex.label.toLowerCase()) }/>
         </View>
         <View style={styles.item}>
@@ -121,6 +121,14 @@ class Images extends React.Component {
             initValue={user.profile.lookingFor}
             selectTextStyle={{padding: 0}}
             onChange={(looking) => this.updateProfile('lookingFor', looking.label.toLowerCase()) }/>
+        </View>
+        <View style={styles.item}>
+          <Text>Date cost</Text>
+          <TextInput 
+            style={styles.itemValue} 
+            value={(user.profile.cost.date1 && user.profile.cost.date1.toString())} 
+            underlineColorAndroid='rgba(0,0,0,0)' 
+            onChangeText={(value) => this.updateProfile('date.cost', value)}/>
         </View>
         <View style={styles.item}>
           <Text>Age</Text>
@@ -217,9 +225,9 @@ const styles = StyleSheet.create({
     padding: 10
   },
   item: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     padding: 10
   },
   itemValue: {
