@@ -9,6 +9,7 @@ module.exports = {
 	getNearBy: (req, res) => {
 		let {client} = req.session.user;
 		User.getPublicProfilesNearby(client._id, client.profile, (e, data) => {
+			console.log('sending nearby', e, data);
 			if(e)return res.send({error: 'failed'});
 			res.send({data});
 		});
