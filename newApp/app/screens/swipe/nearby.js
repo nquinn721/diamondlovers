@@ -126,10 +126,11 @@ class Nearby extends React.Component {
     this.props.navigation.navigate('Details', user);
   }
   render() {
-    let {users} = this.props.nearby;
-    if(!users)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
+    let {users, fetchingNearbyFailed} = this.props.nearby;
 
-    if(this.props.nearby.fetchingNearbyFailed || this.state.noCards || !users.length) 
+    if(!users && !fetchingNearbyFailed)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
+
+    if(fetchingNearbyFailed || this.state.noCards || !users.length) 
       return this.renderNoCards();
     
   
