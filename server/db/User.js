@@ -205,7 +205,7 @@ class User {
 
     //::TODO::: update to get nearbyIndex based off of cell location
     static updateSearchIndex(_id, cb = function() {}){
-        UserModel.fine({_id}, (e, doc) => {
+        UserModel.find({_id}, (e, doc) => {
             if(e)return cb(e);
             let {nearbyIndex, city, state} = doc.profile,
                 nearbyObj = _.where(nearbyIndex, {city, state});
