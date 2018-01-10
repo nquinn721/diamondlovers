@@ -5,7 +5,6 @@ const initialState = {
 export default (state = initialState, action) => {
 	switch(action.type){
 		case 'UPDATE_SEARCH_INDEX_SUCCESS':
-		console.log('update search index success', action.data);
 			return {
 				...state,
 				users: action.data
