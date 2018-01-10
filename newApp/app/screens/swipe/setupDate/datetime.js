@@ -44,7 +44,7 @@ class SetupDate extends React.Component {
                   raised
                   buttonStyle={defaults.defaultButton}
                   title="Continue"
-                  onPress={() => this.props.navigation.navigate('Nearby')}
+                  onPress={() => this.props.navigation.navigate('Nearby', {direction: 'swipeRight'})}
                   />
               </View>
             )

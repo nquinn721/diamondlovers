@@ -1,9 +1,15 @@
 const initialState = {
-	
+	currentUserIndex: 0
 }
 
 export default (state = initialState, action) => {
 	switch(action.type){
+		case 'UPDATE_SEARCH_INDEX_SUCCESS':
+		console.log('update search index success', action.data);
+			return {
+				...state,
+				users: action.data
+			}
 		case 'FETCH_NEARBY':
 			return {
 				...state,
@@ -16,8 +22,6 @@ export default (state = initialState, action) => {
 				users: action.data
 			}
 		case 'FETCH_NEARBY_FAILED':
-		console.log('returning failed');
-		
 			return {
 				...state,
 				fetchingNearby: false,

@@ -23,6 +23,7 @@ export default (state = initialState, action) => {
 				isLoggedIn: true,
 				user: action.data.client
 			}
+		
 		case 'LOG_IN_FAILED':
 			return {
 				...state,

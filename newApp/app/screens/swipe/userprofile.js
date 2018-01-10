@@ -64,12 +64,12 @@ static navigationOptions = {
             </View>
           </View>
       </ScrollView>
+        <BottomButtons isProfile={true} swipeRight={this.swipeRight.bind(this)} swipeLeft={this.swipeLeft.bind(this)}/>
       </View>
       )
   }
 
 }
-      // <BottomButtons isProfile={true} swipeRight={this.swipeRight.bind(this)} swipeLeft={this.swipeLeft.bind(this)}/>
 
 const styles = StyleSheet.create({
   profileImages: {

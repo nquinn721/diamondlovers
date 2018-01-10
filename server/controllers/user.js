@@ -15,6 +15,11 @@ module.exports = {
 	},
 	updateSearchIndex: (req, res) => {
 		let {client} = req.session.user;
-		User.updateSearchIndex(client._id);
+		User.updateSearchIndex(client._id, (e, doc) => {
+			User.getPublicProfilesNearby(doc, doc.profile, (e, data) => {
+				if(e)return res.send({error: 'failed'});
+				res.send({data});
+			});
+		});
 	}
 }
