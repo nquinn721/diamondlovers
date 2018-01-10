@@ -214,7 +214,6 @@ class User {
 
             doc.save(cb);
         });
-        UserModel.findOneAndUpdate({_id},{$inc: {'profile.nearbyIndex': 1}}, {new: true}, this.returnDoc.bind(this, cb));
     }
     /**
      * END PROFILE
@@ -232,14 +231,6 @@ class User {
         let search = {_id: {'$ne': user._id}},
             {city, state, lookingFor} = profile,
             index = this.getNearbyIndex(user).number; //::TODO::: UPDATE USING PHONE LOCATION
-            console.log('**');
-            console.log('**');
-            console.log('**');
-            console.log('**');
-            console.log('**');
-            console.log('**');
-            console.log('**');
-            console.log(index);
 
         if(city)search['profile.city'] = regSearch(city);
         if(state)search['profile.state'] = regSearch(state);
