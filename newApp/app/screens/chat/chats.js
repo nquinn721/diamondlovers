@@ -23,8 +23,6 @@ class ChatScreen extends React.Component {
 	}
 	renderChats(){
 		return this.props.chats.map((chat, k) => {
-			if(!chat.to)return;
-			
 			let from = chat.to._id === this.props.userId ? chat.from : chat.to;
 
 			return (
@@ -53,7 +51,6 @@ class ChatScreen extends React.Component {
 		);
 	}
 	render() {
-		
 		return (
 		  <View style={styles.container}>
 		  	{this.props.chats && this.props.chats.length ? this.renderChats() : this.renderNoChats()}
@@ -89,6 +86,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({chats: state.user.user.chats, userId: state.user.user._id}), 
+  (state) => ({chats: state.chat.chats, userId: state.user.user._id}), 
   (dispatch) => (bindActionCreators({setChat}, dispatch))
 )(ChatScreen);
