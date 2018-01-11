@@ -251,7 +251,7 @@ class User {
     //::TODO::: UPDATE USING PHONE LOCATION
     static getNearbyIndex(user, cb){
         let {state, city} = user.profile;
-        return _.where(user.profile.nearbyIndex, {city, state})[0];
+        return _.where(user.profile.nearbyIndex, {city, state})[0] || {number: 0};
     }
     /**
      * END SEARCH
