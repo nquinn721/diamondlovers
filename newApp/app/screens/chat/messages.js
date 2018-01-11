@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Image, TextInput, Button, ScrollView, Touchable
 import { Icon } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getMessages, sendMessage } from 'newApp/app/redux/actions/chat';
+import { sendMessage } from 'newApp/app/redux/actions/chat';
 import gStyles from 'newApp/app/config/globalStyles';
 import { defaults } from 'newApp/app/config/globalStyles';
 import moment from 'moment';
@@ -14,12 +14,10 @@ import moment from 'moment';
 
 class ChatScreen extends React.Component {
 	state = {}
-	renderMessages(){
+	renderMessages(chat){
 		let userId = this.props.userId;
 
-		return this.props.chat.messages.map((msg, k) => {
-			console.log(msg);
-			
+		return chat.messages.map((msg, k) => {
 			let msgUserId = msg.owner._id,
 				userChat = userId === msgUserId;
 			return (
@@ -57,10 +55,6 @@ class ChatScreen extends React.Component {
 	render() {
 		let chat = this.props.chat.currentChat;
 		if(!chat)return;
-		
-		if(!this.props.chat.receivedMessages)
-			if(!this.props.chat.gettingMessages)
-				this.props.getMessages(chat);
 	
 	return (
 		<KeyboardAvoidingView
@@ -68,9 +62,9 @@ class ChatScreen extends React.Component {
 	      behavior="padding"
 	    >
 				{
-					this.props.chat.messages.length ? 
+					chat.messages && chat.messages.length ? 
 					<ScrollView style={styles.messageContainer}> 
-						{this.renderMessages()}
+						{this.renderMessages(chat)}
 					</ScrollView> : 
 					this.renderNoMessages()
 				}
@@ -162,5 +156,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({chat: state.chat, userId: state.user.user._id}), 
-  (dispatch) => (bindActionCreators({getMessages, sendMessage}, dispatch))
+  (dispatch) => (bindActionCreators({sendMessage}, dispatch))
 )(ChatScreen);

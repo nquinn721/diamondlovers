@@ -1,6 +1,5 @@
 const initialState = {
 	sending: false,
-	messages: [],
 	chats: []
 }
 
@@ -52,9 +51,10 @@ export default (state = initialState, action) => {
 				creatingChat: false
 			}
 		case 'CURRENT_CHAT':
+			let chat = getChat(state.chats, action.chatId);
 			return {
 				...state,
-				currentChat: action.chatId
+				currentChat: chat 
 			}
 		case 'SENDING_MESSAGE':
 			return {
@@ -62,7 +62,8 @@ export default (state = initialState, action) => {
 				sending: true
 			}
 		case 'MESSAGE_SENT':
-			state.messages.push(action.data);
+			if(!state.currentChat.messages)state.currentChat.messages = [];
+			state.currentChat.messages.push(action.data);
 			return {
 				...state,
 				sending: false
@@ -75,24 +76,28 @@ export default (state = initialState, action) => {
 			}
 
 		case 'GETTING_MESSAGES':
+			state.currentChat.gettingMessages = true;
 			return {
 				...state,
-				gettingMessages: true
 			}
 		case 'MESSAGES_RECIEVED':
+			state.currentChat.messages = action.data;
+			state.currentChat.gettingMessages = false;
+			console.log(state);
 			return {
 				...state,
-				gettingMessages: false,
-				messages: action.data,
-				receivedMessages: true
 			}
 		case 'GET_MESSAGES_FAILED':
+			state.currentChat.gettingMessages = false;
+			state.currentChat.gettingMessagesFailed = true;
 			return {
 				...state,
-				gettingMessages: false,
-				gettingMessagesFailed: true
 			}
 		default:
 			return state;
 	}
+}
+
+const getChat = (chats, id) => {
+	return chats.filter(c => c._id.toString() === id.toString())[0];
 }

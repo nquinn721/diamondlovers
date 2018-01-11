@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setChat } from 'newApp/app/redux/actions/chat';
+import { getMessages, setChat } from 'newApp/app/redux/actions/chat';
 import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import moment from 'moment';
 const img = require('newApp/app/assets/img/Icon-chat.png');
@@ -19,6 +19,7 @@ class ChatScreen extends React.Component {
 	  };
 	openChat(chat){
 		this.props.setChat(chat._id);
+		this.props.getMessages(chat._id);
 		this.props.navigation.navigate('Messages')
 	}
 	renderChats(){
@@ -87,5 +88,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({chats: state.chat.chats, userId: state.user.user._id}), 
-  (dispatch) => (bindActionCreators({setChat}, dispatch))
+  (dispatch) => (bindActionCreators({getMessages, setChat}, dispatch))
 )(ChatScreen);
