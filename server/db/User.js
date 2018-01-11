@@ -305,7 +305,12 @@ class User {
                         this.getChats(doc, (e, chats) => {
 
                             user.chats = chats;
-                            
+                            console.log('**');
+                            console.log('**');
+                            console.log('**');
+                            console.log('**');
+                            console.log('**');
+                            console.log(chats);
                             if(doc.stripeId){
                                 Stripe.getCustomer(doc.stripeId, (e, cust) => {
                                     user.stripeCust = cust
