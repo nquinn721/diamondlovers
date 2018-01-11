@@ -236,6 +236,8 @@ class User {
         if(state)search['profile.state'] = regSearch(state);
         if(lookingFor)search['profile.sex'] = regSearch(lookingFor);
 
+        console.log(search);
+
         UserModel.find(search).skip(index || 0).limit(10).exec((e, users) => {
             if(e)return cb({error: 'failed to retrieve profiles'});
             this.getImagesForUsers(users, cb);
