@@ -9,10 +9,10 @@ import { login } from 'newApp/app/redux/actions/login';
 class LoginScreen extends React.Component {
   //TODO:: remove hard coded login
   state = {
-    username: 'willy@willy.com',
-    password: 'willy123',
-    // username: 'natethepcspecialist@gmail.com',
-    // password: 'nate123',
+    // username: 'willy@willy.com',
+    // password: 'willy123',
+    username: 'natethepcspecialist@gmail.com',
+    password: 'nate123',
     // username: 'bob@bob.com',
     // password: 'bob123'
   }

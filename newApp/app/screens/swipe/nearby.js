@@ -78,8 +78,7 @@ class Nearby extends React.Component {
   }
   renderSwiper(users){
     let {navigation} = this.props;
-
-    console.log('render swiper', users, users.length);
+console.log(navigation);
 
     let swiper = (
       <Swiper
@@ -94,7 +93,7 @@ class Nearby extends React.Component {
           renderCard={(card, cardIndex) => this.renderCard(card, cardIndex)}
           onSwiped={(cardIndex) => {console.log('you swiped', cardIndex)}}
           onSwipedLeft={(index) => {
-            if(!navigation.state && navigation.state.params && !navigation.state.params.direction)
+            if(!navigation.state.params || !navigation.state.params.direction)
               this.swipeLeft();
             else {
               this.props.updateSearchIndex();
@@ -103,7 +102,7 @@ class Nearby extends React.Component {
             }
           }}
           onSwipedRight={(user) => {
-            if(!navigation.state && navigation.state.params && !navigation.state.params.direction)
+            if(!navigation.state.params || !navigation.state.params.direction)
               this.swipeRight();
             else {
               this.props.updateSearchIndex();

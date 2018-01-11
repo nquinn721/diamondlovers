@@ -210,7 +210,8 @@ class User {
             let {nearbyIndex, city, state} = doc.profile,
                 nearbyObj = _.where(nearbyIndex, {city, state})[0];
 
-            nearbyObj.number++;
+            if(nearbyObj)
+                nearbyObj.number++;
 
             doc.save(cb);
         });
