@@ -21,6 +21,9 @@ module.exports = {
 			Chat.createChat(to, from, function(e, chat) {
 				User.createChat(to, from, chat._id, function(e, userDoc) {
 					date.chatId = chat._id;
+					console.log('created chat for date');
+					console.log('created chat for date');
+					console.log(date);
 					res.send(e ? {error: 'failed to approve date'} : {data: {date, chat}});
 					
 				});
@@ -33,10 +36,10 @@ module.exports = {
 			chatId = req.body.chat;
 		console.log('chat id', chatId);
 		Dates.confirmShowed(_id, userId, (e, date) => {
-			if(data.status === 'completed'){
-				User.updateDiamonds(data.from, -(data.cost), (err, fromDoc) => {
-					User.updateDiamonds(data.to, data.cost, (e, toDoc) => {
-						User.destroyChat(data.to, data.from, chatId, (de, destroy) => {
+			if(date.status === 'completed'){
+				User.updateDiamonds(date.from, -(date.cost), (err, fromDoc) => {
+					User.updateDiamonds(date.to, date.cost, (e, toDoc) => {
+						User.destroyChat(date.to, date.from, chatId, (de, destroy) => {
 							Chat.closeChat(chatId, (ce, closedChat) => {
 								if(err || e){
 									// Handle retry on switch of diamonds
