@@ -7,6 +7,7 @@ var DatesSchema = new Schema({
     cost: Number,
     from: {type: Schema.Types.ObjectId, ref: 'User'},
     to: {type: Schema.Types.ObjectId, ref: 'User'},
+    chatId: {type: Schema.Types.ObjectId, ref: 'Chat'},
     createdAt: {
         type: Date,
         default: Date.now()
@@ -50,6 +51,13 @@ class Dates{
             this.returnDoc(doc._id, cb);
         });
     }
+    static addChat(_id, chatId, cb = function() {}){
+        DatesModel.findOneAndUpdate({_id}, {chatId}, {new: true}, (e, doc) => {
+            if(e)return cb(e);
+            this.returnDoc(doc._id, cb);
+        });
+    }
+
     static confirmShowed(_id, userId, cb = function(){}){
         DatesModel.findOne({_id}, (e, doc) => {
             if(e)return cb(e);

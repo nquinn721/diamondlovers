@@ -20,17 +20,16 @@ module.exports = {
 			
 			Chat.createChat(to, from, function(e, chat) {
 				User.createChat(to, from, chat._id, function(e, userDoc) {
-					date.chatId = chat._id;
-					console.log('created chat for date');
-					console.log('created chat for date');
-					console.log(date);
-					console.log('chat id ');
-					console.log('chat id ');
-					console.log('chat id ');
-					console.log(chat._id);
-					console.log(date.chatId);
-					res.send(e ? {error: 'failed to approve date'} : {data: {date, chat}});
-					
+					Dates.addChat(_id, chat._id, function(e, date) {
+						console.log('***');
+						console.log('***');
+						console.log('***');
+						console.log('***');
+						console.log('***');
+						console.log('***');
+						console.log(date);
+						res.send(e ? {error: 'failed to approve date'} : {data: {date, chat}});
+					});
 				});
 			});
 		});
