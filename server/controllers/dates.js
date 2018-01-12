@@ -37,7 +37,7 @@ module.exports = {
 	confirmShowed: function(req, res) {
 		let userId = req.session.model._id,
 			_id = req.body.id,
-			chatId = req.body.chat;
+			chatId = req.body.chatId;
 		console.log('chat id', chatId);
 		Dates.confirmShowed(_id, userId, (e, date) => {
 			if(date.status === 'completed'){
