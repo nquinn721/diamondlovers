@@ -12,9 +12,9 @@ export default (state = initialState, action) => {
 				chats: action.data.chats
 			}
 		case 'APPROVE_DATE_SUCCESS':
+			state.chats.unshift(action.data.chat);
 			return {
-				...state,
-				chats: state.chats.shift(action.data.chat)
+				...state
 			}
 		case 'GETTING_CHATS':
 			return {
@@ -83,7 +83,6 @@ export default (state = initialState, action) => {
 		case 'MESSAGES_RECIEVED':
 			state.currentChat.messages = action.data;
 			state.currentChat.gettingMessages = false;
-			console.log(state);
 			return {
 				...state,
 			}
@@ -93,6 +92,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 			}
+
 		default:
 			return state;
 	}

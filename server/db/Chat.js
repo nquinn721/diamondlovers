@@ -21,7 +21,10 @@ var ChatModel = mongoose.model('Chat', ChatSchema);
 
 class Chat{
 	static createChat(to, from, cb = function(){}){
-		ChatModel.create({to, from}, cb);
+		ChatModel.create({to, from}, (e, chat) => {
+			if(e)return cb(e);
+			this.get(chat._id, cb);
+		});
 	}
 
 	static recentMsg(_id, msg, cb = function(){}){
@@ -32,7 +35,7 @@ class Chat{
 		ChatModel.find({_id}).remove().exec(cb);
 	}
 	static get(ids, cb = function(){}){
-		ChatModel.find({_id: {$in: ids}})//, {sort: {date: -1}})
+		ChatModel.find({_id: {$in: ids}})
 			.populate({
 				path: 'to',
 				select: 'profile.displayName profile.defaultImage',

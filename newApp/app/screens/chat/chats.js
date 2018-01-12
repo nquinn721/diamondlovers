@@ -23,7 +23,7 @@ class ChatScreen extends React.Component {
 		this.props.navigation.navigate('Messages')
 	}
 	renderChats(){
-		return this.props.chats.map((chat, k) => {
+		return this.props.chat.chats.map((chat, k) => {
 			let from = chat.to._id === this.props.userId ? chat.from : chat.to;
 
 			return (
@@ -52,9 +52,10 @@ class ChatScreen extends React.Component {
 		);
 	}
 	render() {
+		let chats = this.props.chat.chats;
 		return (
 		  <View style={styles.container}>
-		  	{this.props.chats && this.props.chats.length ? this.renderChats() : this.renderNoChats()}
+		  	{chats && chats.length ? this.renderChats() : this.renderNoChats()}
 		  </View>
 		)
 	}
@@ -87,6 +88,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({chats: state.chat.chats, userId: state.user.user._id}), 
+  (state) => ({chat: state.chat, userId: state.user.user._id}), 
   (dispatch) => (bindActionCreators({getMessages, setChat}, dispatch))
 )(ChatScreen);
