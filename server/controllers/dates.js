@@ -19,9 +19,10 @@ module.exports = {
 				from = date.from._id;
 			
 			Chat.createChat(to, from, function(e, chat) {
+				chat = chat[0];
 				User.createChat(to, from, chat._id, function(e, userDoc) {
 					Dates.addChat(_id, chat._id, function(e, date) {
-						res.send(e ? {error: 'failed to approve date'} : {data: {date, chat[0]}});
+						res.send(e ? {error: 'failed to approve date'} : {data: {date, chat}});
 					});
 				});
 			});
