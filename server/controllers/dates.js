@@ -31,7 +31,7 @@ module.exports = {
 		let userId = req.session.model._id,
 			_id = req.body.id,
 			chatId = req.body.chat;
-
+		console.log('chat id', chatId);
 		Dates.confirmShowed(_id, userId, (e, date) => {
 			if(data.status === 'completed'){
 				User.updateDiamonds(data.from, -(data.cost), (err, fromDoc) => {
@@ -41,7 +41,7 @@ module.exports = {
 								if(err || e){
 									// Handle retry on switch of diamonds
 								}
-								res.send({data, {date, closedChat}});
+								res.send({data: {date, closedChat}});
 							});
 						});
 					});
