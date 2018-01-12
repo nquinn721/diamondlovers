@@ -24,6 +24,11 @@ module.exports = {
 					console.log('created chat for date');
 					console.log('created chat for date');
 					console.log(date);
+					console.log('chat id ');
+					console.log('chat id ');
+					console.log('chat id ');
+					console.log(chat._id);
+					console.log(date.chatId);
 					res.send(e ? {error: 'failed to approve date'} : {data: {date, chat}});
 					
 				});
