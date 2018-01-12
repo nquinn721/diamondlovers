@@ -42,8 +42,9 @@ class DateList extends React.Component {
         </TouchableOpacity>
       )
     }else if(screen === 'approved'){
+        console.log(date);
         if((!date.fromShowed && to) || (!date.toShowed && from))view = (
-           <TouchableOpacity style={{padding: 10, backgroundColor: defaults.green, borderRadius: 10}} onPress={() => this.props.confirmShowed(date._id)}>
+           <TouchableOpacity style={{padding: 10, backgroundColor: defaults.green, borderRadius: 10}} onPress={() => this.props.confirmShowed(date._id, date.chatId)}>
             <Text style={{color: 'white'}}>Confirm</Text>
           </TouchableOpacity>
         )

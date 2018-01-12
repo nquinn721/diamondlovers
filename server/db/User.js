@@ -163,12 +163,12 @@ class User {
         }
     }
 
-    static createChat(to, from, chat, cb){
+    static createChat(to, from, chat, cb = function(){}){
         UserModel.update({_id: {$in: [to, from]}}, {$push: {chats: chat}}, {multi: true}, cb);
     }
 
-    static destroyChat(to, from, chatId, cb){
-
+    static destroyChat(to, from, chatId, cb = function(){}){
+        UserModel.update({_id: {$in: [to, from]}}, { $pullAll: {chats: [chatId] } }, {multi: true}, cb)
     }    
  
 

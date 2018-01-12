@@ -36,7 +36,6 @@ class Nearby extends React.Component {
   }
 
   renderCard(user){
-    console.log('render card');
     if(!user)return;
     let image = getDefaultImage(user.profile.defaultImage, user.images);
 
@@ -78,7 +77,6 @@ class Nearby extends React.Component {
   }
   renderSwiper(users){
     let {navigation} = this.props;
-console.log(navigation);
 
     let swiper = (
       <Swiper

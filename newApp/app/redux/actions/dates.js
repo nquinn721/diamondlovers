@@ -35,9 +35,9 @@ export const approveDate = (id) => {
 	}
 }
 
-export const confirmShowed = (id) => {
+export const confirmShowed = (id, chatId) => {
 	return (dispatch) => {
-		Service.dispatchPost(dispatch, 'dates/confirm-showed', {id}, {
+		Service.dispatchPost(dispatch, 'dates/confirm-showed', {id, chatId}, {
 			init: 'CONFIRM_SHOWED',
 			success: 'CONFIRM_SHOWED_SUCCESS',
 			error: 'CONFIRM_SHOWED_FAILED'

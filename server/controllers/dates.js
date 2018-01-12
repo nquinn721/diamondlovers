@@ -20,6 +20,7 @@ module.exports = {
 			
 			Chat.createChat(to, from, function(e, chat) {
 				User.createChat(to, from, chat._id, function(e, userDoc) {
+					date.chatId = chat._id;
 					res.send(e ? {error: 'failed to approve date'} : {data: {date, chat}});
 					
 				});
@@ -28,16 +29,22 @@ module.exports = {
 	},
 	confirmShowed: function(req, res) {
 		let userId = req.session.model._id,
-			_id = req.body.id;
-		Dates.confirmShowed(_id, userId, (e, data) => {
+			_id = req.body.id,
+			chatId = req.body.chat;
+
+		Dates.confirmShowed(_id, userId, (e, date) => {
 			if(data.status === 'completed'){
 				User.updateDiamonds(data.from, -(data.cost), (err, fromDoc) => {
 					User.updateDiamonds(data.to, data.cost, (e, toDoc) => {
-						if(err || e){
-							// Handle retry on switch of diamonds
-						}
-						res.send({data});
-					})
+						User.destroyChat(data.to, data.from, chatId, (de, destroy) => {
+							Chat.closeChat(chatId, (ce, closedChat) => {
+								if(err || e){
+									// Handle retry on switch of diamonds
+								}
+								res.send({data, {date, closedChat}});
+							});
+						});
+					});
 				});
 			}else{
 				res.send(e ? {error: 'failed to confirm date'} : {data});
