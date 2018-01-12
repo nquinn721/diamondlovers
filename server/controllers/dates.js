@@ -54,7 +54,7 @@ module.exports = {
 					});
 				});
 			}else{
-				res.send(e ? {error: 'failed to confirm date'} : {data});
+				res.send(e ? {error: 'failed to confirm date'} : {data: date});
 			}
 		});
 	}
