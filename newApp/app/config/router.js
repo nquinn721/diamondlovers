@@ -245,12 +245,7 @@ export default StackNavigator({
 
 	Charge: {
 		screen: Purchase.Charge,
-		navigationOptions: {
-		  	title: 'Charge'
-		}
-	},
-
-
+		navigati
 	Messages: {
 		screen: Chat.Messages,
 		navigationOptions: {
