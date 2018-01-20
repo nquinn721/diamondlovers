@@ -118,9 +118,9 @@ const calendarTabConfig = {
 }
 const CalendarTab = TabNavigator(calendarTabRoutes, calendarTabConfig);
 
-/**
+*
  * END CALENDAR
- */
+ 
 
 
 const tabRoutes = {
@@ -258,7 +258,7 @@ export default StackNavigator({
 		}
 	}
 
-
+ 
 
 }, {
 
