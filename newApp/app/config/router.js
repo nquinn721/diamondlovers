@@ -118,9 +118,9 @@ const calendarTabConfig = {
 }
 const CalendarTab = TabNavigator(calendarTabRoutes, calendarTabConfig);
 
-/**
+*
  * END CALENDAR
- */
+ 
 
 
 const tabRoutes = {
@@ -245,7 +245,12 @@ export default StackNavigator({
 
 	Charge: {
 		screen: Purchase.Charge,
-		navigati
+		navigationOptions: {
+		  	title: 'Charge'
+		}
+	},
+
+
 	Messages: {
 		screen: Chat.Messages,
 		navigationOptions: {
@@ -253,7 +258,7 @@ export default StackNavigator({
 		}
 	}
 
-
+ 
 
 }, {
 
