@@ -111,7 +111,7 @@ class Images extends React.Component {
           <ModalPicker
             data={[{label: 'Male', key: 1}, {label: 'Female', key: 2}]}
             initValue={user.profile.sex}
-            style={{borderBottomWidth: 2, borderColor: '#aaa', paddingBottom: 10}}
+            style={{borderBottomWidth: 1, borderColor: '#aaa'}}
             selectStyle={{borderColor: 'rgba(0,0,0,0)'}}
             onChange={(sex) => this.updateProfile('sex', sex.label.toLowerCase()) }/>
         </View>
@@ -120,7 +120,7 @@ class Images extends React.Component {
           <ModalPicker
             data={[{label: 'Male', key: 1}, {label: 'Female', key: 2}]}
             initValue={user.profile.lookingFor}
-            style={{borderBottomWidth: 2, borderColor: '#aaa', paddingBottom: 10}}
+            style={{borderBottomWidth: 1, borderColor: '#aaa'}}
             selectStyle={{borderColor: 'rgba(0,0,0,0)'}}
             onChange={(looking) => this.updateProfile('lookingFor', looking.label.toLowerCase()) }/>
         </View>
@@ -154,6 +154,8 @@ class Images extends React.Component {
         <ModalPicker
           data={states}
           initValue={user.profile.state}
+            style={{borderBottomWidth: 1, borderColor: '#aaa'}}
+            selectStyle={{borderColor: 'rgba(0,0,0,0)'}}
           onChange={(option) => this.updateProfile('state', option.abbr) } />
           
         </View>
@@ -212,10 +214,10 @@ class Images extends React.Component {
     let {user} = this.props.navigation.state.params;
     console.log(user.profile);
     return (
-      <KeyboardAvoidingView style={styles.container}>
+      <ScrollView style={styles.container}>
         {this.renderDetails(user)}
         {this.renderAbout(user)}
-      </KeyboardAvoidingView>
+      </ScrollView>
     )
   }
 
@@ -239,7 +241,8 @@ const styles = StyleSheet.create({
     width: defaults.width / 2
   },
   about: {
-    padding: 10
+    padding: 10,
+    marginBottom: 20
   }
 
   

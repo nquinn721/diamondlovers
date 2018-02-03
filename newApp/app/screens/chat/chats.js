@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getMessages, setChat } from 'newApp/app/redux/actions/chat';
 import gStyles, { defaults } from 'newApp/app/config/globalStyles';
+import CircleImage from 'newApp/app/components/circleImage';
 import moment from 'moment';
 const img = require('newApp/app/assets/img/Icon-chat.png');
 
@@ -28,9 +29,7 @@ class ChatScreen extends React.Component {
 
 			return (
 				<TouchableOpacity key={k} onPress={() => this.openChat(chat)} style={[gStyles.row, styles.chatItem]}>
-        			<View style={styles.image}>
-        				<Image source={{uri: from.profile.defaultImage.url}} style={StyleSheet.absoluteFill}/>
-        			</View>
+					<CircleImage container={styles.image} source={{uri: from.profile.defaultImage.url}} />
         			<View style={{flexGrow: 2}}>
 						<Text>{from.profile.displayName}</Text>
 						<Text style={{color: '#aaa'}}>{chat.recentMsg.msg}</Text>
@@ -71,7 +70,6 @@ const styles = StyleSheet.create({
 	image: {
 		width:50, 
 		height: 50,
-		borderRadius: 100,
 		overflow: 'hidden',
 		marginRight: 10
 	},

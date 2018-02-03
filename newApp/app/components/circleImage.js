@@ -1,6 +1,5 @@
 import React from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
-import Image from 'react-native-image-progress';
+import {Platform, StyleSheet, View, Image} from 'react-native';
 
 
 
@@ -19,21 +18,19 @@ export default class CircleImage extends React.Component{
 let obj;
 if(Platform.OS === 'ios'){
 	obj = {
-	  	imageContainer: {
-	  		borderRadius: 100,
-	  		overflow: 'hidden'
-	  	},
 	  	image: {}
 	};
 } else {
 	obj = {
-		imageContainer: {
-
-		},
 		image: {
 			borderRadius: 100
 		}
 	}
+}
+
+obj.imageContainer = {
+	borderRadius: 100,
+	overflow: 'hidden'
 }
 
 const styles = StyleSheet.create(obj);

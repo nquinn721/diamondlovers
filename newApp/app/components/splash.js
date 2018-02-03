@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import Config from 'newApp/app/config/config';
+const {width, height} = Dimensions.get('window');
 
 export default class Splash extends React.Component {
   render() {
     return (
       <View style={styles.splash}>
         <View style={[styles.content, this.props.style]}>
-          {this.props.content()}
+          {this.props.content && this.props.content()}
         </View>
       </View>
     )
@@ -27,13 +28,13 @@ const styles = StyleSheet.create({
   splash: {
   	backgroundColor: 'rgba(0, 0, 0, 0.4)',
   	flex: 1,
+    top: 0,
+    left: 0,
   	alignItems: 'center',
   	justifyContent: 'center',
     position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    width: width,
+    height: height,
     zIndex: 1999
   }
 })
