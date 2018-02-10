@@ -10,6 +10,11 @@ const initialState = {
 export default (state = initialState, action) => {
 	
 	switch(action.type){
+		case 'CHECKING_LOGGED':
+			return {
+				...state,
+				isFetching: true
+			}
 		case 'LOGGING_IN': 
 			return {
 				...state,

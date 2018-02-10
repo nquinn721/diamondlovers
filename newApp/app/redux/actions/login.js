@@ -23,4 +23,12 @@ export const register = (email, password, displayName) => {
 	}
 }
 
- 
+export const checkLoggedIn = () => {
+	return (dispatch) => {
+		Service.dispatchGet(dispatch, 'db/check-logged', {
+			init: 'CHECKING_LOGGED',
+			success: 'LOGGED_IN',
+			error: 'NOT_LOGGED_IN'
+		})
+	}
+}

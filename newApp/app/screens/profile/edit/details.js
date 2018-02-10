@@ -89,6 +89,12 @@ const inches = [
   {label: '11', key: 11} 
 ];
 
+const age = [
+  {label: '18', key: 1},
+  {label: '19', key: 1},
+  {label: '21', key: 1},
+]
+
 
 const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 

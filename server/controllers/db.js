@@ -45,6 +45,14 @@ module.exports = {
 	        }
 	    });
 	},
+	checkLogged: function(req, res) {
+		if(req.session.user){
+			res.send({data: req.session.user});
+		}else{
+			res.status(400);
+			res.send({error: 'not logged in'});
+		}
+	},
 	logout: function(req, res) {
 		delete req.session.user;
 		res.send({msg: 'Logged out'});

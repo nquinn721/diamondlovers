@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, ScrollView, TextInput, Switch, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Image, ScrollView, TextInput, Switch, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Config from 'newApp/app/config/config';
@@ -79,8 +79,13 @@ class Profile extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior="padding"
+        >
         {this.displayUser()}
         {this.bottomNav()}
+        </KeyboardAvoidingView>
       </View>
     )
   }
