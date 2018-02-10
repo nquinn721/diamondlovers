@@ -48,7 +48,7 @@ class LoginScreen extends React.Component {
       	</KeyboardAvoidingView>
       	<TouchableOpacity style={styles.loginButton} onPress={() => this.login()}>
         {
-          this.props.user.isFetching ? 
+          this.props.user.loggingIn ? 
           <ActivityIndicator color="white"/> :
       		<Text style={{color: 'white'}}>Sign In</Text>
         }

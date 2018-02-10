@@ -18,13 +18,14 @@ export default (state = initialState, action) => {
 		case 'LOGGING_IN': 
 			return {
 				...state,
-				isFetching: true,
+				loggingIn: true,
 				user: false
 			}
 		case 'LOGGED_IN':
 			return {
 				...state,
 				isFetching: false,
+				loggingIn: false,
 				isLoggedIn: true,
 				user: action.data.client
 			}
@@ -39,6 +40,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				isFetching: false,
+				loggingIn: false,
 				notFound: true
 			}
 		case 'ADD_IMAGE_WITH_DEFAULT_SUCCESS':
