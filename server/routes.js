@@ -40,7 +40,7 @@ module.exports = function(app){
             type: 'post',
             method: 'db.logout'
         },
-        'db/logout': {
+        'db/check-logged': {
             type: 'post',
             method: 'db.logout'
         },
