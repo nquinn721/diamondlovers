@@ -18,7 +18,8 @@ class App extends React.Component{
   render(){
     let isFetching = this.props.user.isFetching,
         isLoggedIn = this.props.user.user;
-
+        console.log(this.props.user);
+        
     return (
       <View style={gStyles.container}>
         <View style={styles.statusBar}></View>
@@ -43,5 +44,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({user: state.user}), 
-  (dispatch) => (bindActionCreators({checkLoggedIn}, dispatch))
+  // (dispatch) => (bindActionCreators({checkLoggedIn}, dispatch))
 )(App);
