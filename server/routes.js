@@ -41,7 +41,8 @@ module.exports = function(app){
             method: 'db.logout'
         },
         'db/check-logged': {
-            type: 'post',
+            type: 'get',
+            middleWare: ['loggedIn'],
             method: 'db.checkLogged'
         },
 
