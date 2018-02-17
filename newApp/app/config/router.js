@@ -5,28 +5,17 @@ import { defaults } from 'newApp/app/config/globalStyles';
 const img = require('newApp/app/assets/img/Icon-Date.png');
 
 
-// Tab Nav Items
-// import Swipe 		from './routes/swipe';
-// import Profile 		from './routes/profile';
-// import Purchase		from './routes/purchase';
-// import Calendar		from './routes/calendar';
-// import Chat			from './routes/chat';
-
-
 import Calendar from 'newApp/app/screens/calendar';
 import Chat from 'newApp/app/screens/chat';
 import Profile from 'newApp/app/screens/profile';
 import Purchase from 'newApp/app/screens/purchase';
 import Swipe from 'newApp/app/screens/swipe';
+import Index from 'newApp/app/index'
 
 /**
  * PROFILE EDIT
  */
 
-
-/**
- *  END PROFILE EDIT
- */
 
 const Edit = TabNavigator({
 	Images: {
@@ -64,6 +53,10 @@ const Edit = TabNavigator({
 	}
 
 });
+/**
+ *  END PROFILE EDIT
+ */
+
 
 
 /**

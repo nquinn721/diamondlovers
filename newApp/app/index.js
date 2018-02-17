@@ -10,11 +10,14 @@ import Nav from 'newApp/app/components/nav';
 import { checkLoggedIn } from 'newApp/app/redux/actions/login';
 
 class App extends React.Component{
+  componentWillMount(){
+    if(!this.props.user.notLoggedIn && !this.props.user.checkingLoggedIn){
+      this.props.checkLoggedIn();
+    }
+
+  }
 
   render(){
-    // if(!this.props.user.notLoggedIn && !this.props.user.checkingLoggedIn)
-    //   this.props.checkLoggedIn();
-
     let isFetching = this.props.user.isFetching,
         isLoggedIn = this.props.user.user;
 

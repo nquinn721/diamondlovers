@@ -3,13 +3,19 @@ const initialState = {
 	isFetching: false,
 	error: false,
 	notFound: false,
-	addingCard: false
+	addingCard: false,
+	notLoggedIn: true
 }
 
 
 export default (state = initialState, action) => {
 	
 	switch(action.type){
+		case 'LOGOUT':
+			return {
+				...state,
+				notLoggedIn: true
+			}
 		case 'CHECKING_LOGGED':
 			return {
 				...state,

@@ -32,3 +32,11 @@ export const checkLoggedIn = () => {
 		})
 	}
 }
+
+export const logout = () => {
+	return (dispatch) => {
+		Service.dispatchGet(dispatch, 'db/logout', {
+			init: 'LOGOUT'
+		})
+	}
+}

@@ -8,6 +8,8 @@ import gStyles, { defaults } from 'newApp/app/config/globalStyles';
 import Splash from 'newApp/app/components/splash';
 import DiamondCost from 'newApp/app/components/diamondCost';
 import CircleImage from 'newApp/app/components/circleImage';
+import Index from 'newApp/app/index';
+import { logout } from 'newApp/app/redux/actions/login';
 const avatar = require('newApp/app/assets/img/avatar.png');
 const img = require('newApp/app/assets/img/Icon-My-Profile.png');
 
@@ -30,6 +32,9 @@ class Profile extends React.Component {
         <View style={{flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Edit', {user: this.props.user.user})}>
             <Image source={require('newApp/app/assets/img/Icon-Edit.png')} style={styles.bottomNavItem} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.logout()}>
+            <Text>Logout</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Cards')}>
             <Image source={require('newApp/app/assets/img/Icon-Add-Card.png')} style={styles.bottomNavItem} />
@@ -161,5 +166,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({user: state.user, image: state.image}), 
-  // (dispatch) => (bindActionCreators({updateProfile}, dispatch))
+  (dispatch) => (bindActionCreators({logout}, dispatch))
 )(Profile);
