@@ -56,11 +56,9 @@ module.exports = {
 		}
 	},
 	logout: function(req, res) {
-		console.log('LOGGING OUT');
+		req.session.destroy(function(err) {
+			res.send({msg: 'Logged out'});
+	  });
 		
-		delete req.session.user;
-		console.log(req.session);
-		
-		res.send({msg: 'Logged out'});
 	}
 }
