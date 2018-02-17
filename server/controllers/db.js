@@ -37,6 +37,11 @@ module.exports = {
 	        if(doc){
 	            req.session.user = user;
 	            req.session.model = doc;
+	            console.log('LOGGED IN ');
+	            console.log('LOGGED IN ');
+	            console.log('LOGGED IN ');
+	            console.log('LOGGED IN ');
+	            console.log('LOGGED IN ');
 	            
 	            res.send({data: req.session.user});
 	        }else{

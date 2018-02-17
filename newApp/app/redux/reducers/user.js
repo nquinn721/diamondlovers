@@ -4,17 +4,18 @@ const initialState = {
 	error: false,
 	notFound: false,
 	addingCard: false,
-	notLoggedIn: true
+	loggedIn: false
 }
 
 
 export default (state = initialState, action) => {
+	console.log(action);
 	
 	switch(action.type){
 		case 'LOGOUT':
 			return {
 				...state,
-				notLoggedIn: true
+				loggedIn: false
 			}
 		case 'CHECKING_LOGGED':
 			return {
@@ -26,7 +27,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				isFetching: false,
-				notLoggedIn: true,
+				loggedIn: false,
 				checkingLoggedIn: false
 			}
 		}
@@ -38,11 +39,13 @@ export default (state = initialState, action) => {
 				user: false
 			}
 		case 'LOGGED_IN':
+		console.log('LOGGED IN');
+		
 			return {
 				...state,
 				isFetching: false,
 				loggingIn: false,
-				isLoggedIn: true,
+				loggedIn: true,
 				checkingLoggedIn: false,
 				user: action.data.client
 			}
