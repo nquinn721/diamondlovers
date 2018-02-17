@@ -33,11 +33,11 @@ class Profile extends React.Component {
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Edit', {user: this.props.user.user})}>
             <Image source={require('newApp/app/assets/img/Icon-Edit.png')} style={styles.bottomNavItem} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.props.logout()}>
-            <Text>Logout</Text>
-          </TouchableOpacity>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Cards')}>
             <Image source={require('newApp/app/assets/img/Icon-Add-Card.png')} style={styles.bottomNavItem} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.logout()}>
+            <Icon name="sign-out" size={25} type='font-awesome' color={defaults.color} />
           </TouchableOpacity>
         </View>
       </View>
