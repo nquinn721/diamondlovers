@@ -46,6 +46,8 @@ module.exports = {
 	    });
 	},
 	checkLogged: function(req, res) {
+		console.log('checking logged in');
+		
 		if(req.session.user){
 			res.send({data: req.session.user});
 		}else{

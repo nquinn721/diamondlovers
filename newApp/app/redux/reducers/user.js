@@ -13,12 +13,22 @@ export default (state = initialState, action) => {
 		case 'CHECKING_LOGGED':
 			return {
 				...state,
-				isFetching: true
+				isFetching: true,
+				checkingLoggedIn: true
 			}
+		case 'NOT_LOGGED_IN':{
+			return {
+				...state,
+				isFetching: false,
+				notLoggedIn: true,
+				checkingLoggedIn: false
+			}
+		}
 		case 'LOGGING_IN': 
 			return {
 				...state,
 				loggingIn: true,
+				checkingLoggedIn: false,
 				user: false
 			}
 		case 'LOGGED_IN':
@@ -27,6 +37,7 @@ export default (state = initialState, action) => {
 				isFetching: false,
 				loggingIn: false,
 				isLoggedIn: true,
+				checkingLoggedIn: false,
 				user: action.data.client
 			}
 		

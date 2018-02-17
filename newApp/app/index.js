@@ -10,16 +10,14 @@ import Nav from 'newApp/app/components/nav';
 import { checkLoggedIn } from 'newApp/app/redux/actions/login';
 
 class App extends React.Component{
-  
-  checkLoggedIn(){
-
-  }
 
   render(){
+    // if(!this.props.user.notLoggedIn && !this.props.user.checkingLoggedIn)
+    //   this.props.checkLoggedIn();
+
     let isFetching = this.props.user.isFetching,
         isLoggedIn = this.props.user.user;
-        console.log(this.props.user);
-        
+
     return (
       <View style={gStyles.container}>
         <View style={styles.statusBar}></View>
@@ -44,5 +42,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   (state) => ({user: state.user}), 
-  // (dispatch) => (bindActionCreators({checkLoggedIn}, dispatch))
+  (dispatch) => (bindActionCreators({checkLoggedIn}, dispatch))
 )(App);
