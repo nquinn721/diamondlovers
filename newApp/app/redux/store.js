@@ -9,7 +9,7 @@ const middleware = [thunk, (store) => (next) => (action) => {
 	if(user.notLoggedIn)
 		console.log('NOT LOGGED IN');
 		
-	
+	next(action);
 	
 }];
 const store = createStore(app, composeWithDevTools(applyMiddleware(...middleware)));

@@ -18,8 +18,9 @@ class App extends React.Component{
   }
 
   render(){
-    let { isFetching, loggedIn } = this.props.user.isFetching;
-
+    let { isFetching, loggedIn } = this.props.user;
+    console.log('RENDER', loggedIn);
+    
     return (
       <View style={gStyles.container}>
         <View style={styles.statusBar}></View>

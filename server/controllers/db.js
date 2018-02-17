@@ -37,11 +37,6 @@ module.exports = {
 	        if(doc){
 	            req.session.user = user;
 	            req.session.model = doc;
-	            console.log('LOGGED IN ');
-	            console.log('LOGGED IN ');
-	            console.log('LOGGED IN ');
-	            console.log('LOGGED IN ');
-	            console.log('LOGGED IN ');
 	            
 	            res.send({data: req.session.user});
 	        }else{
@@ -61,7 +56,11 @@ module.exports = {
 		}
 	},
 	logout: function(req, res) {
+		console.log('LOGGING OUT');
+		
 		delete req.session.user;
+		console.log(req.session);
+		
 		res.send({msg: 'Logged out'});
 	}
 }
