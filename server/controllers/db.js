@@ -46,15 +46,6 @@ module.exports = {
 	    });
 	},
 	checkLogged: function(req, res) {
-		console.log('checking logged in');
-		console.log('checking logged in');
-		console.log('checking logged in');
-		console.log('checking logged in');
-		console.log('checking logged in');
-		console.log('checking logged in');
-		console.log('checking logged in');
-		console.log(req.session);
-		
 		if(req.session.user){
 			res.send({data: req.session.user});
 		}else{
@@ -63,21 +54,7 @@ module.exports = {
 		}
 	},
 	logout: function(req, res) {
-		console.log('LOGGING OUT');
-		console.log('LOGGING OUT');
-		console.log('LOGGING OUT');
-		console.log('LOGGING OUT');
-		console.log('LOGGING OUT');
-		console.log('LOGGING OUT');
-		
 		req.session.destroy(function(err) {
-			console.log('LOGGGED OUT');
-			console.log('LOGGGED OUT');
-			console.log('LOGGGED OUT');
-			console.log('LOGGGED OUT');
-			console.log('LOGGGED OUT');
-			console.log('LOGGGED OUT');
-			
 			res.send({msg: 'Logged out'});
 	  	});
 		
