@@ -41,7 +41,6 @@ class SetupDate extends React.Component {
                 <Text>Congratulations!</Text>
                 <Text>Click on the calendar icon to check out your dates</Text>
                 <Button 
-                  raised
                   buttonStyle={defaults.defaultButton}
                   title="Continue"
                   onPress={() => this.props.navigation.navigate('Nearby', {direction: 'swipeRight'})}
@@ -81,7 +80,7 @@ class SetupDate extends React.Component {
         <View style={{flex: 1, paddingBottom: 15, justifyContent: 'flex-end'}}>
           { this.state.dateSet ? 
               <Button 
-                buttonStyle={defaults.defaultButton}
+                buttonStyle={[defaults.defaultButton, {backgroundColor: defaults.green, color: 'black'}]}
                 title="Confirm Date"
                 onPress={() => this.submitDate()}
                 /> :

@@ -16,6 +16,7 @@ import BottomButtons from './components/bottomButtons';
 import { setCurrentUser } from 'newApp/app/redux/actions/nearby';
 import { updateSearchIndex } from 'newApp/app/redux/actions/user';
 import DiamondCost from 'newApp/app/components/diamondCost';
+import Splash from 'newApp/app/components/splash';
 const icon = require('newApp/app/assets/img/Icon-Profiles.png');
 
 class Nearby extends React.Component {
@@ -139,12 +140,13 @@ class Nearby extends React.Component {
   }
   swipeRight(swipe){
     let user = this.swiper.props.cards[0];
+    this.props.setCurrentUser(user);
     this.props.navigation.navigate('Details', user);
   }
   render() {
     let {users, fetchingNearbyFailed} = this.props.nearby;
 
-    if(!users && !fetchingNearbyFailed)return <View style={styles.container}><ActivityIndicator size="large" /></View>;
+    if(!users && !fetchingNearbyFailed)return <View style={styles.container}><ActivityIndicator style={{flex: 1}} size="large" /></View>;
 
     if(fetchingNearbyFailed || this.state.noCards || !users.length) 
       return this.renderNoCards();

@@ -42,7 +42,6 @@ class DateList extends React.Component {
         </TouchableOpacity>
       )
     }else if(screen === 'approved'){
-        console.log(date);
         if((!date.fromShowed && to) || (!date.toShowed && from))view = (
            <TouchableOpacity style={{padding: 10, backgroundColor: defaults.green, borderRadius: 10}} onPress={() => this.props.confirmShowed(date._id, date.chatId)}>
             <Text style={{color: 'white'}}>Confirm</Text>
@@ -54,6 +53,7 @@ class DateList extends React.Component {
   }
  
   render() {
+    
     let { user, screen } = this.props;
     return (
       <ScrollView style={styles.container}>
@@ -70,7 +70,7 @@ class DateList extends React.Component {
             dateUser = date.from;
           }
           return (
-            <View key={i} style={styles.date}>
+            <TouchableOpacity key={i} style={styles.date}  onPress={() => this.props.navigation.navigate('UserProfile', dateUser)}>
               <View style={{alignItems: 'center', flexDirection: 'row'}}>
                 <View style={styles.dateTime}>
                   <Text style={styles.month}>{moment(date.time).format('MMM D')}</Text>
@@ -86,7 +86,7 @@ class DateList extends React.Component {
               <View style={styles.submitButton}>
                   {this.renderSubmitButton(screen, to, from, date)}
               </View>
-            </View>
+            </TouchableOpacity>
           )            
         })}
         

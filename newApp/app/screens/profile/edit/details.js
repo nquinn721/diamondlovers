@@ -104,8 +104,10 @@ class Images extends React.Component {
   state = {};
 
   updateProfile(field, value){
-    clearTimeout(this.timeout);
+    if(!this.state.showingSaveButton)this.state.showingSaveButton = true;
     this.state[field] = value;
+  }
+  saveProfile(){
     this.props.updateProfile(this.state);
   }
 
@@ -134,7 +136,7 @@ class Images extends React.Component {
           <Text>Date cost</Text>
           <TextInput 
             style={styles.itemValue} 
-            value={(user.profile.cost.date1 && user.profile.cost.date1.toString())} 
+            defaultValue={(user.profile.cost.date1 && user.profile.cost.date1.toString())} 
             underlineColorAndroid='rgba(0,0,0,0)' 
             onChangeText={(value) => this.updateProfile('date.cost', value)}/>
         </View>
@@ -142,7 +144,7 @@ class Images extends React.Component {
           <Text>Age</Text>
           <TextInput 
             style={styles.itemValue} 
-            value={user.profile.age && user.profile.age.toString()} 
+            defaultValue={user.profile.age && user.profile.age.toString()} 
             underlineColorAndroid='rgba(0,0,0,0)' 
             onChangeText={(value) => this.updateProfile('age', value)}/>
         </View>
@@ -150,7 +152,7 @@ class Images extends React.Component {
           <Text>City</Text>
           <TextInput 
             style={styles.itemValue} 
-            value={user.profile.city} 
+            defaultValue={user.profile.city} 
             underlineColorAndroid='rgba(0,0,0,0)'
             onChangeText={(value) => this.updateProfile('city', value)}/>
         </View>
@@ -186,7 +188,7 @@ class Images extends React.Component {
           <Text>Ethnicity</Text>
           <TextInput 
             style={styles.itemValue} 
-            value={user.profile.ethnicity} 
+            defaultValue={user.profile.ethnicity} 
             underlineColorAndroid='rgba(0,0,0,0)'
             onChangeText={(value) => this.updateProfile('ethnicity', value)}/>
         </View>
@@ -194,14 +196,13 @@ class Images extends React.Component {
           <Text>Occupation</Text>
           <TextInput 
             style={styles.itemValue} 
-            value={user.profile.occupation} 
+            defaultValue={user.profile.occupation} 
             underlineColorAndroid='rgba(0,0,0,0)'
             onChangeText={(value) => this.updateProfile('occupation', value)}/>
         </View>
       </View>
     )
   }
-
   renderAbout(user){
     
     return (
@@ -209,21 +210,29 @@ class Images extends React.Component {
         <Text>About You</Text>
         <TextInput
           multiline={true}
-          numberOfLines={4}
-          style={{borderWidth: 1, borderColor: '#eee', borderRadius: 5, height: 100}}
+          numberOfLines={8}
           onChangeText={(text) => this.updateProfile('about', text)}
           value={user.profile.about}/>
+          
       </View>
     )
   }
   render() {
     let {user} = this.props.navigation.state.params;
-    console.log(user.profile);
+    
     return (
-      <ScrollView style={styles.container}>
-        {this.renderDetails(user)}
-        {this.renderAbout(user)}
-      </ScrollView>
+      <View style={styles.container}>
+        <ScrollView style={{paddingBottom: 50}}>
+          {this.renderDetails(user)}
+          {this.renderAbout(user)}
+        </ScrollView>
+        {
+          this.state.showingSaveButton && 
+          <View style={styles.save}>
+            <Button title="Save Profile" onPress={() => this.saveProfile()} style={defaults.defaultButton}/>
+          </View>
+        }
+      </View>
     )
   }
 
@@ -232,7 +241,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    padding: 10
+    padding: 10,
+  },
+  save: {
+    position: 'absolute',
+    bottom: 0,
+    height: 50,
+    width: defaults.width,
+    backgroundColor: 'white'
+
+  },
+  saveButton: {
+    backgroundColor: defaults.color,
+    height: 30,
+    margin: 5,
+    width: defaults.width - 10
   },
   item: {
     flexDirection: 'row',
@@ -248,7 +271,6 @@ const styles = StyleSheet.create({
   },
   about: {
     padding: 10,
-    marginBottom: 20
   }
 
   

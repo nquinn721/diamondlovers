@@ -154,6 +154,12 @@ class User {
     static get(obj, cb = function(){}){
         UserModel.findOrCreate(obj, this.returnDoc.bind(this, cb));
     }
+    static getFullUser(_id, cb = function(){}){
+        UserModel.find({_id}, (e, user) => {
+            if(e)return cb({error: 'failed to retrieve profiles'});
+            this.getImagesForUsers(user, cb);
+        })
+    }
 
     static returnDoc(cb, e, doc){
         if(doc){

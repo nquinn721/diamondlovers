@@ -15,3 +15,15 @@ export const setCurrentUser = (user) => {
 		dispatch({type: 'SET_CURRENT_USER', data: user});
 	}
 }
+
+export const getCurrentUser = (id) => {
+	console.log('GETTING CURRENT USER', id);
+	
+	return (dispatch) => {
+		Service.dispatchGet(dispatch, `user/get-user/${id}`, {
+			init: 'FETCH_CURRENT_USER',
+			success: 'SET_CURRENT_USER',
+			error: 'GET_CURRENT_USER_FAILED'
+		});
+	}
+}

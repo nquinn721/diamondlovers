@@ -26,7 +26,6 @@ class SetupDate extends React.Component {
            <Text>You currently have {diamonds} diamonds</Text>
            <Text>and your date costs {cost}</Text>
            <Button 
-             raised
              icon={{name: 'diamond', size: 15, type: 'font-awesome'}}
              buttonStyle={defaults.defaultButton}
              title="Purchase diamonds"
@@ -58,7 +57,6 @@ class SetupDate extends React.Component {
           </View>
           <View style={{flex: 1, justifyContent: 'flex-end', padding: 10}}>
             <Button 
-             raised
              buttonStyle={defaults.defaultButton}
              title="Continue"
              onPress={() => this.props.navigation.navigate('Location', this.props.navigation.state.params)}

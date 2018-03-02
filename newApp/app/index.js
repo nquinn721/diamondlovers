@@ -19,14 +19,12 @@ class App extends React.Component{
 
   render(){
     let { isFetching, loggedIn } = this.props.user;
-    console.log('RENDER', loggedIn);
-    
     return (
       <View style={gStyles.container}>
         <View style={styles.statusBar}></View>
-        {isFetching ? 
-
-          <Loader /> : loggedIn ? <Nav /> : <LoginStack />
+        {
+          isFetching ? <Loader /> : 
+          loggedIn ? <Nav /> : <LoginStack />
         }
       </View>
       );

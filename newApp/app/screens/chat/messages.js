@@ -20,15 +20,17 @@ class ChatScreen extends React.Component {
 		return chat.messages.map((msg, k) => {
 			let msgUserId = msg.owner._id,
 				userChat = userId === msgUserId;
+				console.log(msgUserId);
+				
 			return (
 				<View key={k} style={userChat ? styles.message : styles.fromMessage}>
 					<View style={styles.msgContent}>
 	        			
 	        				{ 
 	        					userId !== msgUserId && 
-	        						<View style={styles.imageContainer}>
+	        						<TouchableOpacity style={styles.imageContainer} onPress={() => this.props.navigation.navigate('UserProfile')}>
 	        							<Image source={{uri: msg.owner.profile.defaultImage.url}} style={StyleSheet.absoluteFill} />
-	        						</View>
+	        						</TouchableOpacity>
 	        				}
 	        			<View style={[styles.chatText, (userChat ? styles.msg : styles.fromMsg)]}>
 							<Text style={userChat ? styles.msgText : styles.fromMsgText}>{msg.message}</Text>

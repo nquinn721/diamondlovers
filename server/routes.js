@@ -65,6 +65,11 @@ module.exports = function(app){
             middleWare: ['loggedIn'],
             method: 'user.getNearBy'
         },
+        'user/get-user/:id': {
+            type: 'get',
+            middleWare: ['loggedIn'],
+            method: 'user.getUser'
+        }
         'user/update-search-index': {
             type: 'get',
             middleWare: ['loggedIn'],

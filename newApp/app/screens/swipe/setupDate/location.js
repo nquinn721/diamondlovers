@@ -55,7 +55,6 @@ class SetupDate extends React.Component {
 
   renderRestaurants(){
     let restaurants = [];
-    console.log(this.props.restaurants);
     if(this.props.restaurants.data){
       restaurants = this.props.restaurants.data.map((r, i) => {
         let selected = this.state.pickedRestaurant === r;
@@ -95,7 +94,6 @@ class SetupDate extends React.Component {
         {this.renderRestaurants()}
         <View style={{flex: 1}}>
           <Button 
-             raised
              buttonStyle={defaults.defaultButton}
              title="Continue"
              onPress={() => this.continue()}

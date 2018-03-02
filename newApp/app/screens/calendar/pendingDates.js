@@ -10,10 +10,11 @@ class PendingDates extends React.Component {
   render() {
     if(!this.props.dates.length)return <NoDates />;
     let {user} = this.props.user,
-        dates = this.props.dates
+        dates = this.props.dates,
+        navigation = this.props.navigation;
 
 
-    return (<DateList dates={dates} user={user} screen='pending' />)
+    return (<DateList navigation={navigation} dates={dates} user={user} screen='pending' />)
   }
 
 }

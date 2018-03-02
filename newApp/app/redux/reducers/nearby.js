@@ -1,5 +1,8 @@
 const initialState = {
-	currentUserIndex: 0
+	currentUserIndex: 0,
+	currentUser: false,
+	users: false,
+	allUsers: []
 }
 
 export default (state = initialState, action) => {
@@ -7,7 +10,8 @@ export default (state = initialState, action) => {
 		case 'UPDATE_SEARCH_INDEX_SUCCESS':
 			return {
 				...state,
-				users: action.data
+				users: action.data,
+				allUsers: state.allUsers.push(action.data)
 			}
 		case 'FETCH_NEARBY':
 			return {
@@ -18,7 +22,8 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				fetchingNearby: false,
-				users: action.data
+				users: action.data,
+				allUsers: state.allUsers.concat(action.data)
 			}
 		case 'FETCH_NEARBY_FAILED':
 			return {
@@ -26,7 +31,13 @@ export default (state = initialState, action) => {
 				fetchingNearby: false,
 				fetchingNearbyFailed: action.error
 			}
+		case 'GET_CURRENT_USER_FAILED':
+			console.log('failed to get current user');
+			
 		case 'SET_CURRENT_USER':
+		console.log('SETTED currentUser');
+			console.log(action.data);
+			
 			return {
 				...state,
 				currentUser: action.data

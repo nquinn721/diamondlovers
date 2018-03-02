@@ -37,8 +37,6 @@ export default (state = initialState, action) => {
 				user: false
 			}
 		case 'LOGGED_IN':
-		console.log('LOGGED IN');
-		
 			return {
 				...state,
 				isFetching: false,

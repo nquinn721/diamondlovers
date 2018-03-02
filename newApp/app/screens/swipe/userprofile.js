@@ -6,7 +6,7 @@ import { Button, Icon } from 'react-native-elements';
 import Config from 'newApp/app/config/config';
 import gStyles from 'newApp/app/config/globalStyles';
 import { getDefaultImage } from 'newApp/app/redux/reducers/image';
-import { getNearby } from 'newApp/app/redux/actions/nearby';
+import { getCurrentUser } from 'newApp/app/redux/actions/nearby';
 import Carousel from 'newApp/app/components/carousel';
 import BottomButtons from './components/bottomButtons';
 import { defaults } from 'newApp/app/config/globalStyles';
@@ -35,9 +35,43 @@ static navigationOptions = {
   swipeLeft(){
     this.props.navigation.navigate('Nearby', {direction: 'swipeLeft'});
   }
+  getUser(){
+    let user = this.props.navigation.state.params,
+        {users} = this.props,
+        id = user && user._id ? user._id.toString() : user;
+
+    if(user){
+      for(let i in users){
+        if(users[i]._id.toString() === user.toString())
+          return users[i];
+      }
+      if(this.props.currentUser && this.props.currenUser._id.toString() === user){
+        return this.props.currenUser;
+      }
+    }
+    
+
+  }
   render() {
-    let user = this.props.navigation.state.params;
+    let user = this.getUser();
+    
+    console.log('found user');
+    console.log(user);
+    
+    
+    if(!user){
+      let id = this.props.navigation.state.params;
+
+      id = id && id._id ? id._id : id;
+
+      this.props.getCurrentUser(id);
+      return <ActivityIndicator style={{flex: 1}} size="large" />;
+    }
+      
+
+
     let profile = user.profile;
+
      
     return (
       <View style={{height: Config.h, flex: 1}}>
@@ -66,6 +100,7 @@ static navigationOptions = {
       </ScrollView>
       </View>
       )
+    
   }
 
 }
@@ -116,6 +151,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  // (state) => ({user: state.nearby.currentUser}), 
-  // (dispatch) => (bindActionCreators({getNearby}, dispatch))
+  (state) => ({users: state.nearby.allUsers, currenUser: state.nearby.currentUser}),
+  (dispatch) => (bindActionCreators({getCurrentUser}, dispatch))
 )(UserProfile);
