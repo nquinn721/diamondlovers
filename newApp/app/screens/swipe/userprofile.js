@@ -37,7 +37,7 @@ static navigationOptions = {
   }
   getUser(){
     let user = this.props.navigation.state.params,
-        {users} = this.props,
+        {users, currenUser} = this.props.nearby,
         id = user && user._id ? user._id.toString() : user;
 
     if(user){
@@ -45,8 +45,8 @@ static navigationOptions = {
         if(users[i]._id.toString() === user.toString())
           return users[i];
       }
-      if(this.props.currentUser && this.props.currenUser._id.toString() === user){
-        return this.props.currenUser;
+      if(currentUser && currenUser._id.toString() === user){
+        return currenUser;
       }
     }
     
@@ -59,7 +59,7 @@ static navigationOptions = {
     console.log(user);
     
     
-    if(!user){
+    if(!user && !this.props.nearby.getCurrentUserFailed){
       let id = this.props.navigation.state.params;
 
       id = id && id._id ? id._id : id;
@@ -151,6 +151,6 @@ const styles = StyleSheet.create({
 
 
 export default connect(
-  (state) => ({users: state.nearby.allUsers, currenUser: state.nearby.currentUser}),
+  (state) => ({nearby: state.nearby}),
   (dispatch) => (bindActionCreators({getCurrentUser}, dispatch))
 )(UserProfile);

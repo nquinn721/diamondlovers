@@ -32,7 +32,10 @@ export default (state = initialState, action) => {
 				fetchingNearbyFailed: action.error
 			}
 		case 'GET_CURRENT_USER_FAILED':
-			console.log('failed to get current user');
+			return {
+				...state,
+				getCurrentUserFailed: true
+			}
 			
 		case 'SET_CURRENT_USER':
 		console.log('SETTED currentUser');
