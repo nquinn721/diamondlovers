@@ -37,16 +37,17 @@ static navigationOptions = {
   }
   getUser(){
     let user = this.props.navigation.state.params,
-        {users, currenUser} = this.props.nearby,
+        {users, currentUser} = this.props.nearby,
         id = user && user._id ? user._id.toString() : user;
+
 
     if(user){
       for(let i in users){
-        if(users[i]._id.toString() === user.toString())
+        if(users[i]._id.toString() === id)
           return users[i];
       }
-      if(currentUser && currenUser._id.toString() === user){
-        return currenUser;
+      if(currentUser && currentUser._id.toString() === id){
+        return currentUser;
       }
     }
     
@@ -54,9 +55,6 @@ static navigationOptions = {
   }
   render() {
     let user = this.getUser();
-    
-    console.log('found user');
-    console.log(user);
     
     
     if(!user && !this.props.nearby.getCurrentUserFailed){
