@@ -69,7 +69,7 @@ module.exports = function(app){
             type: 'get',
             middleWare: ['loggedIn'],
             method: 'user.getUser'
-        }
+        },
         'user/update-search-index': {
             type: 'get',
             middleWare: ['loggedIn'],
