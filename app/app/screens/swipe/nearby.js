@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, ActivityIndicator, TouchableOpacity, Image } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Icon, Button } from 'react-native-elements';
@@ -11,7 +11,7 @@ import { getDefaultImage } from 'app/app/redux/reducers/image';
 import { getNearby } from 'app/app/redux/actions/nearby';
 import { getDates } from 'app/app/redux/actions/dates';
 import { getChats } from 'app/app/redux/actions/chat';
-import Image from 'react-native-image-progress';
+import ImageProgress from 'react-native-image-progress';
 import BottomButtons from './components/bottomButtons';
 import { setCurrentUser } from 'app/app/redux/actions/nearby';
 import { updateSearchIndex } from 'app/app/redux/actions/user';
@@ -23,11 +23,10 @@ class Nearby extends React.Component {
   state = {noCards: false, currentImage: 0};
 
   static navigationOptions = {
-      header:null,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={icon}
-          style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]}
+          style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor}]}
       />
     ),
   };
@@ -42,7 +41,7 @@ class Nearby extends React.Component {
 
     return (
       <View style={styles.card} key={user._id}>
-        <Image source={image} style={StyleSheet.absoluteFill} />
+        <ImageProgress source={image} style={StyleSheet.absoluteFill} />
         <View style={styles.imageArea}></View>
         <View style={styles.userInfo}>
           <View style={styles.cardSection}>

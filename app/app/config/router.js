@@ -2,7 +2,8 @@ import React from 'react';
 import { createStackNavigator, createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { defaults } from 'app/app/config/globalStyles';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
+const img = require('app/app/assets/img/Icon-Date.png');
 
 import Calendar from 'app/app/screens/calendar';
 import Chat from 'app/app/screens/chat';
@@ -137,8 +138,8 @@ const tabRoutes = {
 	Calendar: {
 		screen: CalendarTab,
 		navigationOptions: {
-     		tabBarIcon: ({tintColor}) => <Icon name="calendar" size={25} color={tintColor} type='font-awesome'/>,
-     		// tabBarIcon: ({tintColor}) => <Image source={img} style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]} />,
+     		// tabBarIcon: ({tintColor}) => <Icon name="calendar" size={25} color={tintColor} type='font-awesome'/>,
+     		tabBarIcon: ({tintColor}) => <Image source={img} style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]} />,
 	      header: null
 	    }
 	},
@@ -176,7 +177,7 @@ const tabConfig = {
 
 
 
-const TabBar = createMaterialTopTabNavigator(tabRoutes, createMaterialTopTabNavigator);
+const TabBar = createMaterialTopTabNavigator(tabRoutes, tabConfig);
 export default createStackNavigator({
 	Main: {
 		screen: TabBar,

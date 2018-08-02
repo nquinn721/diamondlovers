@@ -13,7 +13,7 @@ class Purchase extends React.Component {
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={img}
-        style={[{width: 24, height: 26}, {tintColor: tintColor}]}
+        style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor}]}
       />
     ),
   };
