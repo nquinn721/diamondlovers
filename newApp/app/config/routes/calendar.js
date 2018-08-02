@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { createTabNavigator, createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import Calendar from 'newApp/app/screens/calendar';
 import { defaults } from 'newApp/app/config/globalStyles';
@@ -52,7 +52,7 @@ const tabConfig = {
 	}
 
 }
-const CalendarTab = TabNavigator(tabRoutes, tabConfig);
+const CalendarTab = createTabNavigator(tabRoutes, tabConfig);
 
 export default {
 	Calendar: {

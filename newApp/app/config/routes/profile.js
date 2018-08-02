@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { createTabNavigator, createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { defaults } from 'newApp/app/config/globalStyles';
 import Profile from 'newApp/app/screens/profile';
@@ -42,7 +42,7 @@ const tabConfig = {
 	}
 
 }
-const Edit = TabNavigator(tabRoutes, tabConfig);
+const Edit = createTabNavigator(tabRoutes, tabConfig);
 
 const routeConfiguration = {
 	Profile: {
@@ -64,7 +64,7 @@ const routeConfiguration = {
 const stackNavigatorConfiguration = {
   // headerMode: 'none',
 }
-export const ProfileStack = StackNavigator(routeConfiguration,stackNavigatorConfiguration)
+export const ProfileStack = createStackNavigator(routeConfiguration,stackNavigatorConfiguration)
 
 
 

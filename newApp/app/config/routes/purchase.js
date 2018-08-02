@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { createTabNavigator, createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import Purchase from 'newApp/app/screens/purchase';
 
@@ -23,7 +23,7 @@ const routeConfiguration = {
 const stackNavigatorConfiguration = {
   // headerMode: 'none',
 }
-export const PurchaseStack = StackNavigator(routeConfiguration,stackNavigatorConfiguration)
+export const PurchaseStack = createStackNavigator(routeConfiguration,stackNavigatorConfiguration)
 
 
 export default {

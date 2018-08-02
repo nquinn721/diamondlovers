@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator, Image } from 'react-navigation';
+import { createTabNavigator, createStackNavigator, Image } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { defaults } from 'newApp/app/config/globalStyles';
 const img = require('newApp/app/assets/img/Icon-Date.png');
@@ -17,7 +17,7 @@ import Index from 'newApp/app/index'
  */
 
 
-const Edit = TabNavigator({
+const Edit = createTabNavigator({
 	Images: {
 		screen: Profile.Images,
 		navigationOptions: {
@@ -109,7 +109,7 @@ const calendarTabConfig = {
 	}
 
 }
-const CalendarTab = TabNavigator(calendarTabRoutes, calendarTabConfig);
+const CalendarTab = createTabNavigator(calendarTabRoutes, calendarTabConfig);
 
 /**
  * END CALENDAR
@@ -179,8 +179,8 @@ const tabConfig = {
 
 import s from 'newApp/app/screens/swipe';
 
-const TabBar = TabNavigator(tabRoutes, tabConfig);
-export default StackNavigator({
+const TabBar = createTabNavigator(tabRoutes, tabConfig);
+export default createStackNavigator({
 	Main: {
 		screen: TabBar,
 		navigationOptions: {

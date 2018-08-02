@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { createTabNavigator, createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import Login from 'newApp/app/screens/login';
 
@@ -29,4 +29,4 @@ const routeConfiguration = {
 const stackNavigatorConfiguration = {
   headerMode: 'screen'
 }
-export default StackNavigator(routeConfiguration,stackNavigatorConfiguration)
+export default createStackNavigator(routeConfiguration,stackNavigatorConfiguration)

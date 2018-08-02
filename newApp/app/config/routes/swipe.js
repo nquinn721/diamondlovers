@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator, Image } from 'react-navigation';
+import { createTabNavigator, createStackNavigator, Image } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import Swipe from 'newApp/app/screens/swipe';
 const img = require('newApp/app/assets/img/Icon-Profiles.png');
@@ -32,7 +32,7 @@ const routeConfiguration = {
 const stackNavigatorConfiguration = {
   // headerMode: 'none',
 }
-export const SwipeStack = StackNavigator(routeConfiguration,stackNavigatorConfiguration)
+export const SwipeStack = createStackNavigator(routeConfiguration,stackNavigatorConfiguration)
 
 
 export default {

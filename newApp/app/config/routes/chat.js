@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { createTabNavigator, createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import Chat from 'newApp/app/screens/chat';
 
@@ -23,7 +23,7 @@ const routeConfiguration = {
 const stackNavigatorConfiguration = {
   // headerMode: 'none',
 }
-export const ChatStack = StackNavigator(routeConfiguration,stackNavigatorConfiguration)
+export const ChatStack = createStackNavigator(routeConfiguration,stackNavigatorConfiguration)
 
 
 export default {
