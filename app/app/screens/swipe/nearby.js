@@ -110,7 +110,6 @@ class Nearby extends React.Component {
           }}
           onSwipedAll={() => this.setState({noCards: true})}
           cardVerticalMargin={20}
-          style={{flex: 1}}
           showSecondCard={false}
           onTapCard={index => console.log(index)}
           backgroundColor={'white'}
@@ -124,7 +123,7 @@ class Nearby extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{flex: 1, backgroundColor: 'red', marginBottom: 10}}>{swiper}</View>
-        <BottomButtons  swipeRight={this.swipeRight.bind(this)} swipeLeft={this.swipeLeft.bind(this, true)} info={this.info.bind(this)}/>
+        <BottomButtons swipeRight={this.swipeRight.bind(this)} swipeLeft={this.swipeLeft.bind(this, true)} info={this.info.bind(this)}/>
       </View>
     )
   }
@@ -162,9 +161,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   card: {
-    flex: 1,
     borderRadius: 4,
     marginBottom: 140,
+    height: defaults.height - 300,
     borderWidth: 2,
     borderColor: '#E8E8E8',
     backgroundColor: 'white',
@@ -189,7 +188,7 @@ const styles = StyleSheet.create({
     left: 2,
     right: 2,
     display: 'flex',
-    bottom: 10
+    bottom: 0
   },
   cardText: {
     color: 'white'

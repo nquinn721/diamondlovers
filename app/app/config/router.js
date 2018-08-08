@@ -138,7 +138,6 @@ const tabRoutes = {
 	Calendar: {
 		screen: CalendarTab,
 		navigationOptions: {
-     		// tabBarIcon: ({tintColor}) => <Icon name="calendar" size={25} color={tintColor} type='font-awesome'/>,
      		tabBarIcon: ({tintColor}) => <Image source={img} style={[{width: defaults.iconWidth, height: defaults.iconHeight}, {tintColor: tintColor}]} />,
 	      header: null
 	    }
@@ -153,8 +152,8 @@ const tabRoutes = {
 const mainNavBackground = 'rgb(250, 250, 250)';
 const tabConfig = {
 	tabBarPosition: 'top',
-	swipeEnabled: false,
 	lazyLoad: true,
+	swipeEnabled: false,
 	animationEnabled: false,
 	tabBarOptions: {
 		showIcon: true,

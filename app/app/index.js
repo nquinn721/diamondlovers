@@ -30,16 +30,6 @@ class App extends React.Component{
   }
 }
 
-const styles = StyleSheet.create({
-  statusBar: {
-    height: Constants.statusBarHeight,
-    backgroundColor:'white'
-  }
-})
-
-
-
-
 export default connect(
   (state) => ({user: state.user}), 
   (dispatch) => (bindActionCreators({checkLoggedIn}, dispatch))

@@ -1,102 +1,21 @@
 import React from 'react';
-import { Text, View, StyleSheet,  TextInput, ScrollView } from 'react-native';
-import { Button } from 'react-native-elements';
+import { View, StyleSheet, ScrollView, Image, Text, Picker} from 'react-native';
+import { ButtonGroup, Button, Input } from 'react-native-elements'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { defaults } from 'app/app/config/globalStyles';
 import { updateProfile } from 'app/app/redux/actions/user';
-// import ModalPicker from 'react-native-modal-picker';
-
-
-const states = [
-  {label: 'ALABAMA', abbr: 'al', key: 'al'},
-  {label: 'ALASKA', abbr: 'ak', key: 'ak'},
-  {label: 'ARIZONA', abbr: 'az', key: 'az'},
-  {label: 'ARKANSAS', abbr: 'ar', key: 'ar'},
-  {label: 'CALIFORNIA', abbr: 'ca', key: 'ca'},
-  {label: 'COLORADO', abbr: 'co', key: 'co'},
-  {label: 'CONNECTICUT', abbr: 'ct', key: 'ct'},
-  {label: 'DELAWARE', abbr: 'de', key: 'de'},
-  {label: 'FLORIDA', abbr: 'fl', key: 'fl'},
-  {label: 'GEORGIA', abbr: 'ga', key: 'ga'},
-  {label: 'HAWAII', abbr: 'hi', key: 'hi'},
-  {label: 'IDAHO', abbr: 'id', key: 'id'},
-  {label: 'ILLINOIS', abbr: 'il', key: 'il'},
-  {label: 'INDIANA', abbr: 'in', key: 'in'},
-  {label: 'IOWA', abbr: 'ia', key: 'ia'},
-  {label: 'KANSAS', abbr: 'ks', key: 'ks'},
-  {label: 'KENTUCKY', abbr: 'ky', key: 'ky'},
-  {label: 'LOUISIANA', abbr: 'la', key: 'la'},
-  {label: 'MAINE', abbr: 'me', key: 'me'},
-  {label: 'MARYLAND', abbr: 'md', key: 'md'},
-  {label: 'MASSACHUSETTS', abbr: 'ma', key: 'ma'},
-  {label: 'MICHIGAN', abbr: 'mi', key: 'mi'},
-  {label: 'MINNESOTA', abbr: 'mn', key: 'mn'},
-  {label: 'MISSISSIPPI', abbr: 'ms', key: 'ms'},
-  {label: 'MISSOURI', abbr: 'mo', key: 'mo'},
-  {label: 'MONTANA', abbr: 'mt', key: 'mt'},
-  {label: 'NEBRASKA', abbr: 'ne', key: 'ne'},
-  {label: 'NEVADA', abbr: 'nv', key: 'nv'},
-  {label: 'NEW HAMPSHIRE', abbr: 'nh', key:  'nh'},
-  {label: 'NEW JERSEY', abbr: 'nj', key:  'nj'},
-  {label: 'NEW MEXICO', abbr: 'nm', key:  'nm'},
-  {label: 'NEW YORK', abbr: 'ny', key:  'ny'},
-  {label: 'NORTH CAROLINA', abbr: 'nc', key:  'nc'},
-  {label: 'NORTH DAKOTA', abbr: 'nd', key:  'nd'},
-  {label: 'OHIO', abbr: 'oh', key: 'oh'},
-  {label: 'OKLAHOMA', abbr: 'ok', key: 'ok'},
-  {label: 'OREGON', abbr: 'or', key: 'or'},
-  {label: 'PENNSYLVANIA', abbr: 'pa', key: 'pa'},
-  {label: 'RHODE ISLAND', abbr: 'ri', key:  'ri'},
-  {label: 'SOUTH CAROLINA', abbr: 'sc', key:  'sc'},
-  {label: 'SOUTH DAKOTA', abbr: 'sd', key:  'sd'},
-  {label: 'TENNESSEE', abbr: 'tn', key: 'tn'},
-  {label: 'TEXAS', abbr: 'tx', key: 'tx'},
-  {label: 'UTAH', abbr: 'ut', key: 'ut'},
-  {label: 'VERMONT', abbr: 'vt', key: 'vt'},
-  {label: 'VIRGINIA', abbr: 'va', key: 'va'},
-  {label: 'WASHINGTON', abbr: 'wa', key: 'wa'},
-  {label: 'WEST VIRGINIA', abbr: 'wv', key:  'wv'},
-  {label: 'WISCONSIN', abbr: 'wi', key: 'wi'},
-  {label: 'WYOMING', abbr: 'wy', key: 'wy'},
-];
-
-const feet = [
-  {label: '1', key: 1},
-  {label: '2', key: 2},
-  {label: '3', key: 3},
-  {label: '4', key: 4},
-  {label: '5', key: 5},
-  {label: '6', key: 6},
-  {label: '7', key: 7},
-  {label: '8', key: 8},
-  {label: '9', key: 9},
-  {label: '10', key: 10}
-];
-const inches = [
-  {label: '1', key: 1},
-  {label: '2', key: 2},
-  {label: '3', key: 3},
-  {label: '4', key: 4},
-  {label: '5', key: 5},
-  {label: '6', key: 6},
-  {label: '7', key: 7},
-  {label: '8', key: 8},
-  {label: '9', key: 9},
-  {label: '10', key: 10},
-  {label: '11', key: 11} 
-];
-
-const age = [
-  {label: '18', key: 1},
-  {label: '19', key: 1},
-  {label: '21', key: 1},
-]
-
-
+import { feet, inches, age, states } from './detailsInfo';
 const img = require('app/app/assets/img/Icon-My-Profile.png');
-
-
+const diamond = require('app/app/assets/img/Icon-Purchase-Select.png');
+/**
+ * Looking for (m/f)
+ * Date Cost (diamonds)
+ * City
+ * State
+ * Occupation
+ * About you
+ */
 
 class Details extends React.Component {
   state = {};
@@ -104,130 +23,88 @@ class Details extends React.Component {
   updateProfile(field, value){
     if(!this.state.showingSaveButton)this.state.showingSaveButton = true;
     this.state[field] = value;
+    this.setState(this.state);
   }
   saveProfile(){
-    this.props.updateProfile(this.state);
+    this.props.updateProfile(this.state); 
+  }
+  updateIndex(a,b, c){
+    console.log(a, b, c);
   }
 
-  renderDetails(user){
+  renderDetails(){
     return (
-      <View style={styles.details}>
-        <View style={styles.item}>
-          <Text>I am</Text>
-          {/* <ModalPicker
-            data={[{label: 'Male', key: 1}, {label: 'Female', key: 2}]}
-            initValue={user.profile.sex}
-            style={{borderBottomWidth: 1, borderColor: '#aaa'}}
-            selectStyle={{borderColor: 'rgba(0,0,0,0)'}}
-            onChange={(sex) => this.updateProfile('sex', sex.label.toLowerCase()) }/> */}
-        </View>
-        <View style={styles.item}>
-          <Text>Looking for</Text>
-          {/* <ModalPicker
-            data={[{label: 'Male', key: 1}, {label: 'Female', key: 2}]}
-            initValue={user.profile.lookingFor}
-            style={{borderBottomWidth: 1, borderColor: '#aaa'}}
-            selectStyle={{borderColor: 'rgba(0,0,0,0)'}}
-            onChange={(looking) => this.updateProfile('lookingFor', looking.label.toLowerCase()) }/> */}
-        </View>
-        <View style={styles.item}>
-          <Text>Date cost</Text>
-          <TextInput 
-            style={styles.itemValue} 
-            defaultValue={(user.profile.cost.date1 && user.profile.cost.date1.toString())} 
-            underlineColorAndroid='rgba(0,0,0,0)' 
-            onChangeText={(value) => this.updateProfile('date.cost', value)}/>
-        </View>
-        <View style={styles.item}>
-          <Text>Age</Text>
-          <TextInput 
-            style={styles.itemValue} 
-            defaultValue={user.profile.age && user.profile.age.toString()} 
-            underlineColorAndroid='rgba(0,0,0,0)' 
-            onChangeText={(value) => this.updateProfile('age', value)}/>
-        </View>
-        <View style={styles.item}>
-          <Text>City</Text>
-          <TextInput 
-            style={styles.itemValue} 
-            defaultValue={user.profile.city} 
-            underlineColorAndroid='rgba(0,0,0,0)'
-            onChangeText={(value) => this.updateProfile('city', value)}/>
-        </View>
-        <View style={styles.item}>
-          <Text style={{flex: 1}}>State</Text>
+      <View style={{padding: 20}}>
+        <Text>Looking For</Text>
+        <ButtonGroup
+          onPress={(index) => this.updateProfile('lookingFor', index ? 'female' : 'male')}
+          buttons={['M', 'F']}
+          selectedIndex={this.state.lookingFor === 'male' ? 0 : 1}
+          selectedButtonStyle={{backgroundColor: defaults.color}}
+          selectedTextStyle={{color: 'white'}}
+          containerStyle={{height: 20}}
+        />
+        <Text>Date Cost</Text>
+       <Input
+          placeholder='Diamonds...'
+          rightIcon={
+            <Image source={diamond} style={{width: 20, height: 20}}/>
+            
+          }
+        />
+        <Text>State</Text>
+        <Picker
+          selectedValue={this.state.state}
+          style={{ height: 50, width: 100 }}
+          onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
+          {states.map(v => <Picker.Item key={v.abbr} label={v.label} value={v} />)}
+        </Picker>
 
-        <ModalPicker
-          data={states}
-          initValue={user.profile.state}
-            style={{borderBottomWidth: 1, borderColor: '#aaa'}}
-            selectStyle={{borderColor: 'rgba(0,0,0,0)'}}
-          onChange={(option) => this.updateProfile('state', option.abbr) } />
-          
-        </View>
-          {/*<View style={styles.item}>
-            <Text style={{flex: 1}}>Height</Text>
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
-              <Text>ft</Text>
 
-              <ModalPicker
-                data={feet}
-                style={{marginLeft: 10, marginRight: 10}}
-                initValue={(user.profile.height && user.profile.height.feet) || '0'}
-                onChange={(feet) => this.updateProfile('height.feet', feet.label) }/>
-            <Text>in</Text>
-              <ModalPicker
-                data={feet}
-                style={{marginLeft: 10, marginRight: 10}}
-                initValue={(user.profile.height && user.profile.height.inches) || '0'}
-                onChange={(inches) => this.updateProfile('height.inches', inches.label) }/>
-          </View>*/}
-        <View style={styles.item}>
-          <Text>Ethnicity</Text>
-          <TextInput 
-            style={styles.itemValue} 
-            defaultValue={user.profile.ethnicity} 
-            underlineColorAndroid='rgba(0,0,0,0)'
-            onChangeText={(value) => this.updateProfile('ethnicity', value)}/>
-        </View>
-        <View style={styles.item}>
-          <Text>Occupation</Text>
-          <TextInput 
-            style={styles.itemValue} 
-            defaultValue={user.profile.occupation} 
-            underlineColorAndroid='rgba(0,0,0,0)'
-            onChangeText={(value) => this.updateProfile('occupation', value)}/>
-        </View>
       </View>
     )
   }
-  renderAbout(user){
+  renderAbout(){
     
-    return (
-      <View style={styles.about}>
-        <Text>About You</Text>
-        <TextInput
-          multiline={true}
-          numberOfLines={8}
-          onChangeText={(text) => this.updateProfile('about', text)}
-          value={user.profile.about}/>
-          
-      </View>
-    )
+    // return (
+    //   <View style={styles.about}>
+    //     <Text>About You</Text>
+    //     <TextInput
+    //       multiline={true}
+    //       numberOfLines={8}
+    //       onChangeText={(text) => this.updateProfile('about', text)}
+    //       value={user.profile.about}/> 
+        
+    //   </View>
+    // )
   }
   render() {
-    let {user} = this.props.navigation.state.params;
-    
+    let { profile } = this.props.navigation.state.params.user;
+
+    this.state = profile;
+    console.log('STATE');
+    console.log('STATE');
+    console.log('STATE');
+    console.log('STATE');
+    console.log('STATE');
+    console.log('STATE');
+    console.log('STATE');
+    console.log('STATE');
+    console.log(this.state);
     return (
       <View style={styles.container}>
         <ScrollView style={{paddingBottom: 50}}>
-          {this.renderDetails(user)}
-          {this.renderAbout(user)}
+          {this.renderDetails()}
+          {/* {this.renderAbout()} */}
         </ScrollView>
         {
           this.state.showingSaveButton && 
           <View style={styles.save}>
-            <Button title="Save Profile" onPress={() => this.saveProfile()} style={defaults.defaultButton}/>
+            <Button title="Save Profile" 
+                onPress={() => this.saveProfile()} 
+                buttonStyle={defaults.defaultButton}
+                titleStyle={{color:'white'}}
+            />
           </View>
         }
       </View>
@@ -241,35 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
   },
-  save: {
-    position: 'absolute',
-    bottom: 0,
-    height: 50,
-    width: defaults.width,
-    backgroundColor: 'white'
 
-  },
-  saveButton: {
-    backgroundColor: defaults.color,
-    height: 30,
-    margin: 5,
-    width: defaults.width - 10
-  },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 10,
-  },
-  itemValue: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#aaa',
-    textAlign: 'right',
-    width: defaults.width / 2
-  },
-  about: {
-    padding: 10,
-  }
 
   
 })
