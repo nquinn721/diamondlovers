@@ -47,6 +47,7 @@ class Details extends React.Component {
         <Text>Date Cost</Text>
        <Input
           placeholder='Diamonds...'
+          label={this.state.diamonds}
           rightIcon={
             <Image source={diamond} style={{width: 20, height: 20}}/>
             
@@ -82,15 +83,7 @@ class Details extends React.Component {
     let { profile } = this.props.navigation.state.params.user;
 
     this.state = profile;
-    console.log('STATE');
-    console.log('STATE');
-    console.log('STATE');
-    console.log('STATE');
-    console.log('STATE');
-    console.log('STATE');
-    console.log('STATE');
-    console.log('STATE');
-    console.log(this.state);
+
     return (
       <View style={styles.container}>
         <ScrollView style={{paddingBottom: 50}}>
